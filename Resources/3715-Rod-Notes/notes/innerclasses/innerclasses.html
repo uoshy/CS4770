@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-12T16:40:30-03:30, Rod Byrne --><title>innerclasses</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Nested classes</h1>
+<div>
+<p>
+        Classes can be declared inside other classes
+        and inside methods. The types of inner classes are:
+    </p>
+<ul>
+<li>
+            nested classes: classes declared in the
+            body of a class with the static attribute.
+            They have exactly the same behaviour as top-level classes.
+            These classes follow that same scope rules
+            as methods declared in the class (i.e.,
+            they can access anything declared private).
+        </li>
+<li>
+            inner classes: classes declared in the body of
+            a class without the static attribute.
+            Each inner classes is associated with and has
+            access to the outer object's methods and data.
+            Objects belonged to these classes  must be declared inside
+            a method belonging to the outer class.
+        </li>
+<li>
+            method classes: classes declared in a method.
+            Theses classes have access to any final variables
+            and all data and methods of the "this" object
+            from the method this class is declared inside.
+            These classes are also called anonymous classes.
+        </li>
+<li>
+            static method classes: classes declared in a static method.
+            There is no "this" object to associate with this method class.
+            This class can only access final variables and any static
+            variables belonged to the enclosing class.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Declaring and accessing inner classes</h1>
+<div>
+<p>
+        Inner classes are declared inside a class in the same way as
+        methods and variables.
+    </p>
+<div class="text"><pre><span>class Outer {</span>
+<span>    // declare static inner (nested) class</span>
+<span>    static class StaticInner { </span>
+<span>    }</span>
+<span>    // declare inner class</span>
+<span>    class Inner { </span>
+<span>    }</span>
+<span>    // variables ...</span>
+<span>    // methods ...</span>
+<span>    Iterator mkIt() {</span>
+<span>        // declare method inner class</span>
+<span>        return new Iterator() {</span>
+<span>                  ... method for iterator</span>
+<span>         }</span>
+<span>     }</span>
+<span>    public static main( String[] args) {</span>
+<span>        // declare static method inner class</span>
+<span>        Iterator it = new Iterator() {</span>
+<span>                  ... method for iterator</span>
+<span>         }</span>
+<span>     }</span>
+<span>}</span>
+</pre></div>
+<p>
+       Inner classes are accessed with the dot notation, just
+       as variables and methods. 
+       A reference variable to an inner class is declared with:
+    </p>
+<div class="text"><pre><span>Outer.Inner x;</span>
+</pre></div>
+<p>
+        Inner classes have full access to all the private variables,
+        methods, and classes defined in the outer class.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>A growable integer vector</h1>
+<div>
+<p>
+        The four types of inner classes can be demonstrated by
+        creating an iterator for each type using
+        a class that maintains an array of integers.
+        The <code>BaseIntVect</code> is defined by:
+    </p>
+<h2 class="src-name"><a href="examples/BaseIntVect.java">examples/BaseIntVect.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Create an Iterator using a nested class.</span>
+<span class="cm"> */</span>
+<span class="cm">/**</span>
+<span class="cm"> * Provides an integer vector base class.</span>
+<span class="cm"> * The is also an example of using inheritance</span>
+<span class="cm"> * for reuse.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BaseIntVect</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="kt">int</span> <span class="n">length</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">BaseIntVect</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">sz</span><span class="o">];</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span> <span class="kt">int</span> <span class="n">v</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span><span class="o">[]</span> <span class="n">newarray</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">*</span><span class="mi">2</span><span class="o">];</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span> <span class="n">array</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">newarray</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span> <span class="o">);</span>
+            <span class="n">array</span> <span class="o">=</span> <span class="n">newarray</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">array</span><span class="o">[</span><span class="n">length</span><span class="o">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+        <span class="n">length</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">length</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">IntVect1</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect1</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">2</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">4</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">8</span> <span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vect</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">vect</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       The <code>main</code> method tests the class.
+    </p>
+<p>
+       The <code>BaseIntVect</code> will be reused
+       by inheritance in the following examples.
+       Notices that the attributes are <code>protected</code>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Static inner class (nested classes)</h1>
+<div>
+<p>
+        The structure of the iterator is illustrated by:
+    </p>
+<p class="center"><img src="IntVect1.png"></p>
+<p>
+         The iterator must access the <code>IntVect1</code>
+         class to perform its role.
+    </p>
+<h2 class="src-name"><a href="examples/IntVect1.java">examples/IntVect1.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Create an Iterator using a nested class.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntVect1</span> <span class="kd">extends</span> <span class="n">BaseIntVect</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">IntVect1</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">sz</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Declare nested class.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Iterator</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="n">IntVect1</span> <span class="n">vect</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span><span class="o">;</span>
+
+        <span class="cm">/**</span>
+<span class="cm">         * Iterates over the vect object.</span>
+<span class="cm">         */</span>
+        <span class="kd">public</span> <span class="nf">Iterator</span><span class="o">(</span> <span class="n">IntVect1</span> <span class="n">vect</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">vect</span> <span class="o">=</span> <span class="n">vect</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">vect</span><span class="o">.</span><span class="na">length</span> <span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="na">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+            <span class="n">index</span><span class="o">++;</span>
+            <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Create and return an iterator object.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Iterator</span><span class="o">(</span> <span class="k">this</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">IntVect1</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect1</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">2</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">4</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">8</span> <span class="o">);</span>
+        <span class="n">IntVect1</span><span class="o">.</span><span class="na">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Since static inner classes have no implicit references to
+        the outer class, an explicit reference must be created.
+        When an iterator object is created, the <code>IntVect1</code>
+        object is accessed by being passed in to the constructor.
+        The method that creates the iterator is:
+    </p>
+<h2 class="src-name"><a href="examples/IntVect1.java">examples/IntVect1.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Iterator</span><span class="o">(</span> <span class="k">this</span> <span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       The iterator class now uses the explicit reference to do its job.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>inner classes</h1>
+<div>
+<p>
+        The structure an iterator created using an inner class is given by:
+    </p>
+<p class="center"><img src="IntVect2.png"></p>
+<p>
+        Notice that there is no variable in <code>IntVect2.Iterator</code>
+        that explicitly references the outer class.
+        However the "non-static" inner class has implicit access
+        to the outer class in which it was created.
+        A inner class must be created inside of a method of the
+        outer class.
+    </p>
+<h2 class="src-name"><a href="examples/IntVect2.java">examples/IntVect2.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntVect2</span>  <span class="kd">extends</span> <span class="n">BaseIntVect</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">IntVect2</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">sz</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Declare inner class.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Iterator</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Iterator</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+            <span class="n">index</span><span class="o">++;</span>
+            <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// "this" is associated with the new iterator</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Iterator</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">IntVect2</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect2</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">4</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">7</span> <span class="o">);</span>
+        <span class="n">IntVect2</span><span class="o">.</span><span class="na">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Unlike the static inner class created in
+        <code>IntVect1.iterator</code>, no reference to 
+        the outer class is passed when an inner class is created.
+        The is no declaration of <code>length</code> inside
+        of <code>IntVect2.Iterator.hasNext</code>,  <code>length</code>
+        refers to the <code>length</code> defined by
+        <code>IntVect2</code>.
+        The <code>array</code> used in
+        <code>IntVect2.Iterator.nextInt</code> is also not
+        defined in <code>IntVect2.Iterator</code> but comes
+        from <code>IntVect2</code>.
+    </p>
+<p>
+        The code to create an iterator for <code>IntVect2</code> is
+    </p>
+<h2 class="src-name"><a href="examples/IntVect2.java">examples/IntVect2.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// "this" is associated with the new iterator</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Iterator</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The iterator created in <code>IntVect2</code>
+        is identically to the integrator created in <code>IntVect1</code>
+        in function. The java compiler has simplified the task by
+        make in implicit reference to the instance variables
+        defined in the outer class.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>method class</h1>
+<div>
+<p>
+        Inner classes created in methods must inherit from a class
+        or an interface. The declaration for the inner class 
+        also creates an object instance for that inner class.
+        The declaration is preceded by the <code>new</code> keyword.
+        The name of the class or interface being inherited/implemented
+        follows next, and finally the body of the class is defined.
+        Notice there is no name associated with this class definition.
+    </p>
+<p>
+        The structure of an iterator created using an inner method class is
+        given by:
+    </p>
+<p class="center"><img src="IntVect3.png"></p>
+<p>
+        The iterator is created inside of the
+        <code>IntVect3.iterator</code> method.
+        Similar to the previous example, <code>length</code>
+        and <code>array</code> are defined in the outer class.
+    </p>
+<h2 class="src-name"><a href="examples/IntVect3.java">examples/IntVect3.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntVect3</span> <span class="kd">extends</span> <span class="n">BaseIntVect</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">IntVect3</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">sz</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/* </span>
+<span class="cm">     * Interfaces can also be declared inside of a class.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Iterator</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">();</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Declare and return method class. These are also called</span>
+<span class="cm">     * anonymous classes.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//                + The interface being implemented</span>
+        <span class="c1">//                v</span>
+        <span class="n">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Iterator</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+                <span class="n">index</span><span class="o">++;</span>
+                <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">};</span> <span class="c1">// end of assignment statement</span>
+        <span class="k">return</span> <span class="n">it</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">IntVect3</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect3</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">3</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">2</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span>
+        <span class="n">IntVect3</span><span class="o">.</span><span class="na">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>static method class</h1>
+<div>
+<p>
+        The structure of an iterator created using a static inner method class is
+        given by:
+    </p>
+<p class="center"><img src="IntVect4.png"></p>
+<p>
+        Unlike inner classes created inside non-static methods, an inner
+        class defined inside of a static method has no "this" to use
+        to access instance variables of the outer class.
+        Inside this inner class, it can only access <code>final</code>
+        local variables or <code>static</code> variables.
+    </p>
+<p>
+        Access to the <code>IntVect4</code> object is provided
+        by <code>final IntVect4 vect</code>.
+        Final local variables can only be initialized.
+    </p>
+<h2 class="src-name"><a href="examples/IntVect4.java">examples/IntVect4.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * demonstrates a static method class.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntVect4</span> <span class="kd">extends</span> <span class="n">BaseIntVect</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">IntVect4</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">sz</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Iterator</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">();</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">IntVect4</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect4</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">7</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">4</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">6</span> <span class="o">);</span>
+
+        <span class="cm">/*</span>
+<span class="cm">         * Declare a static method class, can only</span>
+<span class="cm">         * access final and static variables and methods.</span>
+<span class="cm">         */</span>
+        <span class="n">IntVect4</span><span class="o">.</span><span class="na">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect4</span><span class="o">.</span><span class="na">Iterator</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">vect</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">;</span>
+            <span class="o">}</span>
+            <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">vect</span><span class="o">.</span><span class="na">get</span><span class="o">(</span> <span class="n">index</span><span class="o">++</span> <span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Static method inner classes are the least common form of
+        inner classes.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>java.lang.Iterator</h1>
+<div>
+<p>
+        This example creates a method inner class that implements
+        the <code>java.util.Iterator</code> interface.
+    </p>
+<h2 class="src-name"><a href="examples/IntVect5.java">examples/IntVect5.java</a></h2>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * Create a java.util.Iterator.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntVect5</span> <span class="kd">extends</span> <span class="n">BaseIntVect</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">IntVect5</span><span class="o">(</span> <span class="kt">int</span> <span class="n">sz</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">sz</span> <span class="o">);</span>
+<span class="o">}</span>
+    <span class="cm">/**</span>
+<span class="cm">     * Declare and return method class. </span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Iterator</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Iterator</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+                <span class="n">index</span><span class="o">++;</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nf">Integer</span><span class="o">(</span> <span class="n">v</span> <span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+                <span class="o">}</span>
+                <span class="n">length</span><span class="o">--;</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">IntVect5</span> <span class="n">vect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVect5</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">3</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">2</span> <span class="o">);</span>
+        <span class="n">vect</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span>
+        <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Anonymous inner class vs lambda</h1>
+<div>
+<p>
+        This example illustrates the convinence of lambda expression
+        and how variables are captured.
+    </p>
+<h2 class="src-name"><a href="examples/PrintSkipping.java">examples/PrintSkipping.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.function.Consumer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrintSkipping</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// must be final or effectively final</span>
+        <span class="kd">final</span> <span class="n">String</span> <span class="n">skip</span> <span class="o">=</span> <span class="s">"c"</span><span class="o">;</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="o">{</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="s">"c"</span><span class="o">,</span> <span class="s">"d"</span><span class="o">,</span> <span class="s">"e"</span><span class="o">};</span>
+
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">al</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+
+        <span class="c1">// anonymous inner class</span>
+        <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">c1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span> <span class="n">String</span> <span class="n">t</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="o">!</span> <span class="n">t</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="n">skip</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">t</span> <span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="c1">// print all except the one to skip</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Anonymous inner class"</span><span class="o">);</span>
+        <span class="n">al</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span> <span class="n">c1</span> <span class="o">);</span>
+
+        <span class="c1">// lambda expression</span>
+        <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">c2</span> <span class="o">=</span> <span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">!</span> <span class="n">t</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="n">skip</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">t</span> <span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="c1">// print all except the one to skip</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"lambda expression"</span><span class="o">);</span>
+        <span class="n">al</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span> <span class="n">c2</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

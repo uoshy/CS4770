@@ -1,0 +1,477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-26T14:35:31-02:30, Rod Byrne --><title>concurrent</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Thread Pools</h1>
+<div>
+<p>
+        Each HTTP request to a web server can result in a
+        new thread. While not expensive, excessive thread creation can
+        result in performance problems. One solution is
+        to create a pool of threads, and assign work to an available
+        thread.  This approach reduces the cost of thread creations.
+    </p>
+<ul>
+<li>
+            What services should a thread pool system provide?
+        </li>
+<li>
+            How can the system be implemented? <!--How many classes? -->
+</li>
+<li>
+            Why is thread creation expensive?
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>A worker thread</h1>
+<div>
+<p>
+        A worker thread requests a <span class="code">java.lang.Runnable</span>
+        object, and if the requests does not block, the 
+	 <span class="code">run</span> method of the returned
+        object is invoked. Once the <span class="code">Runnable</span> object
+        finishes, a new <span class="code">Runnable</span> object is requested.
+        The <span class="code">manager.nextRunnable()</span> method blocks
+        if there is no work.
+	A <span class="code">null</span> returned by 
+	<span class="code">manager.nextRunnable()</span> to case the worker thread
+	to terminate.
+    </p>
+<h2 class="src-name"><a href="example/WorkerThread.java">example/WorkerThread.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WorkerThread</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ThreadPoolManager</span> <span class="n">manager</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">WorkerThread</span><span class="o">(</span> <span class="n">ThreadPoolManager</span> <span class="n">manager</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">manager</span> <span class="o">=</span> <span class="n">manager</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Runnable</span> <span class="n">nextRunnable</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="o">(</span><span class="n">nextRunnable</span><span class="o">=</span><span class="n">manager</span><span class="o">.</span><span class="na">nextRunnable</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">nextRunnable</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// ignore exception from runnable</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Managing the thread pool</h1>
+<div>
+<p>
+        The <span class="code">ThreadPoolManager</span> class stores
+        the tasks to run in a queue implemented with a 
+        <span class="code">LinkedList</span>. 
+        The available worker threads are stored in an array.
+    </p>
+<h2 class="src-name"><a href="example/ThreadPoolManager.java">example/ThreadPoolManager.java</a></h2>
+<div class="highlight"><pre><span class="kd">private</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;();</span>
+<span class="kd">private</span> <span class="n">WorkerThread</span><span class="o">[]</span> <span class="n">workers</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="nf">ThreadPoolManager</span><span class="o">(</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">workers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WorkerThread</span><span class="o">[</span> <span class="n">size</span> <span class="o">];</span>
+    <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">workers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WorkerThread</span><span class="o">(</span> <span class="k">this</span> <span class="o">);</span>
+        <span class="n">workers</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul>
+<li>Why is a <span class="code">LinkedList</span> used?</li>
+<li>Why is an array used to hold the worker threads?</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Adding and getting runnable tasks</h1>
+<div>
+<p>
+        A task is added to the <span class="code">ThreadPoolManager</span>
+        object with:
+    </p>
+<h2 class="src-name"><a href="example/ThreadPoolManager.java">example/ThreadPoolManager.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">addRunnable</span><span class="o">(</span> <span class="n">Runnable</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">task</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="n">r</span> <span class="o">);</span>
+    <span class="n">notify</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        A runnable object is retrieved with:
+    </p>
+<h2 class="src-name"><a href="example/ThreadPoolManager.java">example/ThreadPoolManager.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Runnable</span> <span class="nf">nextRunnable</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span> <span class="n">task</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">wait</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">task</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+<ul>
+<li>Why not <span class="code">notifyAll</span>?</li>
+<li>Why is the first item on the list removed?</li>
+<li>Why are the methods synchronized?</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Source for ThreadPoolManager</h1>
+<div>
+<h2 class="src-name"><a href="example/ThreadPoolManager.java">example/ThreadPoolManager.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadPoolManager</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;();</span>
+    <span class="kd">private</span> <span class="n">WorkerThread</span><span class="o">[]</span> <span class="n">workers</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ThreadPoolManager</span><span class="o">(</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">workers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WorkerThread</span><span class="o">[</span> <span class="n">size</span> <span class="o">];</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">workers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WorkerThread</span><span class="o">(</span> <span class="k">this</span> <span class="o">);</span>
+            <span class="n">workers</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">addRunnable</span><span class="o">(</span> <span class="n">Runnable</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">task</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="n">r</span> <span class="o">);</span>
+        <span class="n">notify</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Runnable</span> <span class="nf">nextRunnable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">task</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">wait</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">task</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>LimitedBabble</h1>
+<div>
+<p>
+        The thread pool system is tested with the runnable:
+    </p>
+<h2 class="src-name"><a href="example/LimitedBabble.java">example/LimitedBabble.java</a></h2>
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">LimitedBabble</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">msg</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">delay</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">limit</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LimitedBabble</span><span class="o">(</span> <span class="n">String</span> <span class="n">msg</span><span class="o">,</span> <span class="kt">int</span> <span class="n">delay</span><span class="o">,</span> <span class="kt">int</span> <span class="n">limit</span> <span class="o">)</span> <span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="na">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="na">delay</span> <span class="o">=</span> <span class="n">delay</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">limit</span> <span class="o">=</span> <span class="n">limit</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="kt">double</span> <span class="n">per</span> <span class="o">=</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">i</span><span class="o">/</span><span class="n">limit</span><span class="o">;</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"%s %6.1f%n"</span><span class="o">,</span><span class="n">msg</span><span class="o">,</span> <span class="n">per</span> <span class="o">);</span>
+		<span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="n">delay</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="k">return</span><span class="o">;</span> <span class="c1">// end of this thread</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Testing the thread pool</h1>
+<div>
+<p>
+        The system is tested with:
+    </p>
+<h2 class="src-name"><a href="example/TestThreadPool.java">example/TestThreadPool.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestThreadPool</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">tasks</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+        <span class="kt">int</span> <span class="n">poolSz</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+        <span class="n">ThreadPoolManager</span> <span class="n">tp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolManager</span><span class="o">(</span><span class="n">poolSz</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tasks</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">tp</span><span class="o">.</span><span class="na">addRunnable</span><span class="o">(</span> <span class="k">new</span> <span class="n">LimitedBabble</span><span class="o">(</span> <span class="s">"t"</span><span class="o">+</span><span class="n">i</span><span class="o">,</span> <span class="mi">500</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul>
+<!--
+        <h:li>
+            Can the testing be improved?
+        </h:li>
+	--><li>
+	    Why does the program not terminate when all
+	    of the <span class="code">LimitedBabble</span> threads finish?
+        </li>
+<li>
+            How could the system be changed to clean up
+            the worker threads, if they were no longer necessary?
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Thread pools in java.util.concurrent</h1>
+<div>
+<p>
+        JDK 1.5 added support for thread pools in the
+        the <span class="code">java.util.concurrent</span> package.
+        The previous example can be coded as:
+    </p>
+<h2 class="src-name"><a href="example/JavaAPIThreadPoolTest.java">example/JavaAPIThreadPoolTest.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.concurrent.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaAPIThreadPoolTest</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">)</span> <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span> <span class="c1">// XXX</span>
+        <span class="kt">int</span> <span class="n">numWorkers</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="n">threadPoolSize</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+        <span class="n">ExecutorService</span> <span class="n">tpes</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="n">threadPoolSize</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numWorkers</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">tpes</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">LimitedBabble</span><span class="o">(</span><span class="s">"t"</span><span class="o">+</span><span class="n">i</span><span class="o">,</span> <span class="mi">500</span><span class="o">,</span> <span class="mi">10</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="n">tpes</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Unique IDs</h1>
+<div>
+<p>
+        A common task in a concurrent system is to get
+        a unique sequence number (e.g., a request ID).
+        This sequence number can be requested in multiple
+        threads.
+    </p>
+<h2 class="src-name"><a href="example/UniqueSeq.java">example/UniqueSeq.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Provides a unique sequence number that can be invoked from</span>
+<span class="cm"> * different threads. Use the Singleton design pattern to</span>
+<span class="cm"> * ensure only one UniqueSeq is created.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UniqueSeq</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">sequence</span><span class="o">;</span>
+
+    <span class="c1">// private ensures only getUniqueSeq can construct</span>
+    <span class="c1">// this object</span>
+    <span class="kd">private</span> <span class="nf">UniqueSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// only one thread at a time</span>
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">nextSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">;</span>
+        <span class="n">sequence</span><span class="o">++;</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">UniqueSeq</span> <span class="n">singleton</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">UniqueSeq</span> <span class="nf">getUniqueSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniqueSeq</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul>
+<li>
+            The singleton design pattern is used to ensure only
+            one sequence generator is created.
+        </li>
+<li>
+            If unique sequence numbers are constantly being
+            generated, then the <span class="code">synchronized</span>
+            method will affect the performance of the system.
+            Why? How can this be avoided?
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>The expense of synchronization (Why?)</h1>
+<div>
+<p>
+        Synchronization is expensive because
+    </p>
+<ol>
+<li>
+            a lock must be acquired, and
+        </li>
+<li>
+            any other thread attempting to acquire the lock will
+            be blocked. 
+        </li>
+</ol>
+<p>
+        This <span class="code">synchronized</span> method becomes a
+        bottle neck for the systems performance.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>java.util.concurrent.atomic (How?)</h1>
+<div>
+<p>
+         Most modern CPUs provide support for atomic actions
+         with a test and set instruction. This instruction
+         is atomic, if it starts, it will complete. 
+         Test and set instruction can be used to create atomic
+         code sequences without blocking locks.
+         The <span class="code">java.util.concurrent.atomic</span>
+         package provides classes that provide atomic operations
+         on primitive data types.
+         The <span class="code">java.util.concurrent.atomic.AtomicInteger</span>
+         class can be used to provide unique sequence numbers in
+         a concurrent environment.
+    </p>
+<h2 class="src-name"><a href="example/AtomicUniqueSeq.java">example/AtomicUniqueSeq.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Provides a unique sequence number that can be invoked safely</span>
+<span class="cm"> * from different threads. Use the Singleton design pattern to</span>
+<span class="cm"> * ensure only one UniqueSeq is created.</span>
+<span class="cm"> */</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AtomicUniqueSeq</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">AtomicInteger</span> <span class="n">sequence</span><span class="o">;</span>
+
+    <span class="c1">// private ensures only getUniqueSeq can construct</span>
+    <span class="c1">// this object</span>
+    <span class="kd">private</span> <span class="nf">AtomicUniqueSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicInteger</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Return the next unique seqence number.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">sequence</span><span class="o">.</span><span class="na">getAndIncrement</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">AtomicUniqueSeq</span> <span class="n">singleton</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">AtomicUniqueSeq</span> <span class="nf">getUniqueSeq</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicUniqueSeq</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>java.util.concurrent.atomic primitive</h1>
+<div>
+<p>
+        Atomic operations for primitive types is supported
+        by the following classes from
+        <span class="code">java.util.concurrent.atomic</span>.
+    </p>
+<ul>
+<li>AtomicBoolean -- boolean</li>
+<li>AtomicInteger -- integer</li>
+<li>AtomicIntegerArray -- integer array element</li>
+<li>AtomicLong -- long</li>
+<li>AtomicLongArray -- long array element</li>
+<li>AtomicReference -- Object</li>
+<li>AtomicReferenceArray -- Object array element</li>
+</ul>
+<p>
+        There is no support for atomic floating point. Why not?
+	How could floating point be supported?
+    </p>
+</div>
+</div>
+</div></body>
+</html>

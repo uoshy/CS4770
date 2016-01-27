@@ -1,0 +1,52 @@
+table.queue-demo {
+    border-collapse : collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.queue-demo tr {
+    height : 2em;
+}
+
+table.queue-demo th {
+    text-align : left;
+    padding-right : 0.3em;
+    border : none;
+}
+
+table.queue-demo tr.pos td {
+    text-align : center;
+}
+
+table.queue-demo tr.data  td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing */
+    background : rgb( 255, 240, 240 );
+}
+
+table.queue-demo tr.next td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing*/
+    background : rgb( 255, 230, 240 );
+}
+
+table.queue-demo tr.next td {
+    border-top: solid thin black;
+}
+
+table.queue-demo tr.controls span.label {
+    padding : 0.0em 0.25em ;
+    margin-right : 0.5em;
+    display: -moz-inline-box;
+    width : 3.3em;
+    background: yellow;
+    border : thin black solid;
+}
+
+table.queue-demo tr.controls button {
+    margin-right : 0.5em;
+}

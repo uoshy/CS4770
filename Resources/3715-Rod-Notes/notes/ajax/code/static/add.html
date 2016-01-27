@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="js/add.js"></script>
+    <!-- @snipit style -->
+    <style type="text/css">
+        h1 { font-size : 18pt;}
+        form output { 
+            text-align : right;     
+            border : solid blue thin;
+            display: inline-block;
+            vertical-align: bottom;
+            min-width : 7em;
+            min-height : 1.3em;
+            margin-left : 4px;
+            padding-right : 3px;
+        }
+        form input[type='text'] {
+            text-align : right;
+        }
+    </style>
+    <!-- @snipit-end style -->
+</head>
+<body>
+<!-- @snipit form1 -->
+<h1>Using GET with values in URL</h1>
+<form name="f1">
+    <button name="doAdd">Add</button>
+    <label>V1: <input name="v1" placeholder="v1" type="text"></label>
+    +
+    <label>V2: <input name="v2" placeholder="v2" type="text"></label>
+    =
+    <output name="result">   </output>
+</form>
+<!-- @snipit-end form1 -->
+
+<!-- @snipit form2 -->
+<h1>Using POST </h1>
+<form name="f2">
+    <button name="doAdd">Add</button>
+    <label>V1: <input name="v1" placeholder="v1" type="text"></label>
+    +
+    <label>V2: <input name="v2" placeholder="v2" type="text"></label>
+    =
+    <output name="result">   </output>
+</form>
+<!-- @snipit-end form2 -->
+
+<!-- @snipit form3 -->
+<h1>Using POST and JSON </h1>
+<form name="f3">
+    <button name="doAdd">Add</button>
+    <label>V1: <input name="v1" placeholder="v1" type="text"></label>
+    +
+    <label>V2: <input name="v2" placeholder="v2" type="text"></label>
+    =
+    <output name="result">   </output>
+</form>
+<!-- @snipit-end form3 -->
+
+</body>
+</html>

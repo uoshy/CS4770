@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Form Element</title>
+    <script type="text/javascript">
+       function handleform( id ) {
+          var form = document.getElementById( id ) 
+          var msg = "Number: " + form.stno.value + "\n"
+          msg += "Name: " + form.stna.value + "\n"
+          msg += "Userid: " + form.userid.value + "\n"
+          alert( msg );
+        }
+    </script>
+</head>
+<body>
+    <p>
+       Please fill out the form:
+    </p>
+    <p>
+       <form id="f1" action="javascript: void handleform('f1')">
+          <label>Num:
+             <input type="text" name="stno" value="123">
+          </label>
+          <br>
+          <label>Name:
+             <input type="text" name="stna" value="name">
+          </label>
+          <br>
+          <label>Age:
+             <input type="text" name="stage" disabled value="99">
+          </label>
+          <br>
+          <label>Registered:
+             <input type="text" name="streg" readonly value="yes">
+          </label>
+          <br>
+          <input type="submit">&nbsp;<input type="reset">
+          <input type="hidden" name="userid" value="me">
+       </form>
+    </p>
+    <p>
+       Thank you
+    </p>
+</body>
+</html>

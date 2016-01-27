@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-20T17:12:04-03:30, Rod Byrne --><title>html-head</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>elements in the head element (Metadata content)</h1>
+<div><ul>
+<li>title</li>
+<li>base</li>
+<li>link</li>
+<li>meta</li>
+<li>script</li>
+<li>style</li>
+</ul></div>
+</div>
+<div class="slide">
+<h1>title element in the head</h1>
+<div>
+<p>
+        The title element gives the title of the document,
+        the title element is often used to provide
+        the title of the browser's window.
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;title</span> <span class="nt">&gt;</span>The title <span class="nt">&lt;/title &gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>base element in the head</h1>
+<div>
+<p>
+        The base element is used to specify the URL to prefix
+        all relative URLs. The prefix is given in
+        the <code>href</code> tag.
+        The following sets the base to <code>http://www.cs.mun.ca/~rod/</code>.
+        The last slash in the URL is almost alway necessary since
+        a relative URL is concatenated.
+        The base of the URL is constructed from the location
+        the current page was fetched.
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"http://www.cs.mun.ca/"</span> <span class="nt">&gt;</span>
+</pre></div>
+<p>
+        A relative URL starts with a pathname.
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"rest-of-stuff/is-here-/"</span> <span class="nt">&gt;</span>
+</pre></div>
+<!--
+    <h:p>
+        An element with no content is given by 
+        <h:code>&lt;tag/&gt;</h:code>.
+        In a XML document, all start tags must have an end tag.
+    </h:p>
+    -->
+</div>
+</div>
+<div class="slide">
+<h1>style element in the head</h1>
+<div>
+<p>
+        The CSS style description is specified
+        in the <code>style</code> element
+        (i.e., between style tags).
+        The <code>type</code> attribute should be set
+        to <code>text/css</code>. 
+        The <code>media</code> attribute is not
+        required, but it can be set to
+        <code>screen</code>.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/style-head.html">examples/style-head.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Style Element<span class="nt">&lt;/title&gt;</span>
+	<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+	    <span class="nt">p</span> <span class="p">{</span> <span class="k">font-style</span> <span class="o">:</span> <span class="k">italic</span> <span class="p">}</span>
+	    <span class="nf">#p1</span> <span class="p">{</span> <span class="k">color</span> <span class="o">:</span> <span class="nb">red</span> <span class="p">;</span> <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span> <span class="p">}</span>
+	    <span class="nf">#p2</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="m">#CDA</span><span class="p">;</span> <span class="k">width</span> <span class="o">:</span> <span class="m">50</span><span class="o">%</span><span class="p">;}</span>
+	    <span class="nf">#p3</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">200</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span> <span class="o">:</span> <span class="nb">black</span> <span class="k">solid</span><span class="p">;}</span>
+	<span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p1"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p2"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p3"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>link element</h1>
+<div>
+<p>
+        The <code>link</code> element defines a relationship
+        with another <em>page</em>. Links
+        to external style sheets are one of the most
+        common uses for this element.
+        Attributes for this element are:
+    </p>
+<dl>
+<dt>href</dt>
+<dd>
+            URL of the <em>linked</em> document.
+        </dd>
+<dt>rel</dt>
+<dd>
+           defines the forward relationship, types are: stylesheet, start,
+           next, prev, contents, glossary, chapter, section,
+           subsection, appendix, help, bookmark, and alternate.
+        </dd>
+<dt>rev</dt>
+<dd>
+            defines the reverse relationship.
+        </dd>
+<dt>type</dt>
+<dd>
+            defines the media type of the link (e.g., text/css for  a style 
+            sheet).
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>link style sheet</h1>
+<div>
+<p>
+        An example of linking to a style sheet is:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/style-link.html">examples/style-link.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Style Link<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"p-style.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p1"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p2"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">id=</span><span class="s">"p3"</span><span class="nt">&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Using an external style sheets allow a style to be
+        applied to a set of pages.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>style element in the head</h1>
+<div>
+<p>
+        The <tt>p-style.css</tt> style sheet is:
+    </p>
+<h2 class="src-name"><a href="examples/p-style.css">examples/p-style.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span> <span class="p">{</span>
+    <span class="k">font-style</span> <span class="o">:</span> <span class="k">italic</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#p1</span> <span class="p">{</span>
+    <span class="k">color</span> <span class="o">:</span> <span class="nb">red</span> <span class="p">;</span>
+    <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#p2</span> <span class="p">{</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="m">#CDA</span><span class="p">;</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">50</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#p3</span> <span class="p">{</span>
+    <span class="k">font-size</span><span class="o">:</span> <span class="m">200</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="nb">black</span> <span class="k">solid</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>meta element</h1>
+<div>
+<p>
+        The <code>meta</code> element describes
+        <em>meta</em> data and is used to control
+        some browser behaviour and describe the page
+        to other tools. Two examples are:
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"Expires"</span> <span class="na">content=</span><span class="s">"...time..."</span><span class="nt">&gt;</span>
+</pre></div>
+<div class="highlight"><pre><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"html element document"</span><span class="nt">&gt;</span>
+</pre></div>
+<p>
+        The meta tag can be used to automatically reload a page:
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"refresh"</span> <span class="na">content=</span><span class="s">"5; url=page"</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>script element</h1>
+<div>
+<p>
+        The <code>script</code> element contains code
+        that the browser will execute.
+        Unlike the other elements that appear in the 
+        <code>head</code> element, the <code>script</code>
+        element can also appear in the <code>body</code> element.
+    </p>
+<p>
+        The <code>type</code> attribute specifies the 
+        scripting language. The value for Javascript is
+        <code>text/javascript</code>.
+    </p>
+<p>
+        The script can come from an external document if
+        the <code>src</code> attribute is used.
+        The value should be a URL to the scripting code.
+        The contents of the element contains the script
+        if the <code>src</code> attribute is missing.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/script-intro.html">examples/script-intro.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>script element<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+            <span class="c1">// define functions and variables</span>
+            <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+                <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span>
+                    <span class="s2">"&lt;h1&gt; Hi "</span> <span class="o">+</span> <span class="nx">count</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">d</span> <span class="o">+</span> 
+                    <span class="s2">" there &lt;/h1&gt;"</span> <span class="p">);</span>
+                <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;script&gt;</span> <span class="nx">hello</span><span class="p">()</span> <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;p&gt;</span> The first sentence.  <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;script&gt;</span> <span class="nx">hello</span><span class="p">()</span> <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;p&gt;</span> The second sentence.  <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Creating documents with <code>document.writeln</code>
+        belongs to DOM-0 and should not be used.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>external script element</h1>
+<div>
+<p>
+        A script common to a set of web pages is
+        usually placed in an external file.
+        This also avoids the difficult of escaping the
+        HTML character entities (i.e.,
+        <tt>&lt;</tt> instead of <tt>&amp;lt;</tt>).
+    </p>
+<p>
+        Consider the script:
+    </p>
+<h2 class="src-name"><a href="examples/colours.js">examples/colours.js</a></h2>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">colours</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="s2">"cyan"</span><span class="p">,</span> <span class="s2">"magenta"</span><span class="p">,</span> <span class="s2">"yellow"</span> <span class="p">];</span>
+
+<span class="c1">// global variable</span>
+<span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">genPara</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">index</span> <span class="o">=</span> <span class="p">(</span><span class="nx">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nx">colours</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="s2">"&lt;p style='color:"</span><span class="p">;</span>
+    <span class="nx">o</span> <span class="o">+=</span> <span class="nx">colours</span><span class="p">[</span> <span class="nx">index</span> <span class="p">];</span>
+    <span class="nx">o</span> <span class="o">+=</span> <span class="s2">";'&gt; "</span><span class="p">;</span>
+    <span class="nx">o</span> <span class="o">+=</span> <span class="nx">colours</span><span class="p">[</span> <span class="nx">index</span> <span class="p">];</span>
+    <span class="nx">o</span> <span class="o">+=</span> <span class="s2">"&lt;/p&gt;"</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="nx">id</span> <span class="p">);</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">+</span> <span class="nx">o</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+       And now, the page
+   </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/script-external.html">examples/script-external.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>External Javascript<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"colours.js"</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!--</span> <span class="nx">the</span> <span class="nx">end</span> <span class="nx">script</span> <span class="nx">tag</span> <span class="nx">is</span> <span class="nx">still</span> <span class="nx">required</span> <span class="o">--&gt;</span>
+        <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+            <span class="kd">function</span> <span class="nx">doit</span><span class="p">()</span> <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> 
+                    <span class="nx">genPara</span><span class="p">(</span> <span class="s2">"holder"</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"doit()"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"holder"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

@@ -1,0 +1,7 @@
+div.color-slide {background-image:url(../images/gold_crinkle.jpg);}
+p {
+    background-image:url(../images/Planning-And-Probing-1.jpg);
+    color : yellow;
+}
+p span { color:white; background-image:url(../images/circles.png);}
+li { background : yellow; }

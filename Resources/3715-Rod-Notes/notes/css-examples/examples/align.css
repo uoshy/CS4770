@@ -1,0 +1,5 @@
+td.p1 {text-align: left; border:thin dashed red;}
+td.p2 {text-align: center; border:thin solid blue;}
+td.p3 {text-align: right; border:thin dotted rgb(200,100,50);}
+td.p4 {text-align: justify; border:thin groove yellow;}
+table { font-size : inherit; }

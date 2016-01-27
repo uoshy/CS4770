@@ -1,0 +1,41 @@
+<html>
+<head>
+   <title>select input</title>
+</head>
+<body>
+   <p>
+      Please choose your favorite colour:
+      <select name="colour1" onchange="alert(this.value)">
+         <option>red</option>
+         <option>green</option>
+         <option value="BLUE">blue</option>
+         <option>cyan</option>
+         <option>magenta</option>
+         <option>yellow</option>
+      </select>
+   </p>
+   <p>
+      Please choose your favorite colour:
+      <select size="4" name="colour2" onchange="alert(this.value)">
+         <option>red</option>
+         <option>green</option>
+         <option>blue</option>
+         <option>cyan</option>
+         <option>magenta</option>
+         <option>yellow</option>
+      </select>
+   </p>
+   <p>
+      Please choose your favorite colour:
+      <select multiple size="5" name="colour3"
+         onchange="alert(this.value)">
+         <option>red</option>
+         <option>green</option>
+         <option selected>blue</option>
+         <option>cyan</option>
+         <option>magenta</option>
+         <option>yellow</option>
+      </select>
+   </p>
+</body>
+</html>

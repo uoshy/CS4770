@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-26T14:35:21-02:30, Rod Byrne --><title>fun</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Character graphics on terminal</h1>
+<div>
+<p>
+        Terminal windows displays a grid of characters.
+        The grid contains rows (lines) and columns.
+        The cursor, location where the next character is
+        placed, can be moved to any grid position.
+        Simple (fun) animation can done by moving the cursor.
+        The <tt>ScreenArt</tt> class sends commands
+        to the terminal to change the cursor and display
+        charactes.
+    </p>
+<h2 class="src-name"><a href="src/ScreenArt.java">src/ScreenArt.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ScreenArt</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">ESC</span> <span class="o">=</span> <span class="mh">0x1b</span><span class="o">;</span> <span class="c1">// ESC</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">SQB</span> <span class="o">=</span> <span class="mh">0x5b</span><span class="o">;</span> <span class="c1">// [</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">ZERO</span> <span class="o">=</span> <span class="mh">0x30</span><span class="o">;</span> <span class="c1">// 0</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">TWO</span> <span class="o">=</span> <span class="mh">0x32</span><span class="o">;</span> <span class="c1">// 2</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">FOUR</span> <span class="o">=</span> <span class="mh">0x34</span><span class="o">;</span> <span class="c1">// 4</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">UJ</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="sc">'J'</span><span class="o">;</span> <span class="c1">// J</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">UH</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="sc">'H'</span><span class="o">;</span> <span class="c1">// H</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">LH</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="sc">'h'</span><span class="o">;</span> <span class="c1">// h</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">LL</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="sc">'l'</span><span class="o">;</span> <span class="c1">// l</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="n">SEMICOLON</span> <span class="o">=</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="sc">';'</span><span class="o">;</span> <span class="c1">// ;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">clear_msg</span> <span class="o">=</span> <span class="o">{</span> <span class="n">ESC</span><span class="o">,</span> <span class="n">SQB</span><span class="o">,</span> <span class="n">TWO</span><span class="o">,</span> <span class="n">UJ</span> <span class="o">};</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">replace_mode_msg</span> <span class="o">=</span> <span class="o">{</span> <span class="n">ESC</span><span class="o">,</span> <span class="n">SQB</span><span class="o">,</span> <span class="n">FOUR</span><span class="o">,</span> <span class="n">LL</span> <span class="o">};</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">insert_mode_msg</span> <span class="o">=</span> <span class="o">{</span> <span class="n">ESC</span><span class="o">,</span> <span class="n">SQB</span><span class="o">,</span> <span class="n">FOUR</span><span class="o">,</span> <span class="n">LH</span> <span class="o">};</span>
+
+    <span class="kd">private</span> <span class="n">OutputStream</span> <span class="n">out</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ScreenArt</span><span class="o">(</span> <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">clear_msg</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">replaceMode</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">replace_mode_msg</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertMode</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">insert_mode_msg</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">byte</span> <span class="nf">toDigit</span><span class="o">(</span> <span class="kt">int</span> <span class="n">d</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)(</span><span class="n">ZERO</span> <span class="o">+</span> <span class="n">d</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">moveCursor</span><span class="o">(</span> <span class="kt">int</span> <span class="n">r</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">ESC</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">SQB</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">r</span><span class="o">/</span><span class="mi">10</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">)</span> <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">toDigit</span><span class="o">(</span> <span class="n">r</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">)</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">toDigit</span><span class="o">(</span> <span class="n">r</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">)</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">SEMICOLON</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">c</span><span class="o">/</span><span class="mi">10</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">)</span> <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">toDigit</span><span class="o">(</span> <span class="n">c</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">)</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">toDigit</span><span class="o">(</span> <span class="n">c</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">)</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">UH</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">byteOut</span><span class="o">(</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">b</span> <span class="o">&amp;</span> <span class="mh">0xff</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">ScreenArt</span> <span class="n">art</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ScreenArt</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span> <span class="o">);</span>
+        <span class="n">art</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="o">;</span> <span class="n">c</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">art</span><span class="o">.</span><span class="na">moveCursor</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+            <span class="n">art</span><span class="o">.</span><span class="na">byteOut</span><span class="o">(</span> <span class="sc">'X'</span> <span class="o">);</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="mi">100</span> <span class="o">);</span>
+            <span class="n">art</span><span class="o">.</span><span class="na">moveCursor</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+            <span class="n">art</span><span class="o">.</span><span class="na">byteOut</span><span class="o">(</span> <span class="sc">' '</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">art</span><span class="o">.</span><span class="na">moveCursor</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p><tt>synchronized( out )</tt> is used to ensure
+        the commands arrive together.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Horizontal line animation</h1>
+<div>
+<p>
+        The <tt>HorizontalLine</tt> is a <tt>Runnable</tt>
+        that moves a character left to right
+        along a line. The rate of movement is controlled
+        by the <tt>StepControl</tt> class.
+    </p>
+<h2 class="src-name"><a href="src/HorizontalLine.java">src/HorizontalLine.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HorizontalLine</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">row</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">startCol</span><span class="o">,</span> <span class="n">endCol</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">char</span> <span class="n">movingChar</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">StepControl</span> <span class="n">step</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">ScreenArt</span> <span class="n">screen</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">stepNo</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">HorizontalLine</span><span class="o">(</span> <span class="kt">int</span> <span class="n">r</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c2</span><span class="o">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="o">,</span>
+        <span class="n">StepControl</span> <span class="n">s</span><span class="o">,</span> <span class="n">ScreenArt</span> <span class="n">sc</span> <span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">r</span><span class="o">;</span>
+        <span class="n">startCol</span> <span class="o">=</span> <span class="n">c1</span><span class="o">;</span>
+        <span class="n">endCol</span> <span class="o">=</span> <span class="n">c2</span><span class="o">;</span>
+        <span class="n">movingChar</span> <span class="o">=</span> <span class="n">ch</span><span class="o">;</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span>
+        <span class="n">screen</span> <span class="o">=</span> <span class="n">sc</span><span class="o">;</span>
+        <span class="n">stepNo</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">startCol</span><span class="o">;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">endCol</span><span class="o">;</span> <span class="n">c</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">screen</span><span class="o">.</span><span class="na">moveCursor</span><span class="o">(</span> <span class="n">row</span><span class="o">,</span> <span class="n">c</span> <span class="o">);</span>
+                    <span class="n">screen</span><span class="o">.</span><span class="na">byteOut</span><span class="o">(</span> <span class="n">movingChar</span> <span class="o">);</span>
+
+                    <span class="n">step</span><span class="o">.</span><span class="na">waitForStep</span><span class="o">(</span> <span class="n">stepNo</span> <span class="o">);</span>
+
+                    <span class="n">screen</span><span class="o">.</span><span class="na">moveCursor</span><span class="o">(</span> <span class="n">row</span><span class="o">,</span> <span class="n">c</span> <span class="o">);</span>
+                    <span class="n">screen</span><span class="o">.</span><span class="na">byteOut</span><span class="o">(</span> <span class="sc">' '</span> <span class="o">);</span> <span class="c1">// erase character</span>
+                    <span class="n">stepNo</span><span class="o">++;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>A step controller</h1>
+<div>
+<p><tt>wait</tt> and <tt>notifyAll</tt> are
+       used by <tt>StepControl</tt> to coordinate
+       all the animation threads.
+       A <tt>notifyAll</tt> is used to wake up all
+       the animation threads.
+    </p>
+<h2 class="src-name"><a href="src/StepControl.java">src/StepControl.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StepControl</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">stepNumber</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">StepControl</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">stepNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">waitForStep</span><span class="o">(</span> <span class="kt">int</span> <span class="n">step</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">InterruptedException</span>
+    <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="n">stepNumber</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">wait</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">advanceStep</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">stepNumber</span><span class="o">++;</span>
+        <span class="n">notifyAll</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>The "fun" animation</h1>
+<div>
+<p>
+        The animation is controlled by the <tt>TimerTask</tt>
+        that invokes <tt>step.advanceStep()</tt> to control
+        the animation threads.
+    </p>
+<h2 class="src-name"><a href="src/FunArt.java">src/FunArt.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.Timer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.TimerTask</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FunArt</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">StepControl</span> <span class="n">step</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StepControl</span><span class="o">();</span>
+        <span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">(</span> <span class="kc">true</span> <span class="o">);</span> <span class="c1">// mark as Daemon</span>
+        <span class="n">timer</span><span class="o">.</span><span class="na">schedule</span><span class="o">(</span> <span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">step</span><span class="o">.</span><span class="na">advanceStep</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">},</span> <span class="mi">50</span><span class="o">,</span> <span class="mi">100</span> <span class="o">);</span>
+
+        <span class="n">ScreenArt</span> <span class="n">screen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ScreenArt</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span> <span class="o">);</span>
+        <span class="n">screen</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="n">HorizontalLine</span> <span class="n">line1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorizontalLine</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">40</span><span class="o">,</span> <span class="sc">'@'</span><span class="o">,</span> <span class="n">step</span><span class="o">,</span> <span class="n">screen</span><span class="o">);</span>
+        <span class="n">Thread</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span> <span class="n">line1</span> <span class="o">);</span>
+        <span class="n">HorizontalLine</span> <span class="n">line2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorizontalLine</span><span class="o">(</span><span class="mi">16</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">,</span><span class="n">step</span><span class="o">,</span><span class="n">screen</span><span class="o">);</span>
+        <span class="n">Thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span> <span class="n">line2</span> <span class="o">);</span>
+        <span class="n">HorizontalLine</span> <span class="n">line3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorizontalLine</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">80</span><span class="o">,</span> <span class="sc">'%'</span><span class="o">,</span> <span class="n">step</span><span class="o">,</span> <span class="n">screen</span><span class="o">);</span>
+        <span class="n">Thread</span> <span class="n">t3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span> <span class="n">line3</span> <span class="o">);</span>
+        <span class="n">HorizontalLine</span> <span class="n">line4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorizontalLine</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">80</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">,</span> <span class="n">step</span><span class="o">,</span> <span class="n">screen</span><span class="o">);</span>
+        <span class="n">Thread</span> <span class="n">t4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span> <span class="n">line4</span> <span class="o">);</span>
+
+        <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="c1">//t3.start();</span>
+        <span class="c1">//t4.start();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       Are there any problems?
+    </p>
+</div>
+</div>
+</div></body>
+</html>

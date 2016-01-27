@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-04T10:58:09-03:30, Rod Byrne --><title>database</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Relational Database</h1>
+<div>
+<p>
+        A relational database is organized as a collection
+        of tables. A table is a set of relations. A relation
+        is a n-tuple of values. Normally each value is restricted
+        to being an element from a standard set (i.e., integers,
+        reals, text strings).
+    </p>
+<p>
+       More formally, a relation is a subset of the cartesian product
+       of sets that form the ordered list.
+    </p>
+<p>
+        The main motivation for using a database in 3715 is
+        the database's ability to manage concurrent access without
+        failures.
+    </p>
+<p>
+        The <tt>sqlite3</tt> command provides access to the
+        Sqlite3 database.
+    </p>
+<dl class="runcommand">
+<dt>Script:</dt>
+<dd><div class="highlight"><pre><span class="go">SQLite version 3.8.2 2013-12-06 14:53:30</span>
+<span class="go">Enter ".help" for instructions</span>
+<span class="go">Enter SQL statements terminated with a ";"</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">help</span>
+<span class="go">.backup ?DB? FILE      Backup DB (default "main") to FILE</span>
+<span class="go">.bail ON|OFF           Stop after hitting an error.  Default OFF</span>
+<span class="go">.databases             List names and files of attached databases</span>
+<span class="go">.dump ?TABLE? ...      Dump the database in an SQL text format</span>
+<span class="go">                         If TABLE specified, only dump tables matching</span>
+<span class="go">                         LIKE pattern TABLE.</span>
+<span class="go">.echo ON|OFF           Turn command echo on or off</span>
+<span class="go">.exit                  Exit this program</span>
+<span class="go">.explain ?ON|OFF?      Turn output mode suitable for EXPLAIN on or off.</span>
+<span class="go">                         With no args, it turns EXPLAIN on.</span>
+<span class="go">.header(s) ON|OFF      Turn display of headers on or off</span>
+<span class="go">.help                  Show this message</span>
+<span class="go">.import FILE TABLE     Import data from FILE into TABLE</span>
+<span class="go">.indices ?TABLE?       Show names of all indices</span>
+<span class="go">                         If TABLE specified, only show indices for tables</span>
+<span class="go">                         matching LIKE pattern TABLE.</span>
+<span class="go">.load FILE ?ENTRY?     Load an extension library</span>
+<span class="go">.log FILE|off          Turn logging on or off.  FILE can be stderr/stdout</span>
+<span class="go">.mode MODE ?TABLE?     Set output mode where MODE is one of:</span>
+<span class="go">                         csv      Comma-separated values</span>
+<span class="go">                         column   Left-aligned columns.  (See .width)</span>
+<span class="go">                         html     HTML &lt;table&gt; code</span>
+<span class="go">                         insert   SQL insert statements for TABLE</span>
+<span class="go">                         line     One value per line</span>
+<span class="go">                         list     Values delimited by .separator string</span>
+<span class="go">                         tabs     Tab-separated values</span>
+<span class="go">                         tcl      TCL list elements</span>
+<span class="go">.nullvalue STRING      Use STRING in place of NULL values</span>
+<span class="go">.open ?FILENAME?       Close existing database and reopen FILENAME</span>
+<span class="go">.output FILENAME       Send output to FILENAME</span>
+<span class="go">.output stdout         Send output to the screen</span>
+<span class="go">.print STRING...       Print literal STRING</span>
+<span class="go">.prompt MAIN CONTINUE  Replace the standard prompts</span>
+<span class="go">.quit                  Exit this program</span>
+<span class="go">.read FILENAME         Execute SQL in FILENAME</span>
+<span class="go">.restore ?DB? FILE     Restore content of DB (default "main") from FILE</span>
+<span class="go">.schema ?TABLE?        Show the CREATE statements</span>
+<span class="go">                         If TABLE specified, only show tables matching</span>
+<span class="go">                         LIKE pattern TABLE.</span>
+<span class="go">.separator STRING      Change separator used by output mode and .import</span>
+<span class="go">.show                  Show the current values for various settings</span>
+<span class="go">.stats ON|OFF          Turn stats on or off</span>
+<span class="go">.tables ?TABLE?        List names of tables</span>
+<span class="go">                         If TABLE specified, only list tables matching</span>
+<span class="go">                         LIKE pattern TABLE.</span>
+<span class="go">.timeout MS            Try opening locked tables for MS milliseconds</span>
+<span class="go">.trace FILE|off        Output each SQL statement as it is run</span>
+<span class="go">.vfsname ?AUX?         Print the name of the VFS stack</span>
+<span class="go">.width NUM1 NUM2 ...   Set column widths for "column" mode</span>
+<span class="go">.timer ON|OFF          Turn the CPU timer measurement on or off</span>
+<span class="gp">sqlite&gt; </span>
+</pre></div></dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Experiments with SQLITE</h1>
+<div>
+<p>
+        A binary relation of integers and strings, can 
+        be used to associate user numbers with user names.
+        In SQL, this relation (table) is created and modified with:
+    </p>
+<dl class="runcommand">
+<dt>Script:</dt>
+<dd><div class="highlight"><pre><span class="go">SQLite version 3.8.2 2013-12-06 14:53:30</span>
+<span class="go">Enter ".help" for instructions</span>
+<span class="go">Enter SQL statements terminated with a ";"</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* use memory data base, create a table */</span>
+<span class="gp">sqlite&gt; </span><span class="k">create</span> <span class="k">table</span> <span class="n">users</span> <span class="p">(</span> <span class="n">id</span> <span class="nb">integer</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span> <span class="n">username</span> <span class="nb">text</span> <span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* .dump is a sqlite3 command, not a sql statement */</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* The .dump command dumps the contents of the database */</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">dump</span>
+<span class="go">PRAGMA foreign_keys=OFF;</span>
+<span class="go">BEGIN TRANSACTION;</span>
+<span class="go">CREATE TABLE users ( id integer primary key, username text );</span>
+<span class="go">COMMIT;</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* list the data bases */</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">databases</span> 
+<span class="go">seq  name             file                                                      </span>
+<span class="go">---  ---------------  ----------------------------------------------------------</span>
+<span class="go">0    main                                                                       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* set the table output to column with headers */</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">headers</span> <span class="k">on</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="k">mode</span> <span class="k">column</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* insert a row into the users table */</span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">users</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'fred'</span> <span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* display all the rows from the users table */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* add a new row, the next id is automatically set */</span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">users</span> <span class="k">values</span> <span class="p">(</span> <span class="k">null</span><span class="p">,</span> <span class="ss">"sue"</span> <span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="go">2           sue       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* and another new row */</span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">users</span> <span class="k">values</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="ss">"mary"</span><span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* limit the display to rows where id &gt;= 2 */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">2           sue       </span>
+<span class="go">3           mary      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* avg - average all the id values */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">avg</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">from</span> <span class="n">users</span> <span class="p">;</span>
+<span class="go">avg(id)   </span>
+<span class="go">----------</span>
+<span class="go">2.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* max - find the maximum of all the id values */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">max(id)   </span>
+<span class="go">----------</span>
+<span class="go">3         </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* sum - sum all the id values */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">sum</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">sum(id)   </span>
+<span class="go">----------</span>
+<span class="go">6         </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* delete all rows from user "sue" */</span>
+<span class="gp">sqlite&gt; </span><span class="k">delete</span> <span class="k">from</span> <span class="n">users</span> <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="ss">"sue"</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="go">3           mary      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* add a user named "ted", select the next id */</span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">users</span> <span class="k">values</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="ss">"ted"</span><span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="go">3           mary      </span>
+<span class="go">4           ted       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* the where clause can be complicated */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span> <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="ss">"ted"</span> <span class="k">or</span> <span class="n">username</span> <span class="o">=</span> <span class="ss">"mary"</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">3           mary      </span>
+<span class="go">4           ted       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* columns in rows can be changed */</span>
+<span class="gp">sqlite&gt; </span><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">id</span><span class="o">=</span><span class="mi">2</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="go">2           ted       </span>
+<span class="go">3           mary      </span>
+<span class="gp">sqlite&gt; </span><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">id</span><span class="o">=</span><span class="mi">4</span> <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="ss">"fred"</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">2           ted       </span>
+<span class="go">3           mary      </span>
+<span class="go">4           fred      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* remove all then even ids */</span>
+<span class="gp">sqlite&gt; </span><span class="k">delete</span> <span class="k">from</span> <span class="n">users</span> <span class="k">where</span> <span class="n">id</span><span class="o">%</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">3           mary      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* put fred back */</span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">users</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'fred'</span> <span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="go">id          username  </span>
+<span class="go">----------  ----------</span>
+<span class="go">1           fred      </span>
+<span class="go">3           mary      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* remove all the rows in the users table */</span>
+<span class="gp">sqlite&gt; </span><span class="k">delete</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* the dump will show the table but no rows*/</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">dump</span>
+<span class="go">PRAGMA foreign_keys=OFF;</span>
+<span class="go">BEGIN TRANSACTION;</span>
+<span class="go">CREATE TABLE users ( id integer primary key, username text );</span>
+<span class="go">COMMIT;</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* removes the users table from the database */</span>
+<span class="gp">sqlite&gt; </span><span class="k">drop</span> <span class="k">table</span> <span class="n">users</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* nothing left */</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">dump</span> 
+<span class="go">PRAGMA foreign_keys=OFF;</span>
+<span class="go">BEGIN TRANSACTION;</span>
+<span class="go">COMMIT;</span>
+<span class="gp">sqlite&gt; </span>
+</pre></div></dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Experiments with SQLITE and weather</h1>
+<div><dl class="runcommand">
+<dt>Script:</dt>
+<dd><div class="highlight"><pre><span class="go">SQLite version 3.8.2 2013-12-06 14:53:30</span>
+<span class="go">Enter ".help" for instructions</span>
+<span class="go">Enter SQL statements terminated with a ";"</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* dump the database */</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">dump</span>
+<span class="go">PRAGMA foreign_keys=OFF;</span>
+<span class="go">BEGIN TRANSACTION;</span>
+<span class="go">CREATE TABLE weather ( date Text,t_max REAL,t_min REAL,t_mean REAL,rain REAL,snow REAL,total_snow REAL</span>
+<span class="go"> );</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-01',-3.7,-13.9,-8.8,0.0,0.0,5.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-02',0.2,-5.5,-2.7,0.6,2.6,4.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-03',-4.1,-14.0,-9.1,0.0,0.4,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-04',-1.5,-14.4,-8.0,0.0,9.4,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-05',9.4,-2.9,3.3,10.8,0.4,14.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-06',-3.0,-8.8,-5.9,0.0,0.6,4.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-07',-6.4,-8.7,-7.6,0.0,3.2,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-08',-6.8,-12.8,-9.8,0.0,24.2,9.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-09',2.5,-15.3,-6.4,0.0,0.0,29.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-10',3.6,-7.9,-2.2,7.2,10.0,14.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-11',-7.1,-12.2,-9.7,0.0,3.4,18.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-12',0.5,-9.9,-4.7,0.0,7.6,19.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-13',0.7,-15.2,-7.3,1.2,5.4,24.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-14',-5.6,-15.3,-10.5,0.0,0.0,25.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-15',-2.3,-6.6,-4.5,0.0,3.8,24.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-16',1.7,-3.2,-0.8,1.6,2.4,25.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-17',1.1,-11.3,-5.1,0.0,12.0,18.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-18',-4.6,-12.0,-8.3,0.0,0.0,28.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-19',3.8,-8.1,-2.2,22.8,0.0,28.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-20',6.3,1.6,4.0,1.2,0.0,14.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-21',2.4,-7.2,-2.4,0.0,0.0,7.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-22',-2.5,-7.7,-5.1,0.0,3.6,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-23',1.3,-9.0,-3.9,0.8,10.0,15.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-24',0.9,-9.4,-4.3,0.2,0.4,17.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-25',8.9,0.2,4.6,27.0,0.0,12.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-26',1.8,-7.8,-3.0,0.0,0.0,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-27',-0.3,-10.1,-5.2,7.0,3.0,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-28',10.0,-0.3,4.9,10.6,0.0,6.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-29',5.4,-4.0,0.7,0.4,0.6,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-30',0.2,-3.8,-1.8,8.8,1.4,3.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-01-31',-0.6,-3.6,-2.1,0.4,0.0,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-01',7.1,-4.4,1.4,1.8,0.4,1.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-02',-4.5,-8.2,-6.4,0.0,1.4,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-03',6.5,-8.2,-0.9,18.6,0.8,3.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-04',-6.5,-11.9,-9.2,0.0,0.0,0.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-05',0.4,-13.2,-6.4,0.0,0.2,0.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-06',4.9,-6.6,-0.9,12.2,0.0,0.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-07',-4.4,-9.6,-7.0,0.0,0.6,0.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-08',-2.6,-13.4,-8.0,0.0,0.8,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-09',-8.8,-12.1,-10.5,0.0,0.2,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-10',-3.7,-9.2,-6.5,0.0,2.2,2.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-11',-3.8,-9.9,-6.9,0.0,3.6,7.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-12',-1.9,-9.1,-5.5,0.0,31.4,8.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-13',0.8,-5.1,-2.2,0.6,5.9,38.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-14',-3.9,-9.0,-6.5,0.0,0.8,39.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-15',2.5,-13.1,-5.3,1.6,0.0,38.0);</span>
+<span class="go">INSERT INTO "weather" VALUES('2015-02-16',4.0,-6.7,-1.4,10.2,0.6,34.0);</span>
+<span class="go">COMMIT;</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">headers</span> <span class="k">on</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="k">mode</span> <span class="n">columns</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span><span class="p">;</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-01  -3.7        -13.9       -8.8        0.0         0.0         5.0       </span>
+<span class="go">2015-01-02  0.2         -5.5        -2.7        0.6         2.6         4.0       </span>
+<span class="go">2015-01-03  -4.1        -14.0       -9.1        0.0         0.4         6.0       </span>
+<span class="go">2015-01-04  -1.5        -14.4       -8.0        0.0         9.4         6.0       </span>
+<span class="go">2015-01-05  9.4         -2.9        3.3         10.8        0.4         14.0      </span>
+<span class="go">2015-01-06  -3.0        -8.8        -5.9        0.0         0.6         4.0       </span>
+<span class="go">2015-01-07  -6.4        -8.7        -7.6        0.0         3.2         2.0       </span>
+<span class="go">2015-01-08  -6.8        -12.8       -9.8        0.0         24.2        9.0       </span>
+<span class="go">2015-01-09  2.5         -15.3       -6.4        0.0         0.0         29.0      </span>
+<span class="go">2015-01-10  3.6         -7.9        -2.2        7.2         10.0        14.0      </span>
+<span class="go">2015-01-11  -7.1        -12.2       -9.7        0.0         3.4         18.0      </span>
+<span class="go">2015-01-12  0.5         -9.9        -4.7        0.0         7.6         19.0      </span>
+<span class="go">2015-01-13  0.7         -15.2       -7.3        1.2         5.4         24.0      </span>
+<span class="go">2015-01-14  -5.6        -15.3       -10.5       0.0         0.0         25.0      </span>
+<span class="go">2015-01-15  -2.3        -6.6        -4.5        0.0         3.8         24.0      </span>
+<span class="go">2015-01-16  1.7         -3.2        -0.8        1.6         2.4         25.0      </span>
+<span class="go">2015-01-17  1.1         -11.3       -5.1        0.0         12.0        18.0      </span>
+<span class="go">2015-01-18  -4.6        -12.0       -8.3        0.0         0.0         28.0      </span>
+<span class="go">2015-01-19  3.8         -8.1        -2.2        22.8        0.0         28.0      </span>
+<span class="go">2015-01-20  6.3         1.6         4.0         1.2         0.0         14.0      </span>
+<span class="go">2015-01-21  2.4         -7.2        -2.4        0.0         0.0         7.0       </span>
+<span class="go">2015-01-22  -2.5        -7.7        -5.1        0.0         3.6         6.0       </span>
+<span class="go">2015-01-23  1.3         -9.0        -3.9        0.8         10.0        15.0      </span>
+<span class="go">2015-01-24  0.9         -9.4        -4.3        0.2         0.4         17.0      </span>
+<span class="go">2015-01-25  8.9         0.2         4.6         27.0        0.0         12.0      </span>
+<span class="go">2015-01-26  1.8         -7.8        -3.0        0.0         0.0         6.0       </span>
+<span class="go">2015-01-27  -0.3        -10.1       -5.2        7.0         3.0         6.0       </span>
+<span class="go">2015-01-28  10.0        -0.3        4.9         10.6        0.0         6.0       </span>
+<span class="go">2015-01-29  5.4         -4.0        0.7         0.4         0.6         2.0       </span>
+<span class="go">2015-01-30  0.2         -3.8        -1.8        8.8         1.4         3.0       </span>
+<span class="go">2015-01-31  -0.6        -3.6        -2.1        0.4         0.0         2.0       </span>
+<span class="go">2015-02-01  7.1         -4.4        1.4         1.8         0.4         1.0       </span>
+<span class="go">2015-02-02  -4.5        -8.2        -6.4        0.0         1.4         2.0       </span>
+<span class="go">2015-02-03  6.5         -8.2        -0.9        18.6        0.8         3.0       </span>
+<span class="go">2015-02-04  -6.5        -11.9       -9.2        0.0         0.0         0.0       </span>
+<span class="go">2015-02-05  0.4         -13.2       -6.4        0.0         0.2         0.0       </span>
+<span class="go">2015-02-06  4.9         -6.6        -0.9        12.2        0.0         0.0       </span>
+<span class="go">2015-02-07  -4.4        -9.6        -7.0        0.0         0.6         0.0       </span>
+<span class="go">2015-02-08  -2.6        -13.4       -8.0        0.0         0.8         2.0       </span>
+<span class="go">2015-02-09  -8.8        -12.1       -10.5       0.0         0.2         2.0       </span>
+<span class="go">2015-02-10  -3.7        -9.2        -6.5        0.0         2.2         2.0       </span>
+<span class="go">2015-02-11  -3.8        -9.9        -6.9        0.0         3.6         7.0       </span>
+<span class="go">2015-02-12  -1.9        -9.1        -5.5        0.0         31.4        8.0       </span>
+<span class="go">2015-02-13  0.8         -5.1        -2.2        0.6         5.9         38.0      </span>
+<span class="go">2015-02-14  -3.9        -9.0        -6.5        0.0         0.8         39.0      </span>
+<span class="go">2015-02-15  2.5         -13.1       -5.3        1.6         0.0         38.0      </span>
+<span class="go">2015-02-16  4.0         -6.7        -1.4        10.2        0.6         34.0      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find max, min, and mean for the period */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">t_max</span><span class="p">),</span> <span class="k">min</span><span class="p">(</span><span class="n">t_min</span><span class="p">),</span> <span class="k">avg</span><span class="p">(</span><span class="n">t_mean</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">;</span>
+<span class="go">max(t_max)  min(t_min)  avg(t_mean)      </span>
+<span class="go">----------  ----------  -----------------</span>
+<span class="go">10.0        -15.3       -4.38510638297872</span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find total rain, snow */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">sum</span><span class="p">(</span><span class="n">rain</span><span class="p">),</span> <span class="k">sum</span><span class="p">(</span><span class="n">snow</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">;</span>
+<span class="go">sum(rain)   sum(snow) </span>
+<span class="go">----------  ----------</span>
+<span class="go">145.6       153.3     </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find rows with maximun temp */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>    <span class="n">t_max</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">t_max</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">);</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-28  10.0        -0.3        4.9         10.6        0.0         6.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find rows with minimum temp */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>    <span class="n">t_min</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="k">select</span> <span class="k">min</span><span class="p">(</span><span class="n">t_min</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">);</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-09  2.5         -15.3       -6.4        0.0         0.0         29.0      </span>
+<span class="go">2015-01-14  -5.6        -15.3       -10.5       0.0         0.0         25.0      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find rows with maximum mean temp */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>    <span class="n">t_mean</span> <span class="o">=</span> <span class="p">(</span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">t_mean</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">);</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-28  10.0        -0.3        4.9         10.6        0.0         6.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find rows with maximum mean temp for January*/</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>    <span class="n">t_mean</span> <span class="o">=</span> <span class="p">(</span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">t_mean</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">)</span>
+<span class="gp">   ...&gt; </span>    <span class="k">and</span> <span class="nb">date</span> <span class="o">&gt;=</span> <span class="ss">"2015-01-01"</span> <span class="k">and</span> <span class="nb">date</span> <span class="o">&lt;=</span> <span class="ss">"2015-01-31"</span><span class="p">;</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-28  10.0        -0.3        4.9         10.6        0.0         6.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* show rows from first week of Jan */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>     <span class="nb">date</span> <span class="o">&gt;=</span> <span class="ss">"2015-01-01"</span> <span class="k">and</span> <span class="nb">date</span> <span class="o">&lt;=</span> <span class="ss">"2015-01-07"</span><span class="p">;</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-01  -3.7        -13.9       -8.8        0.0         0.0         5.0       </span>
+<span class="go">2015-01-02  0.2         -5.5        -2.7        0.6         2.6         4.0       </span>
+<span class="go">2015-01-03  -4.1        -14.0       -9.1        0.0         0.4         6.0       </span>
+<span class="go">2015-01-04  -1.5        -14.4       -8.0        0.0         9.4         6.0       </span>
+<span class="go">2015-01-05  9.4         -2.9        3.3         10.8        0.4         14.0      </span>
+<span class="go">2015-01-06  -3.0        -8.8        -5.9        0.0         0.6         4.0       </span>
+<span class="go">2015-01-07  -6.4        -8.7        -7.6        0.0         3.2         2.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* find rows with 70% of maximun snow fall */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span>
+<span class="gp">   ...&gt; </span>    <span class="n">snow</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="k">select</span> <span class="k">max</span><span class="p">(</span><span class="n">snow</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span><span class="p">)</span><span class="o">*</span><span class="mi">0</span><span class="p">.</span><span class="mi">70</span><span class="p">;</span>
+<span class="go">date        t_max       t_min       t_mean      rain        snow        total_snow</span>
+<span class="go">----------  ----------  ----------  ----------  ----------  ----------  ----------</span>
+<span class="go">2015-01-08  -6.8        -12.8       -9.8        0.0         24.2        9.0       </span>
+<span class="go">2015-02-12  -1.9        -9.1        -5.5        0.0         31.4        8.0       </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* count number of days where mean &gt;= 0.0 */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="nb">date</span><span class="p">)</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span> <span class="n">t_mean</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="go">count(date)</span>
+<span class="go">-----------</span>
+<span class="go">6          </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* show thoses days */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="nb">date</span><span class="p">,</span><span class="n">t_mean</span> <span class="k">from</span> <span class="n">weather</span> <span class="k">where</span> <span class="n">t_mean</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="go">date        t_mean    </span>
+<span class="go">----------  ----------</span>
+<span class="go">2015-01-05  3.3       </span>
+<span class="go">2015-01-20  4.0       </span>
+<span class="go">2015-01-25  4.6       </span>
+<span class="go">2015-01-28  4.9       </span>
+<span class="go">2015-01-29  0.7       </span>
+<span class="go">2015-02-01  1.4       </span>
+<span class="gp">sqlite&gt; </span>
+</pre></div></dd>
+</dl></div>
+</div>
+<div class="slide">
+<h1>Experiments with SQLITE and bloodpressure</h1>
+<div>
+<p>
+        CSV (Comma Seperated Values) data can be imported into 
+        a SQLITE database. An example of blood pressure data is:
+    </p>
+<h2 class="src-name"><a href="bp.csv">bp.csv</a></h2>
+<div class="highlight"><pre>1,rod,1361359560000,123.0,82.0,68
+2,rod,1361359860000,125.0,86.0,58
+3,rod,1361360860000,126.0,81.0,70
+</pre></div>
+<p>
+        A table can be created and the data imported with:
+    </p>
+<dl class="runcommand">
+<dt>Script:</dt>
+<dd><div class="highlight"><pre><span class="go">SQLite version 3.8.2 2013-12-06 14:53:30</span>
+<span class="go">Enter ".help" for instructions</span>
+<span class="go">Enter SQL statements terminated with a ";"</span>
+<span class="gp">sqlite&gt; </span><span class="k">create</span> <span class="k">table</span> <span class="n">bloodpressure</span> <span class="p">(</span><span class="n">rowid</span> <span class="nb">integer</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+<span class="gp">   ...&gt; </span>    <span class="k">user</span> <span class="nb">text</span><span class="p">,</span> <span class="k">timestamp</span> <span class="nb">integer</span><span class="p">,</span> <span class="n">systolic</span> <span class="nb">real</span><span class="p">,</span>
+<span class="gp">   ...&gt; </span>    <span class="n">diastolic</span> <span class="nb">real</span><span class="p">,</span> <span class="n">pulseRate</span> <span class="nb">real</span><span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="k">mode</span> <span class="n">csv</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">import</span> <span class="n">bp</span><span class="p">.</span><span class="n">csv</span> <span class="n">bloodpressure</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="k">mode</span> <span class="k">column</span>
+<span class="gp">sqlite&gt; </span><span class="p">.</span><span class="n">headers</span> <span class="k">on</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bloodpressure</span><span class="p">;</span>
+<span class="go">rowid       user        timestamp      systolic    diastolic   pulseRate </span>
+<span class="go">----------  ----------  -------------  ----------  ----------  ----------</span>
+<span class="go">1           rod         1361359560000  123.0       82.0        68.0      </span>
+<span class="go">2           rod         1361359860000  125.0       86.0        58.0      </span>
+<span class="go">3           rod         1361360860000  126.0       81.0        70.0      </span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="n">rowid</span><span class="p">,</span> <span class="n">datetime</span><span class="p">(</span><span class="k">timestamp</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span><span class="ss">"unixepoch"</span><span class="p">)</span>
+<span class="gp">   ...&gt; </span>    <span class="k">from</span> <span class="n">bloodpressure</span><span class="p">;</span>
+<span class="go">rowid       datetime(timestamp/1000,"unixepoch")</span>
+<span class="go">----------  ------------------------------------</span>
+<span class="go">1           2013-02-20 11:26:00                 </span>
+<span class="go">2           2013-02-20 11:31:00                 </span>
+<span class="go">3           2013-02-20 11:47:40                 </span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">user</span><span class="p">,</span> <span class="n">systolic</span><span class="p">,</span> <span class="n">diastolic</span> <span class="k">from</span> <span class="n">bloodpressure</span> <span class="k">where</span> <span class="k">user</span><span class="o">=</span><span class="ss">"rod"</span><span class="p">;</span>
+<span class="go">user        systolic    diastolic </span>
+<span class="go">----------  ----------  ----------</span>
+<span class="go">rod         123.0       82.0      </span>
+<span class="go">rod         125.0       86.0      </span>
+<span class="go">rod         126.0       81.0      </span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="k">avg</span><span class="p">(</span><span class="n">systolic</span><span class="p">),</span> <span class="k">avg</span><span class="p">(</span><span class="n">diastolic</span><span class="p">),</span> <span class="k">avg</span><span class="p">(</span><span class="n">pulseRate</span><span class="p">)</span>
+<span class="gp">   ...&gt; </span>    <span class="k">from</span> <span class="n">bloodpressure</span> <span class="k">where</span> <span class="k">user</span> <span class="o">=</span> <span class="ss">"rod"</span><span class="p">;</span>
+<span class="go">avg(systolic)     avg(diastolic)  avg(pulseRate)  </span>
+<span class="go">----------------  --------------  ----------------</span>
+<span class="go">124.666666666667  83.0            65.3333333333333</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bloodpressure</span> <span class="k">where</span> <span class="n">pulseRate</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="k">and</span> <span class="n">pulseRate</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">;</span>
+<span class="go">rowid       user        timestamp      systolic    diastolic   pulseRate </span>
+<span class="go">----------  ----------  -------------  ----------  ----------  ----------</span>
+<span class="go">1           rod         1361359560000  123.0       82.0        68.0      </span>
+<span class="go">2           rod         1361359860000  125.0       86.0        58.0      </span>
+<span class="gp">sqlite&gt; </span><span class="cm">/* show time */</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="n">strftime</span><span class="p">(</span><span class="s1">'%s'</span><span class="p">,</span> <span class="s1">'now'</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="go">strftime('%s', 'now') * 1000</span>
+<span class="go">----------------------------</span>
+<span class="go">1425479300000               </span>
+<span class="gp">sqlite&gt; </span><span class="k">insert</span> <span class="k">into</span> <span class="n">bloodpressure</span> <span class="k">values</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">'dor'</span><span class="p">,</span> 
+<span class="gp">   ...&gt; </span>    <span class="n">strftime</span><span class="p">(</span><span class="s1">'%s'</span><span class="p">,</span> <span class="s1">'now'</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">60</span><span class="p">);</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bloodpressure</span><span class="p">;</span>
+<span class="go">rowid       user        timestamp      systolic    diastolic   pulseRate </span>
+<span class="go">----------  ----------  -------------  ----------  ----------  ----------</span>
+<span class="go">1           rod         1361359560000  123.0       82.0        68.0      </span>
+<span class="go">2           rod         1361359860000  125.0       86.0        58.0      </span>
+<span class="go">3           rod         1361360860000  126.0       81.0        70.0      </span>
+<span class="go">4           dor         1425479300000  120.0       80.0        60.0      </span>
+<span class="gp">sqlite&gt; </span><span class="k">delete</span> <span class="k">from</span> <span class="n">bloodpressure</span> <span class="k">where</span> <span class="k">user</span> <span class="o">=</span> <span class="ss">"rod"</span><span class="p">;</span>
+<span class="gp">sqlite&gt; </span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bloodpressure</span><span class="p">;</span>
+<span class="go">rowid       user        timestamp      systolic    diastolic   pulseRate </span>
+<span class="go">----------  ----------  -------------  ----------  ----------  ----------</span>
+<span class="go">4           dor         1425479300000  120.0       80.0        60.0      </span>
+<span class="gp">sqlite&gt; </span>
+</pre></div></dd>
+</dl>
+<p>
+        Most SQL statements apply to all rows in the table.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

@@ -1,0 +1,17 @@
+div.arena {
+    position : relative;
+    paddding : 0em;
+    border : 2px blue solid;
+    height : 300px;
+    width : 350px;
+}
+
+div.arena span {
+    display : block; /* not necessary */
+    position : absolute;
+    top: 10mm;
+    left: 40mm;
+    background: #FD9; border : #FD9 thin outset;
+    white-space: nowrap;
+}
+

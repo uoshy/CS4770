@@ -1,0 +1,43 @@
+div.controls {
+    display : block;
+    margin-top: 1em;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+div.controls label {
+    margin-left:1em;
+    border: 4px blue solid;
+    padding: 0.25em;
+    background: #FD8;
+    white-space: nowrap;
+    line-height: 2.8em; 
+}
+div.controls select {
+    margin-left:0.2em;
+    background : white;
+}
+
+div.controls select:focus {
+    background : #005;
+    color : white;
+}
+
+code.jss {
+    background : #FDD;
+    border: 1px #FCC outset;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+code.css {
+    background : #FCE;
+    border: 1px #FCE outset;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+div#format-area {
+    margin-top: 2em;
+    margin-left: 5%;
+    margin-right: 5%;
+}

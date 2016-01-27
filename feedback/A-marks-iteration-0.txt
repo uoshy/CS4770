@@ -1,0 +1,45 @@
+Group A
+
+Domain Model:  Good.
+
+Data Dictionary:  Very nice.  You might consider adding actions (verbs) that are used
+in the user stories and use cases.
+
+DM & DD:  28/30
+
+User stories: Good.
+
+Some desirable features are missing. Can a student run tests?  Can they create files? Can they see the feedback from the instructor and marker?
+
+Use cases:  Mostly well done. 
+
+The sequence diagrams are bleeding over to high-level design as they deal with messaging internal to the system.  Consider moving.
+
+I found a few parts a bit confusing. For "Use Text Editor" the starting point seems odd. I would have expected the student to be at an assignment page before using the editor, same as the instructor.
+
+Be sure preconditions represent starting states.  I suggest a finite set of pre- (and post-) conditions.  "The cloud are capable of executing files written by multiple languages(Java, C, C++,etc)." is not a precondition." is not a precondition. "User must keep the files in the appropriate locations in the account." is not a postcondition.
+
+
+Sequence diagrams/state charts: The state charts are good. The sequence diagrams belong more in high-level design.
+
+An overview statechart in which the transitions are use cases, might be nice.
+
+US, UC, & SD:  25 /30
+
+Wireframes:  Good.
+
+ 9 / 10
+
+Test plan/Technology selection:  Good.
+
+ 9 / 10
+
+Work plan: Good.
+
+ 9 / 10
+
+Presentation: Good.
+
+ 9 / 10
+
+89 / 100

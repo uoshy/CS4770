@@ -1,0 +1,2047 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-02-24T09:13:41-03:30, Rod Byrne --><title>js-intro</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Javascript control statements</h1>
+<div>
+<ul>
+<li>
+            Most of the expressions and control statements
+            in Javascript have the same form as C, C++, or Java.
+        </li>
+<li>
+            Unlike C or Java, Javascript's variables are not typed,
+            a variable can hold a number, a string, or an
+            object at different times.
+        </li>
+<li>Firefox provides the Javascript console which is 
+            essential in debugging Javascript code.
+        </li>
+</ul>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/control-statements.html">examples/control-statements.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Control Statements<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="c">&lt;!-- this uses old style page creation </span>
+<span class="c">     and should be avoided --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">"&lt;pre&gt;"</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nx">i</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="p">);</span>
+<span class="p">}</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">"&lt;/pre&gt;"</span><span class="p">)</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+       While this page and the next set demonstrate features of Javascript,
+       they are not good examples of production quality Javascript code.
+       In general, most Javascript code should only appear in the 
+       <code>head</code> element. Also, these examples are not proper XHTML.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>almost all javascript statements</h1>
+<div>
+<p>
+        Javascript supports the following statements:
+    </p>
+<ul>
+<li> var x = E </li>
+<li> S </li>
+<li> if ( C ) S </li>
+<li> if ( C ) S else S</li>
+<li> while ( C ) S </li>
+<li> for ( init; C; incr ) S </li>
+<li> for ( var o in x ) S </li>
+<li> do S while ( C )</li>
+<li> switch ( E ) { case E1: S... case E2: S... default: ...} </li>
+<li> break, break label </li>
+<li> continue, continue label </li>
+<li> return </li>
+<li> E(args...) </li>
+<li> { S1; S2... } </li>
+<li> throw</li>
+<li> try S catch ( V ) S </li>
+<li> function foo(x) { } </li>
+<li> foo = function (x) { } </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>data types</h1>
+<div>
+<p>
+        Javascript supports the following data types:
+    </p>
+<dl>
+<dt>numbers</dt>
+<dd>
+           represented by floating point, but integer operations are defined,
+        </dd>
+<dt>strings</dt>
+<dd>
+            an immutable sequence of Unicode characters, the
+            length of the string is given by the length attribute,
+        </dd>
+<dt>boolean</dt>
+<dd>
+            the result of relation operator can be true or false,
+            boolean can be convert to numbers, true = 1, false = 0,
+        </dd>
+<dt>functions</dt>
+<dd>
+            functions can be created, assigned and passed as arguments,
+        </dd>
+<dt>objects</dt>
+<dd>
+           an object is a collection of named values
+           (a Map in java, a dictionary in python),
+        </dd>
+<dt>arrays</dt>
+<dd>
+            an array is a collection of values accessed by
+            indexes starting at 0, an array entry can
+            store any value (e.g., number, function, object, arrays),
+            arrays are objects that use integers as keys,
+        </dd>
+<dt>null</dt>
+<dd>
+             stands for an <em>empty</em> value,
+        </dd>
+<dt>undefined</dt>
+<dd>
+            any variable that has not been assigned a value has
+            the <code>undefined</code> value,
+        </dd>
+<dt>regular expressions</dt>
+<dd>
+            regular expressions are used to match patterns in text
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Expression evaluation</h1>
+<div>
+<p>
+         Evaluating the following javascript expressions
+         yields the following results.
+    </p>
+<ul>
+<li><code><span style="color:blue">pi = Math.PI</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "pi = Math.PI" ) );</script></span></code></li>
+<li><code><span style="color:blue">pi2 = pi / 2</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "pi2 = pi / 2" ) );</script></span></code></li>
+<li><code><span style="color:blue">Math.sin( pi2 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "Math.sin( pi2 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">Math.cos( pi2 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "Math.cos( pi2 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">i = 0x12f // bitwise operation</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "i = 0x12f // bitwise operation" ) );</script></span></code></li>
+<li><code><span style="color:blue">i &amp; 0xf0</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "i & 0xf0" ) );</script></span></code></li>
+<li><code><span style="color:blue">s0 = "hi" + ' there' + "!"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "s0 = \"hi\" + ' there' + \"!\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">x = '2.5'</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "x = '2.5'" ) );</script></span></code></li>
+<li><code><span style="color:blue">y = 3.0 * x // automatic conversion from string to number</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "y = 3.0 * x // automatic conversion from string to number" ) );</script></span></code></li>
+<li><code><span style="color:blue">a = [ 2, 4, 6]</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a = [ 2, 4, 6]" ) );</script></span></code></li>
+<li><code><span style="color:blue">a[2]</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a[2]" ) );</script></span></code></li>
+<li><code><span style="color:blue">a[1] = a[0] * 7</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a[1] = a[0] * 7" ) );</script></span></code></li>
+<li><code><span style="color:blue">a</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a" ) );</script></span></code></li>
+<li><code><span style="color:blue">100 &lt; 66</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "100 < 66" ) );</script></span></code></li>
+<li><code><span style="color:blue">"abc" == "abc"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "\"abc\" == \"abc\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">"abc" == "ab"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "\"abc\" == \"ab\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj = {name: 'foo', number : 7781, course:'3715' }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj = {name: 'foo', number : 7781, course:'3715' }" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj.name</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj.name" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj.number</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj.number" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj.course</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj.course" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj.reg = true</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj.reg = true" ) );</script></span></code></li>
+<li><code><span style="color:blue">obj.reg</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "obj.reg" ) );</script></span></code></li>
+<li><code><span style="color:blue">f = function(x) { return Math.PI*x; }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "f = function(x) { return Math.PI*x; }" ) );</script></span></code></li>
+<li><code><span style="color:blue">f( 1 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "f( 1 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">foo</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "foo" ) );</script></span></code></li>
+<li><code><span style="color:blue">foo == undefined</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "foo == undefined" ) );</script></span></code></li>
+<li><code><span style="color:blue">foo = null</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "foo = null" ) );</script></span></code></li>
+<li><code><span style="color:blue">foo</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "foo" ) );</script></span></code></li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>a list of colours</h1>
+<div>
+<p>
+        Produces a list of colours and demonstrates arrays.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/colours.html">examples/colours.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Arrays<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="kd">var</span> <span class="nx">colours</span> <span class="o">=</span>
+    <span class="p">[</span> <span class="s1">'aqua'</span><span class="p">,</span> <span class="s2">"black"</span><span class="p">,</span> <span class="s1">'blue'</span><span class="p">,</span> <span class="s2">"fuchsia"</span><span class="p">,</span> <span class="s1">'gray'</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span>
+      <span class="s1">'lime'</span><span class="p">,</span> <span class="s2">"maroon"</span><span class="p">,</span> <span class="s2">"navy"</span><span class="p">,</span> <span class="s1">'olive'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s2">"purple"</span><span class="p">,</span>
+      <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"silver"</span><span class="p">,</span> <span class="s2">"teal"</span><span class="p">,</span> <span class="s2">"white"</span><span class="p">,</span> <span class="s2">"yellow"</span> <span class="p">];</span>
+
+<span class="kd">function</span> <span class="nx">colourTR</span><span class="p">(</span> <span class="nx">tab</span><span class="p">,</span> <span class="nx">from</span><span class="p">,</span> <span class="nx">to</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">tr</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">from</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">to</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">td</span> <span class="o">=</span> <span class="s2">"&lt;td style='background:"</span> <span class="o">+</span> <span class="nx">colours</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"'&gt;"</span> <span class="o">+</span>
+           <span class="nx">colours</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"&lt;/td&gt;"</span><span class="p">;</span>
+        <span class="nx">tr</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">+=</span> <span class="nx">td</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">td</span> <span class="p">);</span> <span class="c1">// debugging</span>
+    <span class="p">}</span>
+    <span class="nx">tab</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">tr</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">createColors</span><span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'thetable'</span><span class="p">);</span>
+    <span class="nx">colourTR</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span> <span class="p">);</span>
+    <span class="nx">colourTR</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">12</span> <span class="p">);</span>
+    <span class="nx">colourTR</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">17</span> <span class="p">);</span>
+<span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s1">'load'</span><span class="p">,</span> <span class="nx">createColors</span> <span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;table</span> <span class="na">id=</span><span class="s">"thetable"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<ul>
+<li>
+            Array literals are contained in <code>[ i1, i2, ... ]</code>.
+        </li>
+<li>
+           Functions are created with <code>function</code> name 
+           <code>( args..) { </code> body <code> } </code>.
+        </li>
+<li>
+            Single or double quotes can be used to define strings.
+        </li>
+<li>
+           Scripts are evaluated while the HTML pages is being rendered.
+        </li>
+<li>
+            This sample page is <b>not</b> a legal XHTML document.
+            Why?
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>array methods</h1>
+<div>
+<p>
+        The array in Javascript is similar to an array in Perl.
+        Some of the operations and attributes supported by an array are:
+    </p>
+<dl>
+<dt><tt>length</tt></dt>
+<dd>
+            the number of elements in the array
+        </dd>
+<dt><tt>concat(value, ...)</tt></dt>
+<dd>
+            Append the arguments to the end of the array.
+            The elements of an array are appended.
+        </dd>
+<dt><tt>join(str)</tt></dt>
+<dd>
+            produce a string where all the elements are converted
+            to strings and joined with copies of str
+        </dd>
+<dt><tt>pop()</tt></dt>
+<dd>
+            remove and return the last element
+        </dd>
+<dt><tt>push(e)</tt></dt>
+<dd>
+             append e to the end
+        </dd>
+<dt><tt>reverse()</tt></dt>
+<dd>
+            reverse the array in place
+        </dd>
+<dt><tt>shift()</tt></dt>
+<dd>
+            remove and return the first element of the array
+        </dd>
+<dt><tt>slice(start, end)</tt></dt>
+<dd>
+            return a subarray from start up to end (the last element is
+            just before end)
+        </dd>
+<dt><tt>sort(), sort( compare )</tt></dt>
+<dd>
+            sort the array in ascending order
+        </dd>
+<dt><tt>splice(start, deleteCount, value, ... )</tt></dt>
+<dd>
+             Delete the deleteCount elements from the array,
+             and insert the arguments starting with value in
+             the array starting at index. The deleted elements
+             are returned.
+        </dd>
+<dt><tt>unshift(e)</tt></dt>
+<dd>
+            insert e at the front of the array
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Experimenting with arrays</h1>
+<div>
+<p>
+        An example session that experiments with arrays is:
+    </p>
+<ul>
+<li><code><span style="color:blue"> a = ['red', 'green', 'blue', 'one' ]</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( " a = ['red', 'green', 'blue', 'one' ]" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.length" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.join( '---' )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.join( '---' )" ) );</script></span></code></li>
+<li><code><span style="color:blue"> a.pop()</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( " a.pop()" ) );</script></span></code></li>
+<li><code><span style="color:blue">a</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.push('two')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.push('two')" ) );</script></span></code></li>
+<li><code><span style="color:blue">a</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.reverse()</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.reverse()" ) );</script></span></code></li>
+<li><code><span style="color:blue">a</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.shift()</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.shift()" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.unshift('three')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.unshift('three')" ) );</script></span></code></li>
+<li><code><span style="color:blue">a</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.sort()</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.sort()" ) );</script></span></code></li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>generate a month calendar</h1>
+<div>
+<p>
+        The following Javascript computes a monthly calendar.
+        The function <code>monthCalendar</code> does
+        the calculations, and the function <code>genCalendar</code>
+        produce a HTML table containing the calendar for a month.
+    </p>
+<h2 class="src-name"><a href="examples/monthCalendar.js">examples/monthCalendar.js</a></h2>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * calcuate the number of days in the month.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">daysInMonth</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">daysInMonth</span><span class="p">.</span><span class="nx">days</span><span class="p">[</span> <span class="nx">month</span> <span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">month</span> <span class="o">!=</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">400</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">daysInMonth</span><span class="p">.</span><span class="nx">days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">];</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Return an array of weeks, each week is an array of dates</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">monthCalendar</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">)</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getDay</span><span class="p">()</span> <span class="c1">// 0:Sun .. 6:Sat</span>
+
+    <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="c1">// add empty days for first week</span>
+    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span>  <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">first</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">date</span><span class="o">++</span> <span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">cal</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">var</span> <span class="nx">noDays</span> <span class="o">=</span> <span class="nx">daysInMonth</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">offset</span> <span class="o">=</span> <span class="nx">first</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span> <span class="nx">date</span> <span class="o">&lt;=</span> <span class="nx">noDays</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">((</span><span class="nx">date</span><span class="o">+</span><span class="nx">offset</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">cal</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">w</span> <span class="p">);</span>
+            <span class="nx">w</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="p">}</span>
+        <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">date</span><span class="o">++</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// finish week</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">w</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span>  <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+        <span class="nx">cal</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">w</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">cal</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">genCalendar</span><span class="p">(</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">cal</span> <span class="o">=</span> <span class="nx">monthCalendar</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">dayName</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Sun"</span><span class="p">,</span> <span class="s2">"Mon"</span><span class="p">,</span> <span class="s2">"Tue"</span><span class="p">,</span> <span class="s2">"Wed"</span><span class="p">,</span> <span class="s2">"Thu"</span><span class="p">,</span> <span class="s2">"Fri"</span><span class="p">,</span> <span class="s2">"Sat"</span> <span class="p">];</span>
+    <span class="nx">cal</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">dayName</span> <span class="p">);</span> <span class="c1">// add headers</span>
+    <span class="nx">doc</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">"&lt;table class='calendar'&gt;"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">weeks</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">weeks</span> <span class="o">&lt;</span> <span class="nx">cal</span><span class="p">.</span><span class="nx">length</span> <span class="p">;</span> <span class="nx">weeks</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">week</span> <span class="o">=</span> <span class="nx">cal</span><span class="p">[</span><span class="nx">weeks</span><span class="p">];</span>
+        <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"&lt;tr&gt;"</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">d</span> <span class="o">&lt;</span> <span class="mi">7</span> <span class="p">;</span> <span class="nx">d</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"&lt;td&gt;"</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">week</span><span class="p">[</span><span class="nx">d</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span> <span class="nx">s</span> <span class="o">=</span> <span class="s1">' '</span><span class="p">;</span>
+            <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span> <span class="nx">s</span> <span class="p">);</span>
+            <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"&lt;/td&gt;"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">doc</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">"&lt;/tr&gt;"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">doc</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="s2">"&lt;/table&gt;"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>calendar demo</h1>
+<div>
+<p>
+        The <code>monthCalendar</code> function can be used
+        to create calendars.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/calendar.html">examples/calendar.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Calendar<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"monthCalendar.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+<span class="nt">table</span><span class="nc">.calendar</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+    <span class="k">margin-right</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+    <span class="k">border-collapse</span><span class="o">:</span> <span class="k">collapse</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">table</span><span class="nc">.calendar</span> <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">2.2em</span><span class="p">;</span>
+    <span class="k">height</span><span class="o">:</span> <span class="m">2.2em</span><span class="p">;</span>
+    <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">h2</span> <span class="p">{</span> <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h2&gt;</span>March 2015<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="nx">genCalendar</span><span class="p">(</span> <span class="nb">document</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2</span> <span class="p">)</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>More array experiments</h1>
+<div>
+<p>
+        The concat, splice, and slice are also useful methods.
+    </p>
+<ul>
+<li><code><span style="color:blue">a = [2, 4, 6]</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a = [2, 4, 6]" ) );</script></span></code></li>
+<li><code><span style="color:blue">b = [1,3,5,7]</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "b = [1,3,5,7]" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.length" ) );</script></span></code></li>
+<li><code><span style="color:blue">b.length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "b.length" ) );</script></span></code></li>
+<li><code><span style="color:blue">c = a.concat( b )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "c = a.concat( b )" ) );</script></span></code></li>
+<li><code><span style="color:blue">d = c.concat( 10, 20, 30 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "d = c.concat( 10, 20, 30 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">d.splice( 3, 4, 'a', 'b' )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "d.splice( 3, 4, 'a', 'b' )" ) );</script></span></code></li>
+<li><code><span style="color:blue">d</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "d" ) );</script></span></code></li>
+<li><code><span style="color:blue">c.slice( 3, 6)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "c.slice( 3, 6)" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.sort</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.sort" ) );</script></span></code></li>
+<li><code><span style="color:blue">a.join</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a.join" ) );</script></span></code></li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>string method</h1>
+<div>
+<p>
+        The string, String object, in Javascript has similar methods
+        as Java. Some of the methods and attributes are:
+    </p>
+<dl>
+<dt><tt>length</tt></dt>
+<dd>
+            number of characters
+        </dd>
+<dt><tt>charAt(index)</tt></dt>
+<dd>
+            return the char at index (e.g., str.charAt(1) ),
+            there are no character in Javascript, thus 
+            a string of length one is returned 
+        </dd>
+<dt><tt>concat(args, ...)</tt></dt>
+<dd>
+            return the concatenated strings (e.g., str.concat('foo')
+            returns the concatenation of str with 'foo')
+        </dd>
+<dt><tt>replace(regexp,replace)</tt></dt>
+<dd>
+            replace the regexp in str with replace
+        </dd>
+<dt><tt>split(delimiter, limit)</tt></dt>
+<dd>
+            split the string in up to limit substrings by the delimiter.
+        </dd>
+<dt><tt>substr(start, length)</tt></dt>
+<dd>
+            returns the substring at the start index of the given length
+        </dd>
+<dt><tt>search(regexp)</tt></dt>
+<dd>
+            return the index of the substring that matches the regexp,
+            return -1 if there is no match
+        </dd>
+<dt><tt>escape(str)</tt></dt>
+<dd>
+            return an string using the URL encoding, this
+            method has been replaced by <tt>encodeURI(URI)</tt>.
+        </dd>
+<dt><tt>unescape(str)</tt></dt>
+<dd>
+            return a string where the URL encoding is reversed,
+            this method has been replaced by <tt>decodeURI(URI)</tt>.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>String experiments</h1>
+<div>
+<p>
+        A session with string experiments is:
+    </p>
+<ul>
+<li><code><span style="color:blue">str = "abcdefghi"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str = \"abcdefghi\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.length" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.charAt(2) // a string with 1 element</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.charAt(2) // a string with 1 element" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.substr(1,4)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.substr(1,4)" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.replace("b", "BBB")</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.replace(\"b\", \"BBB\")" ) );</script></span></code></li>
+<li><code><span style="color:blue">str = "The quick brown fox"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str = \"The quick brown fox\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.replace(' ', '_')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.replace(' ', '_')" ) );</script></span></code></li>
+<li><code><span style="color:blue">str.replace( / /g, '_' )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str.replace( / /g, '_' )" ) );</script></span></code></li>
+<li><code><span style="color:blue">n = "a=34 b=111 c=981"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "n = \"a=34 b=111 c=981\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">n.replace( /([0-9]+)/g, " ($1) ")</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "n.replace( /([0-9]+)/g, \" ($1) \")" ) );</script></span></code></li>
+<li><code><span style="color:blue">path = "/home/rod/Winter2015/3715"</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path = \"/home/rod/Winter2015/3715\"" ) );</script></span></code></li>
+<li><code><span style="color:blue">path.split('/')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path.split('/')" ) );</script></span></code></li>
+<li><code><span style="color:blue">path.split('/').length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path.split('/').length" ) );</script></span></code></li>
+<li><code><span style="color:blue">p = path.replace('/', '' )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "p = path.replace('/', '' )" ) );</script></span></code></li>
+<li><code><span style="color:blue">q = p.split('/')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "q = p.split('/')" ) );</script></span></code></li>
+<li><code><span style="color:blue">l = q.slice(q.length-1)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "l = q.slice(q.length-1)" ) );</script></span></code></li>
+<li><code><span style="color:blue">l.length</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "l.length" ) );</script></span></code></li>
+<li><code><span style="color:blue">path</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path" ) );</script></span></code></li>
+<li><code><span style="color:blue">path.lastIndexOf('/')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path.lastIndexOf('/')" ) );</script></span></code></li>
+<li><code><span style="color:blue">path.substr(path.lastIndexOf('/'))</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path.substr(path.lastIndexOf('/'))" ) );</script></span></code></li>
+<li><code><span style="color:blue">path.substr(path.lastIndexOf('/')+1)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "path.substr(path.lastIndexOf('/')+1)" ) );</script></span></code></li>
+<li><code><span style="color:blue">ee = escape('hi there/"bye?"')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "ee = escape('hi there/\"bye?\"')" ) );</script></span></code></li>
+<li><code><span style="color:blue">unescape(ee)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "unescape(ee)" ) );</script></span></code></li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>objects in Javascript</h1>
+<div>
+<p>
+        An object is created with <code>new Object()</code>
+        or <tt>{ } </tt>.
+        Objects store properties and values. 
+        Objects can be implemented with hash tables.
+        Some operations on objects are demonstrated by:
+    </p>
+<ul>
+<li><code><span style="color:blue">o = new Object()</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o = new Object()" ) );</script></span></code></li>
+<li><code><span style="color:blue">o.a = 4</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o.a = 4" ) );</script></span></code></li>
+<li><code><span style="color:blue">o['a']</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o['a']" ) );</script></span></code></li>
+<li><code><span style="color:blue">o.hasOwnProperty('a')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o.hasOwnProperty('a')" ) );</script></span></code></li>
+<li><code><span style="color:blue">o['bb'] = 'hi there'</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o['bb'] = 'hi there'" ) );</script></span></code></li>
+<li><code><span style="color:blue">o.bb</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o.bb" ) );</script></span></code></li>
+<li><code><span style="color:blue">o.my_property = o</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o.my_property = o" ) );</script></span></code></li>
+<li><code><span style="color:blue">o.hasOwnProperty('my_property')</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "o.hasOwnProperty('my_property')" ) );</script></span></code></li>
+<li><code><span style="color:blue">str='';for(a in o) str += 'o.'+a+'='+o[a]+' '; str</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "str='';for(a in o) str += 'o.'+a+'='+o[a]+' '; str" ) );</script></span></code></li>
+<li><code><span style="color:blue">p = { x : 7, y : 10 }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "p = { x : 7, y : 10 }" ) );</script></span></code></li>
+<li><code><span style="color:blue">p.x</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "p.x" ) );</script></span></code></li>
+<li><code><span style="color:blue">p.z = 9</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "p.z = 9" ) );</script></span></code></li>
+</ul>
+<ul>
+<li>
+            Literal objects are created with:
+            <div class="highlight"><pre><span class="p">{</span> <span class="nx">name</span> <span class="o">:</span> <span class="nx">value</span><span class="p">,</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</li>
+<li>
+            The method, <code>hasOwnProperty( name )</code>, checks
+            if an object has the named property.
+        </li>
+<li>
+            A new property and value is added to the object with:
+            <code><blockquote class="code">
+<em>obj</em>.<em>property</em> = <em>value</em><br>
+                or<br><em>obj</em>[<em>property-as-string</em>] = <em>value</em>
+</blockquote></code>
+</li>
+<li>
+            Values are retrieved with:
+            <code><blockquote class="code">
+<em>obj</em>.<em>property</em> or 
+                <em>obj</em>[<em>property-as-string</em>]
+            </blockquote></code>
+</li>
+<li>
+            The listable properties of an object are listed with
+            <div class="highlight"><pre><span class="nx">str</span><span class="o">=</span><span class="s1">''</span><span class="p">;</span><span class="k">for</span><span class="p">(</span><span class="nx">a</span> <span class="k">in</span> <span class="nx">o</span><span class="p">)</span> <span class="nx">str</span> <span class="o">+=</span>  <span class="s1">'o.'</span> <span class="o">+</span> <span class="nx">a</span> <span class="o">+</span> <span class="s1">'='</span> <span class="o">+</span> <span class="nx">o</span><span class="p">[</span><span class="nx">a</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' '</span><span class="p">;</span> <span class="nx">str</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Function experiments</h1>
+<div>
+<p>
+        Functions can be created, called, passed as arguments,
+        and return after being created.
+    </p>
+<ul>
+<li><code><span style="color:blue">function half(x) { return x / 2 ; }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "function half(x) { return x / 2 ; }" ) );</script></span></code></li>
+<li><code><span style="color:blue">half</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "half" ) );</script></span></code></li>
+<li><code><span style="color:blue">half = function ( x )  { return x / 2 ; }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "half = function ( x )  { return x / 2 ; }" ) );</script></span></code></li>
+<li><code><span style="color:blue">half(3)</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "half(3)" ) );</script></span></code></li>
+<li><code><span style="color:blue">function apply( f, x ) { return f(x); }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "function apply( f, x ) { return f(x); }" ) );</script></span></code></li>
+<li><code><span style="color:blue">apply( half, 3.0 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "apply( half, 3.0 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">half.doc = 'returns half of the argument'</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "half.doc = 'returns half of the argument'" ) );</script></span></code></li>
+<li><code><span style="color:blue">half.doc</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "half.doc" ) );</script></span></code></li>
+<li><code><span style="color:blue">function mkAdd( x ) { return function(y) { return x+y;} }</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "function mkAdd( x ) { return function(y) { return x+y;} }" ) );</script></span></code></li>
+<li><code><span style="color:blue">a8 = mkAdd( 8 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a8 = mkAdd( 8 )" ) );</script></span></code></li>
+<li><code><span style="color:blue"> a8( 1 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( " a8( 1 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">a2 = mkAdd( 2 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a2 = mkAdd( 2 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">a2( 3 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a2( 3 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">a8( 1 )</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a8( 1 )" ) );</script></span></code></li>
+<li><code><span style="color:blue">a8</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a8" ) );</script></span></code></li>
+<li><code><span style="color:blue">a2</span>  <span style="color:gray">is</span>  <span style="color:red"><script>document.write( eval( "a2" ) );</script></span></code></li>
+</ul>
+<p>
+        When a functions is created inside of other function,
+        the a reference to the local environment is preserved.
+        A local environment contains all the variables and
+        their values.
+        This is called a closure.
+        These perserved variables can now still be changed.
+        Closure are often used to create <em>event handlers</em></p>
+</div>
+</div>
+<div class="slide">
+<h1>closure</h1>
+<div>
+<p>
+         A closure is created when a function is defined inside of
+         an outer function, and that inner function is returned
+         from the outer function. All of the variables defined
+         in the outer function are accessible from the inner function.
+         When the inner function is called, the values of the variables
+         defined in that outer function assume that same values 
+         as when the inner function was returned.
+         For example:
+    </p>
+<h2 class="src-name"><a href="closure.js">closure.js</a></h2>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">mkSubstitue</span><span class="p">(</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">s</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="s2">"g"</span><span class="p">),</span> <span class="nx">y</span> <span class="p">);</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="nx">sub1</span> <span class="o">=</span> <span class="nx">mkSubstitue</span><span class="p">(</span> <span class="s2">"cat"</span><span class="p">,</span> <span class="s2">"dog"</span> <span class="p">)</span>
+<span class="nx">sub1</span><span class="p">(</span><span class="s2">"the cat is an old cat"</span> <span class="p">)</span>
+
+<span class="nx">sub2</span> <span class="o">=</span> <span class="nx">mkSubstitue</span><span class="p">(</span> <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"blue"</span> <span class="p">)</span>
+<span class="nx">sub2</span><span class="p">(</span><span class="s2">"the red car is reduced"</span> <span class="p">)</span>
+</pre></div>
+<p>
+         The <tt>mkSubstitue(x,y)</tt> function returns
+         a function that substitutes all occurrences of x with y.
+         <tt>sub1</tt> replaces all occurrences of
+         <tt>cat</tt> with <tt>dog</tt>.
+         <tt>sub2</tt> replaces all occurrences of
+         <tt>red</tt> with <tt>blue</tt>.
+    </p>
+<p>
+        In <tt>sub1</tt>, <tt>x</tt> is  <tt>'cat'</tt>
+        and  <tt>y</tt> is  <tt>'dog'</tt>.
+        In <tt>sub2</tt>, <tt>x</tt> is  <tt>'red'</tt>
+        and  <tt>y</tt> is  <tt>'blue'</tt>.
+    </p>
+<p>
+        Consider
+    </p>
+<div class="highlight"><pre><span class="nx">req</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">req</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+           <span class="nx">displayResult</span><span class="p">(</span> <span class="nx">req</span> <span class="p">)</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+</pre></div>
+<p><tt>req.onreadystatechange</tt> is set to
+        a function where <tt>req</tt> is set to the 
+        value of the <em>XMLHttpRequest</em> object.
+    </p>
+<p>
+        A <em>kind-of</em> closure can be create in Java with
+        an anonymous inner class defined inside of a method.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>closure</h1>
+<div>
+<p>
+        The variables that are captured in a closure are still
+        real variables. A sequence generating function
+        can be created with:
+    </p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">mkSeq</span><span class="p">(</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">incr</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">count</span> <span class="o">+=</span> <span class="nx">incr</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+       The variables <tt>incr</tt>, <tt>count</tt>,
+       and <tt>start</tt>
+       are captured by the anonymous function when
+       the function is created by evaluating the return expresssion.
+       An example of a function to generate all even numbers is:
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>closures in closures</h1>
+<div><p>
+        Consider
+    </p></div>
+</div>
+<div class="slide">
+<h1>points along a line</h1>
+<div>
+<p>
+        A point in 2-D space can be represented by:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">start</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span> <span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:</span> <span class="mi">10</span> <span class="p">};</span>
+<span class="c1">// start is { x : 3, y : 10 }</span>
+<span class="c1">// start.x is 3</span>
+<span class="c1">// start.y is 10</span>
+</pre></div>
+<p>
+         Consider points on a line
+         given by the equation y = m * x + b.
+         If m is 3 and b is 1, then y = 3 * 3 + 1 is 10.
+    </p>
+<p>
+        Given a point and a increment, the next point on the line
+        can be calculated with:
+    </p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">nextPt</span><span class="p">(</span> <span class="nx">p</span><span class="p">,</span> <span class="nx">incr</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">nextX</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">incr</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">nextY</span> <span class="o">=</span> <span class="nx">nextX</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">x</span> <span class="o">:</span> <span class="nx">nextX</span><span class="p">,</span>
+        <span class="nx">y</span> <span class="o">:</span> <span class="nx">nextY</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="nx">nextPt</span><span class="p">(</span> <span class="nx">start</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="c1">// next is { x: 4, y: 13 }</span>
+</pre></div>
+<p>
+        A closure that generates  points is:
+    </p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">points</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pt</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span> <span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:</span> <span class="mi">10</span> <span class="p">};</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">pt</span> <span class="o">=</span> <span class="nx">nextPt</span><span class="p">(</span> <span class="nx">pt</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+        <span class="k">return</span> <span class="nx">pt</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span> 
+<span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">points</span><span class="p">();</span>
+<span class="nx">p</span><span class="p">()</span> <span class="nx">is</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">13</span> <span class="p">}</span>
+<span class="nx">p</span><span class="p">()</span> <span class="nx">is</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">16</span> <span class="p">}</span>
+<span class="nx">p</span><span class="p">()</span> <span class="nx">is</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">19</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Creating objects</h1>
+<div>
+<p>
+         A 2D coordinate can be created with:
+    </p>
+<p>
+         A function that returns a point is:
+    </p>
+<p>
+        Javascript also has constructor functions,
+        a constructor function is invoked using the keyword
+        <tt>new</tt>.
+    </p>
+<p>
+       A constructor function is similar to:
+    </p>
+<p>
+        The following will not work:
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>OO in Javascript with prototype</h1>
+<div>
+<p>
+         Javascript can be written in object-orient style
+         using constructor functions.
+         A OO sequence generator is:
+    </p>
+<p>
+        The prototype property of constructor functions
+        is used to associate <em>methods</em>
+        with the constructed object.
+        If an object does not contain the named property,
+        then is prototype object is searched. The constructor's
+        prototype property is associated with the new object.
+    </p>
+<p>
+        Closures can be used to achieve the same result,
+        see previous notes.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>An example OO Point</h1>
+<div></div>
+</div>
+<div class="slide">
+<h1>forms and javascript objects</h1>
+<div>
+<p>
+        This example shows how Javascript can interact with forms
+        and how each HTML element is also a Javascript object.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/replace.html">examples/replace.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Replace<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">button</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">red</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">textarea</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span><span class="m">#AFF</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thick</span> <span class="k">dotted</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">input</span><span class="o">[</span><span class="nt">type</span><span class="o">=</span><span class="s2">"text"</span><span class="o">]</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span><span class="m">#FFA</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">red</span> <span class="k">dashed</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="kd">function</span> <span class="nx">doReplace</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">form</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">replace</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span> <span class="nx">s</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">);</span>
+    <span class="nx">form</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span> <span class="nx">r</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">doAdd</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">form</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'add-dest'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="s2">"&lt;p&gt;"</span> <span class="o">+</span> <span class="nx">form</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s2">"&lt;/p&gt;"</span><span class="p">;</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">p</span> <span class="o">+</span> <span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">initForms</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'theform'</span><span class="p">);</span>
+    <span class="nx">form</span><span class="p">.</span><span class="nx">doReplace</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="nx">doReplace</span><span class="p">;</span> <span class="c1">// old style</span>
+    <span class="c1">// form.doReplace.addEventListener( 'click', doReplace );</span>
+    <span class="nx">form</span><span class="p">.</span><span class="nx">doAdd</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="nx">doAdd</span><span class="p">;</span> <span class="c1">// old style</span>
+    <span class="c1">// form.doAdd.addEventListener( 'click', doAdd );</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"initForms()"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"javascript:void 1"</span> <span class="na">name=</span><span class="s">"theform"</span> <span class="na">id=</span><span class="s">"theform"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"doReplace"</span><span class="nt">&gt;</span>replace<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"10"</span> <span class="na">name=</span><span class="s">"search"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"10"</span> <span class="na">name=</span><span class="s">"replace"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"doAdd"</span><span class="nt">&gt;</span>add<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;textarea</span> <span class="na">wrap=</span><span class="s">"nowrap"</span> <span class="na">rows=</span><span class="s">"10"</span> <span class="na">cols=</span><span class="s">"40"</span> <span class="na">name=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+Some random text
+that will be modified by the
+search and replace function.
+0 1 2 3 4 5 6 7 8 9
+<span class="nt">&lt;/textarea&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"add-dest"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<ul>
+<li>The name of the form becomes a <em>global</em> variable.</li>
+<li>The name of every input element in the form becomes
+            a property (attribute) of form object. The form object
+            is accessed by the global variable.
+        </li>
+<li>
+            The <code>g</code> option to <code>RegExp</code> object
+            replaces every occurrence of the search pattern with the
+            replace text. 
+        </li>
+<li>
+            A new paragraph is added to the page with the 
+            contents of the text area when the add button
+            is clicked. The <code>innerHTML</code> property
+            can be used to retrieve or replace the HTML
+            contents of an element.
+        </li>
+<li>
+            It is good practise to separate the form description
+            from the registering of the event handlers.
+            The <code>initForms</code> attached the event handlers
+            to the form.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>getting elements, setting event handlers</h1>
+<div>
+<p>
+        Once an element is retrieved, it can be treated as a Javascript
+        object and manipulated by adjusting its properties.
+        The <code>document</code> property is provided 
+        to any Javascript code to access the web page's document.
+        An element is retrieved by its id with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span>
+</pre></div>
+<p>
+        The <code>initForms</code> function is invoked
+        when the web pages is loaded, it then gets the
+        element with the attribute <code>id="theForm"</code>.
+    </p>
+<div class="text"><pre><span>function initForms() {</span>
+<span>    var form = document.getElementById('theform')</span>
+<span>    form.doReplace.onclick = doReplace;</span>
+<span>    form.doAdd.onclick = doAdd;</span>
+<span>}</span>
+</pre></div>
+<p>
+        All of the input elements inside of the form are accessible
+        as properties of the form object. The <code>name</code>
+        attribute of the input element becomes the property
+        name in the form object.
+        The button elements:
+    </p>
+<div class="text"><pre><span>&lt;button name="doReplace"&gt;replace&lt;/button&gt;</span>
+<span>&lt;button name="doAdd"&gt;add&lt;/button&gt;</span>
+</pre></div>
+<p>
+        are accessed with <code>form.doReplace</code> and
+        <code>form.doAdd</code>. To change the <em>onclick</em>
+        event handler, a handler function is assigned to the
+        <code>onclick</code> property of a button object.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>addEventListener</h1>
+<div>
+<p>
+         It is better to use the <tt>addEventListener</tt>
+         to attach an event handler.
+    </p>
+<div class="highlight"><pre><span class="nx">target</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">listener</span><span class="p">[,</span> <span class="nx">useCapture</span><span class="p">]);</span>
+</pre></div>
+<p>
+        Events for the form can be attached with:
+    </p>
+<div class="highlight"><pre><span class="nx">form</span><span class="p">.</span><span class="nx">doReplace</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">doReplace</span><span class="p">);</span>
+<span class="nx">form</span><span class="p">.</span><span class="nx">doAdd</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">doAdd</span><span class="p">);</span>
+</pre></div>
+<p>
+        While the name <tt>doReplace</tt> is repeated,
+        in one case it is a property of <tt>form</tt>
+        and in the other case it is a function.
+    </p>
+<p>
+        Unlike the previous slide where only one handler can be set,
+        many event handlers can be added.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>event types</h1>
+<div>
+<p>
+       A selection of the standard event types are:
+    </p>
+<dl>
+<dt>abort</dt>
+<dd>
+        Loading of a resource has stopped.
+    </dd>
+<dt>blur</dt>
+<dd>
+        Focus is lost.
+    </dd>
+<dt>change</dt>
+<dd>
+        An input element's value changed, fired when focus is lost.
+    </dd>
+<dt>click</dt>
+<dd>
+        The mouse was clicked when the cursor was over the element.
+    </dd>
+<dt>dblclick</dt>
+<dd>
+        The mouse was double clicked when the cursor was over the element.
+    </dd>
+<dt>input</dt>
+<dd>
+        The value of an element was changed.
+    </dd>
+<dt>keydown</dt>
+<dd>
+       Key pressed down.
+    </dd>
+<dt>keyup</dt>
+<dd>
+       Key released.
+    </dd>
+<dt>keypress</dt>
+<dd>
+       Pressed and released.
+    </dd>
+<dt>mousedown</dt>
+<dd>
+         Mouse button pressed down.
+    </dd>
+<dt>mouseenter</dt>
+<dd>
+         Cursor moves from outside to inside of an element.
+    </dd>
+<dt>mousemove</dt>
+<dd>
+         Cursor moves while inside an element.
+    </dd>
+<dt>mouseleave</dt>
+<dd>
+         Cursor moves from inside to outside of an element.
+    </dd>
+<dt>mouseup</dt>
+<dd>
+        The mouse button is released while the cursor is
+        inside an element.
+    </dd>
+</dl>
+<p>
+        There are many more.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Modifying content</h1>
+<div>
+<p>
+        The <code>innerHTML</code> property of a document element
+        can be used to retrieve or modify the HTML contained in the element.
+        Content from the form is added to the web page with:
+    </p>
+<div class="text"><pre><span>function doAdd( evt ) {</span>
+<span>    var form = evt.target.form;</span>
+<span>    var div = document.getElementById('add-dest');</span>
+<span>    var p = "&lt;p&gt;" + form.text.value + "&lt;/p&gt;";</span>
+<span>    div.innerHTML = p + div.innerHTML;</span>
+<span>}</span>
+</pre></div>
+<p>
+        In Firefox, all event handlers are given a <em>event</em>
+        object. The <code>target</code> property references the
+        object that caused the event. In this case, it is
+        clicking on the <em>doAdd</em> button. The <code>form</code>
+        attribute of the button object is the form containing the button.
+        The text in the textarea object in the form is accessed with 
+        <code>form.text.value</code>. The last line updates
+        the HTML content of the div element with the <em>add-dest</em> id.
+    </p>
+<p>
+        The  <code>textContent</code> property can be set
+        if the element only contains text.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Modifying content with the DOM</h1>
+<div>
+<p>
+         The standard DOM methods can be used to modify content.
+    </p>
+<dl>
+<dt>node.appendChild(x)</dt>
+<dd>
+        Add x as the last child of node.
+    </dd>
+<dt>node.removeChild(x)</dt>
+<dd>
+        Remove child x form node.
+    </dd>
+<dt>node.replaceChild(x,y)</dt>
+<dd>
+        Replace child y with x form node.
+    </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>html formatting examples</h1>
+<div>
+<p>
+        The HTML document for the formatting example is:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/text-formatting.html">examples/text-formatting.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Text Formating<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"text-formatting.css"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"text-formatting.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"controls"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>Colour:
+<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel-colour"</span> <span class="na">onchange=</span><span class="s">"setColour(this.value)"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option&gt;</span>inherit<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>aqua<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>black<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>blue<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>fuchsia<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>gray<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>lime<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>maroon<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>navy<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>olive<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>orange<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>purple<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>silver<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>teal<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>white<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+
+<span class="nt">&lt;label&gt;</span>Background:
+<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel-bg-colour"</span>  <span class="na">onchange=</span><span class="s">"setBackgroundColour(this.value)"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option&gt;</span>inherit<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>aqua<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>black<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>blue<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>fuchsia<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>gray<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>lime<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>maroon<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>navy<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>olive<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>orange<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>purple<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>silver<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>teal<span class="nt">&lt;/option&gt;</span> <span class="nt">&lt;option&gt;</span>white<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+
+<span class="nt">&lt;label&gt;</span>Font:
+<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel-font"</span> <span class="na">onchange=</span><span class="s">"setFont(this.value)"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option&gt;</span>inherit<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>monospace<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>serif<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>sans-serif<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+
+<span class="nt">&lt;label&gt;</span>Size:
+<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel-font-size"</span>  <span class="na">onchange=</span><span class="s">"setFontSize(this.value)"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option&gt;</span>inherit<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>0.7em<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>0.8em<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>1.2em<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>1.5em<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>7pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>8pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>9pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>10pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>11pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>12pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>13pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>14pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>16pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>18pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option&gt;</span>20pt<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"format-area"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+Every element in a HTML document is also a Javascript object.
+Most elements have a <span class="nt">&lt;em&gt;</span>style<span class="nt">&lt;/em&gt;</span> property that contains
+the CSS properties. The background colour can be set with
+<span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"jss"</span><span class="nt">&gt;</span>element.style.background<span class="nt">&lt;/code&gt;</span>. The foreground colour
+is controlled by the value of <span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"jss"</span><span class="nt">&gt;</span>element.style.color<span class="nt">&lt;/code&gt;</span>.
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+Multiple word CSS properties (words separated by hyphens) are converted
+to Javascript identifiers where the individual words are capitalized.
+The CCS property <span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"css"</span><span class="nt">&gt;</span>font-family<span class="nt">&lt;/code&gt;</span> is 
+<span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"jss"</span><span class="nt">&gt;</span>fontFamily<span class="nt">&lt;/code&gt;</span>.
+The <span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"css"</span><span class="nt">&gt;</span>border-left-width<span class="nt">&lt;/code&gt;</span> property is accessed with
+<span class="nt">&lt;code</span> <span class="na">class=</span><span class="s">"jss"</span><span class="nt">&gt;</span>borderLeftWidth<span class="nt">&lt;/code&gt;</span> in Javascript.
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<li>
+        The event handler is set with the:
+        <div class="highlight"><pre><span class="nx">onchange</span><span class="o">=</span><span class="s2">"setFont(this.value)"</span>
+</pre></div>
+        in the <code>select</code> element. The <code>this</code>
+        variable reference the select element. The <code>value</code>
+        property give the text of the currently selected option.
+        Note, the setting of event handler should not be done
+        in the select element.
+    </li>
+<li>
+        The <code>value</code> property of a <code>select</code>
+        element is the value of the currently selected option.
+    </li>
+<li>
+        The <code>value</code> property of a <code>text input</code>
+        is the contents of the text field.
+    </li>
+<li>
+        The <code>value</code> property of a <code>textarea</code>
+        is the contents of the text area.
+    </li>
+</div>
+</div>
+<div class="slide">
+<h1>CSS and Javascript formatting</h1>
+<div>
+<p>
+        Every element in a HTML document is also a Javascript object.
+        Most elements have a <em>style</em> property that contains
+        the CSS properties. The background colour can be set with
+        <code class="jss">element.style.background</code>. The
+        foreground colour is controlled by the value of <code class="jss">element.style.color</code>.
+    </p>
+<p>
+        Multiple word CSS properties (words separated by
+        hyphens) are converted to Javascript identifiers
+        where the individual words are capitalized.  The CSS
+        property <code class="css">font-family</code> is
+        <code class="jss">fontFamily</code>.  The <code class="css">border-left-width</code> property is accessed with
+        <code class="jss">borderLeftWidth</code> in Javascript.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>CSS for formatting examples</h1>
+<div>
+<p>
+        The style sheet specifies the appearance of the formatting
+        controls on the page.
+    </p>
+<h2 class="src-name"><a href="examples/text-formatting.css">examples/text-formatting.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.controls</span> <span class="p">{</span>
+    <span class="k">display</span> <span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+    <span class="k">margin-top</span><span class="o">:</span> <span class="m">1em</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">margin-right</span><span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nc">.controls</span> <span class="nt">label</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span><span class="m">1em</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">4px</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">0.25em</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span> <span class="m">#FD8</span><span class="p">;</span>
+    <span class="k">white-space</span><span class="o">:</span> <span class="k">nowrap</span><span class="p">;</span>
+    <span class="k">line-height</span><span class="o">:</span> <span class="m">2.8em</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="nt">div</span><span class="nc">.controls</span> <span class="nt">select</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span><span class="m">0.2em</span><span class="p">;</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">div</span><span class="nc">.controls</span> <span class="nt">select</span><span class="nd">:focus</span> <span class="p">{</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="m">#005</span><span class="p">;</span>
+    <span class="k">color</span> <span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">code</span><span class="nc">.jss</span> <span class="p">{</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="m">#FDD</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="m">#FCC</span> <span class="k">outset</span><span class="p">;</span>
+    <span class="k">padding-left</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+    <span class="k">padding-right</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">code</span><span class="nc">.css</span> <span class="p">{</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="m">#FCE</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="m">#FCE</span> <span class="k">outset</span><span class="p">;</span>
+    <span class="k">padding-left</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+    <span class="k">padding-right</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">div</span><span class="nf">#format-area</span> <span class="p">{</span>
+    <span class="k">margin-top</span><span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">5</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">margin-right</span><span class="o">:</span> <span class="m">5</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<ul>
+<li>
+            The <code>white-space: nowrap;</code> property for
+            the label element ensures that the label and selector
+            remain together.
+        </li>
+<li>
+            The <code>line-height: 2.8em;</code> property for
+            the label element ensures that the line height is 
+            <em>big enough</em>.
+        </li>
+<li>
+            The <code>:focus</code> pseudo-class is used
+            to highlight a selector that has focus.
+        </li>
+<li>
+            The <code>code.css</code> and <code>code.jss</code>
+            rules are used to highlight the CSS and Javascript
+            properties for controlling the styling.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Javascript for formatting examples</h1>
+<div>
+<p>
+        The formatting of the paragraphs are modified
+        by the following Javascript code that is invoked
+        when one of the input controls changes.
+    </p>
+<h2 class="src-name"><a href="examples/text-formatting.js">examples/text-formatting.js</a></h2>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">formatElement</span><span class="p">;</span> <span class="c1">// initially undefined</span>
+<span class="kd">function</span> <span class="nx">getFE</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">formatElement</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">formatElement</span><span class="p">;</span>
+    <span class="nx">formatElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'format-area'</span> <span class="p">);</span>
+    <span class="k">return</span> <span class="nx">formatElement</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setColour</span><span class="p">(</span> <span class="nx">colour</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">getFE</span><span class="p">();</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">colour</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setBackgroundColour</span><span class="p">(</span> <span class="nx">colour</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">getFE</span><span class="p">();</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="nx">colour</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setFont</span><span class="p">(</span> <span class="nx">font</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">getFE</span><span class="p">();</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontFamily</span> <span class="o">=</span> <span class="nx">font</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setFontSize</span><span class="p">(</span> <span class="nx">size</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">getFE</span><span class="p">();</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontSize</span> <span class="o">=</span> <span class="nx">size</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<ul>
+<li>
+            Each handler function is called with the new value
+            of the CSS property.
+        </li>
+<li>
+            There is a standard mapping between the Javascript
+            property names and the associated CSS property name.
+            Any hyphens are deleted, and the letter after the 
+            hyphen is capitalized.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>bouncing</h1>
+<div>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/bouncing.html">examples/bouncing.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Bouncing<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"bouncing.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"bouncing.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"startAnimation()"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"arena"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;span&gt;</span>Another message<span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;span&gt;</span>hi there<span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"s1"</span><span class="nt">&gt;</span>A third message<span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The bouncing text example demonstrates the combined abilities
+        of Javascript, CSS, the HTML document structure.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>bouncing CSS</h1>
+<div>
+<h2 class="src-name"><a href="examples/bouncing.css">examples/bouncing.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.arena</span> <span class="p">{</span>
+    <span class="k">position</span> <span class="o">:</span> <span class="k">relative</span><span class="p">;</span>
+    <span class="n">paddding</span> <span class="o">:</span> <span class="m">0em</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">2px</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span>
+    <span class="k">height</span> <span class="o">:</span> <span class="m">300px</span><span class="p">;</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">350px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">div</span><span class="nc">.arena</span> <span class="nt">span</span> <span class="p">{</span>
+    <span class="k">display</span> <span class="o">:</span> <span class="k">block</span><span class="p">;</span> <span class="c">/* not necessary */</span>
+    <span class="k">position</span> <span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
+    <span class="k">top</span><span class="o">:</span> <span class="m">10mm</span><span class="p">;</span>
+    <span class="k">left</span><span class="o">:</span> <span class="m">40mm</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span> <span class="m">#FD9</span><span class="p">;</span> <span class="k">border</span> <span class="o">:</span> <span class="m">#FD9</span> <span class="k">thin</span> <span class="k">outset</span><span class="p">;</span>
+    <span class="k">white-space</span><span class="o">:</span> <span class="k">nowrap</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<ul>
+<li>
+            The arena containing the bouncing text is defined by
+            an div element with a class of <em>arena</em>.
+            A padding of 0em allows the text to <em>touch</em>
+            the borders. The border style makes the border visible.
+            Finally the size of the arena is given by the width and height.
+        </li>
+<li>
+            The span element inside the div become the bouncing text.
+            A position style of absolute places the text relative
+            to the containing div. The actual placement is controlled
+            by the <tt>top</tt> and <tt>left</tt> properties.
+            The white-space style of nowrap ensures that the text
+            will not be wrapped (go to the next line).
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>bouncing text</h1>
+<div>
+<p>
+        A <code>BounceText</code> object is created to manage
+        the movement (bouncing) of the span element containing the text.
+        This object contains the following properties:
+    </p>
+<ul>
+<li>x - the left position of the span</li>
+<li>y - the top position of the span</li>
+<li>w - the width in pixel of the arena - span</li>
+<li>h - the height in pixel of the arena - span</li>
+<li>dx - the amount to move the text horizontally when updated</li>
+<li>dy - the amount to move the text vertically when updated</li>
+</ul>
+<p>
+        In Javascript, a normal function is turned into
+        a constructor function with the <code>new</code> keyword.
+        A BouncingText object is created with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">bt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BouncingText</span><span class="p">(</span> <span class="nx">span</span><span class="p">,</span> <span class="nx">arena</span> <span class="p">)</span>
+</pre></div>
+<p>
+        where span is the span element, and arena is the
+        div element.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Inheritance in Javascript</h1>
+<div>
+<p>
+        The <code>prototype</code> property is used to implement
+        a form of inheritance. If a property is not found
+        in an object, then the prototype is searched for 
+        that property. All of the properties in prototype
+        are <em>inherited</em> by the object.
+    </p>
+<p>
+        Methods of the object are usually placed in the 
+        prototype object.
+        The <code>BounceText.prototype</code> object contains
+        the <code>update</code> function. This function 
+        repositions the text element when invoked
+        by modifying the style values.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>build BounceText objects</h1>
+<div>
+<p>
+        All of the elements in the document with the given
+        tag name can be retrieved with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span> <span class="nx">tagname</span> <span class="p">)</span>
+</pre></div>
+<p><code>list</code> is an array.
+        The div elements can be gotten with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">arenas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span> <span class="s2">"div"</span> <span class="p">)</span>
+</pre></div>
+<p>
+        An attribute of an element is returned with the
+        <code>getAttribute( name )</code> function.
+        In the bouncing example, only div element with
+        a class attribute of "arena" need to be examined.
+        Any other div elements can be skipped with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="nx">arenas</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span> 
+</pre></div>
+<p>
+        All the span elements are accessed with:
+    </p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">spans</span> <span class="o">=</span> <span class="nx">arenas</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getElementsByTagName</span><span class="p">(</span> <span class="s2">"span"</span> <span class="p">);</span>
+</pre></div>
+<p>
+        Note that the <code>getElementsByTagName</code>
+        can be applied to any element, not just the document.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>bouncing.js</h1>
+<div>
+<h2 class="src-name"><a href="examples/bouncing.js">examples/bouncing.js</a></h2>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * constructs a BounceText object, which manages the </span>
+<span class="cm"> * movement (bouncing).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">BounceText</span><span class="p">(</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">a</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">arena</span> <span class="o">=</span> <span class="nx">a</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">e</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetLeft</span><span class="p">;</span> <span class="c1">// offset from left edge of e</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetTop</span><span class="p">;</span>  <span class="c1">// offset from top edge of e</span>
+    <span class="cm">/*</span>
+<span class="cm">     * Reduce the width and height of the arena</span>
+<span class="cm">     * ensures that the text box will not go outside</span>
+<span class="cm">     * of the arena.</span>
+<span class="cm">     */</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">offsetWidth</span> <span class="o">-</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetWidth</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">h</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">offsetHeight</span> <span class="o">-</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetHeight</span><span class="p">;</span>
+    <span class="cm">/* defines the movement vector. */</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dy</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">20</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * performs the movement.</span>
+<span class="cm"> */</span>
+<span class="nx">BounceText</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dx</span><span class="p">;</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dx</span><span class="p">;</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">dx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="p">)</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dx</span><span class="p">;</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">dx</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dy</span><span class="p">;</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dy</span><span class="p">;</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">dy</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">h</span> <span class="p">)</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dy</span><span class="p">;</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">dy</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * bouncing contains all the BounceText objects.</span>
+<span class="cm"> * doAnaimation() is invoked 10 times a second</span>
+<span class="cm"> * to update the postions of the text elements.</span>
+<span class="cm"> */</span>
+<span class="kd">var</span> <span class="nx">bouncing</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">function</span> <span class="nx">doAnaimation</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">bouncing</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">bouncing</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Creates the BounceText objects from</span>
+<span class="cm"> * the web pages's document.</span>
+<span class="cm"> * Invoked when the web page is loaded by the onload event.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">startAnimation</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">,</span><span class="nx">j</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">arenas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span> <span class="s2">"div"</span> <span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arenas</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="nx">arenas</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s2">"class"</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">cl</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s2">"arena"</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">spans</span> <span class="o">=</span> <span class="nx">arenas</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getElementsByTagName</span><span class="p">(</span> <span class="s2">"span"</span> <span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">spans</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">spans</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="nx">j</span> <span class="o">+</span> <span class="s1">'mm'</span><span class="p">;</span>
+            <span class="nx">spans</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="nx">j</span> <span class="o">+</span> <span class="s1">'mm'</span><span class="p">;</span>
+            <span class="nx">bouncing</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="k">new</span> <span class="nx">BounceText</span><span class="p">(</span><span class="nx">spans</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">arenas</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">)</span> <span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// doAnaimation() will be invoked every 100ms</span>
+    <span class="nx">setInterval</span><span class="p">(</span><span class="s2">"doAnaimation()"</span><span class="p">,</span> <span class="mi">100</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>list with hidden items</h1>
+<div>
+<p>
+        Collapsing lists are common interface elements on web
+        pages. The list can be created using a combination
+        of Javascript and CSS.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tree.html">examples/tree.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Tree<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"tree.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="nt">ul</span><span class="nc">.tree</span> <span class="nt">li</span> <span class="p">{</span> <span class="k">list-style-image</span><span class="o">:</span> <span class="sx">url(plus.png)</span> <span class="p">}</span>
+    <span class="nt">ul</span><span class="nc">.tree</span> <span class="nt">ul</span> <span class="p">{</span> <span class="k">display</span> <span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">body</span> <span class="p">{</span> <span class="k">font-size</span> <span class="o">:</span> <span class="m">1.4em</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"initTree()"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"tree"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;li&gt;</span> one <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+        two
+        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"tree"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                hi
+                <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"tree"</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>bob<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>sue<span class="nt">&lt;/li&gt;</span>
+                <span class="nt">&lt;/ul&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>there<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+        three
+        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"tree"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;li&gt;</span>red<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>green<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>blue<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>hiding items with Javascript</h1>
+<div>
+<h2 class="src-name"><a href="examples/tree.js">examples/tree.js</a></h2>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * Set the display to none for all the UL children.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">display</span><span class="p">(</span> <span class="nx">li</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">children</span> <span class="o">=</span> <span class="nx">li</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">children</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">'UL'</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">'none'</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Set the display to block for all the UL children.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">undisplay</span><span class="p">(</span> <span class="nx">li</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">children</span> <span class="o">=</span> <span class="nx">li</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">children</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">'UL'</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">'block'</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Handle click on a list item, by displaying or hiding</span>
+<span class="cm"> * any children. Change the marker to indicate if any</span>
+<span class="cm"> * children are possible hiden.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">toggle</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// not interested in other phases</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">eventPhase</span> <span class="o">!=</span> <span class="nx">Event</span><span class="p">.</span><span class="nx">AT_TARGET</span>  <span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">liStyle</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span> <span class="o">!</span> <span class="nx">liStyle</span><span class="p">.</span><span class="nx">listStyleImage</span> <span class="o">||</span>
+        <span class="nx">liStyle</span><span class="p">.</span><span class="nx">listStyleImage</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s1">'plus'</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">undisplay</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">);</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">listStyleImage</span> <span class="o">=</span> <span class="s1">'url(minus.png)'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">display</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">);</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">listStyleImage</span> <span class="o">=</span> <span class="s1">'url(plus.png)'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * See the event handler on all the list items</span>
+<span class="cm"> * with a ul parent with a class="tree".</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">initTree</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">lis</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">'li'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">lis</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">parent</span> <span class="o">=</span> <span class="nx">lis</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">parentNode</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">pClass</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">'class'</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">pClass</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">pClass</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s1">'tree'</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">lis</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="nx">toggle</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<ul>
+<li>
+            The <code>childNodes</code> returns an
+            array of the elements children.
+            This includes text and other elements.
+        </li>
+<li>
+            The <code>parentNode</code> returns
+            the parent of the element.
+        </li>
+<li>
+           The <code>style.listStyleImage</code> property
+           controls the list item's marker.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>making a calendar</h1>
+<div>
+<p>
+        A calendar can be generated from a form on
+        the web page. This allows the user to create
+        their our calendar.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/make-calendar.html">examples/make-calendar.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Make Calendars<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"monthCalendarV2.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="kd">function</span> <span class="nx">initForm</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'theform'</span><span class="p">)</span>
+    <span class="cm">/* create the event handler */</span>
+    <span class="nx">form</span><span class="p">.</span><span class="nx">gen</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">form</span>
+        <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">year</span><span class="p">.</span><span class="nx">value</span>
+        <span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">month</span><span class="p">.</span><span class="nx">value</span>
+        <span class="nx">genCalendar</span><span class="p">(</span> <span class="nb">document</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">m</span><span class="p">,</span> <span class="s1">'theCalendar'</span> <span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+<span class="nt">body</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">sans-serif</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="nc">.calendar</span> <span class="p">{</span> <span class="k">border-collapse</span><span class="o">:</span> <span class="k">collapse</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="nc">.calendar</span> <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">2.2em</span><span class="p">;</span>
+    <span class="k">height</span><span class="o">:</span> <span class="m">2.2em</span><span class="p">;</span>
+    <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">table</span><span class="nc">.calendar</span> <span class="nt">tr</span><span class="nd">:first-child</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="m">#DFD</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">label</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span><span class="m">1em</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="nb">red</span> <span class="k">dotted</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">0.25em</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span> <span class="m">#FD8</span><span class="p">;</span>
+    <span class="k">white-space</span><span class="o">:</span> <span class="k">nowrap</span><span class="p">;</span>
+    <span class="k">line-height</span><span class="o">:</span> <span class="m">2.8em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">form</span> <span class="nt">select</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="nb">blue</span> <span class="k">thin</span> <span class="k">dotted</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">form</span> <span class="nt">input</span><span class="o">,</span><span class="nt">button</span> <span class="p">{</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="nb">blue</span> <span class="k">thin</span> <span class="k">dotted</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"initForm()"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"javascript:void 1"</span> <span class="na">id=</span><span class="s">"theform"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"gen"</span><span class="nt">&gt;</span>Generate Calendar<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;label&gt;</span>Month:
+<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"month"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"0"</span><span class="nt">&gt;</span>January<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>Feburary<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2"</span><span class="nt">&gt;</span>March<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"3"</span><span class="nt">&gt;</span>April<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"4"</span><span class="nt">&gt;</span>May<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"5"</span><span class="nt">&gt;</span>June<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"6"</span><span class="nt">&gt;</span>July<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"7"</span><span class="nt">&gt;</span>August<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"8"</span><span class="nt">&gt;</span>September<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"9"</span><span class="nt">&gt;</span>October<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"10"</span><span class="nt">&gt;</span>November<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"11"</span><span class="nt">&gt;</span>December<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>Year:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"8"</span> <span class="na">name=</span><span class="s">"year"</span> <span class="na">value=</span><span class="s">"2005"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"theCalendar"</span><span class="nt">&gt;</span>Place holder for calendar<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>make a calendar javascript</h1>
+<div>
+<p>
+       The modified version of the calendar code that uses
+       <code>innerHTML</code> to place the calendar
+       on the web page.
+    </p>
+<h2 class="src-name"><a href="examples/monthCalendarV2.js">examples/monthCalendarV2.js</a></h2>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * calcuate the number of days in the month.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">daysInMonth</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">daysInMonth</span><span class="p">.</span><span class="nx">days</span><span class="p">[</span> <span class="nx">month</span> <span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">month</span> <span class="o">!=</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">400</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">year</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">daysInMonth</span><span class="p">.</span><span class="nx">days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">];</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Return an array of weeks, each week is an array of dates</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">monthCalendar</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">)</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getDay</span><span class="p">()</span> <span class="c1">// 0:Sun .. 6:Sat</span>
+
+    <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="c1">// add empty days for first week</span>
+    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span>  <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">first</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">date</span><span class="o">++</span> <span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">cal</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">var</span> <span class="nx">noDays</span> <span class="o">=</span> <span class="nx">daysInMonth</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">offset</span> <span class="o">=</span> <span class="nx">first</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span> <span class="nx">date</span> <span class="o">&lt;=</span> <span class="nx">noDays</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">((</span><span class="nx">date</span><span class="o">+</span><span class="nx">offset</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">cal</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">w</span> <span class="p">);</span>
+            <span class="nx">w</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="p">}</span>
+        <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">date</span><span class="o">++</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// finish week</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">w</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span>  <span class="nx">w</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+        <span class="nx">cal</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">w</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">cal</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">genCalendar</span><span class="p">(</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">cal</span> <span class="o">=</span> <span class="nx">monthCalendar</span><span class="p">(</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">dayName</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Sun"</span><span class="p">,</span> <span class="s2">"Mon"</span><span class="p">,</span> <span class="s2">"Tue"</span><span class="p">,</span> <span class="s2">"Wed"</span><span class="p">,</span> <span class="s2">"Thu"</span><span class="p">,</span> <span class="s2">"Fri"</span><span class="p">,</span> <span class="s2">"Sat"</span> <span class="p">];</span>
+    <span class="nx">cal</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">dayName</span> <span class="p">);</span> <span class="c1">// add headers</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;table class='calendar'&gt;"</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">weeks</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">weeks</span> <span class="o">&lt;</span> <span class="nx">cal</span><span class="p">.</span><span class="nx">length</span> <span class="p">;</span> <span class="nx">weeks</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">week</span> <span class="o">=</span> <span class="nx">cal</span><span class="p">[</span><span class="nx">weeks</span><span class="p">];</span>
+        <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;tr&gt;"</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">d</span> <span class="o">&lt;</span> <span class="mi">7</span> <span class="p">;</span> <span class="nx">d</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;td&gt;"</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">week</span><span class="p">[</span><span class="nx">d</span><span class="p">];</span> 
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span> <span class="nx">s</span> <span class="o">=</span> <span class="s1">' '</span><span class="p">;</span>
+            <span class="nx">html</span> <span class="o">+=</span> <span class="nx">s</span><span class="p">;</span>
+            <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;/td&gt;"</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;/tr&gt;"</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s2">"&lt;/table&gt;"</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="nx">id</span> <span class="p">);</span>
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">html</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<ul><li>
+           Once a document is loaded, the <code>document.write</code>
+           function can no longer be used to modify the page.
+           Instead, the DOM (Document Object Model) must be used to
+           make changes.
+       </li></ul>
+</div>
+</div>
+<div class="slide">
+<h1>Window object</h1>
+<div>
+<p>
+        Every window and frame has a <code>Window</code> object
+        that can be used to control behaviour of that window.
+        The <code>Window</code> object contains all the <em>top</em>
+        level properties (i.e., where the global variables are accessed).
+        This object has different properties for different browsers.
+        Some of the main common properties are:
+    </p>
+<dl>
+<dt>document</dt>
+<dd>read only reference to the currently loaded document</dd>
+<dt>history</dt>
+<dd>referenced to History object which contains previously
+            viewed documents
+        </dd>
+<dt>location</dt>
+<dd>
+            the URL of the current document, used to replace the current document
+        </dd>
+<dt>Math</dt>
+<dd>reference to Math object</dd>
+<dt>status</dt>
+<dd>change the contents of status bar, "turned off in firefox"</dd>
+<dt>screen</dt>
+<dd>reference to Screen object, information of screen size</dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>common Window object methods</h1>
+<div>
+<p>
+        Some of the common methods defined for the Window object are:
+    </p>
+<dl>
+<dt>alert(str)</dt>
+<dd>displays a dialog box with str</dd>
+<dt>clearInterval( intervalID )</dt>
+<dd>clears an interval returned by setInterval</dd>
+<dt>clearTimeout( timeoutID )</dt>
+<dd>cancels a timeout function returned by setTimeout</dd>
+<dt>close()</dt>
+<dd>closes the window</dd>
+<dt>open( url, name, features, replace )</dt>
+<dd>opens new window or replaces the contents of named window</dd>
+<dt>setInterval(str, time)</dt>
+<dd>javascript in str is evaluated at the given interval in milliseconds</dd>
+<dt>setTimeout(str, time)</dt>
+<dd>javascript in str is evaluated at end of timeout period</dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Document Object</h1>
+<div>
+<p>
+        Most of the dynamic content on a web page is controlled
+        by the document object. Some of the main DOM0 properties are:
+    </p>
+<dl>
+<dt>applets</dt>
+<dd>array of all applets on the page </dd>
+<dt>cookie</dt>
+<dd>string of cookies for this page</dd>
+<dt>forms</dt>
+<dd>array of all forms on the page </dd>
+<dt>images</dt>
+<dd>array of all images on the page </dd>
+<dt>links</dt>
+<dd>array of all links on the page </dd>
+<dt>URL</dt>
+<dd>url of document</dd>
+</dl>
+<p>
+        Some of the main DOM0 methods are:
+    </p>
+<dl>
+<dt>clear()</dt>
+<dd>clears the document, just used open</dd>
+<dt>close()</dt>
+<dd>close a document opened with open, no more writes</dd>
+<dt>open()</dt>
+<dd>clears an and the document to be rewritten</dd>
+<dt>write( str ), writeln(str)</dt>
+<dd>write the str to the document, interpreted as HTML</dd>
+</dl>
+</div>
+</div>
+</div></body>
+</html>

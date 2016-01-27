@@ -1,0 +1,49 @@
+<html>
+<head>
+   <title>check box and radio button</title>
+</head>
+<body>
+    <table>
+      <tr>
+         <td> one
+             <input type="radio" name="station" checked tabindex="1"
+                    value="123" onchange="alert(this.value)">
+          </td>
+          <td> two
+              <input type="radio" name="station" tabindex="3"
+                     value="47" onclick="alert('click')"
+                     onchange="alert(this.value)">
+          </td>
+          <td> three
+               <input type="radio" name="station" tabindex="2"
+                      value="987" onchange="alert(this.value)">
+          </td>
+      </tr>
+      <tr>
+         <td colspan=2>
+            <label for="s1">student</label>
+            <input id="s1" type="radio" name="role" checked tabindex="5"
+                   value="student" onchange="alert(this.value)">
+         </td>
+          <td> staff
+               <input type="radio" name="role" tabindex="4"
+                      value="staff" onclick="alert('click')"
+                      onchange="alert(this.value)">
+          </td>
+      </tr>
+      <tr>
+          <td> red
+               <input type="checkbox" name="colour" checked
+                      value="red" onchange="alert(this.checked)">
+          </td>
+          <td> green
+               <input type="checkbox" name="colour" 
+                      value="green" onchange="alert(this.value)">
+          </td>
+          <td> blue
+               <input type="checkbox" name="colour" checked
+                      value="blue" onchange="alert(this.value)">
+          </td>
+      </tr>
+</body>
+</html>

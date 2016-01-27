@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>Use Cases</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Use Cases</h2>
+
+    <div class="UseCase">
+        <p>
+        <b>UC10.</b> Name: Add Test Suite<br>
+        User stories addressed: 7<br>
+        Actors: Instructor<br>
+        Preconditions: Instructor is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Instructor selects the "Editor" button.</dd>
+        <dd>2) Instructor selects the "Test Suite" option under the "New" menu tab.</dd>
+        <dd>3) Instructor writes the test suite.</dd>
+        <dd>4) When the instructor navigates away from the editor the system compiles the files in the instructor's "Test Suites" directory.</dd>
+	<dd>Postconditions: Postconditions: The instructor's test suite is saved and compiled. It is not associated with any particular assignment.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Upload Existing Test Suite
+        </dt>
+            <dd>1.0) Instructor selects "Files".</dd>
+            <dd>1.1) Instructor selects the "Test Suites" directory.</dd>
+            <dd>1.2) Instructor selects "Add Files".</dd>
+            <dd>1.3) Instructor uploads the files from their computer.</dd>
+            <dd>1.4) When the instructor navigates away from the "Test Suites" directory the system compiles the files.</dd>
+            <dd>Postconditions: The instructor's test suite is saved and compiled. It is not associated with any particular assignment.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Invalid Upload
+        </dt>
+            <dd>1.0.0) Instructor is informed the files they uploaded are invalid (with a reason if possible.)</dd>
+            <dd>1.0.1) Instructor is returned to their "Test Suites" directory.</dd>
+            <dd>Postconditions: Nothing is saved by the system.</dd>
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/AddTestSuite.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/CreateTestSuiteSD.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+    <div class="UseCase">
+        <p>
+        <b>UC11.</b> Name: Associate Test Suite with Assignment<br>
+        User stories addressed: 8<br>
+        Actors: Instructor<br>
+        Preconditions: Instructor is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Instructor navigates to the page of the relevant course.</dd>
+        <dd>2) Instructor selects the assignment/evaluation with which they want to associate the test suite.</dd>
+        <dd>3) Instructor is prompted to select the desired test suite from their "Test Suites" directory.</dd>
+        <dd>4) Instructor is prompted to select whether they want the suite run automatically on incoming submissions.</dd>
+	<dd>5) Instructor is prompted to select if they want the suite to automatically return results to students.</dd>
+	<dd>Postconditions: The system saves the suite to apply to the assignment's submissions.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Associate Test Suite with New Assignment
+        </dt>
+            <dd>2.0) Instructor selects the "Add New Evaluation" option. (Refer to User Story 6)</dd>
+            <dd>2.1) Instructor adds an assignment.</dd>
+            <dd>Continue to 3) in the main scenario.</dd>
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/AssociateTestSuite.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/AssociateTestSuiteSD8.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+    <div class="UseCase">
+        <p>
+        <b>UC12.</b> Name: Retrieve Students' Marks<br>
+        User stories addressed: 9<br>
+        Actors: Instructor<br>
+        Preconditions: Instructor is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Instructor selects any course the specified student is taking and is taken to the course page.</dd>
+        <dd>2) Instructor selects "Grades" and is taken to a page containing a table with all marks for every student in that course.</dd>
+        <dd>3) Instructor selects "Download Grades" and is prompted to select a file format (XML, CSV, etc.)
+        <dd>4) The table is downloaded to the instructor's computer.</dd>
+	<dd>Postconditions: The instructor has access to a file containing all student marks in the selected course.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Retrieve One Student's Marks
+        </dt>
+            <dd>3.0) Instructor chooses the desired student from the table.</dd>
+            <dd>3.1) Instructor is taken to a page with a table containing the students grades in all the courses they have access to (i.e., in which the instructor is either a Marker or Instructor.)</dd>
+            <dd>3.2) Instructor selects "Download Grades" and is prompted to select a file format.</dd>
+            <dd>3.3) The table is downloaded to the instructor's computer.</dd>
+            <dd>Postconditions: The instructor has access to a file containing the student's marks.</dd>
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/RetrieveStudentMarks.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/RetrieveMarksSD9.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+    <div class="UseCase">
+        <p>
+        <b>UC13.</b> Name: Upload Assignment Solutions<br>
+        User stories addressed: 10<br>
+        Actors: Instructor<br>
+        Preconditions: Instructor is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Instructor navigates to the page of the relevant course.</dd>
+        <dd>2) Instructor selects the relevant assignment.</dd>
+        <dd>3) Instructor selects the "Add Solution" option.
+        <dd>4) Instructor is prompted to upload a file (docx, pdf, doc, etc.)</dd>
+        <dd>5) Instructor selects when solution is to be made available (immediately, as soon as assignment deadline is reached, at specified time.)</dd>
+	<dd>Postconditions: The instructor has access to a file containing all student marks in the selected course.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/UploadSolution.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/UploadSolutionsSD10.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+    <div class="UseCase">
+        <p>
+        <b>UC14.</b> Name: Mark Assignments<br>
+        User stories addressed: 9<br>
+        Actors: Marker<br>
+        Preconditions: Marker is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Marker selects the relevant course.</dd>
+        <dd>2) Marker selects the relevant evaluation.</dd>
+        <dd>3) Marker selects the first submission they want to grade.
+        <dd>4) Marker is given the option to either compile and run the submission or review the code.</dd>
+        <dd>5) Marker selects "Compile and Run"</dd>
+        <dd>6) The program is run in the terminal window.</dd>
+        <dd>7) The marker selects "Assign Grade".</dd>
+        <dd>8) The marker is prompted for a grade.</dd>
+        <dd>9) The marker is returned to the evaluation page.</dd>
+	<dd>Postconditions: The system assigns the marker's grade to the evaluation, sends the student any feedback, notifies the student.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Download Every Assignment Submission
+        </dt>
+            <dd>3.0) Marker selects "Download All".</dd>
+            <dd>3.1) The code is downloaded to the marker's computer.</dd>
+            <dd>Postconditions: The marker has downloaded every submission's code.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Download One Assignment
+        </dt>
+            <dd>3.0) Marker selects the targeted submission.</dd>
+            <dd>3.1) Marker selects "Download".</dd>
+            <dd>3.2) The code is downloaded to the marker's computer.</dd>
+            <dd>Postconditions: The marker has downloaded the assignment's code.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Use Test Suite Added by Instructor
+        </dt>
+            <dd>5.0) Marker selects "View Available Test Suites".</dd>
+            <dd>5.1) Marker selects the "Use for selected evaluation" option of the appropriate test suite.</dd>
+            <dd>5.2) The suite's output is displayed to the marker.</dd>
+            <dd>Postconditions: The system displays the suite's results.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+        Alternate scenario:<br>
+        Marker Views the Code
+        </dt>
+            <dd>5.0) The marker is shown the code and a blank editable comments file in adjacent panes.</dd>
+            <dd>5.1) The marker selects "Submit Feedback".</dd>
+            <dd>5.2) The marker is returned to the targeted submission's page.</dd>
+            <dd>Postconditions: The system displays the assignment's code.</dd>
+        </dl>
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/MarkAssignment.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/MarkAssignmentsSD11.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+    <div class="UseCase">
+        <p>
+        <b>UC15.</b> Name: Use Text Editor<br>
+        User stories addressed: 12<br>
+        Actors: Registered User<br>
+        Preconditions: Student is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        Main Scenario:</dt>
+        <dd>1) Student selects the "Editor" button.</dd>
+        <dd>2) Student is taken to a basic text editor.</dd>
+        <dd>3) Student saves the file to their directory in the cloud.</dd>
+	<dd>Postconditions: The system saves the file the student has created. The user is still on the editor page.</dd>
+        </dl>
+        <dl class="UseCase">
+        <dt>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="Images/StateCharts_Tim/EditText.jpg" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="Images/SequenceDiagrams_Tim/UseEditor12.jpg" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+
+   
+</body>
+</html>

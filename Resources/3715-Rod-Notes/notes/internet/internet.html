@@ -1,0 +1,535 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-20T17:12:34-03:30, Rod Byrne --><title>internet</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Internet and Distributed Processing</h1>
+<div>
+<p>
+        Many interesting and wide spread applications depend
+        on the Internet (process to process communication)
+        for their functionality. Examples include:
+    </p>
+<ul>
+<li> web browsers and web servers</li>
+<li> email clients and mail servers</li>
+<li> NFS clients and servers (network file system)</li>
+<li> X-windows clients and a X-window server</li>
+<li> bittorrent </li>
+<li> news servers </li>
+<li> chat servers </li>
+<li> time servers </li>
+<li> DNS servers </li>
+</ul>
+<p>
+        Most of these applications follow the client/server architecture.
+        Bittorrent follows the peer-to-peer architecture.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Client/Server architecture</h1>
+<div>
+<p>
+       The client/server architecture separates the application into a:
+    </p>
+<dl>
+<dt>server </dt>
+<dd>
+           an application that waits at a well known network address for
+           a client to connect and make a request.
+        </dd>
+<dt>and a client</dt>
+<dd>
+           an application that usually connects to a server to request
+           services for a user. The client contains a user interface.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Internet</h1>
+<div>
+<p>
+        The Internet is composed of a network of interconnected computers
+        and routers. A router is a specialized computer that only passes
+        messages between its connections.
+    </p>
+<p class="center"><img src="net.png"></p>
+<p>
+        Each connected computer is identified by its IP (Internet Protocol) number.
+        IPv4 numbers require 32 bits. The IP number is used to route messages
+        between nodes in the network.
+	IPv6 supports 128 bit addresses.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Typical Home Broadband Connection</h1>
+<div>
+<p class="center"><!--
+	<h:object type="image/svg+xml" data="internet.svg" width="800" height="300"/>
+	--><img src="internet.png"></p>
+<p>
+        The switch connecting the PC to the internet usually performs NATing.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Part of MUNs network</h1>
+<div>
+<p class="center"><!--
+	<h:object type="image/svg+xml" data="internet.svg" width="800" height="300"/>
+	--><img src="campus.png"></p>
+<p>
+        Most of MUN's nodes have a real IP address.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Network programming model</h1>
+<div>
+<p class="center"><!--
+	<h:object type="image/svg+xml" data="internet.svg" width="800" height="300"/>
+	--><img src="network.png"></p>
+<p>
+        The complexity of the internet can be ignored for most
+	network programming.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Domain name server</h1>
+<div>
+<p class="center"><!--
+	<h:object type="image/svg+xml" data="internet.svg" width="800" height="300"/>
+	--><img src="dns.png"></p>
+<p>
+        DNS servers map symbolic names, preferred by humans, to IP addresses.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Layered architecture</h1>
+<div>
+<table style="float:right; margin: 10px; border-collapse: collapse; width:150px">
+<tr style="background:rgb(240,240,240);"><td> Layer-n</td></tr>
+<tr style="background:rgb(220,220,220);"><td> Layer-(n-1)</td></tr>
+<tr style="background:rgb(180,180,180);"><td> Layer-(n-2)</td></tr>
+<tr style="background:rgb(180,180,180);"><td> ... </td></tr>
+<tr style="background:rgb(160,160,160);"><td> Layer-1</td></tr>
+</table>
+<p>
+        The software that runs the Internet is based on a layered architecture.
+        The software is partitioned into packages grouped into layers.
+        The components are only coupled to their adjacent layers.
+        Layer-n only knows about layer-(n-1). Layer-i, where i is in the middle,
+        knows about layer-(i+1) and layer-(i-1).
+    </p>
+<p>
+        Layered architectures are very common in software systems.
+        The system calls provided by an operating system is 
+        usually the bottommost layer. System libraries are built upon
+        system calls, and end user application are build on system libraries.
+    </p>
+<p>
+        In Java, the JVM is the bottommost layer, the Java API is
+	next, the user's application is the topmost layer.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Layered architecture</h1>
+<div>
+<table style="float:right; margin: 10px; border-collapse: collapse; width:150px">
+<tr style="background:rgb(240,240,240);"><td> Application</td></tr>
+<tr style="background:rgb(220,220,220);"><td> Transport</td></tr>
+<tr style="background:rgb(180,180,180);"><td> Network</td></tr>
+<tr style="background:rgb(180,180,180);"><td> Data link </td></tr>
+<tr style="background:rgb(160,160,160);"><td> Physical</td></tr>
+</table>
+<p>
+         The Internet is often described as a 5 layered architecture.
+    </p>
+<dl>
+<dt>Application</dt>
+<dd>
+            This layer contains the end user application. 
+            Web browsers and web servers are typical application
+            at the layer. These applications use the services
+            provided by the transport layer.
+        </dd>
+<dt>Transport</dt>
+<dd>
+            The transport layer provides:
+            <ul>
+<li>a reliable end-to-end communication </li>
+<li>an unreliable datagram communication</li>
+</ul>
+</dd>
+<dt>Network</dt>
+<dd>
+            Routing of packets between nodes is the main service
+            provided by this layer.
+        </dd>
+<dt>Data link</dt>
+<dd>
+            The data link layer provides reliable node to node communication.
+        </dd>
+<dt>Physical</dt>
+<dd>
+            The physical layer is responsible for the actual communication.
+            Communication is done with electromagnetic signals.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1> Layers and network interconnections</h1>
+<div>
+<p>
+        Home, academic, and business networks are connected with:
+	hubs, switches, routers and gateways. 
+    </p>
+<ul>
+<li>
+	    A hub connects nodes at the physical (electrical) layer.
+	    All connected nodes share the same bus and bandwidth.
+	</li>
+<li>
+	    A switch connects nodes at the data link layer. 
+	    The data link layer is also called the media access (MAC)
+	    layer for Ethernet networks (Actually, it is the lower half 
+	    of the data link layer). A switch allows each connected
+	    node to operate at full speed.
+	</li>
+<li>
+	    A router connects nodes at the network layer.
+	    Routers can also act as firewalls, and they can perform NATing.
+	</li>
+<li>
+	    Gateways work at the application layer (e.g.,
+	    HTTP proxies).
+	</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Term definitions</h1>
+<div><dl>
+<dt>host</dt>
+<dd>
+            a computer connected to the Internet, normally
+            does not route messages.
+        </dd>
+<dt>IP</dt>
+<dd>
+            Internet Protocol, defines how messages are routed between nodes.
+        </dd>
+<dt>packets, datagrams</dt>
+<dd>
+            a fixed sized chunk of data sent between nodes.
+        </dd>
+<dt>TCP</dt>
+<dd>
+            Transmission Control Protocol, a protocol that provides
+            reliable delivery of data streams using datagrams.
+        </dd>
+<dt>UDP</dt>
+<dd>
+            User Datagram Protocol, the protocol for
+            delivery on datagrams between hosts.
+            A UDP datagram can be one to many.
+        </dd>
+<dt>IP number</dt>
+<dd>
+            A 4 byte (32-bit) network address. Each datagram contains
+            a source and destination IP number.
+            IP numbers are often expressed as four decimal integers
+            separated by periods (134.153.1.1).
+        </dd>
+<dt>domain name</dt>
+<dd>
+           A symbolic name that is mapped to an IP number by a
+           DNS server.
+        </dd>
+<dt>port number</dt>
+<dd>
+            Communication on the Internet occurs between programs
+            that run on the attached hosts. While IP number identifies
+            the host, the port number identifies which process running
+            on the host is to receive the datagram.
+            All datagrams include the port number of the sending
+            and the port number of the receiver program.
+            Port numbers use 16 bits.
+        </dd>
+<dt>socket</dt>
+<dd>
+            An abstraction of one end of the network connection
+            developed by Berkeley. It provides the connection between
+            the transport layer and the application layer.
+            Sockets are identified with an IP and port number.
+            A socket connection can use either TCP or UDP.
+            A TCP connection contains outgoing and incoming data.
+            These two streams are independent.
+        </dd>
+</dl></div>
+</div>
+<div class="slide">
+<h1>Well known port numbers</h1>
+<div>
+<p>
+        Certain servers are assigned to well known port numbers.
+        Some examples are:
+    </p>
+<ul>
+<li>ftp-data: 20 </li>
+<li>ftp-control: 21 </li>
+<li>ssh: 22 </li>
+<li>telnet: 23 </li>
+<li>smtp: 25 </li>
+<li>time: 37 </li>
+<li>domain: 53 </li>
+<li>finger: 79 </li>
+<li>http: 80 </li>
+<li>pop2: 109 </li>
+<li>pop3: 110 </li>
+<li>sunrpc: 111 </li>
+</ul>
+<p>
+        On Unix systems, the file <tt>/etc/services</tt> contains
+        a list of well known services and port numbers.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>URLs</h1>
+<div>
+<p>
+        The general form for a URL is:
+    </p>
+<blockquote>
+<em>protocol</em>://<em>host</em>/<em>path</em>#<em>name</em>?<em>query</em>
+</blockquote>
+<dl>
+<dt>protocol</dt>
+<dd>
+            http, ftp, telnet, gopher ...
+        </dd>
+<dt>host</dt>
+<dd>
+            domain name of host, can include ":port-number"
+        </dd>
+<dt>path</dt>
+<dd>
+            the path name to the document
+        </dd>
+<dt>name</dt>
+<dd>
+            name in an anchor in the document (optional)
+        </dd>
+<dt>query</dt>
+<dd>
+            query string (optional)
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Wireshark http example</h1>
+<div><iframe src="../wireshark/ws-index.html" width="800" height="600"></iframe></div>
+</div>
+<div class="slide">
+<h1>Wireshark ntp example</h1>
+<div><iframe src="../wireshark/ntp.html" width="800" height="600"></iframe></div>
+</div>
+<div class="slide">
+<h1>Wireshark ssh example</h1>
+<div><iframe src="../wireshark/ssh.html" width="800" height="600"></iframe></div>
+</div>
+<div class="slide">
+<h1>MIME</h1>
+<div>
+<p> 
+        MIME: Multipurpose Internet Mail Extensions
+    </p>
+<p>
+       MIME was initially created for the transmission and
+       reception of non-text e-mail (e.g., images, programs ...).
+    </p>
+<p>
+        When a web server transmits a file to a browser using
+        the HTTP protocol it also sends the MIME type of
+        the file. The MIME type controls how the browser
+        handles the file. All files must have an associated MIME type,
+        the browser will prompt the user if the MIME type
+        is unknown.
+    </p>
+<p>
+        A list of registered mime types is maintained by
+        the Internet Assigned Numbers Authority (IANA).
+        A mine type is composed of two parts separated by
+        a slash. The first part gives the general media
+        type (e.g., text, image) and the second part
+        gives the specific format (e.g., text/html, text/plain,
+        image/jpeg, image/png).
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Web browsers and mime types</h1>
+<div>
+<p>
+        The MIME type for a HTML file/document is:
+    </p>
+<blockquote class="code">
+        text/html
+    </blockquote>
+<p>
+        A plain text file is:
+    </p>
+<blockquote class="code">
+        text/plain
+    </blockquote>
+<p>
+        A file containing HTML tags, but sent as <tt>text/plain</tt>
+        would be displayed as a straight text file.
+    </p>
+<p>
+        The XHTML MIME type is
+    </p>
+<blockquote class="code">
+        application/xhtml+xml
+    </blockquote>
+<p>
+        Any XML document, including XHTML, can also
+        be described with these MIME types.
+    </p>
+<blockquote class="code">
+        application/xml or text/xml
+    </blockquote>
+</div>
+</div>
+<div class="slide">
+<h1>Image mime types</h1>
+<div>
+<p>
+        Mime types for common image formats are:
+    </p>
+<div class="highlight"><pre>image/bmp
+image/gif
+image/jpeg
+image/png
+image/tiff
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Local files and mime types</h1>
+<div>
+<p>
+        When a browser reads a local file it uses
+        the file extension to determine its MIME type.
+        Under Linux the file, <tt>/etc/mime.types</tt>,
+        specifies the mapping between file extensions and
+        MIME types. A subset of the contents is:
+    </p>
+<h2 class="src-name"><a href="mime.types">mime.types</a></h2>
+<div class="highlight"><pre>application/ogg                 ogg
+application/x-tex		tex
+application/xhtml+xml		xhtml xht
+application/xml
+application/xml-dtd
+application/xml-external-parsed-entity
+application/zip			zip
+audio/mpeg			mpga mp2 mp3
+audio/x-pn-realaudio		ram rm
+audio/x-wav			wav
+image/bmp			bmp
+image/gif			gif
+image/jpeg			jpeg jpg jpe
+image/png			png
+image/tiff			tiff tif
+model/vrml			wrl vrml
+multipart/form-data
+multipart/mixed
+text/css			css
+text/html			html htm
+text/plain			asc txt
+text/sgml			sgml sgm
+text/x-setext			etx
+text/xml			xml xsl
+video/mpeg			mpeg mpg mpe
+video/quicktime			qt mov
+video/x-msvideo			avi
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

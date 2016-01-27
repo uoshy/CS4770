@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-22T17:36:47-03:30, Rod Byrne --><title>css-sel</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Selector in CSS</h1>
+<div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+       Cascading Style Sheet associates <em>rendering</em> properties
+       with HTML elements using a set of rules.
+       A rule is composed of a <em>selector</em> followed by
+       a block of <em>rendering</em> properties.
+       For example:
+    </p><div class="highlight"><pre><span class="nt">h1</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">2em</span><span class="p">;</span> <span class="k">color</span> <span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span>  <span class="nt">em</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        The selector in the first rule identifies all <code>h1</code>
+        elements. The second rule selects any
+        <code>em</code> element inside of a <code>p</code> element.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Document Tree Model V1</h1>
+<div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        The tree depicts how the document is represented.
+    </p><img xmlns="http://www.w3.org/1999/xhtml" src="examples/tree.png" align="right"></img><h2 class="src-name"><a href="examples/tree.html">examples/tree.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;p&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span> One <span class="nt">&lt;em&gt;</span>two<span class="nt">&lt;/em&gt;</span> Three<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        This slide is arranged with floats, the image has been
+        floated towards the right.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Document Tree Model V2</h1>
+<div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        The tree depicts how the document is represented.
+    </p><table xmlns="http://www.w3.org/1999/xhtml" width="100%"><tr><td><h2 xmlns="" class="src-name"><a href="examples/tree.html">examples/tree.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;p&gt;</span> Hello World <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span> One <span class="nt">&lt;em&gt;</span>two<span class="nt">&lt;/em&gt;</span> Three<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></td><td><img src="examples/tree.png"></img></td></tr></table><p xmlns="http://www.w3.org/1999/xhtml"> Arranged with a HTML table. </p>
+</div>
+</div>
+<div class="slide">
+<h1>Html-tree mapping</h1>
+<div><ul xmlns="http://www.w3.org/1999/xhtml"><li>
+            Text in the document without any tags become
+            one or more text nodes. Text nodes are always
+            leaf nodes.
+        </li><li>
+            Every element in a HTML document is a node in the tree.
+        </li><li>
+            The contents of an element, <i>X</i>,  will be either children of
+            <i>X</i> or descendants of <i>X</i>.
+            Children of <i>X</i> are nodes that have <i>X</i> as their
+            immediate enclosing element.
+        </li><li>
+            The <code>html</code> element is the root of the tree.
+        </li></ul></div>
+</div>
+<div class="slide">
+<h1>tree paths and selectors</h1>
+<div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        A path in the tree can be identified by listing the nodes
+        that are encountered along the path.
+        Some possible paths include:
+    </p><table xmlns="http://www.w3.org/1999/xhtml" width="100%"><tr><td><ol><li>html head title</li><li>body p em</li><li>body em</li><li>p em</li></ol></td><td><img src="examples/tree.png" align="right"></img></td></tr></table><p xmlns="http://www.w3.org/1999/xhtml">
+        A CSS selector is a partial path in the document tree
+        that decends towards the leaves.
+        The selector, <code>body em</code>, selects any <code>em</code>
+        nodes that are decendants of a <code>body</code> node.
+        Notice that only elements can be selected, text
+        nodes cannot be selected.
+    </p><p xmlns="http://www.w3.org/1999/xhtml">
+        A more efficient way of considering selectors is to
+        start at the last element, and ask if the preceeding
+        element is an ancestor.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>css2 selector summary</h1>
+<div><dl xmlns="http://www.w3.org/1999/xhtml"><dt>*</dt><dd>Matches any element</dd><dt>E</dt><dd>Matches any E element</dd><dt>E F</dt><dd>Matches any F element that is a descendant of an E element.</dd><dt>E &gt; F</dt><dd>Matches any F element that is a child of an element E.</dd><dt>E + F</dt><dd>Matches any F element immediately preceded by a sibling element E.</dd><dt>E[attr]</dt><dd>Matches any E element with the "attr" attribute.</dd><dt>E[attr="a_value"]</dt><dd>Matches any E element whose "attr" attribute value
+        is exactly equal to "a_value". </dd><dt>E[attr~="a_value"]</dt><dd>Matches any E element whose "attr" attribute value is
+        a list of space-separated values, one of which is exactly
+        equal to "a_value". </dd><dt>E.class-name</dt><dd>Matches any element using E[class~="class-name"]</dd><dt>.class-name</dt><dd>Matches *.class-name</dd><dt>E#id-name</dt><dd>Matches E[id="id-name"]</dd><dt>#id-name</dt><dd>Matches *#id-name</dd></dl></div>
+</div>
+<div class="slide">
+<h1>selector examples</h1>
+<div><table xmlns="http://www.w3.org/1999/xhtml" width="100%" style="font-size:0.6em"><tr><td width="50%"><h2 xmlns="" class="src-name"><a href="examples/elements.html">examples/elements.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Elements To Select<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"partA"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"X"</span><span class="nt">&gt;</span> A paragraph with <span class="nt">&lt;em&gt;</span>one<span class="nt">&lt;/em&gt;</span> sentence. <span class="nt">&lt;/p&gt;</span>
+       <span class="nt">&lt;ul&gt;</span>
+           <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;code&gt;</span>div ul li.first<span class="nt">&lt;/code&gt;</span> selects here
+          <span class="nt">&lt;/li&gt;</span>
+           <span class="nt">&lt;li&gt;</span> <span class="nt">&lt;code&gt;</span>div ul li<span class="nt">&lt;/code&gt;</span> selects any li <span class="nt">&lt;/li&gt;</span>
+       <span class="nt">&lt;/ul&gt;</span>
+       <span class="nt">&lt;ol</span> <span class="na">start=</span><span class="s">"4"</span><span class="nt">&gt;</span> <span class="nt">&lt;li&gt;</span> ordered item <span class="nt">&lt;/li&gt;</span> <span class="nt">&lt;/ol&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"partB"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;p&gt;</span> <span class="nt">&lt;em&gt;</span>Part B<span class="nt">&lt;/em&gt;</span> is more exciting than Part A. <span class="nt">&lt;/p&gt;</span>
+       <span class="nt">&lt;table</span> <span class="na">id=</span><span class="s">"tab1"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+           <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span>1<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>2<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+           <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span>3<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>4<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+       <span class="nt">&lt;/table&gt;</span>
+       <span class="nt">&lt;div&gt;</span>
+           <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"X"</span><span class="nt">&gt;</span> p in a div in a div<span class="nt">&lt;/p&gt;</span>
+           <span class="nt">&lt;ul&gt;</span>
+               <span class="nt">&lt;li&gt;&lt;p&gt;</span>a p in a li in ul in ...<span class="nt">&lt;/p&gt;&lt;/li&gt;</span> 
+           <span class="nt">&lt;/ul&gt;</span>
+       <span class="nt">&lt;/div&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></td><td valign="top" style="font-size:1.2em"><dl><dt>p</dt><dd>select all p elements </dd><dt>p.X</dt><dd>select all p with <code>class="X"</code></dd><dt>div p</dt><dd>select all p elements with a div ancestor</dd><dt>div &gt; p</dt><dd>select all p elements with a div parent</dd><dt>#tab1</dt><dd>selects the element with <code>id="tab1"</code></dd><dt>div table#tab1</dt><dd>
+            selects the element with <code>id="tab1""</code>
+            with a dive ancestor
+        </dd></dl></td></tr></table></div>
+</div>
+<div class="slide">
+<h1>more selector examples</h1>
+<div><table xmlns="http://www.w3.org/1999/xhtml" width="100%" style="font-size:0.6em"><tr><td width="50%"><h2 xmlns="" class="src-name"><a href="examples/elements.html">examples/elements.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Elements To Select<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"partA"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"X"</span><span class="nt">&gt;</span> A paragraph with <span class="nt">&lt;em&gt;</span>one<span class="nt">&lt;/em&gt;</span> sentence. <span class="nt">&lt;/p&gt;</span>
+       <span class="nt">&lt;ul&gt;</span>
+           <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;code&gt;</span>div ul li.first<span class="nt">&lt;/code&gt;</span> selects here
+          <span class="nt">&lt;/li&gt;</span>
+           <span class="nt">&lt;li&gt;</span> <span class="nt">&lt;code&gt;</span>div ul li<span class="nt">&lt;/code&gt;</span> selects any li <span class="nt">&lt;/li&gt;</span>
+       <span class="nt">&lt;/ul&gt;</span>
+       <span class="nt">&lt;ol</span> <span class="na">start=</span><span class="s">"4"</span><span class="nt">&gt;</span> <span class="nt">&lt;li&gt;</span> ordered item <span class="nt">&lt;/li&gt;</span> <span class="nt">&lt;/ol&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"partB"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;p&gt;</span> <span class="nt">&lt;em&gt;</span>Part B<span class="nt">&lt;/em&gt;</span> is more exciting than Part A. <span class="nt">&lt;/p&gt;</span>
+       <span class="nt">&lt;table</span> <span class="na">id=</span><span class="s">"tab1"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+           <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span>1<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>2<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+           <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span>3<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>4<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+       <span class="nt">&lt;/table&gt;</span>
+       <span class="nt">&lt;div&gt;</span>
+           <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"X"</span><span class="nt">&gt;</span> p in a div in a div<span class="nt">&lt;/p&gt;</span>
+           <span class="nt">&lt;ul&gt;</span>
+               <span class="nt">&lt;li&gt;&lt;p&gt;</span>a p in a li in ul in ...<span class="nt">&lt;/p&gt;&lt;/li&gt;</span> 
+           <span class="nt">&lt;/ul&gt;</span>
+       <span class="nt">&lt;/div&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></td><td valign="top" style="font-size:1.2em"><dl><dt>ul li</dt><dd> select any ul descended from a li </dd><dt>div.partA ul li</dt><dd>select li descended from ul descended from div
+                with <code>class="partA"</code></dd><dt>tr td + td</dt><dd>selects any td preceeded by a td in a tr </dd><dt>ol[start]</dt><dd>
+                selects ol with a <code>start</code> attribute
+            </dd><dt>table[align="center"]</dt><dd>
+                select tables with the <code>align="center"</code>
+                attribute.
+            </dd></dl></td></tr></table></div>
+</div>
+<div class="slide">
+<h1>pseduo classes</h1>
+<div>
+<p xmlns="http://www.w3.org/1999/xhtml">
+        The following pseduo classes can be used to identify
+        <em>special</em> elements.
+    </p><dl xmlns="http://www.w3.org/1999/xhtml"><dt>:first-child</dt><dd> select the element only if is the first element of a parent </dd><dt>:only-child</dt><dd> select the element only if is the only element of a parent </dd><dt>:nth-child(n)</dt><dd> select the nth child element, (e.g., nth-child(odd),
+            nth-child(even), nth-child(5), nth-child(3n+0) )
+        </dd><dt>:first-letter</dt><dd> selects the first letter of a block element</dd><dt>:first-line</dt><dd> selects the first rendered line of a block element
+             (e.g., p:first-line, first line of p)
+        </dd><dt>:before</dt><dd> allows content to be inserted before an element </dd><dt>:after</dt><dd> allows content to be inserted after an element </dd><dt>:link</dt><dd> select an anchor containing a unvisited link</dd><dt>:visited</dt><dd> selects an anchor that have been visited</dd><dt>:focus</dt><dd> an element is selected only if it has received focus</dd><dt>:active</dt><dd> an anchor that has be pushed, but not yet "clicked"</dd><dt>:hover</dt><dd>an element where the mouse is over it</dd><dt>:disabled</dt><dd> select an element that is disabled</dd><dt>:enabled</dt><dd> select an element that is enabled</dd><dt>:checked</dt><dd> select an element that is checked</dd><dt>:not(p)</dt><dd> select an element where p does not occur</dd></dl>
+</div>
+</div>
+</div></body>
+</html>

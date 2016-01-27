@@ -1,0 +1,51 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function request( url ) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState == 4) {
+            displayResult( xhr );
+        }
+    }
+    xhr.open( "GET", url, true );
+    xhr.send( null );
+}
+
+function displayResult( xhr ) {
+    var display = document.getElementById("display-response");
+    var status = document.getElementById("display-status");
+    var text = document.getElementById("display-text");
+    var textmsg = document.getElementById("display-status-message");
+
+    display.textContent = xhr.getAllResponseHeaders();
+    status.textContent = xhr.status;
+    text.textContent = xhr.responseText;
+    textmsg.textContent = xhr.statusText;
+}
+
+</script>
+</head>
+<body>
+
+<button onclick='request("/examples/header.html" )'>Get headers.html</button>
+<br> <br>
+<button onclick='request("http://www.cs.mun.ca/~rod" )'>Get ~rod</button>
+This request is not allowed (different site).
+
+<h3>Headers</h3>
+<pre id="display-response">
+</pre>
+
+<p>
+<b>status:</b> <span id="display-status"> </span><br>
+<b>message:</b> <span id="display-status-message"> </span>
+</p>
+
+<h3>Document text</h3>
+<pre id="display-text">
+</pre>
+
+</body>
+</head>

@@ -1,0 +1,422 @@
+<html>
+<head>
+<title>Use Cases</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Use Cases</h2>
+
+    <div class="UseCase01">
+        <p>
+        <b>UC01.</b> <br>
+		<b>Name:</b> Login to system<br>
+        <b>User stories addressed:</b> - -<br>
+        <b>Actors:</b> Registered User<br>
+        <b>Precondition:</b> GUI is downloaded and is accessible to user. GUI on their system.<br>
+        <dl class="UseCase01">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) User (admin, instructor, marker, student) opens GUI</dd>
+        <dd>2) User enters login credentials</dd>
+        <dd>3) User clicks "Login" on main GUI menu</dd>
+        <dd>4) System verifies current account credentials</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> User is viewing system main menu (after logged in).</p>
+        <dl class="UseCase01">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Incorrect credentials
+        </dt>
+            <dd>4.0) System determines user credentials are incorrect</dd>
+            <dd>4.1) System returns prompt asking to re-enter user login credentials</dd>
+        </dl>
+
+        <p class="UseCase01"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/01-Login to System.png" class="StateChart">
+        <p class="UseCase01"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/01-Login to System.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase02">
+        <p>
+        <b>UC02.</b> <br>
+		<b>Name:</b> Logout from system<br>
+        <b>User stories addressed:</b> - -<br>
+        <b>Actors:</b> Registered User<br>
+        <b>Precondition:</b> User finished UC-01 (login), & finished with current session.<br>
+        <dl class="UseCase02">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) User clicks "Logout" button on appropriate system menu</dd>
+        <dd>2) System prompts User to confirm logout</dd>
+        <dd>3) User confirms logout</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> User is viewing GUI main login menu.</p>
+        <dl class="UseCase02">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Click 'X' to logout
+        </dt>
+            <dd>1.0) User clicks 'x' button on GUI</dd>
+		<dt>
+        Save before closing
+        </dt>
+            <dd>2.0) System determines if user has unsaved work</dd>
+            <dd>2.1) System prompts user to save current work</dd>
+            <dd>2.2) System commits save(s) to server</dd>
+        </dl>
+
+        <p class="UseCase02"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/02-Logout from System.png" class="StateChart">
+        <p class="UseCase02"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/02-Logout from System.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase03">
+        <p>
+        <b>UC03.</b> <br>
+		<b>Name:</b> Create user account(s)<br>
+        <b>User stories addressed:</b> US-01<br>
+        <b>Actors:</b> Admin<br>
+        <b>Precondition:</b> Admin is finished UC-01 (login), & is viewing system main (admin) menu.<br>
+        <dl class="UseCase03">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Admin clicks "Add Accounts" via menu</dd>
+        <dd>2) System prompts admin to enter user account info</dd>
+        <dd>3) Admin uploads file containing user account info (username / tmp-password)</dd>
+        <dd>4) System creates all accounts (add to database - if no error) </dd>
+		<dd>5) Admin clicks "Create"</dd>
+		<dd>6) System returns confirmation/prompt of success</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Admin is viewing list of added usernames/passwords.</p>
+        <dl class="UseCase03">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Manually add user accounts
+        </dt>
+            <dd>3.0) Admin manually inputs user account info (username/password) via GUI menu</dd>
+		<dt>
+        Admin clicks "Cancel"
+        </dt>
+            <dd>5.0) System determines user credentials are incorrect</dd>
+		  <dd><b>Postcondition:</b> Admin is viewing system main (admin) menu.</dd>
+		<dt>
+        Error uploading user account info
+        </dt>
+            <dd>3.0) System informs admin of error(s) via pop-up/a prompt</dd>
+			<dd>3.1) Admin addresses error(s) (uploading error)</dd>
+		<dt>
+        Error creating account(s)
+        </dt>
+            <dd>6.0) System informs admin of error(s) via pop-up/a prompt</dd>
+			<dd>6.1) Admin addresses error(s) (username/password error, etc.)</dd>
+        </dl>
+
+        <p class="UseCase03"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/03-Create User Account.png" class="StateChart">
+        <p class="UseCase03"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/03-Create User Accounts.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase04">
+        <p>
+        <b>UC04.</b> <br>
+		<b>Name:</b> Create course(s)<br>
+        <b>User stories addressed:</b> US-02<br>
+        <b>Actors:</b> Admin<br>
+        <b>Precondition:</b> Admin is finished UC-01 (login), & is viewing system main (admin) menu.<br>
+        <dl class="UseCase04">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Admin clicks "Add Courses" via menu</dd>
+        <dd>2) System prompts admin to enter course info</dd>
+        <dd>3) Admin uploads file containing course info (code, name, short description)</dd>
+        <dd>4) System creates all courses (adds to database - if no error)</dd>
+		<dd>5) Admin clicks "Create"</dd>
+		<dd>6) System returns confirmation/prompt of success</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Admin is viewing list of recently added courses.</p>
+        <dl class="UseCase04">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Manually add course(s)
+        </dt>
+            <dd>3.0) Admin manually inputs course info via GUI menu</dd>
+		<dt>
+        Cancel adding courses
+        </dt>
+            <dd>5.0) Admin clicks "Cancel"</dd>
+		  <dd><b>Postcondition:</b> Admin is viewing system main (admin) menu.</dd>
+		<dt>
+        Error uploading course info
+        </dt>
+            <dd>3.0) System informs admin of error(s) via pop-up/a prompt</dd>
+            <dd>3.1) Admin addresses error(s) (uploading error)</dd>
+		<dt>
+        Error creating course(s)
+        </dt>
+            <dd>6.0) System informs admin of error(s) via pop-up/a prompt</dd>
+            <dd>6.1) Admin addresses error(s) (course error)</dd>
+		<dt>
+        Organize course(s)
+        </dt>
+            <dd>4.0) Organize courses by year and semester via GUI menu</dd>
+        </dl>
+
+        <p class="UseCase04"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/04-Add Courses.png" class="StateChart">
+        <p class="UseCase04"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/04-Create Courses.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase05">
+        <p>
+        <b>UC05.</b> <br>
+		<b>Name:</b> Assign user(s) to course(s)<br>
+        <b>User stories addressed:</b> US-03, US-05<br>
+        <b>Actors:</b> Admin<br>
+        <b>Precondition:</b> Admin finished UC-03, UC-04, & is viewing system main (admin) menu.<br>
+        <dl class="UseCase05">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Admin clicks "Assign Users" via menu</dd>
+        <dd>2) System prompts admin to link users to courses (system page/menu)</dd>
+        <dd>3) Admin links users to courses via appropriate system page/menu</dd>
+        <dd>4) Admin commit changes via "Save" option/menu (commit changes to database)</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Admin is viewing list courses with assigned users.</p>
+        <dl class="UseCase05">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Error linking user to course
+        </dt>
+            <dd>3.0) System informs admin of error(s) via pop-up/a prompt </dd>
+            <dd>3.1) Admin addresses error(s) (course full, etc)</dd>
+		<dt>
+        Revert changes
+        </dt>
+            <dd>4.0) Admin reverts changes via "Cancel" option/menu </dd>
+          <dd><b>Postcondition:</b> Admin is viewing Assign User menu (step 2).</dd>
+        </dl>
+
+        <p class="UseCase05"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/05-Assign User to Course.png" class="StateChart">
+        <p class="UseCase05"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/05-Assign Users to Courses.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase06">
+        <p>
+        <b>UC06.</b> <br>
+		<b>Name:</b> Remove user(s) from course(s)<br>
+        <b>User stories addressed:</b> US-04<br>
+        <b>Actors:</b> Admin<br>
+        <b>Precondition:</b> Admin finished UC-01 & UC-05, & is viewing system main (admin) menu.<br>
+        <dl class="UseCase06">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Admin clicks "Remove Users" via menu</dd>
+        <dd>2) System prompts Admin to remove users from course(s) (system page/menu)</dd>
+        <dd>3) Admin chooses course to remove user(s)</dd>
+        <dd>4) Admin removes user(s) from course</dd>
+		<dd>5) Admin commit changes via "Save" option/menu (commit changes to database)</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Admin is viewing list of removed users.</p>
+        <dl class="UseCase06">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Manually remove user
+        </dt>
+            <dd>1.0) Admin clicks User via GUI menu</dd>
+            <dd>1.1) System prompts user with User info page</dd>
+			<dd>1.2) Admin continues from step 3</dd>
+		<dt>
+        Right-click remove User
+        </dt>
+            <dd>1.0) Admin right-clicks user via GUI menu</dd>
+            <dd>1.1) Admin selects remove from course</dd>
+			<dd>1.2) Admin continues from step 3</dd>
+		<dt>
+        Revert changes
+        </dt>
+            <dd>5.0) Admin reverts changes via "Cancel" option/menu</dd>
+           <dd><b>Postcondition:</b> Admin is viewing list of courses/users (step 2).</dd>
+        </dl>
+
+        <p class="UseCase06"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/06-Remove User from Course.png" class="StateChart">
+        <p class="UseCase06"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/06-Remove Users from Courses.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase07">
+        <p>
+        <b>UC07.</b> <br>
+		<b>Name:</b> Reset user(s) password(s)<br>
+        <b>User stories addressed:</b> US-04<br>
+        <b>Actors:</b> Admin, Registered User<br>
+        <b>Precondition:</b> Admin finished UC-01 & UC-03, & is viewing system main (admin) menu.<br>
+        <dl class="UseCase07">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Admin clicks "Reset User Password" via menu</dd>
+        <dd>2) System prompts admin to reset user password (list of courses/users)</dd>
+        <dd>3) Admin selects user(s) to reset password</dd>
+        <dd>4) Admin commit changes via "Save" option/menu (commit changes to database)</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Admin viewing page/menu with user name & generated password.</p>
+        <dl class="UseCase07">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Right-click remove User
+        </dt>
+            <dd>1.0) Admin right-clicks user via GUI menu</dd>
+            <dd>1.1) Admin selects reset password</dd>
+			<dd>1.2) Admin continues from step 3</dd>
+		<dt>
+        Revert changes
+        </dt>
+            <dd>4.0) Admin reverts changes via "Cancel" option/menu</dd>
+		  <dd><b>Postcondition:</b> Admin viewing list of courses/users (step 2).</dd>
+		<dt>
+        Automated password reset
+        </dt>
+		  <dd><b>Precondition:</b> UC-01 & UC-03 finished. User is viewing system main (login) menu.</dd>
+            <dd>1.0) User clicks “Reset Password” button via GUI login menu</dd>
+            <dd>1.1) System prompts user for confirmation</dd>
+			<dd>1.2) User accepts or declines</dd>
+		  <dd><b>Postcondition:</b> User viewing GUI main login page.</dd>
+        </dl>
+
+        <p class="UseCase07"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/07-Reset User Password.png" class="StateChart">
+        <p class="UseCase07"><b>Sequence Diagram</b></p>
+        <table><tbody><tr>
+            <td style="padding:5px">
+                <img style="width:100%;" src="SequenceDiagrams_Tyson/07-Reset User Password.png" class="SequenceDiagram"></td>
+            <td style="padding:5px">
+                <img style="width:100%;" src="SequenceDiagrams_Tyson/08-Automated pass reset.png" class="SequenceDiagram"></td>
+        </tr></tbody></table>
+		
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase08">
+        <p>
+        <b>UC08.</b> <br>
+		<b>Name:</b> Set new account password<br>
+        <b>User stories addressed:</b> - -<br>
+        <b>Actors:</b> Registered User<br>
+        <b>Precondition:</b> Admin finished UC-01, UC-03 & UC-07, & user is viewing system login menu.<br>
+        <dl class="UseCase08">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) User enters login credentials via system login menu</dd>
+        <dd>2) System recognizes that current user's password was reset & prompts user (menu/page)</dd>
+        <dd>3) User enters new account password in field </dd>
+        <dd>4) User clicks "Submit"</dd>
+		<dd>5) System returns confirmation/prompt of success</dd>
+		<dd>6) System prompts user to login with new password via system login menu</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> User is viewing system login menu.</p>
+        <dl class="UseCase08">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Password error
+        </dt>
+            <dd>4.0) Entered password violates password rules or isn't accepted</dd>
+            <dd>4.1) System returns prompt asking to re-enter different user password</dd>
+        </dl>
+
+        <p class="UseCase08"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/01-Login to System.png" class="StateChart">
+        <p class="UseCase08"><b>Sequence Diagram</b></p>
+        <img src="SequenceDiagrams_Tyson/09-Set new User Password.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase09">
+        <p>
+        <b>UC09.</b> <br>
+		<b>Name:</b> Add new Assignment<br>
+        <b>User stories addressed:</b> US-06<br>
+        <b>Actors:</b> Instructor<br>
+        <b>Precondition:</b> Finished UC-03 to 05, & instructor is viewing main (instructor) menu.<br>
+        <dl class="UseCase09">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) Instructor clicks "Add Assignment" via menu</dd>
+        <dd>2) System prompts instructor to add assignment to course(s) (system page/menu)</dd>
+        <dd>3) Instructor selects course from list</dd>
+        <dd>4) System prompts instructor to add new assignment</dd>
+		<dd>5) Instructor selects directory (w/ files) for new assignment</dd>
+		<dd>6) System adds directory (w/ files) to cloud to be downloaded by users</dd>
+		<dd>7) System returns confirmation/prompt of success</dd>
+		<dd>8) System notifies all users (linked to course) of new assignment</dd>
+        </dl>
+        <p>
+        <b>Postcondition:</b> Instructor is viewing newly added assignment directory.</p>
+        <dl class="UseCase09">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        Manually add assignment
+        </dt>
+            <dd>5.0) Instructor creates directory for new assignment</dd>
+            <dd>5.1) Instructor creates files via GUI</dd>
+			<dd>5.2) Instructor adds files to new assignment</dd>
+			<dd>5.3) Instructor continues from step 7</dd>
+		<dt>
+        Error creating/adding assignment
+        </dt>
+            <dd>6.0) System informs instructor of error(s) via pop-up/a prompt</dd>
+            <dd>6.1) Instructor addresses error(s); consult Admin, retry, etc.</dd>
+		<dt>
+        Modify existing assignment
+        </dt>
+            <dd>1.0) Instructor clicks assignment from appropriate system menu list</dd>
+            <dd>1.1) System prompts instructor with assignment info menu (directory w/files)</dd>
+			<dd>1.2) Instructor clicks "Edit"</dd>
+			<dd>1.3) Instructor modifies existing assignment (directory/files)</dd>
+			<dd>1.4) Instructor continues from step 7</dd>
+        </dl>
+
+        <p class="UseCase09"><b>State Chart</b></p>
+        <img src="StateCharts_Tyson/08-Add New Assignment.png" class="StateChart">
+        <p class="UseCase09"><b>Sequence Diagram</b></p>
+        <table><tbody><tr>
+            <td style="padding:5px">
+                <img style="width:100%;" src="SequenceDiagrams_Tyson/10-Add new Assignment.png" class="SequenceDiagram"></td>
+            <td style="padding:5px">
+                <img style="width:100%;" src="SequenceDiagrams_Tyson/11-Modify Assignment.png" class="SequenceDiagram"></td>
+        </tr></tbody></table>
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+
+
+   
+</body>
+</html>

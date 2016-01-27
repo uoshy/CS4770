@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<letter>
+    <to>Complaint Department</to>
+    <from>me</from>
+    <subject>Service Complaint</subject>
+    <body>
+        I would like to complain.
+    </body>
+</letter>

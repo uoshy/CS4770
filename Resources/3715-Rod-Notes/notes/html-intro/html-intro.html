@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-15T16:33:59-03:30, Rod Byrne --><title>html-intro</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Controlling a web browser</h1>
+<div>
+<p>
+        The following technologies should be studied
+        in order to properly control a web browser.
+    </p>
+<ul>
+<li>HTML - Hypertext Markup Language, based on SGML</li>
+<li>SGML - Standard Generalized Markup Language</li>
+<li>XHTML - Extensible Hypertext Markup Language, based on XML</li>
+<li>XML - eXtensible Markup Language</li>
+<li>CSS - Cascading Style Sheets</li>
+<li>Javascript, ECMAScript, JScript</li>
+<li>DOM - Document Object Model</li>
+<li>DOM Events</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>SGML</h1>
+<div>
+<p>
+        SGML defines the rules for creating the markup language for
+        a document. A markup language consists of texts and tags.
+        The tags are used to define the structure of a document.
+        Text is anything else. An element in the document is
+        enclosed by a start tag and an end tag.
+    </p>
+<p>
+        Documents encoded using SGML can be modelled as a tree.
+        The root of the tree is the outer most tag. 
+        Tags have to nest inside other tags
+        (i.e., improperly nested tags are considered illegal).
+        The contents between a start tag and an end tag is consider
+        the children of the element.
+        Attributes can be associated with the start tag.
+        An attribute is a name/value pair.
+    </p>
+<p>
+        The SGML specification describes the syntax of tags,
+        attributes, and character encodings.
+        A document type definition, DTD, provides a definition
+        of the allowed tags and organization of the the tags.
+        It is a context free grammar.
+    </p>
+<p>
+        SGML provided the rules for the creation of the HTML application.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>XML</h1>
+<div>
+<p>
+        XML is a simplified version of SGML. It also provides
+        a framework for the creation of documents and data representation.
+    </p>
+<p>
+        The XML specification is described in under 50 pages.
+        One of the goals for XML is to allow for simple
+        software implementations.
+    </p>
+<p>
+        The XML standard is used to:
+    </p>
+<ul>
+<li>create document formats, and </li>
+<li>create data interchange formats. </li>
+</ul>
+<p>
+        SGML is more focused on documents.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>HTML and XHTML</h1>
+<div>
+<p>
+        HTML started as a language to document information
+        and to link the documents for researchers at CERN.
+        Originally it was mostly concerned with the structure
+        and not the presentation of the information.
+    </p>
+<p>
+        During the browser wars many presentation tags were
+        added.
+    </p>
+<p>
+        XHTML is a return to an only structural representation.
+        CSS provides the presentation information.
+        Separating the structure from the presentation allows
+        the information in the document to be presented in
+        multiple ways.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>first</h1>
+<div>
+<p>
+        A document type definition in a HTML document is not required,
+        however it is essential in controlling the behaviour of
+        different web browsers.
+    </p>
+<h2 class="src-name"><a href="examples/first.html">examples/first.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"</span>
+<span class="cp">    "http://www.w3.org/TR/html4/strict.dtd"&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Hello World
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;</span> one <span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span> two <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The <code>DOCTYPE</code> declaration specifies which
+        document type definition the document will follow.
+        The contents of the <tt>title</tt> tag specifies
+        the name of the document, the browser normally displays
+        this name in the title bar.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>first dom</h1>
+<div><img src="first.png" class="center"></div>
+</div>
+<div class="slide">
+<h1>HTML 4.01 DTD</h1>
+<div>
+<p>
+        HTML 4.01 defines the following DTDs:
+    </p>
+<ul>
+<li><div class="text"><pre><span>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"</span>
+<span>   "http://www.w3.org/TR/html4/strict.dtd"&gt;</span>
+</pre></div></li>
+<li><div class="text"><pre><span>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"</span>
+<span>   "http://www.w3.org/TR/html4/loose.dtd"&gt;</span>
+</pre></div></li>
+<li><div class="text"><pre><span>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"</span>
+<span>   "http://www.w3.org/TR/html4/frameset.dtd"&gt;</span>
+</pre></div></li>
+<p>
+             The first DTD removes all the presentational attributes 
+             from HTML. The second DTD allows the presentational attributes.
+             The last DTD is used for frame sets.
+        </p>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>first with loose</h1>
+<div>
+<h2 class="src-name"><a href="examples/first-loose.html">examples/first-loose.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"</span>
+<span class="cp">   "http://www.w3.org/TR/html4/loose.dtd"&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Hello World
+        <span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;ul&gt;</span>
+	    <span class="nt">&lt;li&gt;</span> one <span class="nt">&lt;/li&gt;</span>
+	    <span class="nt">&lt;li&gt;</span> two <span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>first with quirks</h1>
+<div>
+<h2 class="src-name"><a href="examples/first-quirks.html">examples/first-quirks.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Hello World
+        <span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;ul&gt;</span>
+	    <span class="nt">&lt;li&gt;</span> one <span class="nt">&lt;/li&gt;</span>
+	    <span class="nt">&lt;li&gt;</span> two <span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>XHTML DTD</h1>
+<div>
+<p>
+        XHTML defines the following DTDs:
+    </p>
+<ul>
+<li><div class="text"><pre><span>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"</span>
+<span>  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span>
+</pre></div></li>
+<li><div class="text"><pre><span>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"</span>
+<span>  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span>
+</pre></div></li>
+<li><div class="text"><pre><span>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"</span>
+<span>  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;</span>
+</pre></div></li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>first with html5</h1>
+<div>
+<p>
+       The doctype for html5 is really simple.
+    </p>
+<h2 class="src-name"><a href="examples/first-html5.html">examples/first-html5.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Hello World
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;</span> one <span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span> two <span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>helloworld</h1>
+<div>
+<p>
+       The <tt>html</tt> is the root tag.
+       Its two children start with the <tt>head</tt>
+       and <tt>body</tt> tags.
+       The <tt>head</tt> element contains script, style, and meta-data
+       information.
+       The title of the document is found in the <tt>title</tt>
+       element in the <tt>head</tt> element.
+    </p>
+<p>
+       The <tt>body</tt> elements contains the document to be
+       presented to the reader.
+       A paragraph is enclosed by <tt>p</tt> tags.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/helloworld.html">examples/helloworld.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Hello World
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>HTML5 Content Model</h1>
+<div>
+<p>
+        The
+        <a href="https://developers.whatwg.org/content-models.html#content-models">
+        html5 content model</a> specifies what types of content
+        each element can contain. The types of content are:
+    </p>
+<dl>
+<dt>Metadata content</dt>
+<dd>
+        Data about the documents data. In the <tt>head</tt>
+        section. The tags are:
+        <tt>base</tt>,
+        <tt>link</tt>,
+        <tt>noscript</tt>,
+        <tt>script</tt>,
+        <tt>style</tt>,
+        <tt>template</tt>, and
+        <tt>title</tt>.
+    </dd>
+<dt>Flow content</dt>
+<dd>
+        Elements that appear in the <em>flow</em> of the 
+        document. Some of the most popular tags are:
+        <tt>a</tt>, <tt>b</tt>, <tt>blockquote</tt>,
+        <tt>br</tt>, <tt>canvas</tt>, <tt>dl</tt>,
+        <tt>em</tt>, <tt>h1</tt>, <tt>h2</tt>,
+        <tt>header</tt>, <tt>i</tt>, <tt>img</tt>,
+        <tt>input</tt>, <tt>label</tt>, <tt>noscript</tt>,
+        <tt>ol</tt>, <tt>p</tt>, <tt>script</tt>,
+        <tt>ul</tt>, ...
+    </dd>
+<dt>Sectioning content</dt>
+<dd>
+        Section content defines the <em>sections</em> of
+        the document. The tags are:
+        <tt>article</tt>, <tt>aside</tt>, <tt>nav</tt>,
+        and <tt>section</tt>.
+    </dd>
+<dt>Heading content</dt>
+<dd>
+        Heading content contains the headers of sections.
+        The tags are:
+        <tt>h1</tt>, <tt>h2</tt>, <tt>h3</tt>,
+        <tt>h4</tt>, <tt>h5</tt>, <tt>h6</tt>,
+        and <tt>hgroup</tt>.
+    </dd>
+<dt>Phrasing content</dt>
+<dd>
+        Phrasing content normally contains text or other phrasing tags.
+        Some of these tags are:
+        <tt>a</tt>, <tt>b</tt>, <tt>em</tt>,
+        <tt>img</tt>, <tt>input</tt>, <tt>tt</tt>,
+        <tt>object</tt>, <tt>script</tt>, ...
+    </dd>
+<dt>Embedded content</dt>
+<dd>
+       Embedded content specifies external content. The tags are:
+       <tt>audio</tt>, <tt>canvas</tt>, <tt>embed</tt>,
+       <tt>iframe</tt>, <tt>img</tt>, <tt>math</tt>,
+       <tt>object</tt>, <tt>svg</tt>, and <tt>video</tt>,
+    </dd>
+<dt>Interactive content</dt>
+<dd>
+        Interactive content specifies input elements. The tags are:
+       <tt>a</tt>, <tt>audio</tt>, <tt>button</tt>,
+       <tt>details</tt>, <tt>embed</tt>, <tt>iframe</tt>,
+       <tt>img</tt>, <tt>input</tt>, <tt>keygen</tt>,
+       <tt>label</tt>, <tt>object</tt>, <tt>select</tt>,
+       <tt>textarea</tt>, and <tt>video</tt>.
+    </dd>
+</dl>
+<p>
+        HTML4 defined only block and non-block content.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

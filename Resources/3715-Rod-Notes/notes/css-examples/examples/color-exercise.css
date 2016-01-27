@@ -1,0 +1,9 @@
+div.solution div.hide { visibility : hidden; }
+div.solution:hover div.hide { visibility : visible; }
+table { margin-left: 20%; border : thin solid blue; }
+tr:first-child { background: gray;}
+tr:first-child + tr { color: rgb(255,40,40);}
+tr:first-child + tr + tr { background: green;}
+td + td { color : blue; }
+#me { background : yellow; }
+li + li { background: teal; }

@@ -1,0 +1,26 @@
+<html>
+<head>
+   <title>Button Element</title>
+   <script type="text/javascript">
+      function doit(evt) { alert( evt ) }
+      function init() {
+         var b = document.getElementById("cir");
+         b.addEventListener('click', doit, false );
+      }
+   </script>
+</head>
+<body onload="init()">
+   <button onclick="alert(this)">
+      <h1>Hello World</h1>
+   </button>
+   <button onclick="alert('two')">
+      <p>
+         Even more text<br> on two lines, <br>
+         no three lines
+      </p>
+   </button>
+   <button id="cir" >
+      <img alt="push" src="../../images/circles.png">
+   </button>
+</body>
+</html>

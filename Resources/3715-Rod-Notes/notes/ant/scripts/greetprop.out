@@ -1,0 +1,13 @@
+Build greetprop.xml
+
+init:
+     [echo] init( Exploring Ant ).
+
+sayit:
+     [echo]
+     [echo]             Project Exploring Ant is at
+     [echo]             version  v0.1
+     [echo]
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

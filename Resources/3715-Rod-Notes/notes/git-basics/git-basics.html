@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-15T16:35:11-03:30, Rod Byrne --><title>git-basics</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>GIT</h1>
+<div>
+<ul>
+<li>Distributed reversion system</li>
+<li>Created by Linus Torvalds to manage Linux development</li>
+<li>Can be used to manage any collection of files</li>
+<li>Very popular (e.g., github)</li>
+<li>Used for individual revision control</li>
+<li>Used for distributed collaboration</li>
+</ul>
+<p>
+        The following notes will abreviate repository as repo.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Identity and standard configuration</h1>
+<div>
+<p>
+        Before using git you should create an identity.
+        The is only required if you plan to use a remote repo.
+        The commands are:
+    </p>
+<div class="highlight"><pre>git config --global user.name "Your Real Name"
+git config --global user.email real@email.com
+</pre></div>
+<p>
+        The following ensures typical usage will work at MUN.
+    </p>
+<div class="highlight"><pre>git config --global http.postBuffer 10485760 # 10 megabytes
+git config --global push.default matching
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Cloning the course repo</h1>
+<div>
+<p>
+        The remote repo for 3715 is cloned with:
+    </p>
+<div class="highlight"><pre>% cd  # change to home directory
+% git clone https://www.cs.mun.ca/rod-w15-git/3715.git
+</pre></div>
+<p>
+        The above repo is accessed using <tt>https</tt>,
+        the secure version of http. In this case, a user name
+        and password is required.
+    </p>
+<div class="highlight"><pre>% git clone https://www.cs.mun.ca/rod-w15-git/3715.git
+Cloning into '3715'...
+Username for 'https://www.cs.mun.ca': rod
+Password for 'https://rod@www.cs.mun.ca': 
+remote: Counting objects: 29, done.
+remote: Compressing objects: 100% (24/24), done.
+remote: Total 29 (delta 4), reused 0 (delta 0)
+Unpacking objects: 100% (29/29), done.
+Checking connectivity... done.
+</pre></div>
+<p>
+        Notice that the password is not <em>echoed</em>.
+        There is a way to avoid typing your password all the time.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Exploring the repo</h1>
+<div>
+<div class="highlight"><pre>% cd 3715
+% ls -l
+total 32
+drwx------ 2 rod rod 4096 Jan 10 17:40 a1
+-rw------- 1 rod rod 5919 Jan  7 18:48 info.html
+drwx------ 7 rod rod 4096 Jan 10 17:40 notes
+-rw------- 1 rod rod 4316 Jan  7 18:50 project.html
+-rw------- 1 rod rod  185 Jan  7 20:31 README
+drwx------ 3 rod rod 4096 Jan  7 20:16 spark-example
+</pre></div>
+<p>
+        The <tt>ls</tt> hides all files/directories that
+        start with <tt>.</tt> prefix.
+        These files are shown with:
+    </p>
+<div class="highlight"><pre>% ls -al
+total 44
+drwx------  6 rod rod 4096 Jan  8 15:48 .
+drwx------ 16 rod rod 4096 Jan 10 17:40 ..
+drwx------  2 rod rod 4096 Jan 10 17:40 a1
+drwx------  8 rod rod 4096 Jan 10 17:40 .git
+-rw-------  1 rod rod 5919 Jan  7 18:48 info.html
+drwx------  7 rod rod 4096 Jan 10 17:40 notes
+-rw-------  1 rod rod 4316 Jan  7 18:50 project.html
+-rw-------  1 rod rod  185 Jan  7 20:31 README
+drwx------  3 rod rod 4096 Jan  7 20:16 spark-example
+</pre></div>
+<p>
+        The standard directories <tt>.</tt> and  <tt>..</tt>
+        are shown first. All the information about the <em>repo</em>
+        is stored in the <tt>.git</tt> directory.
+        Any files in the <tt>.git</tt> directory should not be
+        touched.
+    </p>
+<div class="highlight"><pre>% ls .git
+branches        config       FETCH_HEAD  hooks  info  objects    refs
+COMMIT_EDITMSG  description  HEAD        index  logs  ORIG_HEAD
+</pre></div>
+<p>
+        Notice that a relative pathname is used when 
+        the <tt>.git</tt> directory is listed.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Getting started with assignment 1</h1>
+<div>
+<p>
+        An example git repo with the commands:
+    </p>
+<ul>
+<li><tt>git init</tt></li>
+<li>
+<tt>git add </tt><em>file</em>
+</li>
+<li>
+<tt>git commit -m </tt><em>"the log message"</em>
+</li>
+</ul>
+<p>
+        A git repo is only created on the local computer.
+    </p>
+<p>
+        A git repo for assignment 1 can be created with:
+    </p>
+<div class="highlight"><pre>% cd
+% mkdir 3715-a1
+% cd 3715-a1
+% # copy the sample html file for submission
+% cp ~/3715/git/a1/sample-assign1.html assign1.html
+% cp -r ~/3715/git/spark-example exer6
+% cp -r ~/3715/git/spark-example exer7
+% git init
+% git add assign1.html exer6 exer7
+% git commit -m "starting assignment 1"
+% git status
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>GIT commands</h1>
+<div>
+<p>
+        A summary of <tt>git</tt> commands from the example are:
+    </p>
+<dl>
+<dt><tt>git init</tt></dt>
+<dd>
+        Creates an empty repo or resets an existing repo.
+    </dd>
+<dt><tt>git status</tt></dt>
+<dd>
+       Displays files added to the index, untracked files, and files tracked
+       with changes. The index stores the files waiting to be 
+       commited.
+    </dd>
+<dt><tt>git add</tt></dt>
+<dd>
+        Adds the files/directories specified in the command to
+        the <b>index</b>. The current contents of the files are added.
+        The entire contents of the directory is added.
+        If a file changes, it should be added again.
+    </dd>
+<dt><tt>git commit</tt></dt>
+<dd>
+        Stores all the files in the index to the repo, a tree
+        object and a commit object are also stored.
+        The tree objects contains the root of all the files
+        in the current <em>snap shot</em>.
+        The <tt>-m</tt> allows a log message to be specifed.
+    </dd>
+<dt><tt>git log</tt></dt>
+<dd>
+        Displays all of the commit log entries for the current branch.
+        The pager can be disabled with <tt>--no-pager</tt>
+</dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Pushing to a remote repo at MUN</h1>
+<div>
+<p>
+        The local repo can be pushed to a remote repo. In this course,
+        the repo can be pushed with:
+    </p>
+<div class="highlight"><pre>% git remote add origin https://www.cs.mun.ca/rod-w15-git/3715/rod/a1.git
+% git push --all origin -u  # only require for the first push
+</pre></div>
+<p>
+        The last <tt>rod</tt> in the URL should be replaced
+        by your labnet id. For example, if your id is <tt>foo123</tt>
+        then the URL would be:
+    </p>
+<div class="highlight"><pre>%  git remote add origin https://www.cs.mun.ca/rod-w15-git/3715/foo123/a1.git
+</pre></div>
+<p>
+        Pushing to the repo is done with:
+    </p>
+<div class="highlight"><pre>git push 
+</pre></div>
+<p>
+        after the first push.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

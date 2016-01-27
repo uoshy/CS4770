@@ -1,0 +1,7 @@
+Buildfile: greetings.xml
+
+sayit:
+     [echo]  Hi there. 
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

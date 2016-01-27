@@ -1,0 +1,238 @@
+<html>
+<head>
+<title>Use Cases</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Use Cases</h2>
+
+    <div class="UseCase">
+        <p>
+        <b>UC16.</b> <br>
+		<b>Name:</b> Registered user compiles through the cloud.<br>
+        <b>User stories addressed:</b>  US-13<br>
+        <b>Actors:</b> Registered User<br>
+        <b>Precondition:</b> The cloud are capable of executing files written by multiple languages(Java, C, C++,etc).<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+        <dd>1) User clicks on language button to choose the preferred language, like Java, C,C++,etc.</dd>
+        <dd>2) User chooses the language.</dd>
+        <dd>3) User compiles through the cloud.</dd>
+        <dd>4) The cloud highlights syntax and matches bracket based on the language the user chose.</dd>
+        <dd> 5)The cloud can save the code in a specific interval.</dd>
+        <dd>6)The user runs the program.</dd>
+        <dd>7a)The cloud returns the output.</dd>
+       <dd> 8a)The cloud stores the class/executable files into user account after the user has done.</dd>
+        </dl>          
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>      
+        </dt>
+            <dd>7b) The code has errors, the cloud reports the error type and the line in which the error lies.</dd>
+            <dd>8b) User modifies the code and reruns the code.</dd>
+           <b>Postcondition: </b>User must keep the files in the appropriate locations in the account.
+<br><br>
+        </dl>
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Compile.png" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/Compile through the cloud.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase">
+        <p>
+        <b>UC17.</b> <br>
+		<b>Name:</b> Registered user downloads compile object files to execute written code.<br>
+        <b>User stories addressed:</b> US-14<br>
+        <b>Actors:</b> Registered User<br>
+        <b>Precondition:</b> User has complied objected files in the account to download.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+         <dd>1) User goes to the location that contains the compile files.</dd>
+         <dd>2) User chooses the download option.</dd>
+         <dd>3) User chooses the file(s) to download, multiple choice of file is available.</dd>
+         <dd>4) User clicks on download button.
+         <dd>5) User chooses the local directory.</dd></dd>
+         <dd>6a) User downloads the file(s).</dd>
+        </dl>       
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        </dt>
+         <dd>6b)There are name conflicts between some of the file on the cloud and the local file. System asks user which way to choose:  replace or cancel.</dd>
+         <dd>7) User chooses cancel.</dd>
+         <dd>8) User resolves the name conflicts and downloads the files.</dd>
+         
+        <b>Postcondition: </b>User downloads the files to the appropriate locate so that the files are executable locally.
+<br><br>
+        </dl>
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Download files.png" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/Download object file.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+    <div class="UseCase">
+        <p>
+        <b>UC18.</b> <br>
+		<b>Name:</b> Registered user uploads/downloads files to share files with other users.<br>
+        <b>User stories addressed:</b> US-15<br>
+        <b>Actors:</b> Registered user<br>
+        <b>Precondition:</b> The GUI interface must be connected to the cloud.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd> 1) User opens the interface.</dd>
+          <dd> 2) User clicks on upload/download button to upload/download files.</dd>
+          <dd> 3) A window that shows the local directories or the cloud directories pops up.</dd>
+          <dd> 4) User chooses the file(s) from the directory, multiple choice of files is available.</dd>
+          <dd> 5a) User chooses the appropriate directory to upload/download to.</dd>
+         <dd>  6a) User uploads/downloads the file(s).</dd>
+        </dl>
+        <p>
+        
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        </dt>
+         <dd>5b) There are name conflicts between upload/download files and local/cloud files. User has two choices: replace or cancel.</dd>
+         <dd>  6b) User chooses cancel.</dd>
+          <dd> 7) User resolves the name conflicts and upload/download file(s).</dd>
+  
+		<b>Postcondition:</b>  Other designated users have authority to access the uploaded/downloaded file(s).
+</p><br><br>  
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Upload and download.png" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/upload and download files.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+       <div class="UseCase">
+        <p>
+        <b>UC19.</b> <br>
+        <b>Name:</b> Registered user execute command line application to test written code.<br>
+        <b>User stories addressed:</b> US-16<br>
+        <b>Actors:</b> Registered user<br>
+        <b>Precondition:</b> The user can input the parameters of the code through GUI interface to the cloud and can retrieve the output given by the cloud.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd>  1) User opens the GUI interface.</dd>
+        <dd> 2) GUI interface pops up.</dd>
+        <dd> 3) User chooses the files to  execute.</dd>
+        <dd> 4a) User types the command line to execute the code. If there are inputs for the code, just type the inputs after the command line.</dd>
+       <dd>  5a) The result from the cloud shows on the terminal window.</dd>
+        </dl>
+        <p>
+        
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        </dt>
+        <dd> 4b) There are errors or the inputs don't meet the requirement (the number or the type of inputs does not match), errors are reported or the input problem is reported, and the line in which the errors 
+lie is also shown.</dd>
+        <dd> 5b) User fixes the errors or the input problem.</dd>
+       <dd>  6) User retypes the command line to run to code.</dd>
+       <dd>  7) The result shows on the terminal window.</dd>
+        <b>Postcondition:</b> User can run the code in the GUI interface for many times.
+</p><br><br>  
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Command line application.png" class="StateChart">
+        <p class="UseCase04"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/Command line application.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+     
+    <div class="UseCase">
+        <p>
+        <b>UC20.</b> <br>
+        <b>Name:</b> Student submits assignments to be marked.<br>
+        <b>User stories addressed:</b> US-17<br>
+        <b>Actors:</b> Student<br>
+        <b>Precondition:</b> Student must submit the assignment through the right account.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd>  1) User opens the GUI interface.</dd>
+        <dd> 2) Student chooses the language the code was written in.</dd>
+        <dd> 3) Student chooses the assignment.</dd>
+        <dd> 4a) Student clicks on submit.</dd>
+       <dd>  5a) Student submits the assignments.</dd>
+        </dl>
+        <p>
+        
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        </dt>
+        <dd> 4b) Student modifies the assignment before the deadline, and submits the assignments again.</dd>
+         <dd> 5b) Student has only submitted part of the assignment, and then submits the rest.</dd>
+        <b>Postcondition:</b> The marker must figure if the student submits more than one time, if the last time is the rest of the assignment or the modified assignment, so that he/she can know the previous submission can be disregarded.
+</p><br><br>  
+        </dl>
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Submit assigment.png" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/Submit assignment.png" class="SequenceDiagram">
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+     <div class="UseCase">
+        <p>
+        <b>UC21.</b> <br>
+        <b>Name:</b> Registered user runs GUI application.<br>
+        <b>User stories addressed:</b> US-18<br>
+        <b>Actors:</b> Registered user<br>
+        <b>Precondition:</b> All the files to be compiled into exe or jar must be in the same directory.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd> 1) User opens GUI interface.</dd>
+          <dd> 2) User chooses the compiled type: exe or jar.</dd>
+          <dd> 3) User chooses the files to run.</dd>
+          <dd> 4a) User clicked on compile button.</dd>
+          <dd> 5a) User runs the files.</dd>
+        </dl>
+        <p>       
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br><br>
+        </dt>
+         <dd>4b) There are errors,the error and the line in which the error lies are reported.</dd>
+         <dd>  5b) User modifies the files.</dd>
+          <dd> 6) User reruns the files.</dd>
+  
+        <b>Postcondition:</b> The compiled files must be executable through the GUI interface.
+</p><br><br>  
+        </dl>
+
+        <p class="UseCase"><b>State Chart</b></p>
+        <img src="StateChart_Liu/Run GUI.png" class="StateChart">
+        <p class="UseCase"><b>Sequence Diagram</b></p>
+        <img src="sequencediagram/Run GUI.png" class="SequenceDiagram">
+		
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+   
+   
+
+
+   
+</body>
+</html>

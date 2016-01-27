@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project name="javacc" default="run">
+
+    <!-- ant 1.8 work around -->
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+
+    <property name="package.dir" value="."/>
+    <property name="dest.dir" value="classes"/>
+
+    <target name="init">
+        <mkdir dir="${dest.dir}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${dest.dir}" />
+        <mkdir dir="${dest.dir}" />
+    </target>
+
+    <target name="compile" depends="init">
+        <javac
+            srcdir="${package.dir}" destdir="${dest.dir}">
+            <compilerarg value="-Xlint:unchecked"/>
+            <include name="*.java"/>
+        </javac>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="HttpDemo1" fork="true">
+            <classpath>
+                <pathelement path="classes"/>
+            </classpath>
+        </java>
+    </target>
+
+</project>

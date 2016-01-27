@@ -1,0 +1,5 @@
+div.color-slide { background : rgb(50%,100%,50%); }
+p { background : orange; }
+li:first-child { color : #00F; }
+li { background : gray; color : #FFD500; }
+span.green {background : rgb(255,0,255); color : rgb(0,255,0); }

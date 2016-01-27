@@ -1,0 +1,1049 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-09T16:21:08-02:30, Rod Byrne --><title>net</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Protocol encoding</h1>
+<div>
+<p>
+        A message is encoded with text when each byte or byte sequence
+        represents a character from a human language. Many distributed
+        systems use text as their message encoding in their protocol.
+        Text encoding allows non-specialized tools to be used
+        during development.
+    </p>
+<p>
+         A message is encoded in <em>binary</em> when the position
+         of the byte in the message stream determines the type of data
+         that the byte encodes. Binary encoding is also common in
+         the implementation of distributed systems.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>sending and receiving non-text data</h1>
+<div>
+<p>
+        Non-text data can be exchanged with the 
+        DataOutputStream and DataInputStream classes.
+        The DataOutputStream class provides:
+    </p>
+<blockquote>
+        writeXXX(XXX v)
+    </blockquote>
+<p>
+        methods to serialize any basic type and the String class.
+        Examples are:
+    </p>
+<blockquote>
+        void writeByte(int v)<br>
+        void writeDouble(double v)<br>
+        void writeUTF(String v)<br>
+</blockquote>
+<p>
+        The serialized data can be extracted with:
+    </p>
+<blockquote>
+        XXX readXXX()
+    </blockquote>
+<p>
+        methods from the <span class="code">DataInputStream</span> class.
+        Examples are:
+    </p>
+<blockquote>
+        boolean readBoolean()<br>
+        float readFloat()<br>
+        String readUTF()<br>
+</blockquote>
+<p>
+        This class serializes the data in a standard format
+        that works across all platforms.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Data encoding format</h1>
+<div>
+<p>
+        Each data type has a defined encoding format.
+    </p>
+<dl>
+<dt class="code">boolean</dt>
+<dd>
+            true sent as a byte with a value of 1,
+            false sent as a byte with a value of 0.
+        </dd>
+<dt class="code">byte</dt>
+<dd>
+            sent as is.
+        </dd>
+<dt class="code">short</dt>
+<dd>
+            high byte sent, followed by low byte.
+        </dd>
+<dt class="code">char</dt>
+<dd>
+            high byte sent, followed by low byte.
+        </dd>
+<dt class="code">int</dt>
+<dd>
+            big endian, high byte first, followed by the three remaining bytes
+            in decreasing order of significance.
+        </dd>
+<dt class="code">long</dt>
+<dd>
+            high byte first, followed by the 7 remaining bytes.
+        </dd>
+<dt class="code">float</dt>
+<dd>
+            sent as IEEE float floating number.
+        </dd>
+<dt class="code">double</dt>
+<dd>
+            sent as IEEE double floating number.
+        </dd>
+<dt class="code">String</dt>
+<dd>
+            the number of bytes to follow is sent as a short
+            (high byte, low byte),
+            then the remaining bytes of the UTF-8 encoding of the String.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Data output demo</h1>
+<div>
+<p>
+        An integer, float, and UTF-8 encoded string is sent
+        to the standard output with:
+    </p>
+<h2 class="src-name"><a href="data/DataOut.java">data/DataOut.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">DataOut</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">DataOutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataOutputStream</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span> <span class="o">);</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="mi">47</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">writeDouble</span><span class="o">(</span> <span class="mf">3.1415926</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">writeUTF</span><span class="o">(</span> <span class="s">"Hello world"</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The output bytes can be examined with:
+    </p>
+<h2 class="src-name"><a href="data/DataOut.out">data/DataOut.out</a></h2>
+<div class="highlight"><pre>% java DataOut &gt; d.out
+% od -b d.out
+0000000 000 000 000 057 100 011 041 373 115 022 330 112 000 013 110 145
+0000020 154 154 157 040 167 157 162 154 144
+0000031
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Data input demo</h1>
+<div>
+<p>
+        A matching program that reads an integer, float,
+        and UTF-8 string is:
+    </p>
+<h2 class="src-name"><a href="data/DataIn.java">data/DataIn.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">DataIn</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">DataInputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataInputStream</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">in</span> <span class="o">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"int = "</span> <span class="o">+</span> <span class="n">in</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"double = "</span> <span class="o">+</span> <span class="n">in</span><span class="o">.</span><span class="na">readDouble</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"chars = "</span> <span class="o">+</span> <span class="n">in</span><span class="o">.</span><span class="na">readUTF</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The output produced by <span class="code">DataIn</span>
+        when feed data created by <span class="code">DataOut</span> is:
+    </p>
+<h2 class="src-name"><a href="data/DataIn.out">data/DataIn.out</a></h2>
+<div class="highlight"><pre>% java DataIn &lt; d.out
+int = 47
+double = 3.1415926
+chars = Hello world
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>client/server that adds ints</h1>
+<div>
+<p>
+        The AddServer will add a sequence of integers
+        sent by a AddClient and return the result.
+        These programs illustrate sending non-text data.
+    </p>
+<p>
+        The data exchanged after the client connects is:
+    </p>
+<dl>
+<dt>Client:</dt>
+<dd>
+<em>size</em><em>int0</em><em>int1</em> ...  </dd>
+<dt>Server:</dt>
+<dd><em>sum</em></dd>
+</dl>
+<p>
+        Every integer is sent with:
+    </p>
+<blockquote>
+        writeInt( int v )
+    </blockquote>
+<p>
+        and extracted with:
+    </p>
+<blockquote>
+        int readInt()
+    </blockquote>
+<p>
+        Communication can be more efficient when the
+        <em>direct</em> encoding of integers are sent
+        and received. Sending an int requires only 4 bytes.
+    </p>
+<p>
+        What are the disadvantages of sending binary
+        instead of text data? 
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>AddServer</h1>
+<div>
+<p>
+        Wait for clients to send a sequence of integers to sum,
+        and replies with the sum. The connection to the client
+        is terminated if a zero sized sequence is sent.
+        This is indicated by a -1 in the size field.
+    </p>
+<h2 class="src-name"><a href="add/AddServer.java">add/AddServer.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">AddServer</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server port is "</span> <span class="o">+</span> <span class="n">listen</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="cm">/* handle one client at a time */</span>
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+
+                <span class="cm">/* data from client */</span>
+                <span class="n">DataInputStream</span> <span class="n">din</span> <span class="o">=</span>
+                    <span class="k">new</span> <span class="nf">DataInputStream</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+
+                <span class="cm">/* data to client */</span>
+                <span class="n">DataOutputStream</span> <span class="n">dout</span> <span class="o">=</span>
+                    <span class="k">new</span> <span class="nf">DataOutputStream</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">()</span> <span class="o">);</span>
+
+                <span class="k">for</span><span class="o">(;;)</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                    <span class="kt">int</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">din</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span> <span class="n">sz</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+                    <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sz</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+                        <span class="n">sum</span> <span class="o">+=</span> <span class="n">din</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+                    <span class="o">}</span>
+                    <span class="n">dout</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">sum</span> <span class="o">);</span>
+                    <span class="n">dout</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connection closed"</span><span class="o">);</span>
+                <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// clean up required</span>
+                <span class="n">din</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="n">dout</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>AddClient</h1>
+<div>
+<p>
+        AddClient is a test client for AddServer,  it
+        sends the sequence 1 .. n to sum.
+    </p>
+<h2 class="src-name"><a href="add/AddClient.java">add/AddClient.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.UnknownHostException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">AddClient</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">range</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+            <span class="n">range</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad port number or range"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IndexOutOfBoundsException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: java AddClient host port range"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="cm">/* determine the address of the server and connect to it */</span>
+            <span class="n">InetAddress</span> <span class="n">server</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+            <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span> <span class="n">server</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">DataInputStream</span> <span class="n">din</span> <span class="o">=</span>
+                <span class="k">new</span> <span class="nf">DataInputStream</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+            <span class="n">DataOutputStream</span> <span class="n">dout</span> <span class="o">=</span>
+                <span class="k">new</span> <span class="nf">DataOutputStream</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="cm">/* tx size */</span>
+            <span class="n">dout</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">range</span> <span class="o">);</span>
+            <span class="cm">/* tx ints to add */</span>
+            <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">range</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">dout</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">i</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">dout</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+            <span class="cm">/* retrieve result */</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">din</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"result is "</span> <span class="o">+</span> <span class="n">result</span> <span class="o">);</span>
+            <span class="cm">/* tell the server that we are done */</span>
+            <span class="n">dout</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="o">-</span><span class="mi">1</span> <span class="o">);</span>
+            <span class="n">dout</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+            <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">dout</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">din</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">UnknownHostException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad host name"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"io error:"</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Calculator client/server</h1>
+<div>
+<p>
+        The calculator server accepts requests to
+        add, subtract, multiple, and divide a pair
+        of integers. 
+        The previous two application perform only
+        one type of request from the clients.
+        A more complex protocol is required
+        to accommodate the calculator requests.
+    </p>
+<p>
+        The messages accepted by the server are:
+    </p>
+<dl>
+<dt>ADD</dt>
+<dd>1 <em>int0</em><em>int1</em>
+</dd>
+<dt>MULT</dt>
+<dd>2 <em>int0</em><em>int1</em>
+</dd>
+<dt>SUBTRACT</dt>
+<dd>3 <em>int0</em><em>int1</em>
+</dd>
+<dt>DIVIDE</dt>
+<dd>4 <em>int0</em><em>int1</em>
+</dd>
+<dt>EXIT</dt>
+<dd>5 </dd>
+</dl>
+<p>
+        If it is an arithmetic request, the server computes
+        the integer result and sends that result.
+        An EXIT request causes the server to drop the connection.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>protocol header</h1>
+<div>
+<p>
+        To ensure that the message types are the same between
+        the client and server, the CalculatorCommands interface
+        is used:
+    </p>
+<h2 class="src-name"><a href="calculate/CalculatorCommands.java">calculate/CalculatorCommands.java</a></h2>
+<div class="highlight"><pre><span class="cm">/* a message contains the command and two possible arguments,</span>
+<span class="cm"> * all the values are send as ints */</span>
+<span class="kd">interface</span> <span class="nc">CalculatorCommands</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">ADD</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">MULT</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">SUBTRACT</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">DIVIDE</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">EXIT</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Note: once the protocol is specified, then multiple
+        distinct clients and servers can be implemented.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Calculator server</h1>
+<div>
+<p>
+        The server decodes the incoming messages, and
+        carries out the request by calling a routine that
+        handles the request.
+        Decoding and calling the relevant routine is often called
+        <b>dispatching</b>.
+    </p>
+<h2 class="src-name"><a href="calculate/CalculateServer.java">calculate/CalculateServer.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.BufferedInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.BufferedOutputStream</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">CalculateServer</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ServerSocket</span> <span class="n">listener</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">CalculateLogger</span> <span class="n">logger</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CalculateServer</span><span class="o">(</span> <span class="kt">int</span> <span class="n">port</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="cm">/* determine the address of the server and connect to it */</span>
+        <span class="n">listener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="n">port</span> <span class="o">);</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculateLogger</span><span class="o">(</span><span class="s">"calc.log"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serve</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+            <span class="n">logger</span><span class="o">.</span><span class="na">report</span><span class="o">(</span><span class="s">"accept: "</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">Calculator</span> <span class="n">calc</span> <span class="o">=</span>
+                    <span class="k">new</span> <span class="nf">Calculator</span><span class="o">(</span>
+                        <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">(),</span>
+                        <span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">()</span> <span class="o">);</span>
+                <span class="n">calc</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span>  <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span> <span class="n">e</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">logger</span><span class="o">.</span><span class="na">report</span><span class="o">(</span><span class="s">"close: "</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad port number"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IndexOutOfBoundsException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: java CalculateServer port"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">CalculateServer</span> <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculateServer</span><span class="o">(</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">server</span><span class="o">.</span><span class="na">serve</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"io error:"</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Calculator</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">DataInputStream</span> <span class="n">requests</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">DataOutputStream</span> <span class="n">replys</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">Calculator</span><span class="o">(</span> <span class="n">InputStream</span> <span class="n">in</span><span class="o">,</span> <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">requests</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataInputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span> <span class="n">in</span> <span class="o">));</span>
+        <span class="n">replys</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataOutputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedOutputStream</span><span class="o">(</span> <span class="n">out</span> <span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">while</span><span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">cmd</span> <span class="o">==</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">EXIT</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span> 
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span> <span class="o">==</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">ADD</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span>
+                        <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">+</span> <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span> <span class="o">==</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">MULT</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span>
+                        <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">*</span> <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span> <span class="o">==</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">SUBTRACT</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span>
+                        <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">-</span> <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span> <span class="o">==</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">DIVIDE</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span>
+                        <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">/</span> <span class="n">requests</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+                    <span class="n">replys</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="c1">// unkown command, give up</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">requests</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">replys</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// just give up right now</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>logging</h1>
+<div>
+<p>
+        The status and activity of server programs are
+        often monitored with the aid of log files.
+        A log file is a record of the activity of
+        some program. All server program will typically
+        have a log file.
+        The Java API provides the java.util.logging package.
+    </p>
+<h2 class="src-name"><a href="calculate/CalculateLogger.java">calculate/CalculateLogger.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.BufferedWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CalculateLogger</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">BufferedWriter</span> <span class="n">logfile</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">filename</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CalculateLogger</span><span class="o">(</span> <span class="n">String</span> <span class="n">filename</span><span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">logfile</span> <span class="o">=</span>
+            <span class="k">new</span> <span class="nf">BufferedWriter</span><span class="o">(</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span> <span class="n">filename</span> <span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">report</span><span class="o">(</span> <span class="n">String</span> <span class="n">s</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">logfile</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="n">s</span> <span class="o">+</span> <span class="s">"\n"</span> <span class="o">);</span>
+            <span class="n">logfile</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// ignore logging errors</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">logfile</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// ignore logging errors</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Calculator client</h1>
+<div>
+<p>
+        The calculator client is responsible for providing
+        a user interface.
+        The client accepts users commends, encodes and
+        sends the request to the server. The reply from
+        the server is then output to the user.
+    </p>
+<h2 class="src-name"><a href="calculate/CalculateClient.java">calculate/CalculateClient.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.BufferedInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.BufferedOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.UnknownHostException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">CalculateClient</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">InetAddress</span> <span class="n">serverHost</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">serverPort</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Socket</span> <span class="n">calculate</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">DataInputStream</span> <span class="n">reply</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">DataOutputStream</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CalculateClient</span><span class="o">(</span> <span class="n">String</span> <span class="n">host</span><span class="o">,</span> <span class="kt">int</span> <span class="n">port</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="cm">/* determine the address of the server and connect to it */</span>
+        <span class="n">serverHost</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+        <span class="n">serverPort</span> <span class="o">=</span> <span class="n">port</span><span class="o">;</span>
+        <span class="n">calculate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span> <span class="n">serverHost</span><span class="o">,</span> <span class="n">serverPort</span> <span class="o">);</span>
+
+        <span class="cm">/* get the output stream */</span>
+        <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">calculate</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataOutputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedOutputStream</span><span class="o">(</span> <span class="n">out</span> <span class="o">));</span>
+
+        <span class="cm">/* get the input stream */</span>
+        <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">calculate</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataInputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span> <span class="n">in</span> <span class="o">));</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleUserInput</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">Scanner</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">in</span> <span class="o">);</span> 
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"calc: "</span><span class="o">);</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">user</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+            <span class="n">Scanner</span> <span class="n">parse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">parse</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"add"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">ADD</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"mult"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">MULT</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"sub"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">SUBTRACT</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"divide"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">DIVIDE</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">()</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"exit"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">EXIT</span> <span class="o">);</span>
+                <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+                <span class="k">break</span><span class="o">;</span> <span class="c1">// exit</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"calc: "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">reply</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad port number"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IndexOutOfBoundsException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: cmd host port"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">CalculateClient</span> <span class="n">calc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculateClient</span><span class="o">(</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">calc</span><span class="o">.</span><span class="na">handleUserInput</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">UnknownHostException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad host name"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"io error:"</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       How cohesive is the <span class="code">handleUserInput()</span> method?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Refactored client</h1>
+<div>
+<p>
+        We can improve the design of the client, by
+        moving the command transmission and retrieval of
+        the result into separate methods.
+        These methods <em>hide</em> the network communication.
+    </p>
+<h2 class="src-name"><a href="calculate/CalculateClientRefactored.java">calculate/CalculateClientRefactored.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.BufferedInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.BufferedOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.DataOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.UnknownHostException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">CalculateClientRefactored</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">InetAddress</span> <span class="n">serverHost</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">serverPort</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Socket</span> <span class="n">calculate</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">DataInputStream</span> <span class="n">reply</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">DataOutputStream</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CalculateClientRefactored</span><span class="o">(</span>
+            <span class="n">String</span> <span class="n">host</span><span class="o">,</span> <span class="kt">int</span> <span class="n">port</span> <span class="o">)</span>
+    <span class="kd">throws</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="cm">/* determine the address of the server and connect to it */</span>
+        <span class="n">serverHost</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+        <span class="n">serverPort</span> <span class="o">=</span> <span class="n">port</span><span class="o">;</span>
+        <span class="n">calculate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span> <span class="n">serverHost</span><span class="o">,</span> <span class="n">serverPort</span> <span class="o">);</span>
+
+        <span class="cm">/* get the output stream */</span>
+        <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">calculate</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataOutputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedOutputStream</span><span class="o">(</span> <span class="n">out</span> <span class="o">));</span>
+
+        <span class="cm">/* get the input stream */</span>
+        <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">calculate</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataInputStream</span><span class="o">(</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span> <span class="n">in</span> <span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">doAdd</span><span class="o">(</span> <span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">ADD</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">doSub</span><span class="o">(</span> <span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">SUBTRACT</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">doMult</span><span class="o">(</span> <span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">MULT</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">doDivide</span><span class="o">(</span> <span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">DIVIDE</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">a</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">b</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">doExit</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span> <span class="n">CalculatorCommands</span><span class="o">.</span><span class="na">EXIT</span> <span class="o">);</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleUserInput</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">Scanner</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">in</span> <span class="o">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"calc: "</span><span class="o">);</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">user</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+            <span class="n">Scanner</span> <span class="n">parse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">parse</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"add"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">doAdd</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"mult"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">doMult</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"sub"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">doSub</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"divide"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"result = "</span> <span class="o">+</span> <span class="n">doDivide</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"exit"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">doExit</span><span class="o">();</span>
+                <span class="k">break</span><span class="o">;</span> <span class="c1">// exit</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"calc: "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">request</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">reply</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad port number"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IndexOutOfBoundsException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: cmd host port"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">CalculateClient</span> <span class="n">calc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculateClient</span><span class="o">(</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">calc</span><span class="o">.</span><span class="na">handleUserInput</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">UnknownHostException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad host name"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"io error:"</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>datagrams receiver</h1>
+<div>
+<p>
+        A DatagramSocket can send and receive datagrams
+        to multiply applications.
+        A test program to illustrate receiving datagrams follows:
+    </p>
+<h2 class="src-name"><a href="datagram/DatagramServ.java">datagram/DatagramServ.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InterruptedIOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.DatagramSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.DatagramPacket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatagramServ</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+        <span class="n">DatagramSocket</span> <span class="n">ds</span><span class="o">;</span>
+        <span class="n">DatagramPacket</span> <span class="n">dp</span><span class="o">;</span>
+        <span class="n">InetAddress</span> <span class="n">ia</span><span class="o">;</span>
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1024</span><span class="o">];</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramSocket</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"port = "</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+
+        <span class="cm">/* set timeout to 5000 milliseconds (5 seconds) */</span>
+        <span class="n">ds</span><span class="o">.</span><span class="na">setSoTimeout</span><span class="o">(</span> <span class="mi">5000</span> <span class="o">);</span>
+
+        <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramPacket</span><span class="o">(</span> <span class="n">buf</span><span class="o">,</span> <span class="n">buf</span><span class="o">.</span><span class="na">length</span> <span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">ds</span><span class="o">.</span><span class="na">receive</span><span class="o">(</span> <span class="n">dp</span> <span class="o">);</span>
+                <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"rx packet: len="</span> <span class="o">+</span> <span class="n">len</span> <span class="o">);</span>
+                <span class="n">ia</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="na">getAddress</span><span class="o">();</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                    <span class="s">"from=("</span> <span class="o">+</span> <span class="n">ia</span><span class="o">.</span><span class="na">getHostName</span><span class="o">()</span> <span class="o">+</span> <span class="s">","</span>
+                    <span class="o">+</span> <span class="n">dp</span><span class="o">.</span><span class="na">getPort</span><span class="o">()</span> <span class="o">+</span> <span class="s">") text="</span> <span class="o">+</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">buf</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span> <span class="n">len</span> <span class="o">)</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">catch</span> <span class="o">(</span> <span class="n">InterruptedIOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"timed out"</span><span class="o">);</span>
+            <span class="o">}</span>    
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>datagrams transmitter</h1>
+<div>
+<p>
+        Demonstrate the transmission of datagrams.
+        Notice that a datagram contains the data and the 
+        destination address.
+    </p>
+<h2 class="src-name"><a href="datagram/DatagramClnt.java">datagram/DatagramClnt.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.DatagramSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.DatagramPacket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatagramClnt</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+	<span class="n">Scanner</span> <span class="n">stdin</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">in</span> <span class="o">);</span>
+        <span class="n">DatagramSocket</span> <span class="n">ds</span><span class="o">;</span> <span class="n">DatagramPacket</span> <span class="n">dp</span><span class="o">;</span>
+        <span class="n">InetAddress</span> <span class="n">ia</span><span class="o">;</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span><span class="o">;</span>
+
+        <span class="n">ia</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramSocket</span><span class="o">();</span>
+
+        <span class="k">while</span> <span class="o">(</span> <span class="n">stdin</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">stdin</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
+            <span class="n">dp</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">DatagramPacket</span><span class="o">(</span> <span class="n">buf</span><span class="o">,</span> <span class="n">buf</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">ia</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">ds</span><span class="o">.</span><span class="na">send</span><span class="o">(</span> <span class="n">dp</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

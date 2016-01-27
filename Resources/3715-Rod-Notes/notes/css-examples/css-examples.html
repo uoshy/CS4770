@@ -1,0 +1,1506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-22T17:37:06-03:30, Rod Byrne --><title>css-examples</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>color and background color</h1>
+<div>
+<style scoped="scoped">div.color-slide { background : rgb(50%,100%,50%); }
+p { background : orange; }
+li:first-child { color : #00F; }
+li { background : gray; color : #FFD500; }
+span.green {background : rgb(255,0,255); color : rgb(0,255,0); }
+</style>
+<style scoped="scoped">div.color-slide { background : rgb(50%,100%,50%); }
+p { background : orange; }
+li:first-child { color : #00F; }
+li { background : gray; color : #FFD500; }
+span.green {background : rgb(255,0,255); color : rgb(0,255,0); }
+</style>
+<div class="color-slide">
+<p>
+         The page is styled with:
+     </p>
+<h2 class="src-name"><a href="examples/colors.css">examples/colors.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.color-slide</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">50</span><span class="o">%,</span><span class="m">100</span><span class="o">%,</span><span class="m">50</span><span class="o">%</span><span class="p">);</span> <span class="p">}</span>
+<span class="nt">p</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="nb">orange</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nd">:first-child</span> <span class="p">{</span> <span class="k">color</span> <span class="o">:</span> <span class="m">#00F</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="nb">gray</span><span class="p">;</span> <span class="k">color</span> <span class="o">:</span> <span class="m">#FFD500</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">span</span><span class="nc">.green</span> <span class="p">{</span><span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">255</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">255</span><span class="p">);</span> <span class="k">color</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">0</span><span class="o">,</span><span class="m">255</span><span class="o">,</span><span class="m">0</span><span class="p">);</span> <span class="p">}</span>
+</pre></div>
+<p>
+         The <span class="green">color</span> of the text in
+         an element is specified with the color property.
+         The color of rectangular background region of an element
+         is specified with the <span class="green">background</span>
+         property.
+     </p>
+<p>
+         Colors can be specified with:
+     </p>
+<ul>
+<li> One of the following: aqua, black, blue, fuchsia,
+              gray, green, lime, maroon, navy, olive, orange, purple,
+              red, silver, teal, white, yellow.
+         </li>
+<li> rgb(r%,g%,b%) or rgb(0-255,0-255,0-255)</li>
+<li> #rgb or #rrggbb where r, g, b is a hex digit</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>background images</h1>
+<div>
+<style scoped="scoped">div.color-slide {background-image:url(../images/gold_crinkle.jpg);}
+p {
+    background-image:url(../images/Planning-And-Probing-1.jpg);
+    color : yellow;
+}
+p span { color:white; background-image:url(../images/circles.png);}
+li { background : yellow; }
+</style>
+<style scoped="scoped">div.color-slide {background-image:url(../images/gold_crinkle.jpg);}
+p {
+    background-image:url(../images/Planning-And-Probing-1.jpg);
+    color : yellow;
+}
+p span { color:white; background-image:url(../images/circles.png);}
+li { background : yellow; }
+</style>
+<div class="color-slide">
+<p>
+            Images can also be placed in the background.
+        </p>
+<h2 class="src-name"><a href="examples/bg-images.css">examples/bg-images.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.color-slide</span> <span class="p">{</span><span class="k">background-image</span><span class="o">:</span><span class="sx">url(../images/gold_crinkle.jpg)</span><span class="p">;}</span>
+<span class="nt">p</span> <span class="p">{</span>
+    <span class="k">background-image</span><span class="o">:</span><span class="sx">url(../images/Planning-And-Probing-1.jpg)</span><span class="p">;</span>
+    <span class="k">color</span> <span class="o">:</span> <span class="nb">yellow</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span> <span class="nt">span</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span><span class="nb">white</span><span class="p">;</span> <span class="k">background-image</span><span class="o">:</span><span class="sx">url(../images/circles.png)</span><span class="p">;}</span>
+<span class="nt">li</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="nb">yellow</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p>
+            Background <span>images</span> can be used to
+            produce good looking pages, however they can 
+            be used to produce ugly pages as well.
+            The background images are affected by 
+            the following properties:
+        </p>
+<ul>
+<li>background-repeat: repeat, repeat-x, repeat-y,
+                no-repeat, inherit</li>
+<li>background-position: left, center, right, percentage, ...</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>hover pseudo class</h1>
+<div>
+<style scoped="scoped">li { background: gray; color : red; }
+li:hover { background: black; color: white; }
+li.img { background-image:url(../images/gold_crinkle.jpg); }
+li.img:hover { background: white; color: blue; }
+div.hov:hover p { color: purple; }
+div.hov p.yel { background: rgb(40,250,60); }
+div.hov:hover p.yel { background: yellow; }
+</style>
+<style scoped="scoped">li { background: gray; color : red; }
+li:hover { background: black; color: white; }
+li.img { background-image:url(../images/gold_crinkle.jpg); }
+li.img:hover { background: white; color: blue; }
+div.hov:hover p { color: purple; }
+div.hov p.yel { background: rgb(40,250,60); }
+div.hov:hover p.yel { background: yellow; }
+</style>
+<p>
+        The <code>:hover</code> pseudo class can be used producing
+        dynamic affects.
+    </p>
+<h2 class="src-name"><a href="examples/hover.css">examples/hover.css</a></h2>
+<div class="highlight"><pre><span class="nt">li</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;</span> <span class="k">color</span> <span class="o">:</span> <span class="nb">red</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nd">:hover</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">black</span><span class="p">;</span> <span class="k">color</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.img</span> <span class="p">{</span> <span class="k">background-image</span><span class="o">:</span><span class="sx">url(../images/gold_crinkle.jpg)</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.img</span><span class="nd">:hover</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span> <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.hov</span><span class="nd">:hover</span> <span class="nt">p</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">purple</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.hov</span> <span class="nt">p</span><span class="nc">.yel</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">40</span><span class="o">,</span><span class="m">250</span><span class="o">,</span><span class="m">60</span><span class="p">);</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.hov</span><span class="nd">:hover</span> <span class="nt">p</span><span class="nc">.yel</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">yellow</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<ul>
+<li> a plain list item </li>
+<li class="img"> one with an image background</li>
+<li> another plain background </li>
+</ul>
+<div class="hov">
+<p>
+            The pseudo class can be applied to a <code>div</code>
+            element which groups other elements.
+        </p>
+<p class="yel">
+            The affects can be useful, but can also produce
+            ugly eye candy.
+        </p>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>color and selector exercise</h1>
+<div>
+<style scoped="scoped">div.solution div.hide { visibility : hidden; }
+div.solution:hover div.hide { visibility : visible; }
+table { margin-left: 20%; border : thin solid blue; }
+tr:first-child { background: gray;}
+tr:first-child + tr { color: rgb(255,40,40);}
+tr:first-child + tr + tr { background: green;}
+td + td { color : blue; }
+#me { background : yellow; }
+li + li { background: teal; }
+</style>
+<style scoped="scoped">div.solution div.hide { visibility : hidden; }
+div.solution:hover div.hide { visibility : visible; }
+table { margin-left: 20%; border : thin solid blue; }
+tr:first-child { background: gray;}
+tr:first-child + tr { color: rgb(255,40,40);}
+tr:first-child + tr + tr { background: green;}
+td + td { color : blue; }
+#me { background : yellow; }
+li + li { background: teal; }
+</style>
+<table>
+<tr>
+<td rowspan="2"><ul>
+<li>first</li>
+<li>second</li>
+<li>third</li>
+</ul></td>
+<td> 1st row </td>
+</tr>
+<tr><td id="me"> 2nd row </td></tr>
+<tr>
+<td> 3rd, 1st col </td>
+<td> 3rd, 2nd col </td>
+</tr>
+</table>
+<div class="solution">
+<p>Solution</p>
+<div class="hide">
+<h2 class="src-name"><a href="examples/color-exercise.css">examples/color-exercise.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.solution</span> <span class="nt">div</span><span class="nc">.hide</span> <span class="p">{</span> <span class="k">visibility</span> <span class="o">:</span> <span class="k">hidden</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.solution</span><span class="nd">:hover</span> <span class="nt">div</span><span class="nc">.hide</span> <span class="p">{</span> <span class="k">visibility</span> <span class="o">:</span> <span class="k">visible</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span> <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">20</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nd">:first-child</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;}</span>
+<span class="nt">tr</span><span class="nd">:first-child</span> <span class="o">+</span> <span class="nt">tr</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">255</span><span class="o">,</span><span class="m">40</span><span class="o">,</span><span class="m">40</span><span class="p">);}</span>
+<span class="nt">tr</span><span class="nd">:first-child</span> <span class="o">+</span> <span class="nt">tr</span> <span class="o">+</span> <span class="nt">tr</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">green</span><span class="p">;}</span>
+<span class="nt">td</span> <span class="o">+</span> <span class="nt">td</span> <span class="p">{</span> <span class="k">color</span> <span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nf">#me</span> <span class="p">{</span> <span class="k">background</span> <span class="o">:</span> <span class="nb">yellow</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span> <span class="o">+</span> <span class="nt">li</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="nb">teal</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>fonts</h1>
+<div>
+<p>
+        Fonts are affected by the following properties:
+    </p>
+<dl>
+<dt>font-family</dt>
+<dd>
+            Specifies a list of possible font families.
+            The font-family can be specific or generic.
+            The generic fonts are: serif, sans-serif, monospace, cursive.
+            A specific font is a font name like 'New Century Schoolbook',
+            or Times.
+        </dd>
+<dt>font-size</dt>
+<dd>
+           The size can be absolute (e.g,. 12pt, 20mm) or relative
+           (e.g., 50%, 1.5em). The follow can also be used:
+           xx-small, x-small, small, medium, large, x-large, xx-large,
+           smaller, larger.
+        </dd>
+<dt>font-weight</dt>
+<dd>
+            The weights include: 100, 200 to 900, bold, bolder, lighter,
+            and normal.
+        </dd>
+<dt>font-style</dt>
+<dd>
+            The styles are: italic, oblique, and normal.
+            Not all font families have all styles.
+        </dd>
+<dt>font-variant</dt>
+<dd>
+            The only variant besides normal is small-caps.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>font examples</h1>
+<div>
+<style scoped="scoped">tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.it { font-style: italic; }
+td.ob { font-style: oblique; }
+td.normal { font-style: normal; }
+table:hover { font-size: 1.2em; font-weight: bold; }
+table { margin-left: 20%; width:60%; background:gray;}
+</style>
+<style scoped="scoped">tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.it { font-style: italic; }
+td.ob { font-style: oblique; }
+td.normal { font-style: normal; }
+table:hover { font-size: 1.2em; font-weight: bold; }
+table { margin-left: 20%; width:60%; background:gray;}
+</style>
+<p>
+       Consider the following style sheet and table.
+    </p>
+<h2 class="src-name"><a href="examples/fonts.css">examples/fonts.css</a></h2>
+<div class="highlight"><pre><span class="nt">tr</span><span class="nc">.first</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">serif</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.second</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">sans-serif</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.third</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">monospace</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.fourth</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">cursive</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.it</span> <span class="p">{</span> <span class="k">font-style</span><span class="o">:</span> <span class="k">italic</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.ob</span> <span class="p">{</span> <span class="k">font-style</span><span class="o">:</span> <span class="k">oblique</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.normal</span> <span class="p">{</span> <span class="k">font-style</span><span class="o">:</span> <span class="k">normal</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="nd">:hover</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">1.2em</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span> <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">20</span><span class="o">%</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span><span class="m">60</span><span class="o">%</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="nb">gray</span><span class="p">;}</span>
+</pre></div>
+<table>
+<tr class="first">
+<td>serif</td>
+<td class="it">italic</td>
+<td class="ob">oblique</td>
+<td class="normal">normal</td>
+</tr>
+<tr class="second">
+<td>sans-serif</td>
+<td class="it">italic</td>
+<td class="ob">oblique</td>
+<td class="normal">normal</td>
+</tr>
+<tr class="third">
+<td>monospace</td>
+<td class="it">italic</td>
+<td class="ob">oblique</td>
+<td class="normal">normal</td>
+</tr>
+<tr class="fourth">
+<td>cursive</td>
+<td class="it">italic</td>
+<td class="ob">oblique</td>
+<td class="normal">normal</td>
+</tr>
+</table>
+<p>
+        The font-family for each table cell is inherited from the table rows.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>font examples 2</h1>
+<div>
+<style scoped="scoped">tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.smaller { font-size: smaller; }
+td.larger { font-size: larger; }
+td.percent { font-size: 95%; }
+td.fixed { font-size: 30px; }
+table:hover { font-variant: small-caps; font-weight: 100; }
+table { margin-left: 15%; width:70%; background:rgb(240,240,240);}
+</style>
+<style scoped="scoped">tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.smaller { font-size: smaller; }
+td.larger { font-size: larger; }
+td.percent { font-size: 95%; }
+td.fixed { font-size: 30px; }
+table:hover { font-variant: small-caps; font-weight: 100; }
+table { margin-left: 15%; width:70%; background:rgb(240,240,240);}
+</style>
+<p>
+       Consider the following style sheet and table.
+    </p>
+<h2 class="src-name"><a href="examples/fonts2.css">examples/fonts2.css</a></h2>
+<div class="highlight"><pre><span class="nt">tr</span><span class="nc">.first</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">serif</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.second</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">sans-serif</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.third</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">monospace</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">tr</span><span class="nc">.fourth</span> <span class="p">{</span> <span class="k">font-family</span> <span class="o">:</span> <span class="k">cursive</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.smaller</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="k">smaller</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.larger</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="k">larger</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.percent</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">95</span><span class="o">%</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">td</span><span class="nc">.fixed</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">30px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="nd">:hover</span> <span class="p">{</span> <span class="k">font-variant</span><span class="o">:</span> <span class="k">small-caps</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="m">100</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span> <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">15</span><span class="o">%</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span><span class="m">70</span><span class="o">%</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="k">rgb</span><span class="p">(</span><span class="m">240</span><span class="o">,</span><span class="m">240</span><span class="o">,</span><span class="m">240</span><span class="p">);}</span>
+</pre></div>
+<table>
+<tr class="first">
+<td>A serif</td>
+<td class="smaller">smaller</td>
+<td class="larger">larger</td>
+<td class="percent">95%</td>
+<td class="fixed">30px</td>
+</tr>
+<tr class="second">
+<td>A sans-serif</td>
+<td class="smaller">smaller</td>
+<td class="larger">larger</td>
+<td class="percent">95%</td>
+<td class="fixed">30px</td>
+</tr>
+<tr class="third">
+<td>A monospace</td>
+<td class="smaller">smaller</td>
+<td class="larger">larger</td>
+<td class="percent">95%</td>
+<td class="fixed">30px</td>
+</tr>
+<tr class="fourth">
+<td>A cursive</td>
+<td class="smaller">smaller</td>
+<td class="larger">larger</td>
+<td class="percent">95%</td>
+<td class="fixed">30px</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="slide">
+<h1>font/selector exercise</h1>
+<div>
+<style scoped="scoped">div.solution div.hide { display : none; }
+div.solution:hover div.hide { display : block; }
+li[class="a"] { font-family: monospace; font-weight: bold; }
+li.b { font-family: sans-serif ; font-size : smaller; }
+li.c { font-family: serif; font-weight: bold: font-variant: small-caps; }
+li.d { font-family: sans-serif; font-size: 1.5em ; color : red; }
+</style>
+<style scoped="scoped">div.solution div.hide { display : none; }
+div.solution:hover div.hide { display : block; }
+li[class="a"] { font-family: monospace; font-weight: bold; }
+li.b { font-family: sans-serif ; font-size : smaller; }
+li.c { font-family: serif; font-weight: bold: font-variant: small-caps; }
+li.d { font-family: sans-serif; font-size: 1.5em ; color : red; }
+</style>
+<p>
+        What is the style sheet for the following?
+    </p>
+<ul>
+<li class="a"> class="a": Some text</li>
+<li class="b"> class="b": More text</li>
+<li class="c"> class="c": Even more text</li>
+<li class="d"> class="d": Last line of text</li>
+</ul>
+<div class="solution">
+<p>Solution</p>
+<div class="hide">
+<h2 class="src-name"><a href="examples/font-exercise.css">examples/font-exercise.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.solution</span> <span class="nt">div</span><span class="nc">.hide</span> <span class="p">{</span> <span class="k">display</span> <span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.solution</span><span class="nd">:hover</span> <span class="nt">div</span><span class="nc">.hide</span> <span class="p">{</span> <span class="k">display</span> <span class="o">:</span> <span class="k">block</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="o">[</span><span class="nt">class</span><span class="o">=</span><span class="s2">"a"</span><span class="o">]</span> <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="k">monospace</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.b</span> <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="k">sans-serif</span> <span class="p">;</span> <span class="k">font-size</span> <span class="o">:</span> <span class="k">smaller</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.c</span> <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="k">serif</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="o">:</span> <span class="k">font-variant</span><span class="o">:</span> <span class="k">small-caps</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.d</span> <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="k">sans-serif</span><span class="p">;</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">1.5em</span> <span class="p">;</span> <span class="k">color</span> <span class="o">:</span> <span class="nb">red</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>text alignment</h1>
+<div>
+<style scoped="scoped">td.p1 {text-align: left; border:thin dashed red;}
+td.p2 {text-align: center; border:thin solid blue;}
+td.p3 {text-align: right; border:thin dotted rgb(200,100,50);}
+td.p4 {text-align: justify; border:thin groove yellow;}
+table { font-size : inherit; }
+</style>
+<style scoped="scoped">td.p1 {text-align: left; border:thin dashed red;}
+td.p2 {text-align: center; border:thin solid blue;}
+td.p3 {text-align: right; border:thin dotted rgb(200,100,50);}
+td.p4 {text-align: justify; border:thin groove yellow;}
+table { font-size : inherit; }
+</style>
+<p>
+        Text can be aligned in a containing block element with
+        the <code>text-align</code> property with values of
+        <code>left</code>, <code>center</code>, <code>right</code>,
+        <code>justify</code>, and <code>inherit</code>.
+        Consider:
+    </p>
+<h2 class="src-name"><a href="examples/align.css">examples/align.css</a></h2>
+<div class="highlight"><pre><span class="nt">td</span><span class="nc">.p1</span> <span class="p">{</span><span class="k">text-align</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">dashed</span> <span class="nb">red</span><span class="p">;}</span>
+<span class="nt">td</span><span class="nc">.p2</span> <span class="p">{</span><span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;}</span>
+<span class="nt">td</span><span class="nc">.p3</span> <span class="p">{</span><span class="k">text-align</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">dotted</span> <span class="k">rgb</span><span class="p">(</span><span class="m">200</span><span class="o">,</span><span class="m">100</span><span class="o">,</span><span class="m">50</span><span class="p">);}</span>
+<span class="nt">td</span><span class="nc">.p4</span> <span class="p">{</span><span class="k">text-align</span><span class="o">:</span> <span class="k">justify</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">groove</span> <span class="nb">yellow</span><span class="p">;}</span>
+<span class="nt">table</span> <span class="p">{</span> <span class="k">font-size</span> <span class="o">:</span> <span class="k">inherit</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<table><tr>
+<td class="p1">
+                All of this text will be left aligned. The right edge will
+                be ragged.
+            </td>
+<td class="p2">
+                The text here is centered. This alignment replaces
+                the <code>center</code> tag.
+            </td>
+<td class="p3">
+                Right aligned text will have a ragged left edge.
+            </td>
+<td class="p4">
+                Justified text will attempt to have straight left
+                and right edges. However the spacing between the words
+                can look bad.
+            </td>
+</tr></table>
+</div>
+</div>
+<div class="slide">
+<h1>indenting first line</h1>
+<div>
+<style scoped="scoped">div.indent { margin-left: 10%; }
+p.i1 { text-indent: 3em; width: 75%; border: thin red solid; }
+p.i2 { text-indent: -0.5in; width: 75%; border: thin blue solid; }
+p.i3 { text-indent: 1in; width: 75%; border: thin green solid; }
+</style>
+<style scoped="scoped">div.indent { margin-left: 10%; }
+p.i1 { text-indent: 3em; width: 75%; border: thin red solid; }
+p.i2 { text-indent: -0.5in; width: 75%; border: thin blue solid; }
+p.i3 { text-indent: 1in; width: 75%; border: thin green solid; }
+</style>
+<p>
+        The first line of many paragraphs are indented.
+        The <code>text-indent</code> property controls
+        the amount of the indent. Possible values are:
+        length, percentage, and inherit.
+        Consider,
+    </p>
+<h2 class="src-name"><a href="examples/text-indent.css">examples/text-indent.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.indent</span> <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.i1</span> <span class="p">{</span> <span class="k">text-indent</span><span class="o">:</span> <span class="m">3em</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">red</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.i2</span> <span class="p">{</span> <span class="k">text-indent</span><span class="o">:</span> <span class="m">-0.5in</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.i3</span> <span class="p">{</span> <span class="k">text-indent</span><span class="o">:</span> <span class="m">1in</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">green</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<div class="indent">
+<p class="i1">
+        This paragraph is indented by 3em, it is always a good
+        idea to use relative lenghts.  
+    </p>
+<p class="i2">
+        Negative values can be used to create another common
+        formatting style. Many of the style parameters found
+        in word processors are also present in CSS.
+    </p>
+<p class="i3">
+        A fixed measure of 1 inch (in) can also be used to set a standard
+        indent amount. Millimeters (mm) are another possible unit.
+    </p>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>line height</h1>
+<div>
+<style scoped="scoped">p.h1 { line-height: 2; width: 75%; border: thin red solid; }
+p.h2 { line-height: 0.5; width: 75%; border: thin blue solid; }
+p.h3 { line-height: 1.5; width: 75%; border: thin green solid; }
+</style>
+<style scoped="scoped">p.h1 { line-height: 2; width: 75%; border: thin red solid; }
+p.h2 { line-height: 0.5; width: 75%; border: thin blue solid; }
+p.h3 { line-height: 1.5; width: 75%; border: thin green solid; }
+</style>
+<p>
+        The spacing between lines is controlled by the
+        <code>line-height</code> property. Possible values
+        are: length, percentage, number, normal, and inherit.
+        Consider the following style sheet for the next
+        three paragraphs.
+    </p>
+<h2 class="src-name"><a href="examples/line-height.css">examples/line-height.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span><span class="nc">.h1</span> <span class="p">{</span> <span class="k">line-height</span><span class="o">:</span> <span class="m">2</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">red</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.h2</span> <span class="p">{</span> <span class="k">line-height</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">5</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.h3</span> <span class="p">{</span> <span class="k">line-height</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">5</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">75</span><span class="o">%</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">green</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p class="h1">
+        Double spacing is easy to achieve with a line-height set to 2.
+        Here is some more redundant text that should add more text to
+        the paragraph.
+    </p>
+<p class="h2">
+        Double spacing is easy to achieve with a line-height set to 2.
+        Here is some more redundant text that should add more text to
+        the paragraph.
+    </p>
+<p class="h3">
+        Double spacing is easy to achieve with a line-height set to 2.
+        Here is some more redundant text that should add more text to
+        the paragraph.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>word spacing</h1>
+<div>
+<style scoped="scoped">li.ws1 { word-spacing: 0.5em; }
+li.ws2 { word-spacing: -0.5em; }
+li.ws3 { word-spacing: normal; }
+</style>
+<style scoped="scoped">li.ws1 { word-spacing: 0.5em; }
+li.ws2 { word-spacing: -0.5em; }
+li.ws3 { word-spacing: normal; }
+</style>
+<p>
+        The spacing between <em>words</em> can be modified with the
+        <code>word-spacing</code> property. This property specifies
+        the amount of extra space to added to the normal space between
+        words. A style sheet that affects the following list items is:
+    </p>
+<h2 class="src-name"><a href="examples/word-spacing.css">examples/word-spacing.css</a></h2>
+<div class="highlight"><pre><span class="nt">li</span><span class="nc">.ws1</span> <span class="p">{</span> <span class="k">word-spacing</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.ws2</span> <span class="p">{</span> <span class="k">word-spacing</span><span class="o">:</span> <span class="m">-0.5em</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.ws3</span> <span class="p">{</span> <span class="k">word-spacing</span><span class="o">:</span> <span class="k">normal</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<ul>
+<li class="ws1">One two three four five six seven.</li>
+<li class="ws2">One two three four five six seven.</li>
+<li class="ws3">One two three four five six seven.</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>text decoration</h1>
+<div>
+<style scoped="scoped">li.s { text-decoration: line-through; }
+li.u { text-decoration: underline; }
+li.o { text-decoration: overline; }
+li.b { text-decoration: blink; }
+span.n { text-decoration: underline; }
+</style>
+<style scoped="scoped">li.s { text-decoration: line-through; }
+li.u { text-decoration: underline; }
+li.o { text-decoration: overline; }
+li.b { text-decoration: blink; }
+span.n { text-decoration: underline; }
+</style>
+<p>
+        The strike through, underline, overline, are all controlled
+        by the <code>text-decoration</code> property.
+        The HTML tags: <code>s</code>, <code>u</code> also
+        specify strike through and underline.
+    </p>
+<h2 class="src-name"><a href="examples/text-dec.css">examples/text-dec.css</a></h2>
+<div class="highlight"><pre><span class="nt">li</span><span class="nc">.s</span> <span class="p">{</span> <span class="k">text-decoration</span><span class="o">:</span> <span class="k">line-through</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.u</span> <span class="p">{</span> <span class="k">text-decoration</span><span class="o">:</span> <span class="k">underline</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.o</span> <span class="p">{</span> <span class="k">text-decoration</span><span class="o">:</span> <span class="k">overline</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">li</span><span class="nc">.b</span> <span class="p">{</span> <span class="k">text-decoration</span><span class="o">:</span> <span class="k">blink</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">span</span><span class="nc">.n</span> <span class="p">{</span> <span class="k">text-decoration</span><span class="o">:</span> <span class="k">underline</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p>
+        The possible text decorations are:
+    </p>
+<ul>
+<li class="o"> overline: used for vectors or boolean logic</li>
+<li class="s"> line-through: delete this </li>
+<li class="u"> underline: a fake link</li>
+<li class="b"> blink: a very annoying decoration</li>
+<li class="b"> blink: <span class="n">no blink?</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>transforming text</h1>
+<div>
+<style scoped="scoped">h1 { text-transform: uppercase; }
+h2 { text-transform: lowercase; }
+h3 { text-transform: capitalize; }
+</style>
+<style scoped="scoped">h1 { text-transform: uppercase; }
+h2 { text-transform: lowercase; }
+h3 { text-transform: capitalize; }
+</style>
+<p>
+        Headings are often capitalized or in all uppercase.
+        The <code>text-transform</code> property can be
+        used to ensure that a head follows a particular style.
+        The possible transformations are: uppercase, lowercase,
+        capitalize, none, and inherit.
+    </p>
+<h2 class="src-name"><a href="examples/text-transform.css">examples/text-transform.css</a></h2>
+<div class="highlight"><pre><span class="nt">h1</span> <span class="p">{</span> <span class="k">text-transform</span><span class="o">:</span> <span class="k">uppercase</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h2</span> <span class="p">{</span> <span class="k">text-transform</span><span class="o">:</span> <span class="k">lowercase</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h3</span> <span class="p">{</span> <span class="k">text-transform</span><span class="o">:</span> <span class="k">capitalize</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<h1> all in lower case </h1>
+<h2> ALL IN UPPER CASE </h2>
+<h3> all in lower case </h3>
+</div>
+</div>
+<div class="slide">
+<h1>whitespace</h1>
+<div>
+<style scoped="scoped">p.pre1 { white-space : pre; }
+</style>
+<style scoped="scoped">p.pre1 { white-space : pre; }
+</style>
+<p>
+        The web browser normally ignores white space characters when
+        rendering a web page. Whitespace is not ignored inside of
+        a <code>pre</code> element. The treatment of whitespace is
+        controlled by the <code>white-space</code> property.
+        Possible values are: normal, nowrap, pre, pre-wrap, pre-line,
+        and inherit. An example of controlling how whitespace is handled is:
+    </p>
+<h2 class="src-name"><a href="examples/white-space.css">examples/white-space.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span><span class="nc">.pre1</span> <span class="p">{</span> <span class="k">white-space</span> <span class="o">:</span> <span class="n">pre</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p class="pre1">
+        The paragraph acts like a pre element.   
+        The newlines are
+        not ignored.
+    </p>
+<!--
+    <p class="pre2">
+        This is almost a pre element,   spaces    are
+        p r e s e r v r e d but lines are wrapped.
+    </p>
+    -->
+</div>
+</div>
+<div class="slide">
+<h1>box model</h1>
+<div>
+<style scoped="scoped">p.box {
+    margin: 0.5in 20% 0.25in 10%;
+    padding: 1.5em;
+    border: 4px solid red;
+    background: rgb(200,200,220);
+}
+p.box:hover {
+    margin: 0.25in 5% 0.25in 5%;
+    background: rgb(200,200,240);
+}
+</style>
+<style scoped="scoped">p.box {
+    margin: 0.5in 20% 0.25in 10%;
+    padding: 1.5em;
+    border: 4px solid red;
+    background: rgb(200,200,220);
+}
+p.box:hover {
+    margin: 0.25in 5% 0.25in 5%;
+    background: rgb(200,200,240);
+}
+</style>
+<p>
+        A box with margins, borders, and padding is defined for
+        all content (e.g., p, span, h1, ...). The top, right, bottom and left
+        sides of the margins, borders, and padding can be individually
+        specified.
+    </p>
+<p class="box">
+        The box properties for this paragraph are: <br>
+        margin: 0.5in 20% 0.25in 10%;<br>
+        padding: 1.5em;<br>
+        border: 4px solid black;<br>
+        background: rgb(200,200,220);<br></p>
+<hr>
+<ul>
+<li>The margins are see through.</li>
+<li>
+            The background setting covers the padding area.
+        </li>
+<li>
+            The padding is 1.5em for all four sides.
+        </li>
+<li>
+            Individual parts are specified with x-top, x-right, x-bottom,
+            and x-left where x is margin, padding, and border.
+        </li>
+<li>
+            The hover changes the margin to margin: 0.25in 5% 0.25in 5%.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>box model layout</h1>
+<div>
+<p>
+        The box model affects the layout depending on the type of
+        HTML element. The element types are:
+    </p>
+<dl>
+<dt>non-replaced element</dt>
+<dd>The text content contained in p, li, ... elements. </dd>
+<dt>replaced element</dt>
+<dd>An element that is replaced by external content during rendering 
+            (e.g., img, input, ...).
+        </dd>
+<dt>block-level</dt>
+<dd>
+            Elements that occupy the full horizontal space and stack 
+            vertically in left-to-right, top-to-bottom languages.
+        </dd>
+<dt>inline</dt>
+<dd>
+            Content is placed on a line when rendered 
+            (i.e., all text is placed on a line, so are images).
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Stacking blocks</h1>
+<div>
+<style scoped="scoped">p.p1 {
+    margin-bottom : 10px;
+    margin-left: 10%; margin-right : 20%;
+    padding: 0em;
+    border : 2px dashed red;
+}
+p.p2 {
+    margin-top : 20px; margin-bottom : 30px;
+    margin-left: 20%; margin-right : 10%;
+    padding: 1em;
+    border : 4px solid blue;
+}
+p.p3 {
+    margin-top : 5px;
+    margin-left: 30%; margin-right : 30%;
+    padding-left: 3em; padding-right: 1em;
+    border : 2mm dotted rgb(200,100,50);
+    font-family : monospace;
+}
+</style>
+<style scoped="scoped">p.p1 {
+    margin-bottom : 10px;
+    margin-left: 10%; margin-right : 20%;
+    padding: 0em;
+    border : 2px dashed red;
+}
+p.p2 {
+    margin-top : 20px; margin-bottom : 30px;
+    margin-left: 20%; margin-right : 10%;
+    padding: 1em;
+    border : 4px solid blue;
+}
+p.p3 {
+    margin-top : 5px;
+    margin-left: 30%; margin-right : 30%;
+    padding-left: 3em; padding-right: 1em;
+    border : 2mm dotted rgb(200,100,50);
+    font-family : monospace;
+}
+</style>
+<p>
+        Block elements obey margins, padding, and borders.
+        Consider the following style sheet:
+    </p>
+<h2 class="src-name"><a href="examples/para.css">examples/para.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span><span class="nc">.p1</span> <span class="p">{</span>
+    <span class="k">margin-bottom</span> <span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span> <span class="k">margin-right</span> <span class="o">:</span> <span class="m">20</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">0em</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">2px</span> <span class="k">dashed</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.p2</span> <span class="p">{</span>
+    <span class="k">margin-top</span> <span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">margin-bottom</span> <span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">20</span><span class="o">%</span><span class="p">;</span> <span class="k">margin-right</span> <span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">1em</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">4px</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.p3</span> <span class="p">{</span>
+    <span class="k">margin-top</span> <span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">30</span><span class="o">%</span><span class="p">;</span> <span class="k">margin-right</span> <span class="o">:</span> <span class="m">30</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">padding-left</span><span class="o">:</span> <span class="m">3em</span><span class="p">;</span> <span class="k">padding-right</span><span class="o">:</span> <span class="m">1em</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">2mm</span> <span class="k">dotted</span> <span class="k">rgb</span><span class="p">(</span><span class="m">200</span><span class="o">,</span><span class="m">100</span><span class="o">,</span><span class="m">50</span><span class="p">);</span>
+    <span class="k">font-family</span> <span class="o">:</span> <span class="k">monospace</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p class="p1">
+       This paragraph is closest to the left margin.
+       Its width is 70%, since the left and right margins take up 30%
+       of the horizontal space.
+       There is no padding.
+       The margins between paragraphs collapse to the maximum
+       of the two adjacent blocks.
+    </p>
+<p class="p2">
+        The margin has pushed this paragraph further to the right.
+        Its width is also 70%.
+    </p>
+<p class="p3">
+        This paragraph is centered with a width of 40%. The padding
+        is also the most of the three paragraphs.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>big borders</h1>
+<div>
+<style scoped="scoped">td.t1 {
+    border-top: 10px solid red; border-right: 10px solid green;
+    border-bottom: 10px solid blue; border-left: 10px solid black;
+    padding: 2em;
+}
+p.t2 {
+    border-top: 20px solid red; border-right: 20px dotted green;
+    border-bottom: 20px dashed blue; border-left: 20px groove black;
+    padding: 2em;
+}
+table { margin-left: 30%; }
+</style>
+<style scoped="scoped">td.t1 {
+    border-top: 10px solid red; border-right: 10px solid green;
+    border-bottom: 10px solid blue; border-left: 10px solid black;
+    padding: 2em;
+}
+p.t2 {
+    border-top: 20px solid red; border-right: 20px dotted green;
+    border-bottom: 20px dashed blue; border-left: 20px groove black;
+    padding: 2em;
+}
+table { margin-left: 30%; }
+</style>
+<p>
+        Borders abut in a diagonal line. This can be illustrated
+        with the following style sheet.
+    </p>
+<h2 class="src-name"><a href="examples/big-borders.css">examples/big-borders.css</a></h2>
+<div class="highlight"><pre><span class="nt">td</span><span class="nc">.t1</span> <span class="p">{</span>
+    <span class="k">border-top</span><span class="o">:</span> <span class="m">10px</span> <span class="k">solid</span> <span class="nb">red</span><span class="p">;</span> <span class="k">border-right</span><span class="o">:</span> <span class="m">10px</span> <span class="k">solid</span> <span class="nb">green</span><span class="p">;</span>
+    <span class="k">border-bottom</span><span class="o">:</span> <span class="m">10px</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span> <span class="k">border-left</span><span class="o">:</span> <span class="m">10px</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.t2</span> <span class="p">{</span>
+    <span class="k">border-top</span><span class="o">:</span> <span class="m">20px</span> <span class="k">solid</span> <span class="nb">red</span><span class="p">;</span> <span class="k">border-right</span><span class="o">:</span> <span class="m">20px</span> <span class="k">dotted</span> <span class="nb">green</span><span class="p">;</span>
+    <span class="k">border-bottom</span><span class="o">:</span> <span class="m">20px</span> <span class="k">dashed</span> <span class="nb">blue</span><span class="p">;</span> <span class="k">border-left</span><span class="o">:</span> <span class="m">20px</span> <span class="k">groove</span> <span class="nb">black</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">table</span> <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">30</span><span class="o">%</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<table><tr>
+<td class="t1">One</td>
+<td><p class="t2">Two</p></td>
+</tr></table>
+<p>
+        The second entry contains a paragraph.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>box model: width and height</h1>
+<div>
+<style scoped="scoped">p.p1 {
+    margin-bottom : 30px;
+    margin-left: 10%; width: 70%;
+    border : 2px dashed red;
+}
+p.p2 {
+    margin-top : 20px; margin-bottom : 30px;
+    margin-left: 20%; width: 70%;
+    border : 4px solid blue;
+}
+p.p3 {
+    margin-top : 15px;
+    margin-left: 30%; width : 40%;
+    border : 1px dotted rgb(200,100,50);
+}
+</style>
+<style scoped="scoped">p.p1 {
+    margin-bottom : 30px;
+    margin-left: 10%; width: 70%;
+    border : 2px dashed red;
+}
+p.p2 {
+    margin-top : 20px; margin-bottom : 30px;
+    margin-left: 20%; width: 70%;
+    border : 4px solid blue;
+}
+p.p3 {
+    margin-top : 15px;
+    margin-left: 30%; width : 40%;
+    border : 1px dotted rgb(200,100,50);
+}
+</style>
+<p>
+        The height and width can also be specified for block elements,
+        but not inline elements. Instead of specifying the margins,
+        the last example can be specified with the <code>width</code> property.
+    </p>
+<h2 class="src-name"><a href="examples/para-width.css">examples/para-width.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span><span class="nc">.p1</span> <span class="p">{</span>
+    <span class="k">margin-bottom</span> <span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">70</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">2px</span> <span class="k">dashed</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.p2</span> <span class="p">{</span>
+    <span class="k">margin-top</span> <span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">margin-bottom</span> <span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">20</span><span class="o">%</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">70</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">4px</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.p3</span> <span class="p">{</span>
+    <span class="k">margin-top</span> <span class="o">:</span> <span class="m">15px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">30</span><span class="o">%</span><span class="p">;</span> <span class="k">width</span> <span class="o">:</span> <span class="m">40</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="m">1px</span> <span class="k">dotted</span> <span class="k">rgb</span><span class="p">(</span><span class="m">200</span><span class="o">,</span><span class="m">100</span><span class="o">,</span><span class="m">50</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p class="p1">
+       A width of 70% and a left margin of 10% creates this block.
+       The padding is inherited.
+       The margins between paragraphs collapse to the maximum
+       of the two adjacent blocks.
+    </p>
+<p class="p2">
+        The margin has pushed this paragraph further to the right.
+        Its width is also 70%.
+    </p>
+<p class="p3">
+        This paragraph is centered with a width of 40%.
+        There is no other content to the left or right of a block element.
+    </p>
+<p>
+        The total size of a block element is the sum of the margins, border,
+        padding, and width. The width specifies only the size of the content,
+        not the entire element.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>width of non-replaced/replaced inline</h1>
+<div>
+<style scoped="scoped">button.b1 {
+    color : white; background: rgb(30,100,250);
+    width : 150px; margin-left: 15px; 
+}
+span.s1 {
+    width : 200px; background: cyan;
+    margin-left: 30px; margin-right: 70px;
+}
+</style>
+<style scoped="scoped">button.b1 {
+    color : white; background: rgb(30,100,250);
+    width : 150px; margin-left: 15px; 
+}
+span.s1 {
+    width : 200px; background: cyan;
+    margin-left: 30px; margin-right: 70px;
+}
+</style>
+<p>
+        The width property for inline non-replaced elements is
+        ignored. The width property does affected replaced elements.
+        Left and right margins can be specified for non-replaced elements.
+        Consider,
+    </p>
+<h2 class="src-name"><a href="examples/inline-width.css">examples/inline-width.css</a></h2>
+<div class="highlight"><pre><span class="nt">button</span><span class="nc">.b1</span> <span class="p">{</span>
+    <span class="k">color</span> <span class="o">:</span> <span class="nb">white</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">30</span><span class="o">,</span><span class="m">100</span><span class="o">,</span><span class="m">250</span><span class="p">);</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">150px</span><span class="p">;</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">15px</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="nt">span</span><span class="nc">.s1</span> <span class="p">{</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">200px</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="nb">cyan</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">30px</span><span class="p">;</span> <span class="k">margin-right</span><span class="o">:</span> <span class="m">70px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p><button class="b1">Press Me</button><span class="s1"> and also </span><button class="b1">And Me</button></p>
+</div>
+</div>
+<div class="slide">
+<h1>handling overflows</h1>
+<div>
+<style scoped="scoped">p.a1 { height:3em;width:8em; overflow:hidden; border:thin dashed red;}
+p.a2 { height:3em;width:8em; overflow:auto; border:thin solid blue; }
+p.a3 { height:3em;width:8em; overflow:visible; border:thin dotted rgb(200,100,50);}
+</style>
+<style scoped="scoped">p.a1 { height:3em;width:8em; overflow:hidden; border:thin dashed red;}
+p.a2 { height:3em;width:8em; overflow:auto; border:thin solid blue; }
+p.a3 { height:3em;width:8em; overflow:visible; border:thin dotted rgb(200,100,50);}
+</style>
+<p>
+        What happens when the content can nolonger fit inside an element
+        where the width and height are specified?
+        The <code>overflow</code> property specifies how any overflow is dealt with.
+        The values are: visible, hidden, scroll, auto, and inherit.
+        The style sheet is:
+    </p>
+<h2 class="src-name"><a href="examples/overflow.css">examples/overflow.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span><span class="nc">.a1</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span><span class="m">3em</span><span class="p">;</span><span class="k">width</span><span class="o">:</span><span class="m">8em</span><span class="p">;</span> <span class="k">overflow</span><span class="o">:</span><span class="k">hidden</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">dashed</span> <span class="nb">red</span><span class="p">;}</span>
+<span class="nt">p</span><span class="nc">.a2</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span><span class="m">3em</span><span class="p">;</span><span class="k">width</span><span class="o">:</span><span class="m">8em</span><span class="p">;</span> <span class="k">overflow</span><span class="o">:</span><span class="k">auto</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">solid</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">p</span><span class="nc">.a3</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span><span class="m">3em</span><span class="p">;</span><span class="k">width</span><span class="o">:</span><span class="m">8em</span><span class="p">;</span> <span class="k">overflow</span><span class="o">:</span><span class="k">visible</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span><span class="k">thin</span> <span class="k">dotted</span> <span class="k">rgb</span><span class="p">(</span><span class="m">200</span><span class="o">,</span><span class="m">100</span><span class="o">,</span><span class="m">50</span><span class="p">);}</span>
+</pre></div>
+<p class="a1">
+        xxxx xxxxxxxx xxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
+    </p>
+<p class="a2">
+        xxxx xxxxxxxx xxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
+    </p>
+<p class="a3">
+        xxxx xxxxxxxx xxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
+    </p>
+<p>
+        Some content to be overlapped.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>display and visiblity</h1>
+<div>
+<p>
+        The <code>display</code> property controls how an element
+        is rendered. The default value for most HTML elements
+        should only be changed in extreme circumstances.
+        The most important values are:
+    </p>
+<dl>
+<dt>inline</dt>
+<dd>
+            Placed on a line (e.g,. text).
+        </dd>
+<dt>block</dt>
+<dd>
+          Stacked vertically, disallows any other block element horizontally.
+        </dd>
+<dt>none</dt>
+<dd>
+            The element is not rendered, the content is not
+            considered part of the document.
+        </dd>
+</dl>
+<p>
+        The <code>visiblity</code> property can be used to hide elements
+        from view. Unlike, <code>display:none</code> property 
+        the content still occupies space.
+        The values for <code>visiblity</code> are:
+        visible, hidden, and inherit.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>display and visiblity example</h1>
+<div>
+<style scoped="scoped">div.dv_vis { border : blue solid thick; }
+div.dv_vis p {visibility:hidden; background:#DED; border: thin solid black;}
+div.dv_vis:hover p {visibility:visible; background:#DED; border: thin solid black;}
+div.dv_dis { border : red solid thick; }
+div.dv_dis p {display:none; background:#DED; border: thin solid black;}
+div.dv_dis:hover p {display:block; background:#DED; border: thin solid black;}
+</style>
+<style scoped="scoped">div.dv_vis { border : blue solid thick; }
+div.dv_vis p {visibility:hidden; background:#DED; border: thin solid black;}
+div.dv_vis:hover p {visibility:visible; background:#DED; border: thin solid black;}
+div.dv_dis { border : red solid thick; }
+div.dv_dis p {display:none; background:#DED; border: thin solid black;}
+div.dv_dis:hover p {display:block; background:#DED; border: thin solid black;}
+</style>
+<p>
+        The first paragraph uses the <code>visiblity</code> property
+        to become invisible, the second uses <code>display</code>.
+        The style sheet is:
+    </p>
+<h2 class="src-name"><a href="examples/display-visibility.css">examples/display-visibility.css</a></h2>
+<div class="highlight"><pre><span class="nt">div</span><span class="nc">.dv_vis</span> <span class="p">{</span> <span class="k">border</span> <span class="o">:</span> <span class="nb">blue</span> <span class="k">solid</span> <span class="k">thick</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.dv_vis</span> <span class="nt">p</span> <span class="p">{</span><span class="k">visibility</span><span class="o">:</span><span class="k">hidden</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="m">#DED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;}</span>
+<span class="nt">div</span><span class="nc">.dv_vis</span><span class="nd">:hover</span> <span class="nt">p</span> <span class="p">{</span><span class="k">visibility</span><span class="o">:</span><span class="k">visible</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="m">#DED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;}</span>
+<span class="nt">div</span><span class="nc">.dv_dis</span> <span class="p">{</span> <span class="k">border</span> <span class="o">:</span> <span class="nb">red</span> <span class="k">solid</span> <span class="k">thick</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">div</span><span class="nc">.dv_dis</span> <span class="nt">p</span> <span class="p">{</span><span class="k">display</span><span class="o">:</span><span class="k">none</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="m">#DED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;}</span>
+<span class="nt">div</span><span class="nc">.dv_dis</span><span class="nd">:hover</span> <span class="nt">p</span> <span class="p">{</span><span class="k">display</span><span class="o">:</span><span class="k">block</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span><span class="m">#DED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;}</span>
+</pre></div>
+<div class="dv_dis">
+<h2>show</h2>
+<p>
+            This paragraph will not event appear until the display
+            property is changed.
+        </p>
+</div>
+<div class="dv_vis">
+<h2>show</h2>
+<p>
+            This paragraph will be hidden, but it will still take up
+            space, its border and background will not be displayed.
+        </p>
+</div>
+</div>
+</div>
+<div class="slide">
+<h1>position property</h1>
+<div>
+<p>
+       Elements can be shifted from their normal position,
+       or completed removed and placed anywhere on the page.
+       The <code>position</code> property controls where
+       an element is placed. Its values are:
+    </p>
+<dl>
+<dt>static</dt>
+<dd>
+            placed where it normally would be.
+        </dd>
+<dt>relative</dt>
+<dd>
+            the element is shifted, but the orginal space is maintained.
+        </dd>
+<dt>absolute</dt>
+<dd>
+            the element is placed at on absolute position relative
+            to its containing element.
+        </dd>
+<dt>fixed</dt>
+<dd>
+            the element is placed relative to the browers window.
+        </dd>
+</dl>
+<p>
+        The properties <code>top</code>, <code>bottom</code>,
+        <code>left</code>, and <code>right</code> control
+        where the element is positioned.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>position examples</h1>
+<div>
+<style scoped="scoped">p { position: relative; }
+i { color:red; position: relative; bottom : 0.5em; left : 0.5em;}
+b {
+    font-size: 0.6em;
+    background:#FF0; position: absolute;
+    top: -0.5in; right: .5in; width:2in;
+    opacity : 0.6;
+}
+</style>
+<style scoped="scoped">p { position: relative; }
+i { color:red; position: relative; bottom : 0.5em; left : 0.5em;}
+b {
+    font-size: 0.6em;
+    background:#FF0; position: absolute;
+    top: -0.5in; right: .5in; width:2in;
+    opacity : 0.6;
+}
+</style>
+<p>
+        Consider the style sheet:
+    </p>
+<h2 class="src-name"><a href="examples/position.css">examples/position.css</a></h2>
+<div class="highlight"><pre><span class="nt">p</span> <span class="p">{</span> <span class="k">position</span><span class="o">:</span> <span class="k">relative</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">i</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">position</span><span class="o">:</span> <span class="k">relative</span><span class="p">;</span> <span class="k">bottom</span> <span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span> <span class="k">left</span> <span class="o">:</span> <span class="m">0.5em</span><span class="p">;}</span>
+<span class="nt">b</span> <span class="p">{</span>
+    <span class="k">font-size</span><span class="o">:</span> <span class="m">0.6em</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span><span class="m">#FF0</span><span class="p">;</span> <span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
+    <span class="k">top</span><span class="o">:</span> <span class="m">-0.5in</span><span class="p">;</span> <span class="k">right</span><span class="o">:</span> <span class="m">.5in</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span><span class="m">2in</span><span class="p">;</span>
+    <span class="k">opacity</span> <span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">6</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p style="position:relative;">
+        There is some <i>text</i>, that has been shifed up and right 0.5 ems.
+        The next <i>bit of text</i> is also shifted.
+        <b>This text is completed removed and placed -0.5in from the top
+        and 0.5in from the right edge of this paragraph. </b></p>
+</div>
+</div>
+<div class="slide">
+<h1>a complete example</h1>
+<div>
+<style scoped="scoped">table.queue-demo {
+    border-collapse : collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.queue-demo tr {
+    height : 2em;
+}
+
+table.queue-demo th {
+    text-align : left;
+    padding-right : 0.3em;
+    border : none;
+}
+
+table.queue-demo tr.pos td {
+    text-align : center;
+}
+
+table.queue-demo tr.data  td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing */
+    background : rgb( 255, 240, 240 );
+}
+
+table.queue-demo tr.next td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing*/
+    background : rgb( 255, 230, 240 );
+}
+
+table.queue-demo tr.next td {
+    border-top: solid thin black;
+}
+
+table.queue-demo tr.controls span.label {
+    padding : 0.0em 0.25em ;
+    margin-right : 0.5em;
+    display: -moz-inline-box;
+    width : 3.3em;
+    background: yellow;
+    border : thin black solid;
+}
+
+table.queue-demo tr.controls button {
+    margin-right : 0.5em;
+}
+</style>
+<style scoped="scoped">table.queue-demo {
+    border-collapse : collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.queue-demo tr {
+    height : 2em;
+}
+
+table.queue-demo th {
+    text-align : left;
+    padding-right : 0.3em;
+    border : none;
+}
+
+table.queue-demo tr.pos td {
+    text-align : center;
+}
+
+table.queue-demo tr.data  td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing */
+    background : rgb( 255, 240, 240 );
+}
+
+table.queue-demo tr.next td {
+    width : 2em;
+    text-align : center;
+    border : solid thin black;
+    empty-cells : show; /* ignored for collapsing*/
+    background : rgb( 255, 230, 240 );
+}
+
+table.queue-demo tr.next td {
+    border-top: solid thin black;
+}
+
+table.queue-demo tr.controls span.label {
+    padding : 0.0em 0.25em ;
+    margin-right : 0.5em;
+    display: -moz-inline-box;
+    width : 3.3em;
+    background: yellow;
+    border : thin black solid;
+}
+
+table.queue-demo tr.controls button {
+    margin-right : 0.5em;
+}
+</style>
+<p>
+       A queue maintains an order collection (a list) of entries.
+       Using indexes allows entries to be added at the
+       <em>first</em> and removed from the <em>last</em> in constant time.
+    </p>
+<table class="queue-demo">
+<tr class="pos">
+<th>Position</th>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr class="data">
+<th>Data</th>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="next">
+<th>Next</th>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="controls">
+<th></th>
+<td colspan="8">
+<button class="add">add</button><button class="remove">remove</button><span class="label">Head: -1 </span><span class="label">Tail: -1 </span>
+</td>
+</tr>
+</table>
+<!-- should not be required, can be buggy
+    <script> QueueDemo.initBehaviour( null ) </script>
+    -->
+</div>
+</div>
+<div class="slide">
+<h1>a complete example</h1>
+<div>
+<p>
+        The style sheet is:
+    </p>
+<h2 class="src-name"><a href="queue/queue-demo.css">queue/queue-demo.css</a></h2>
+<div class="highlight"><pre><span class="nt">table</span><span class="nc">.queue-demo</span> <span class="p">{</span>
+    <span class="k">border-collapse</span> <span class="o">:</span> <span class="k">collapse</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+    <span class="k">margin-right</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span> <span class="p">{</span>
+    <span class="k">height</span> <span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">th</span> <span class="p">{</span>
+    <span class="k">text-align</span> <span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+    <span class="k">padding-right</span> <span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.pos</span> <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">text-align</span> <span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.data</span>  <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+    <span class="k">text-align</span> <span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">solid</span> <span class="k">thin</span> <span class="nb">black</span><span class="p">;</span>
+    <span class="k">empty-cells</span> <span class="o">:</span> <span class="k">show</span><span class="p">;</span> <span class="c">/* ignored for collapsing */</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span> <span class="m">255</span><span class="o">,</span> <span class="m">240</span><span class="o">,</span> <span class="m">240</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.next</span> <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+    <span class="k">text-align</span> <span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">solid</span> <span class="k">thin</span> <span class="nb">black</span><span class="p">;</span>
+    <span class="k">empty-cells</span> <span class="o">:</span> <span class="k">show</span><span class="p">;</span> <span class="c">/* ignored for collapsing*/</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span> <span class="m">255</span><span class="o">,</span> <span class="m">230</span><span class="o">,</span> <span class="m">240</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.next</span> <span class="nt">td</span> <span class="p">{</span>
+    <span class="k">border-top</span><span class="o">:</span> <span class="k">solid</span> <span class="k">thin</span> <span class="nb">black</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.controls</span> <span class="nt">span</span><span class="nc">.label</span> <span class="p">{</span>
+    <span class="k">padding</span> <span class="o">:</span> <span class="m">0.0em</span> <span class="m">0.25em</span> <span class="p">;</span>
+    <span class="k">margin-right</span> <span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+    <span class="k">display</span><span class="o">:</span> <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">inline</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">3.3em</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span> <span class="nb">yellow</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="nb">black</span> <span class="k">solid</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nc">.queue-demo</span> <span class="nt">tr</span><span class="nc">.controls</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="k">margin-right</span> <span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

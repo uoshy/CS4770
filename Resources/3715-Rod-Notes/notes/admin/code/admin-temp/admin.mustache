@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+    margin-left: 10mm;
+}
+div.over {
+    display : none;
+    position : fixed;
+    padding : 5px;
+    left : 50%;
+    top : 10%;
+    width : 400px;
+    height : 200px;
+    margin-left: -200px;
+    background : rgb(230,220,220);
+    border : solid blue thick;
+}
+
+table#users {
+    border-collapse: collapse;
+    border : thin blue solid;
+}
+
+table#users td, table#users th {
+    border : thin blue solid;
+    padding : 4px;
+}
+
+table#users td:nth-child(2):hover,
+table#users td:nth-child(4):hover {
+    background : rgb(255,200,200);
+}
+</style>
+
+<script type="text/javascript">
+window.addEventListener("load", function(evt) {
+    var over = document.querySelector("#over-form");
+    var over_form = over.querySelector( "form" );
+    // add event handler to all password entries
+    var pws = document.querySelectorAll("td.pw-button");
+    var i;
+    for( i=0 ; i < pws.length; i++ ) {
+        pws[i].addEventListener( "click", function(event) {
+            over.style.display = 'block';
+            var cpw = this.textContent;
+            over_form.password.value = cpw;
+            var p = this.parentNode;
+            var user = p.querySelector("td:first-child").textContent;
+            over_form.user.value = user;
+            console.log( over_form.user );
+            console.log( over_form );
+        } );
+    }
+    // event handlers for password form
+    var sub = document.querySelector("#over-form input[value='change']");
+    sub.addEventListener( "click", function(event) {
+        over.style.display = 'none';
+    } );
+    var cancel = document.querySelector("#over-form input[value='cancel']");
+    cancel.addEventListener( "click", function(event) {
+        // prevents the form's submission
+        event.preventDefault();
+        over.style.display = 'none';
+    } );
+
+} );
+</script>
+</head>
+<body>
+
+<h1> Manage Users </h1>
+
+<table id="users">
+<tr><th>User</th><th>Password</th><th>Role</th><th>Actions</th></tr>
+{{#users}}
+<tr>
+    <td>{{name}}</td>
+    <td class="pw-button">{{password}}</td>
+    <td>{{role}}</td>
+    <td><a href="/admin/delete/{{name}}">Delete</td>
+</tr>
+{{/users}}
+</table>
+
+<h2>Add Users</h2>
+<form action="/admin/newuser" method="post">
+<label>Name: <input type="text" name="user"> </label> <br>
+<label>Password: <input type="text" name="password"> </label> <br>
+<label>Role: <input type="text" name="role"> </label> <br>
+<input type="submit" value="add">
+</form>
+<p>
+<a href="/admin/index.html">Back to Admin</a>
+</p>
+
+<!-- change password overlay -->
+<div class="over" id="over-form">
+<h2>Change Password</h2>
+<form action="/admin/password" method="post">
+<input type="hidden" name="user" value="">
+<label>New password:
+<input type="text" name="password" value="">
+</label>
+<input type="submit" value="change">
+<input type="submit" value="cancel">
+</form>
+</div>
+
+
+</body>
+</html>

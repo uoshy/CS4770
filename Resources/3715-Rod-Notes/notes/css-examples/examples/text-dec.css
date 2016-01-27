@@ -1,0 +1,5 @@
+li.s { text-decoration: line-through; }
+li.u { text-decoration: underline; }
+li.o { text-decoration: overline; }
+li.b { text-decoration: blink; }
+span.n { text-decoration: underline; }

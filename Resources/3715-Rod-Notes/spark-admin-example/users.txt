@@ -1,0 +1,4 @@
+rod:rod:admin
+sue:eus:user
+bob:bob:user
+fred:fred:admin

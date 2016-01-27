@@ -1,0 +1,10 @@
+tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.smaller { font-size: smaller; }
+td.larger { font-size: larger; }
+td.percent { font-size: 95%; }
+td.fixed { font-size: 30px; }
+table:hover { font-variant: small-caps; font-weight: 100; }
+table { margin-left: 15%; width:70%; background:rgb(240,240,240);}

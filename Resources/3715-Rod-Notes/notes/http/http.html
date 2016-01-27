@@ -1,0 +1,1419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-04T10:56:25-03:30, Rod Byrne --><title>http</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1> HTTP protocol </h1>
+<div>
+<p>
+        Web browsers communicate with web servers using the
+        HTTP protocol.
+        The formal definition is given by RFC-2616:
+        Hypertext Transfer Protocol -- HTTP/1.1.
+        This protocol follows the client/server
+        model where the browser is the client making a request
+        and the web server is the server providing the reply.
+    </p>
+<p>
+        An example protocol exchange made with <tt>telnet www.cs.mun.ca 80</tt> :
+    </p>
+<div class="text"><pre><span class="request">HEAD /~rod/ HTTP/1.0</span>
+<span class="request"></span>
+<span class="reply">HTTP/1.1 200 OK</span>
+<span class="reply">Date: Mon, 04 Feb 2013 21:40:18 GMT</span>
+<span class="reply">Server: Apache</span>
+<span class="reply">Last-Modified: Mon, 04 Feb 2013 11:48:28 GMT</span>
+<span class="reply">ETag: "8d82c1-c72-4d4e4abdf1b00"</span>
+<span class="reply">Accept-Ranges: bytes</span>
+<span class="reply">Content-Length: 3186</span>
+<span class="reply">Connection: close</span>
+<span class="reply">Content-Type: text/html</span>
+</pre></div>
+<p>
+        The red text is the request and the blue text is the reply.
+        The server closes the connection after sending the reply.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>HTTP error response example</h1>
+<div>
+<p>
+        A small http server is started at port 8080 on the localhost.
+    </p>
+<p>
+        Telnet is also used to make the following request
+        with the command:
+    </p>
+<div class="highlight"><pre>telnet 127.0.0.1 8080
+</pre></div>
+<p>
+        The user types the following lines after running telnet:
+    </p>
+<div class="text"><pre><span>HEAD /foo/bar/xx HTTP/1.0</span>
+<span></span>
+</pre></div>
+<p>
+        The blank line indicates the end of the request header.
+        Each line is terminated by a CR and a LF (abbreviated as CRLF).
+        A LF is also accepted.
+    </p>
+<div class="text"><pre><span class="request">HEAD /foo/bar/xx HTTP/1.0</span>
+<span class="request"></span>
+<span class="reply">HTTP/1.1 404 Not Found</span>
+<span class="reply">Content-Type: text/html</span>
+<span class="reply"></span>
+<span class="reply">&lt;h1&gt;404 Not Found&lt;/h1&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>First request line</h1>
+<div>
+<p>
+        A request contains a series of lines. The first line follows
+        the form:
+    </p>
+<blockquote class="code">
+<em>method </em><em>path </em><em>protocol-version</em>
+</blockquote>
+<p>
+        where <em>protocol-version</em> specifies the HTTP version
+        (1.0 or 1.1), <em>path</em> is the rest of the URL after
+        the hostname, and <em>method</em> is:
+    </p>
+<dl>
+<dt>GET</dt>
+<dd>requests the specified resource.</dd>
+<dt>HEAD</dt>
+<dd>requests only the header reply for the resource.</dd>
+<dt>POST</dt>
+<dd>
+            requests the specified document with an expanded query
+            contained in the following content.
+        </dd>
+<dt>PUT</dt>
+<dd>
+            uploads the following document to the specified resource.
+        </dd>
+<dt>DELETE</dt>
+<dd>
+            deletes the specified resource.
+        </dd>
+</dl>
+<p>
+        A series of header lines follows the request line.
+        More content can follow the header lines. This
+        content is separated by a blank line.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>First reply line</h1>
+<div>
+<p>
+        The reply line follows the form:
+    </p>
+<blockquote class="code">
+<em>protocol-version </em><em>status code </em><em>text-description-of-status</em>
+</blockquote>
+<p>
+        For example,
+    </p>
+<div class="text"><pre><span class="reply">HTTP/1.1 200 OK</span>
+</pre></div>
+<p><tt>HTTP/1.0</tt> is the other possible version.
+    </p>
+<p>
+        Header lines can follow the response line. The
+        content is separated by a blank line.
+    </p>
+<p>
+        Common codes include:
+    </p>
+<ul>
+<li>200 - OK</li>
+<li>301 - moved permanently</li>
+<li>302 - moved temporarily</li>
+<li>404 - resource not found </li>
+<li>500 - server error</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Header lines</h1>
+<div>
+<p>
+        A header line contains an attribute name, a colon (:),
+        and an attribute value terminated by a CRLF.
+        An example of the reply header lines is:
+    </p>
+<div class="text"><pre><span>Date: Mon, 04 Feb 2013 21:40:18 GMT</span>
+<span>Server: Apache</span>
+<span>Last-Modified: Mon, 04 Feb 2013 11:48:28 GMT</span>
+<span>Accept-Ranges: bytes</span>
+<span>Content-Length: 3186</span>
+<span>Connection: close</span>
+<span>Content-Type: text/html</span>
+</pre></div>
+<p>
+        Some of the more common header lines requests/respones are:
+    </p>
+<dl>
+<dt>Date</dt>
+<dd>The date the message was sent.</dd>
+<dt>User-Agent</dt>
+<dd>
+            The title of the browser. Requests only.
+        </dd>
+<dt>Content-Type</dt>
+<dd>
+            The MIME type of the content (e.g., text/plain, text/html).
+        </dd>
+<dt>Content-Length</dt>
+<dd>
+            The number of bytes in the response (after the CRLF).
+        </dd>
+<dt>Server</dt>
+<dd>
+            The title of the server software. Response only.
+        </dd>
+<dt>Connection</dt>
+<dd>
+            The type of connection requested by the user-agent
+            (e.g., keep-alive).
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>MIME</h1>
+<div>
+<p> 
+        MIME: Multipurpose Internet Mail Extensions
+    </p>
+<p>
+       MIME was initially created for the transmission and
+       reception of non-text e-mail (e.g., images, programs ...).
+    </p>
+<p>
+        When a web server transmits a file to a browser using
+        the HTTP protocol it also sends the MIME type of
+        the file. The MIME type controls how the browser
+        handles the file. All files must have an associated MIME type,
+        the browser will prompt the user if the MIME type
+        is unknown.
+    </p>
+<p>
+        A list of registered mime types is maintained by
+        the Internet Assigned Numbers Authority (IANA).
+        A mine type is composed of two parts separated by
+        a slash. The first part gives the general media
+        type (e.g., text, image) and the second part
+        gives the specific format (e.g., text/html, text/plain,
+        image/jpeg, image/png).
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>web browsers and mime types</h1>
+<div>
+<p>
+        The MIME type for a HTML file/document is:
+    </p>
+<blockquote class="code">
+        text/html
+    </blockquote>
+<p>
+        A plain text file is:
+    </p>
+<blockquote class="code">
+        text/plain
+    </blockquote>
+<p>
+        A file containing HTML tags, but sent as <tt>text/plain</tt>
+        would be displayed as a straight text file.
+    </p>
+<p>
+        The XHTML MIME type is
+    </p>
+<blockquote class="code">
+        application/xhtml+xml
+    </blockquote>
+<p>
+        Any XML document, including XHTML, can also
+        be described with these MIME types.
+    </p>
+<blockquote class="code">
+        application/xml or text/xml
+    </blockquote>
+</div>
+</div>
+<div class="slide">
+<h1>Image mime types</h1>
+<div>
+<p>
+        Mime types for common image formats are:
+    </p>
+<blockquote class="code">
+        image/bmp<br>
+        image/gif<br>
+        image/jpeg<br>
+        image/png<br>
+        image/tiff<br>
+</blockquote>
+</div>
+</div>
+<div class="slide">
+<h1>Local files and mime types</h1>
+<div>
+<p>
+        When a browser reads a local file it uses
+        the file extension to determine its MIME type.
+        Under Linux the file, <tt>/etc/mime.types</tt>,
+        specifies the mapping between file extensions and
+        MIME types. A subset of the contents is:
+    </p>
+<h2 class="src-name"><a href="mime.types">mime.types</a></h2>
+<div class="highlight"><pre>application/ogg                 ogg
+application/x-tex		tex
+application/xhtml+xml		xhtml xht
+application/xml
+application/xml-dtd
+application/xml-external-parsed-entity
+application/zip			zip
+audio/mpeg			mpga mp2 mp3
+audio/x-pn-realaudio		ram rm
+audio/x-wav			wav
+image/bmp			bmp
+image/gif			gif
+image/jpeg			jpeg jpg jpe
+image/png			png
+image/tiff			tiff tif
+model/vrml			wrl vrml
+multipart/form-data
+multipart/mixed
+text/css			css
+text/html			html htm
+text/plain			asc txt
+text/sgml			sgml sgm
+text/x-setext			etx
+text/xml			xml xsl
+video/mpeg			mpeg mpg mpe
+video/quicktime			qt mov
+video/x-msvideo			avi
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>HttpRequestViewer</h1>
+<div>
+<p>
+        Write a Java program to output the HTTP request from a 
+        browser.
+        The program can be written using a server socket.
+    </p>
+<h2 class="src-name"><a href="examples/HttpRequestViewer.java">examples/HttpRequestViewer.java</a></h2>
+<div class="highlight"><pre><span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+<span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+<span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintStream</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span><span class="kc">false</span><span class="o">);</span>
+<span class="c1">// get request</span>
+<span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="k">continue</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+<span class="n">String</span><span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"\\s+"</span><span class="o">);</span>
+<span class="c1">// print request header on console</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"Request header"</span> <span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+<span class="k">while</span> <span class="o">(</span> <span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span> <span class="n">line</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">)</span> <span class="k">break</span><span class="o">;</span> <span class="c1">// end of header</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"/favicon.ico"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span> <span class="c1">// possible bug?</span>
+    <span class="n">sendNotFound</span><span class="o">(</span> <span class="n">ps</span> <span class="o">);</span>
+<span class="o">}</span>
+<span class="k">else</span> <span class="o">{</span>
+    <span class="n">sendReply</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">],</span> <span class="n">ps</span> <span class="o">);</span>
+<span class="o">}</span>
+<span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+<span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+<span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</pre></div>
+<p>
+        This code is almost identical to the <span class="code">LineServer</span>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Not found reply</h1>
+<div>
+<p>
+        The not found reply is generated by:
+    </p>
+<h2 class="src-name"><a href="examples/HttpRequestViewer.java">examples/HttpRequestViewer.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sendNotFound</span><span class="o">(</span> <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"HTTP/1.0 404 Not Found"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connection: close"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">();</span> <span class="c1">// end of header</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Example content</h1>
+<div>
+<p>
+        A HTTP response containing a HTML page is generated by:
+    </p>
+<h2 class="src-name"><a href="examples/HttpRequestViewer.java">examples/HttpRequestViewer.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sendReply</span><span class="o">(</span> <span class="n">String</span> <span class="n">path</span><span class="o">,</span> <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"HTTP/1.0 200 OK"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connection: close"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Content-Type: text/html; charset=utf-8"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">();</span> <span class="c1">// end of header</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;html&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;body&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;pre&gt;"</span> <span class="o">+</span> <span class="s">"path: "</span> <span class="o">+</span> <span class="n">path</span> <span class="o">+</span> <span class="s">"&lt;/pre&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;pre&gt;"</span> <span class="o">+</span> <span class="k">new</span> <span class="n">Date</span><span class="o">()</span> <span class="o">+</span> <span class="s">"&lt;/pre&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/body&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/html&gt;"</span><span class="o">);</span>
+    <span class="n">ps</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The HTTP protocol has not been correctly implemented by
+        the above code. What is missing?
+        Why does it still work?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Source for HttpRequestViewer</h1>
+<div>
+<p>
+        A very very simple web server.
+    </p>
+<h2 class="src-name"><a href="examples/HttpRequestViewer.java">examples/HttpRequestViewer.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HttpRequestViewer</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sendNotFound</span><span class="o">(</span> <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"HTTP/1.0 404 Not Found"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connection: close"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">();</span> <span class="c1">// end of header</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sendReply</span><span class="o">(</span> <span class="n">String</span> <span class="n">path</span><span class="o">,</span> <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"HTTP/1.0 200 OK"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connection: close"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Content-Type: text/html; charset=utf-8"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">();</span> <span class="c1">// end of header</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;html&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;body&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;pre&gt;"</span> <span class="o">+</span> <span class="s">"path: "</span> <span class="o">+</span> <span class="n">path</span> <span class="o">+</span> <span class="s">"&lt;/pre&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;pre&gt;"</span> <span class="o">+</span> <span class="k">new</span> <span class="n">Date</span><span class="o">()</span> <span class="o">+</span> <span class="s">"&lt;/pre&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/body&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/html&gt;"</span><span class="o">);</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+            <span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+                <span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+                <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintStream</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span><span class="kc">false</span><span class="o">);</span>
+                <span class="c1">// get request</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                    <span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                    <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                <span class="n">String</span><span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"\\s+"</span><span class="o">);</span>
+                <span class="c1">// print request header on console</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"Request header"</span> <span class="o">);</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="k">while</span> <span class="o">(</span> <span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span> <span class="n">line</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">)</span> <span class="k">break</span><span class="o">;</span> <span class="c1">// end of header</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"/favicon.ico"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span> <span class="c1">// possible bug?</span>
+                    <span class="n">sendNotFound</span><span class="o">(</span> <span class="n">ps</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">sendReply</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">],</span> <span class="n">ps</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="o">}</span>
+       <span class="o">}</span>
+       <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+       <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>HttpRequestViewer testing</h1>
+<div>
+<p>
+        The programs output for the requests:
+    </p>
+<ul>
+<li><tt>http://localhost:12999/hello</tt></li>
+<li><tt>http://localhost:12999/bye</tt></li>
+</ul>
+<div class="highlight"><pre>% java HttpRequestViewer 12999
+Request header
+GET /hello HTTP/1.1
+Host: localhost:12999
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+Request header
+GET /favicon.ico HTTP/1.1
+Host: localhost:12999
+Connection: keep-alive
+Accept: */*
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+Request header
+GET /bye HTTP/1.1
+Host: localhost:12999
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>URLs</h1>
+<div>
+<p>
+        The general form for a URL is:
+    </p>
+<blockquote>
+<em>protocol</em>://<em>host</em>/<em>path</em>#<em>name</em>?<em>query</em>
+</blockquote>
+<dl>
+<dt>protocol</dt>
+<dd>
+            http, ftp, telnet, gopher ...
+        </dd>
+<dt>host</dt>
+<dd>
+            domain name of host, can include ":port-number"
+        </dd>
+<dt>path</dt>
+<dd>
+            the path name to the document
+        </dd>
+<dt>name</dt>
+<dd>
+            name in an anchor in the document (optional)
+        </dd>
+<dt>query</dt>
+<dd>
+            query string (optional)
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>com.sun.net.httpserver and Echo</h1>
+<div>
+<p>
+        Included as part of Java's API is the
+        <tt>com.sun.net.httpserver</tt> package. This package
+        can be used to created <em>small</em> embedded
+        web servers.
+    </p>
+<p>
+        This example contains the files: <tt>FaviconHandler.java</tt><tt>EchoHandler.java</tt> and <tt>EchoMain.java</tt>.
+        The example can be compiled and run with:
+    </p>
+<div class="highlight"><pre>% javac EchoMain.java FaviconHandler.java EchoHandler.java
+% java EchoMain
+</pre></div>
+<p>
+        This server will <em>handle</em> the URLs
+        starting with:
+    </p>
+<ul>
+<li><tt>http://localhost:8080/echo</tt></li>
+<li><tt>http://localhost:8080/favicon.ico</tt></li>
+</ul>
+<p>
+        This code is designed to illustrate the URL and header information
+        sent by the browser.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>EchoMain examples</h1>
+<div>
+<p>
+        The <tt>http://localhost:8080/echo</tt> produces
+    </p>
+<div class="highlight"><pre>Method=GET
+Remote=/127.0.0.1:34519
+URI=/echo/
+URI path=/echo/
+URI query=null
+Headers:
+Host = [localhost:8080]
+Accept-encoding = [gzip, deflate]
+Connection = [keep-alive]
+Accept-language = [en-US,en;q=0.5]
+User-agent = [Mozilla/5.0 (X11; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0]
+Accept = [text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8]
+counter = 1
+</pre></div>
+<p>
+        The browser is using the <tt>GET</tt> method to fetch
+        the document. The browsers is also telling the server that
+        it can handling gzip and deflate encodings.
+        It will also accept all the MIME types found in the <tt>Accept</tt>
+        header.
+    </p>
+<p>
+        The <tt>http://localhost:8080/echo/foo</tt> produces
+    </p>
+<div class="highlight"><pre>Method=GET
+Remote=/127.0.0.1:34520
+URI=/echo/foo
+URI path=/echo/foo
+URI query=null
+Headers:
+Host = [localhost:8080]
+Accept-encoding = [gzip, deflate]
+Connection = [keep-alive]
+Accept-language = [en-US,en;q=0.5]
+User-agent = [Mozilla/5.0 (X11; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0]
+Accept = [text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8]
+counter = 2
+</pre></div>
+<p>
+       In <tt>com.sun.net.httpserver</tt> package, any URL
+       that starts with <tt>/echo</tt> is handled by 
+       the <tt>EchoHandler</tt> class.
+    </p>
+<p>
+        The <tt>http://localhost:8080/echo/foo?a=1&amp;b=2</tt> produces
+    </p>
+<div class="highlight"><pre>Method=GET
+Remote=/127.0.0.1:34521
+URI=/echo/foo?a=1&amp;b=2
+URI path=/echo/foo
+URI query=a=1&amp;b=2
+Headers:
+Host = [localhost:8080]
+Accept-encoding = [gzip, deflate]
+Connection = [keep-alive]
+Accept-language = [en-US,en;q=0.5]
+User-agent = [Mozilla/5.0 (X11; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0]
+Accept = [text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8]
+counter = 3
+</pre></div>
+<p>
+        Notice that the counter keeps incrementing by 1.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>setting up a server, EchoMain</h1>
+<div>
+<p>
+        The source code of the server is:
+    </p>
+<h2 class="src-name"><a href="echo/EchoMain.java">echo/EchoMain.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoMain</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">InetSocketAddress</span> <span class="n">addr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="mi">8080</span><span class="o">);</span>
+        <span class="n">HttpServer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">addr</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span> <span class="c1">// backlog is 5</span>
+
+        <span class="c1">// route on /echo and /favicon.ico</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/jetty/requests/auth"</span><span class="o">,</span> <span class="k">new</span> <span class="n">EchoHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/jetty/echo"</span><span class="o">,</span> <span class="k">new</span> <span class="n">EchoHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/jetty/favicon.ico"</span><span class="o">,</span> <span class="k">new</span> <span class="n">FaviconHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">setExecutor</span><span class="o">(</span><span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server is listening on port 8080"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       The URL routing is specified with:
+    </p>
+<div class="highlight"><pre>server.createContext("/echo", new EchoHandler());
+server.createContext("/favicon.ico", new FaviconHandler());
+</pre></div>
+<p>
+       A cached thread pool is set up with:
+    </p>
+<div class="highlight"><pre>server.setExecutor(Executors.newCachedThreadPool());
+</pre></div>
+<p>
+       The server is started with:
+    </p>
+<div class="highlight"><pre>server.start();
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>EchoHandler code</h1>
+<div>
+<h2 class="src-name"><a href="echo/EchoHandler.java">echo/EchoHandler.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLDecoder</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoHandler</span> <span class="kd">implements</span> <span class="n">HttpHandler</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpExchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">counter</span><span class="o">++;</span>
+        <span class="c1">// setup the reply</span>
+        <span class="n">Headers</span> <span class="n">responseHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseHeaders</span><span class="o">();</span>
+        <span class="n">responseHeaders</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"text/plain"</span><span class="o">);</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="na">sendResponseHeaders</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">responseBody</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseBody</span><span class="o">());</span>
+
+        <span class="c1">// report http info</span>
+        <span class="n">String</span> <span class="n">requestMethod</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestMethod</span><span class="o">();</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"Method="</span> <span class="o">+</span> <span class="n">requestMethod</span> <span class="o">);</span>
+        <span class="n">InetSocketAddress</span> <span class="n">remote</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRemoteAddress</span><span class="o">();</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Remote="</span> <span class="o">+</span> <span class="n">remote</span> <span class="o">);</span>
+        <span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"URI="</span> <span class="o">+</span> <span class="n">uri</span> <span class="o">);</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"URI path="</span> <span class="o">+</span> <span class="n">uri</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"URI query="</span> <span class="o">+</span> <span class="n">uri</span><span class="o">.</span><span class="na">getQuery</span><span class="o">());</span>
+
+        <span class="c1">// log request</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Handling: "</span> <span class="o">+</span> <span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">())</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">uri</span> <span class="o">);</span>
+
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Headers:"</span> <span class="o">);</span>
+        <span class="n">Headers</span> <span class="n">requestHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestHeaders</span><span class="o">();</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">keySet</span> <span class="o">=</span> <span class="n">requestHeaders</span><span class="o">.</span><span class="na">keySet</span><span class="o">();</span>
+        <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">keySet</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">iter</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">iter</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="n">List</span> <span class="n">values</span> <span class="o">=</span> <span class="n">requestHeaders</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">key</span> <span class="o">+</span> <span class="s">" = "</span> <span class="o">+</span> <span class="n">values</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"counter = "</span> <span class="o">+</span> <span class="n">counter</span> <span class="o">);</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The <tt>EchoHandler.handler</tt> instance method
+        is invoked everytime the web server receives a URL
+        that starts with <tt>/echo</tt>.
+    </p>
+<p>
+        Both the http request and http response information
+        or control is found in the <tt>HttpExchange</tt>
+        object.
+    </p>
+<p>
+        The content type of the response is set with:
+    </p>
+<div class="highlight"><pre>responseHeaders.set("Content-Type", "text/plain");
+</pre></div>
+<p>
+        The status code is set with:
+    </p>
+<div class="highlight"><pre>exchange.sendResponseHeaders(200, 0);
+</pre></div>
+<p>
+        The writer used to generate the response is created with:
+    </p>
+<div class="highlight"><pre>PrintWriter responseBody = new PrintWriter( exchange.getResponseBody());
+</pre></div>
+<p>
+        The rest of the code produces the response text.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>FaviconHandler code</h1>
+<div>
+<p>
+       A receipt of a <tt>/favicon.ico</tt> URL
+       causes a 404 reply, which is handled by
+    </p>
+<h2 class="src-name"><a href="echo/FaviconHandler.java">echo/FaviconHandler.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStreamWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLDecoder</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FaviconHandler</span> <span class="kd">implements</span> <span class="n">HttpHandler</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpExchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="c1">// setup the reply</span>
+        <span class="n">Headers</span> <span class="n">responseHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseHeaders</span><span class="o">();</span>
+        <span class="n">responseHeaders</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"text/plain"</span><span class="o">);</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="na">sendResponseHeaders</span><span class="o">(</span><span class="mi">404</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">responseBody</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseBody</span><span class="o">());</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"Not Found"</span> <span class="o">);</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+        <span class="c1">// log request</span>
+        <span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Handling Favicon: "</span> <span class="o">+</span> <span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">())</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">uri</span> <span class="o">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Headers:"</span> <span class="o">);</span>
+        <span class="n">Headers</span> <span class="n">requestHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestHeaders</span><span class="o">();</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">keySet</span> <span class="o">=</span> <span class="n">requestHeaders</span><span class="o">.</span><span class="na">keySet</span><span class="o">();</span>
+        <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">keySet</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">iter</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">iter</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="n">List</span> <span class="n">values</span> <span class="o">=</span> <span class="n">requestHeaders</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">key</span> <span class="o">+</span> <span class="s">" = "</span> <span class="o">+</span> <span class="n">values</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Information about the request is printed to
+        the console that the server is run from.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Colour Dots</h1>
+<div>
+<p>
+        Web page can also contain images. Here is a
+        web server that creates and returns colour dots.
+    </p>
+<h2 class="src-name"><a href="dot/DotMain.java">dot/DotMain.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DotMain</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">InetSocketAddress</span> <span class="n">addr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="mi">8080</span><span class="o">);</span>
+        <span class="n">HttpServer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">addr</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/favicon.ico"</span><span class="o">,</span> <span class="k">new</span> <span class="n">FaviconHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/dotpage"</span><span class="o">,</span> <span class="k">new</span> <span class="n">ColorDotsHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">setExecutor</span><span class="o">(</span><span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server is listening on port 8080"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The <tt>ColorDotsHandler</tt> objects
+        handles any URL that starts with <tt>/dotpage</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Colour Dots Handler</h1>
+<div>
+<p>
+        The web page returned by the URL <tt>/dotpage</tt> is
+    </p>
+<h2 class="src-name"><a href="dot/dotpage.html">dot/dotpage.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Image<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">'http://localhost:8080/dotpage'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">'http://localhost:8080/dotpage/dot'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        An image is returned with <tt>/dotpage/dot</tt> URL.
+    </p>
+<p>
+       The handler code is:
+    </p>
+<h2 class="src-name"><a href="dot/ColorDotsHandler.java">dot/ColorDotsHandler.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.imageio.ImageIO</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.image.BufferedImage</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.Graphics2D</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.Color</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ColorDotsHandler</span> <span class="kd">implements</span> <span class="n">HttpHandler</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Color</span><span class="o">[]</span> <span class="n">colours</span> <span class="o">=</span> <span class="o">{</span><span class="n">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">,</span> <span class="n">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">,</span> <span class="n">Color</span><span class="o">.</span><span class="na">BLUE</span><span class="o">};</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpExchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+        <span class="c1">// log request</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Handling: "</span> <span class="o">+</span> <span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">())</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">uri</span> <span class="o">);</span>
+        <span class="n">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">getPath</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">path</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"/dotpage"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">Headers</span> <span class="n">responseHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseHeaders</span><span class="o">();</span>
+            <span class="n">responseHeaders</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"text/html"</span><span class="o">);</span>
+            <span class="n">exchange</span><span class="o">.</span><span class="na">sendResponseHeaders</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">PrintWriter</span> <span class="n">page</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseBody</span><span class="o">());</span>
+            <span class="n">page</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Image&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;a href='http://localhost:8080/dotpage'&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;img src='http://localhost:8080/dotpage/dot'&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;/a&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;/body&gt;&lt;/html&gt;"</span>
+            <span class="o">);</span>
+            <span class="n">page</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="n">Headers</span> <span class="n">responseHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseHeaders</span><span class="o">();</span>
+            <span class="n">responseHeaders</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"image/jpg"</span><span class="o">);</span>
+            <span class="n">exchange</span><span class="o">.</span><span class="na">sendResponseHeaders</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">BufferedImage</span> <span class="n">img</span> <span class="o">=</span>
+                <span class="k">new</span> <span class="nf">BufferedImage</span><span class="o">(</span><span class="mi">640</span><span class="o">,</span><span class="mi">480</span><span class="o">,</span> <span class="n">BufferedImage</span><span class="o">.</span><span class="na">TYPE_3BYTE_BGR</span><span class="o">);</span>
+            <span class="n">Graphics2D</span> <span class="n">g2d</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="na">createGraphics</span><span class="o">();</span>
+            <span class="n">g2d</span><span class="o">.</span><span class="na">setPaint</span><span class="o">(</span> <span class="n">Color</span><span class="o">.</span><span class="na">white</span> <span class="o">);</span>
+            <span class="n">g2d</span><span class="o">.</span><span class="na">fillRect</span><span class="o">(</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">640</span><span class="o">,</span> <span class="mi">480</span> <span class="o">);</span>
+            <span class="n">g2d</span><span class="o">.</span><span class="na">setPaint</span><span class="o">(</span> <span class="n">colours</span><span class="o">[</span> <span class="n">index</span><span class="o">]</span> <span class="o">);</span>
+            <span class="n">g2d</span><span class="o">.</span><span class="na">fillOval</span><span class="o">(</span> <span class="mi">90</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">460</span><span class="o">,</span> <span class="mi">460</span> <span class="o">);</span> 
+            <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseBody</span><span class="o">();</span>
+            <span class="n">ImageIO</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">img</span><span class="o">,</span> <span class="s">"jpg"</span><span class="o">,</span> <span class="n">out</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">index</span><span class="o">++;</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="n">colours</span><span class="o">.</span><span class="na">length</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Hi/LO guessing game</h1>
+<div>
+<p>
+        Design a web site that allows a user
+        to play the hi/lo guessing games.
+        One approach is to decide on the webpages
+        and how each page can be reached from 
+        other pages.
+    </p>
+<p>
+        A picture of a possible set of pages is:
+    </p>
+<img src="guess/guess.svg"><ul>
+<li>
+            The <tt>/guess</tt> page provides an
+            introduction, and a form to start the game.
+            Depending on the guess, there are three 
+            reachable pages, one for correct, one for too high,
+            and for too low.
+        </li>
+<li>
+            The correct page indicates that the correct
+            guess was made, and the user can choose
+            to play again by going back to the  <tt>/guess</tt> page.
+        </li>
+<li>
+            If the guess is too low, then the too low
+            page is displayed, and the user can choose
+            to guess again.
+        </li>
+<li>
+            If the guess is too hight, then the too hight
+            page is displayed, and the user can choose
+            to guess again.
+        </li>
+</ul>
+<p>
+        All of the guess result pages are reached by the
+        <tt>/guess/theguess</tt> form link.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Source for the pages</h1>
+<div>
+<p>Welcome, guess </p>
+<h2 class="src-name"><a href="guess/guess.html">guess/guess.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Guess Number<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span>Guess a number between 1 and 32<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">'/guess/theguess'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">'text'</span> <span class="na">name=</span><span class="s">'ans'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>Correct guess </p>
+<h2 class="src-name"><a href="guess/theguess-correct.html">guess/theguess-correct.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Guess Response<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span>Correct<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">'/guess'</span><span class="nt">&gt;</span>next guess<span class="nt">&lt;/a&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>Too low guess </p>
+<h2 class="src-name"><a href="guess/theguess-lo.html">guess/theguess-lo.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Guess Number<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span>Too low! Guess again<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">'/guess/theguess'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">'text'</span> <span class="na">name=</span><span class="s">'ans'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>Too high guess </p>
+<h2 class="src-name"><a href="guess/theguess-hi.html">guess/theguess-hi.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Guess Number<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span>Too high! Guess again<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">'/guess/theguess'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">'text'</span> <span class="na">name=</span><span class="s">'ans'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>GuessHandler</h1>
+<div>
+<h2 class="src-name"><a href="guess/GuessHandler.java">guess/GuessHandler.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStreamWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GuessHandler</span> <span class="kd">implements</span> <span class="n">HttpHandler</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">currentGuess</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpExchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="c1">// setup the reply</span>
+        <span class="n">Headers</span> <span class="n">responseHeaders</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseHeaders</span><span class="o">();</span>
+        <span class="n">responseHeaders</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"text/html"</span><span class="o">);</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="na">sendResponseHeaders</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">responseBody</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getResponseBody</span><span class="o">());</span>
+        <span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">getPath</span><span class="o">();</span>
+
+        <span class="c1">// log request</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Handling: "</span> <span class="o">+</span> <span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">())</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">uri</span> <span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span> <span class="n">path</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"/guess"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">currentGuess</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">32</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Guess Number&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;p&gt;Guess a number between 1 and 32&lt;/p&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;form action='/guess/theguess'&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;input type='text' name='ans'&gt;"</span> <span class="o">+</span>
+                <span class="s">"&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;"</span>
+            <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">path</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"/guess/theguess"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">getQuery</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">query</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"ans="</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span><span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"="</span><span class="o">);</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+                    <span class="k">if</span> <span class="o">(</span> <span class="n">i</span> <span class="o">==</span> <span class="n">currentGuess</span> <span class="o">)</span> <span class="o">{</span>
+                        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                            <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Guess Response&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;p&gt;Correct&lt;/p&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;p&gt;&lt;a href='/guess'&gt;next guess&lt;/a&gt;&lt;/p&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;/body&gt;&lt;/html&gt;"</span>
+                        <span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">currentGuess</span> <span class="o">)</span> <span class="o">{</span>
+                        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                            <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Guess Number&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;p&gt;Too high! Guess again&lt;/p&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;form action='/guess/theguess'&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;input type='text' name='ans'&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;"</span>
+                        <span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span> <span class="o">{</span>
+                        <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                            <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Guess Number&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;p&gt;Too Low! Guess again&lt;/p&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;form action='/guess/theguess'&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;input type='text' name='ans'&gt;"</span> <span class="o">+</span>
+                            <span class="s">"&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;"</span>
+                        <span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                        <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Bad Number&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                        <span class="s">"&lt;p&gt;Bad number! Guess again&lt;/p&gt;"</span> <span class="o">+</span>
+                        <span class="s">"&lt;form action='/guess/theguess'&gt;"</span> <span class="o">+</span>
+                        <span class="s">"&lt;input type='text' name='ans'&gt;"</span> <span class="o">+</span>
+                        <span class="s">"&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;"</span>
+                    <span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="n">responseBody</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                    <span class="s">"&lt;html&gt;&lt;head&gt;&lt;title&gt;Bad Guess Request&lt;/title&gt;&lt;body&gt;"</span> <span class="o">+</span>
+                    <span class="s">"&lt;p&gt;Invalid Request&lt;/p&gt;"</span> <span class="o">+</span>
+                    <span class="s">"&lt;/body&gt;&lt;/html&gt;"</span>
+                <span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">responseBody</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       The main method is:
+    </p>
+<h2 class="src-name"><a href="guess/GuessMain.java">guess/GuessMain.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GuessMain</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">InetSocketAddress</span> <span class="n">addr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="mi">8080</span><span class="o">);</span>
+        <span class="n">HttpServer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">addr</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/guess"</span><span class="o">,</span> <span class="k">new</span> <span class="n">GuessHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/favicon.ico"</span><span class="o">,</span> <span class="k">new</span> <span class="n">FaviconHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">setExecutor</span><span class="o">(</span><span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server is listening on port 8080"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>A combined webserver</h1>
+<div>
+<p>
+        The combined web server is built with:
+    </p>
+<div class="highlight"><pre>% javac ColorDotsHandler.java EchoHandler.java FaviconHandler.java GuessHandler.java HttpDemo1.java
+% java HttpDemo1
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Building the mini http server with ant</h1>
+<div>
+<p>
+       Ant can be used to build and run this demo.
+    </p>
+<h2 class="src-name"><a href="sun/build.xml">sun/build.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"javacc"</span> <span class="na">default=</span><span class="s">"run"</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- ant 1.8 work around --&gt;</span>
+    <span class="nt">&lt;presetdef</span> <span class="na">name=</span><span class="s">"javac"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;javac</span> <span class="na">includeantruntime=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/presetdef&gt;</span>
+
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"package.dir"</span> <span class="na">value=</span><span class="s">"."</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dest.dir"</span> <span class="na">value=</span><span class="s">"classes"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"clean"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;delete</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"compile"</span> <span class="na">depends=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;javac</span>
+            <span class="na">srcdir=</span><span class="s">"${package.dir}"</span> <span class="na">destdir=</span><span class="s">"${dest.dir}"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;compilerarg</span> <span class="na">value=</span><span class="s">"-Xlint:unchecked"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"*.java"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/javac&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"run"</span> <span class="na">depends=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"HttpDemo1"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"classes"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+        Ant can be used to create, and then run this application with:
+    </p>
+<div class="highlight"><pre>% ant clean # remove generated stuff
+% ant compile # compile the source code
+% ant run
+</pre></div>
+<p>
+        Only <tt>ant run</tt> is required.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Using sun/oracle mini http server</h1>
+<div>
+<p>
+        The <code class="java">HttpDemo1</code> class implements four web applications
+        and uses the <code class="java">com.sun.net.httpserver.HttpServer</code> 
+        built-in web server.
+    </p>
+<p>
+        The path name part of the URL is mapped to the following
+	handlers.
+    </p>
+<dl>
+<dt><tt>/echo</tt></dt>
+<dd>
+	    EchoHandler: provide a list of all the headers
+	</dd>
+<dt><tt>/favicon.ico</tt></dt>
+<dd>
+	    FaviconHandler: return a 404 message
+	</dd>
+<dt><tt>/guess</tt></dt>
+<dd>
+	    GuessHandler: provide a series of web pages used
+	    in a number guessing game
+	</dd>
+<dt><tt>/dotpage</tt></dt>
+<dd>
+	    ColorDotsHandler: generates a html document and an image of a dot
+	</dd>
+</dl>
+<h2 class="src-name"><a href="sun/HttpDemo1.java">sun/HttpDemo1.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.Headers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpExchange</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpHandler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.sun.net.httpserver.HttpServer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HttpDemo1</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">InetSocketAddress</span> <span class="n">addr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="mi">8080</span><span class="o">);</span>
+        <span class="n">HttpServer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">addr</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/echo"</span><span class="o">,</span> <span class="k">new</span> <span class="n">EchoHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/favicon.ico"</span><span class="o">,</span> <span class="k">new</span> <span class="n">FaviconHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/guess"</span><span class="o">,</span> <span class="k">new</span> <span class="n">GuessHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">createContext</span><span class="o">(</span><span class="s">"/dotpage"</span><span class="o">,</span> <span class="k">new</span> <span class="n">ColorDotsHandler</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">setExecutor</span><span class="o">(</span><span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">());</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server is listening on port 8080"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>HTTP summary</h1>
+<div>
+<p>
+        The interaction between a web browser and a server can
+        be summarized as:
+    </p>
+<ul>
+<li>
+            A browser makes a request with GET, POST, HEAD, PUT or
+            DELETE method and specified a resource to apply the method. 
+            Extra information can be sent with headers, and with
+            content. The extra information usually comes from a query.
+        </li>
+<li>
+            The server response with the requested content or an error
+            indication.  The type of the reply is specified in the MIME
+            encoding of the header fields.
+        </li>
+</ul>
+</div>
+</div>
+</div></body>
+</html>

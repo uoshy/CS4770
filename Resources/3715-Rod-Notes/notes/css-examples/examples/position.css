@@ -1,0 +1,8 @@
+p { position: relative; }
+i { color:red; position: relative; bottom : 0.5em; left : 0.5em;}
+b {
+    font-size: 0.6em;
+    background:#FF0; position: absolute;
+    top: -0.5in; right: .5in; width:2in;
+    opacity : 0.6;
+}

@@ -1,0 +1,47 @@
+<html>
+<head>
+   <title>TabIndex Element</title>
+</head>
+<body>
+   <a tabindex=1 href="#theend">goto the end</a>
+   <table width="80%" border=1 cellpadding=4>
+      <tr>
+         <td width="50%">
+            <button tabindex="2" onclick="alert(1)">ONE</button>
+         </td>
+         <td>
+            <button tabindex="3" onclick="alert(2)">TWO</button>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <input tabindex="4" type="radio" name="yesno"
+                   value="yes" onchange="alert(3)">
+         </td> 
+         <td>
+            <input tabindex="5" type="radio" name="yesno"
+                    value="no" onchange="alert(4)">
+          </td> 
+      </tr>
+      <tr>
+         <td>
+            <input tabindex="6" type="checkbox" name="ok"
+                   value="yes" onchange="alert(5)">
+         </td> 
+         <td>
+            <input tabindex="7" type="checkbox" name="ok"
+                   value="no" onchange="alert(6)">
+         </td> 
+      </tr>
+      <tr>
+         <td>
+            <input tabindex="8" type="text" name="foo">
+         </td>
+         <td>
+            <input tabindex="9" type="button" name="hitme" value="me">
+         </td>
+      </tr>
+   </table>
+   <a name="theend"><h3>the end</h3></a>
+</body>
+</html>

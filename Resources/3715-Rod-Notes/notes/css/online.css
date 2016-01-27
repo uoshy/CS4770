@@ -1,0 +1,118 @@
+body {
+}
+
+h1 {
+    margin-top : 1px;
+    margin-bottom : 2px;
+    font-size : 1.2em;
+    padding-left: 5px;
+    width : 70%;
+    color : red;
+    border-bottom : thin black solid;
+}
+
+h2 {
+    font-size : 1em;
+}
+
+div.highlight {
+    margin-left : 20px;
+    margin-right : 20px;
+    padding-left : 5px;
+    padding-right : 5px;
+    display : block;
+    border : thin rgb(10,10,10) solid;
+}
+
+a.web-site {
+    font-family: monospace;
+}
+
+span.code {
+    font-family: monospace;
+    background: rgb(230,230,250);
+}
+
+h2.src-name {
+    text-align : right;
+    margin : 0;
+    margin-top : -25px;
+}
+
+h2.src-name a {
+    background : rgb( 200,200,200);
+    color : rgb(50, 50,255);
+    font-size : 12pt;
+    position : relative;
+    top: 20px;
+    left: -25px;
+    text-decoration: none;
+}
+
+span.python {
+    font-style : monospace;
+    color : green;
+}
+
+
+dl.code dt {
+    font-style : monospace;
+    color : red;
+}
+
+span.request {
+    color : red;
+}   
+
+span.reply {
+    color : blue;
+}
+
+dl.runcommand {
+}
+
+dl.runcommand dd {
+    margin-top : 2px;
+    margin-left : 0em;
+}
+
+h2.use-case-name {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+
+h2.use-case-actor {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+
+h2.use-case-precondition {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+
+h2.use-case-postcondition {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+
+h2.use-case-postcondition {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+
+h2.use-case-events {
+    font-size :inherit; 
+    font-weight: inherit;
+}
+
+h2.use-case-exceptions {
+    font-size :inherit;
+    font-weight: inherit;
+}
+

@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>External Javascript</title>
+        <script type="text/javascript" src="colours.js">
+        <!-- the end script tag is still required -->
+        </script>
+        <script type="text/javascript">
+            function doit() {
+                for ( var i = 0 ; i < 10 ; i++ ) 
+                    genPara( "holder" );
+            }
+        </script>
+    </head>
+    <body onload="doit()">
+    <div id="holder">
+    </div>
+    </body>
+</html>

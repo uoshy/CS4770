@@ -1,0 +1,8 @@
+button.b1 {
+    color : white; background: rgb(30,100,250);
+    width : 150px; margin-left: 15px; 
+}
+span.s1 {
+    width : 200px; background: cyan;
+    margin-left: 30px; margin-right: 70px;
+}

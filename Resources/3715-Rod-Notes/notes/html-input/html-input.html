@@ -1,0 +1,668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-26T20:49:44-03:30, Rod Byrne --><title>html-input</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>input elements</h1>
+<div>
+<p>
+        HTML supports the following input elements:
+    </p>
+<dl>
+<dt>textarea</dt>
+<dd>
+            an input text area with more than one line of text specified.
+            The size of text area is defined by rows and cols attributes.
+        </dd>
+<dt>button</dt>
+<dd>
+            a push button, the contents are displayed in the button,
+            the <code>input</code> element of type <code>type="button"</code>
+            is equivalent to a <code>button</code> element
+        </dd>
+<dt>input</dt>
+<dd>
+            one of the following input widgets:
+            text, password, checkbox, radio, submit, reset, file,
+            hidden, image, button
+        </dd>
+<dt>select</dt>
+<dd>usually a drop down option list</dd>
+<dt>label</dt>
+<dd>a label associated with one of the input elements</dd>
+</dl>
+<p>
+        Each input type is similar to a input widget found in
+        a GUI toolkit. HTML input elements are a lot easier.
+        The <code>name</code> and <code>value</code>
+        attributes identify the input element and its value,
+        in a form, that are sent to the server script.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>textarea</h1>
+<div>
+<p>
+        The <code>textarea</code> element creates an editable
+        region on the web page. The size is specified by
+        the <code>rows</code> and <code>cols</code> attributes.
+        The <code>wrap</code> attributes specifies how line
+        breaks and <em>wrapping</em> are handled. The values
+        for <code>wrap</code> are <code>off</code>, <code>hard</code>,
+        and <code>soft</code>.
+        An example of using <code>textarea</code> is:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/textarea.html">examples/textarea.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>Form Element<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+      <span class="kd">function</span> <span class="nx">copyarea</span><span class="p">()</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'tsrc'</span><span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">dst</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'tdst'</span><span class="p">);</span>
+         <span class="nx">dst</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">value</span>
+      <span class="p">}</span>
+   <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;textarea</span> <span class="na">rows=</span><span class="s">"10"</span> <span class="na">cols=</span><span class="s">"20"</span> <span class="na">id=</span><span class="s">"tsrc"</span> <span class="na">onchange=</span><span class="s">"copyarea();"</span><span class="nt">&gt;</span>
+      Edit me.
+   <span class="nt">&lt;/textarea&gt;</span>
+   <span class="nt">&lt;textarea</span> <span class="na">rows=</span><span class="s">"10"</span> <span class="na">cols=</span><span class="s">"20"</span> <span class="na">readonly</span> <span class="na">id=</span><span class="s">"tdst"</span> <span class="nt">&gt;</span>
+   <span class="nt">&lt;/textarea&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Most input elements support the <code>disabled</code>
+        and <code>readonly</code> attributes.
+    </p>
+<p>
+       Is a <code>textarea</code> element a block or inline element?
+       How could we determine its type? Why?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>button input</h1>
+<div>
+<p>
+        A <code>button</code> element will surround content
+        that becomes a push buttons label.
+        The <code>type</code> attribute specifies
+        the type as a <code>button</code>, <code>submit</code>,
+        or <code>reset</code> button.
+        The default is <code>button</code>.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/button.html">examples/button.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>Button Element<span class="nt">&lt;/title&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+      <span class="kd">function</span> <span class="nx">doit</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">}</span>
+      <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"cir"</span><span class="p">);</span>
+         <span class="nx">b</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">doit</span><span class="p">,</span> <span class="kc">false</span> <span class="p">);</span>
+      <span class="p">}</span>
+   <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"init()"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"alert(this)"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;h1&gt;</span>Hello World<span class="nt">&lt;/h1&gt;</span>
+   <span class="nt">&lt;/button&gt;</span>
+   <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"alert('two')"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;p&gt;</span>
+         Even more text<span class="nt">&lt;br&gt;</span> on two lines, <span class="nt">&lt;br&gt;</span>
+         no three lines
+      <span class="nt">&lt;/p&gt;</span>
+   <span class="nt">&lt;/button&gt;</span>
+   <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"cir"</span> <span class="nt">&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">alt=</span><span class="s">"push"</span> <span class="na">src=</span><span class="s">"../../images/circles.png"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        An input element is layed out as if it is an image
+        (i.e., an inline replaced element).
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>text/password field input</h1>
+<div>
+<p>
+        A single line text input field is provided
+        by a <code>input</code> element with
+        the <code>type</code> attribute set to <code>text</code>.
+        The <code>size</code> attribute sets the number
+        of input columns.
+        A <code>password</code> input is like an <code>text</code>
+        input, except the text is echoed as '*'.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/textfield.html">examples/textfield.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>text and password field<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;ul&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+         name
+         <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"first"</span>
+            <span class="na">size=</span><span class="s">"15"</span> <span class="na">onchange=</span><span class="s">'alert(this.value)'</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+         <span class="nt">&lt;label</span> <span class="nt">&gt;</span>surname:
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"sur"</span> <span class="na">name=</span><span class="s">"sur"</span>
+                  <span class="na">size=</span><span class="s">"20"</span> <span class="na">onchange=</span><span class="s">'alert(this.value)'</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+         <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"pw"</span><span class="nt">&gt;</span>password:<span class="nt">&lt;/label&gt;</span>
+         <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">id=</span><span class="s">"pw"</span> <span class="na">name=</span><span class="s">"pw"</span>
+               <span class="na">size=</span><span class="s">"8"</span> <span class="na">onchange=</span><span class="s">'alert(this.value)'</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+   <span class="nt">&lt;/ul&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+       name is not in a lable, surname, and password are in a label.
+   <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The <code>onchange</code> event only occurs when the
+        focus is shifted from the text field (i.e,. a <em>blur</em>
+        event has happend) or a new line is entered
+        and the contents are different.
+    </p>
+<p>
+        A <code>label</code> element that contains
+        an <code>input</code> element is associated with
+        that input. Clicking on the label will change focus to the
+        <code>input</code> element.
+        The <code>for</code> attribute is also used to associate
+        the label with an <code>input</code> element.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>checkboxs and radio buttons</h1>
+<div>
+<p>
+        A checkbox can be toggled on or off. 
+        A radio button can also be toggled on or off.
+        If a set of radio buttons share the same
+        control name, then the last radio button pressed
+        will be on, and all others will be off.
+        The <code>checked</code> attribute is used
+        to set the checked state to true.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/check-radio.html">examples/check-radio.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>check box and radio button<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;table&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td&gt;</span> one
+             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"station"</span> <span class="na">checked</span> <span class="na">tabindex=</span><span class="s">"1"</span>
+                    <span class="na">value=</span><span class="s">"123"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+          <span class="nt">&lt;td&gt;</span> two
+              <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"station"</span> <span class="na">tabindex=</span><span class="s">"3"</span>
+                     <span class="na">value=</span><span class="s">"47"</span> <span class="na">onclick=</span><span class="s">"alert('click')"</span>
+                     <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+          <span class="nt">&lt;td&gt;</span> three
+               <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"station"</span> <span class="na">tabindex=</span><span class="s">"2"</span>
+                      <span class="na">value=</span><span class="s">"987"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">2</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"s1"</span><span class="nt">&gt;</span>student<span class="nt">&lt;/label&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"s1"</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"role"</span> <span class="na">checked</span> <span class="na">tabindex=</span><span class="s">"5"</span>
+                   <span class="na">value=</span><span class="s">"student"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span>
+          <span class="nt">&lt;td&gt;</span> staff
+               <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"role"</span> <span class="na">tabindex=</span><span class="s">"4"</span>
+                      <span class="na">value=</span><span class="s">"staff"</span> <span class="na">onclick=</span><span class="s">"alert('click')"</span>
+                      <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+          <span class="nt">&lt;td&gt;</span> red
+               <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"colour"</span> <span class="na">checked</span>
+                      <span class="na">value=</span><span class="s">"red"</span> <span class="na">onchange=</span><span class="s">"alert(this.checked)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+          <span class="nt">&lt;td&gt;</span> green
+               <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"colour"</span> 
+                      <span class="na">value=</span><span class="s">"green"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+          <span class="nt">&lt;td&gt;</span> blue
+               <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"colour"</span> <span class="na">checked</span>
+                      <span class="na">value=</span><span class="s">"blue"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>file name browsing</h1>
+<div>
+<p>
+        The <code>file</code> input allows the user
+        to select a file name by browsing their
+        directories.
+        Extra care is taken to prevent security problems
+        (i.e., the value field cannot be set from Javascript).
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/file-input.html">examples/file-input.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>select a file name<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;h1&gt;</span>
+      <span class="nt">&lt;label&gt;</span>file:
+         <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">name=</span><span class="s">"fff"</span> <span class="na">value=</span><span class="s">"foo"</span>
+                <span class="na">size=</span><span class="s">"12"</span> <span class="na">onchange=</span><span class="s">'alert(this.value)'</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/label&gt;</span>
+   <span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>selecting items</h1>
+<div>
+<p>
+        Menu items and selection from fixed set of items
+        can be provide by the <code>select</code>
+        and <code>option</code> elements.
+        The <code>size</code> attributes restricts
+        the number of items to be displayed.
+        The <code>multiple</code> attribute enables
+        selection of multiple items.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/select-input.html">examples/select-input.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>select input<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+      Please choose your favorite colour:
+      <span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"colour1"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"BLUE"</span><span class="nt">&gt;</span>blue<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>cyan<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>magenta<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+      <span class="nt">&lt;/select&gt;</span>
+   <span class="nt">&lt;/p&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+      Please choose your favorite colour:
+      <span class="nt">&lt;select</span> <span class="na">size=</span><span class="s">"4"</span> <span class="na">name=</span><span class="s">"colour2"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>blue<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>cyan<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>magenta<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+      <span class="nt">&lt;/select&gt;</span>
+   <span class="nt">&lt;/p&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+      Please choose your favorite colour:
+      <span class="nt">&lt;select</span> <span class="na">multiple</span> <span class="na">size=</span><span class="s">"5"</span> <span class="na">name=</span><span class="s">"colour3"</span>
+         <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option</span> <span class="na">selected</span><span class="nt">&gt;</span>blue<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>cyan<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>magenta<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+      <span class="nt">&lt;/select&gt;</span>
+   <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Again, the input element is layed out like an image.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>labeling option groups</h1>
+<div>
+<p>
+        The <code>option</code> elements can also
+        be grouped by an <code>optgroup</code> element.
+        The <code>optgroup</code> element allows a group
+        of options to be labelled.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/optgroup.html">examples/optgroup.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>option group labels<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+      Please choose your favorite colour:
+      <span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"colour1"</span> <span class="na">onchange=</span><span class="s">"alert(this.value)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"colours"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option&gt;</span>red<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>green<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>blue<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>cyan<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>magenta<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>yellow<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;/optgroup&gt;</span>
+         <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"grey scale"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option&gt;</span>black<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>grey<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option&gt;</span>white<span class="nt">&lt;/option&gt;</span>
+         <span class="nt">&lt;/optgroup&gt;</span>
+      <span class="nt">&lt;/select&gt;</span>
+   <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>tabindex</h1>
+<div>
+<p>
+        The <code>tabindex</code> attribute can be used
+        to define the order that input (actual, all) elements will
+        receive focus.
+        An element with focus will receive keyboard events.
+        Input elements that are accessed in a proscribed
+        order can use the <code>tabindex</code> to set
+        the order. For example:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tabindex.html">examples/tabindex.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>TabIndex Element<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;a</span> <span class="na">tabindex=</span><span class="s">1</span> <span class="na">href=</span><span class="s">"#theend"</span><span class="nt">&gt;</span>goto the end<span class="nt">&lt;/a&gt;</span>
+   <span class="nt">&lt;table</span> <span class="na">width=</span><span class="s">"80%"</span> <span class="na">border=</span><span class="s">1</span> <span class="na">cellpadding=</span><span class="s">4</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td</span> <span class="na">width=</span><span class="s">"50%"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">tabindex=</span><span class="s">"2"</span> <span class="na">onclick=</span><span class="s">"alert(1)"</span><span class="nt">&gt;</span>ONE<span class="nt">&lt;/button&gt;</span>
+         <span class="nt">&lt;/td&gt;</span>
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">tabindex=</span><span class="s">"3"</span> <span class="na">onclick=</span><span class="s">"alert(2)"</span><span class="nt">&gt;</span>TWO<span class="nt">&lt;/button&gt;</span>
+         <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"4"</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"yesno"</span>
+                   <span class="na">value=</span><span class="s">"yes"</span> <span class="na">onchange=</span><span class="s">"alert(3)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span> 
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"5"</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"yesno"</span>
+                    <span class="na">value=</span><span class="s">"no"</span> <span class="na">onchange=</span><span class="s">"alert(4)"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/td&gt;</span> 
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"6"</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"ok"</span>
+                   <span class="na">value=</span><span class="s">"yes"</span> <span class="na">onchange=</span><span class="s">"alert(5)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span> 
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"7"</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"ok"</span>
+                   <span class="na">value=</span><span class="s">"no"</span> <span class="na">onchange=</span><span class="s">"alert(6)"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span> 
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"8"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"foo"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span>
+         <span class="nt">&lt;td&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">tabindex=</span><span class="s">"9"</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">name=</span><span class="s">"hitme"</span> <span class="na">value=</span><span class="s">"me"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+   <span class="nt">&lt;/table&gt;</span>
+   <span class="nt">&lt;a</span> <span class="na">name=</span><span class="s">"theend"</span><span class="nt">&gt;&lt;h3&gt;</span>the end<span class="nt">&lt;/h3&gt;&lt;/a&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The space bar will act like a click when focus is on
+        a button, radio, checkbox, or button input.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>reset, submit, hidden</h1>
+<div>
+<p>
+        HTML also defines the following input types
+        that <em>require</em> an enclosing <code>form</code> element.
+    </p>
+<dl>
+<dt>reset</dt>
+<dd>
+            sets all the input elements back to their initial state
+            (i.e., their values when the web page was loaded).
+        </dd>
+<dt>submit</dt>
+<dd>
+            The action defined by the <code>action</code>
+            attributed in the <code>form</code> element is
+            performed. This usually results in sending
+            a request to server with the form data.
+        </dd>
+<dt>hidden</dt>
+<dd>
+            The input element with type <code>hidden</code>
+            is not displayed by the browser. It is used
+            to provide extra information when a form is
+            submitted. The <code>name</code> and
+            <code>value</code> attributes give the
+            name and value of this information.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>forms</h1>
+<div>
+<p>
+        Information required by a remote web site can be
+        provide by a <code>form</code> element with
+        the enclosing <code>input</code> elements.
+        The <code>form</code> element provided the only
+        way to exchange data with remote site before 
+        the <code>script</code> element was available.
+        This element defines the attributes:
+    </p>
+<dl>
+<dt>action</dt>
+<dd>
+            specifies the agent to handle the form submission,
+            this is commonly a URL.
+        </dd>
+<dt>method</dt>
+<dd>
+           specifies the type of HTTP request, either a
+           <code>get</code> or a <code>post</code>.
+       </dd>
+<dt>enctype</dt>
+<dd>
+          set to "multipart/form-data" when the form contains
+          files to be uploaded.
+       </dd>
+<dt>name</dt>
+<dd>
+          used to identify the form to the browser for scripting,
+          the <code>id</code> element can also be used.
+       </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>form example</h1>
+<div>
+<p>
+        An example of a form with a javascript URL as the action is:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/form.html">examples/form.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Form Element<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+       <span class="kd">function</span> <span class="nx">handleform</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="nx">id</span> <span class="p">)</span> 
+          <span class="kd">var</span> <span class="nx">msg</span> <span class="o">=</span> <span class="s2">"Number: "</span> <span class="o">+</span> <span class="nx">form</span><span class="p">.</span><span class="nx">stno</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s2">"\n"</span>
+          <span class="nx">msg</span> <span class="o">+=</span> <span class="s2">"Name: "</span> <span class="o">+</span> <span class="nx">form</span><span class="p">.</span><span class="nx">stna</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s2">"\n"</span>
+          <span class="nx">msg</span> <span class="o">+=</span> <span class="s2">"Userid: "</span> <span class="o">+</span> <span class="nx">form</span><span class="p">.</span><span class="nx">userid</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s2">"\n"</span>
+          <span class="nx">alert</span><span class="p">(</span> <span class="nx">msg</span> <span class="p">);</span>
+        <span class="p">}</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+       Please fill out the form:
+    <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+       <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"f1"</span> <span class="na">action=</span><span class="s">"javascript: void handleform('f1')"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;label&gt;</span>Num:
+             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"stno"</span> <span class="na">value=</span><span class="s">"123"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;br&gt;</span>
+          <span class="nt">&lt;label&gt;</span>Name:
+             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"stna"</span> <span class="na">value=</span><span class="s">"name"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;br&gt;</span>
+          <span class="nt">&lt;label&gt;</span>Age:
+             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"stage"</span> <span class="na">disabled</span> <span class="na">value=</span><span class="s">"99"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;br&gt;</span>
+          <span class="nt">&lt;label&gt;</span>Registered:
+             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"streg"</span> <span class="na">readonly</span> <span class="na">value=</span><span class="s">"yes"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;br&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"userid"</span> <span class="na">value=</span><span class="s">"me"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;/form&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+       Thank you
+    <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>A temperature calculator</h1>
+<div>
+<p>
+        Calculators are a good example for using input elements
+        for client-side processing.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/metric.html">examples/metric.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>Metric Conversion<span class="nt">&lt;/title&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">defer</span> <span class="nt">&gt;</span>
+      <span class="kd">function</span> <span class="nx">ftoc</span><span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s2">"fahrenheit"</span> <span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s2">"celsius"</span> <span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">vf</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span> <span class="nx">f</span><span class="p">.</span><span class="nx">value</span> <span class="p">);</span>
+          <span class="nx">c</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="p">(</span><span class="nx">vf</span> <span class="o">-</span> <span class="mf">32.0</span><span class="p">)</span><span class="o">/</span><span class="mf">1.8</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="kd">function</span> <span class="nx">ctof</span><span class="p">()</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s2">"fahrenheit"</span> <span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s2">"celsius"</span> <span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">cf</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">value</span> <span class="p">);</span>
+         <span class="nx">f</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span>  <span class="nx">cf</span><span class="o">*</span><span class="mf">1.8</span> <span class="o">+</span> <span class="mf">32.0</span><span class="p">;</span>
+      <span class="p">}</span>
+   <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"ftoc()"</span><span class="nt">&gt;</span>F to C<span class="nt">&lt;/button&gt;</span>
+   <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"ctof()"</span><span class="nt">&gt;</span>C to F <span class="nt">&lt;/button&gt;</span>
+   <span class="nt">&lt;br&gt;</span>
+   <span class="nt">&lt;label&gt;</span> Fahrenheit:
+   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"8"</span> <span class="na">value=</span><span class="s">"32"</span> <span class="na">id=</span><span class="s">"fahrenheit"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;/label&gt;</span>
+   <span class="nt">&lt;br&gt;</span>
+   <span class="nt">&lt;label&gt;</span> Celsius:
+   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"8"</span> <span class="na">value=</span><span class="s">"0"</span> <span class="na">id=</span><span class="s">"celsius"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-26T14:32:29-02:30, Rod Byrne --><title>cgi</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Common Gateway Interface</h1>
+<div>
+<p>
+        Common Gateway Interface (CGI) is an specification of how
+        a web server can interface with an external program that is
+        responsible for dynamically generating a web page or web content.
+        Input to the CGI script is provided through environment variables
+        and the standard input. The program's output should contain
+        a content header specifying the MIME type of the rest
+        of the output.
+    </p>
+<p class="center"><img src="cgi.png"></p>
+<p>
+        CGI scripts provided the first way of
+        generating dynamic web pages.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Environment variables</h1>
+<div>
+<p>
+       In windows, MAC/OS, and unix systems information is passed
+       to a process through a set of environment variables.
+       For example, the <tt>PATH</tt> used by the command line
+       interpreter specifies the directories to search for a command.
+       The behaviour of many programs are affected by the
+       environment variables. The <tt>java</tt> interpreter
+       uses the <tt>CLASSPATH</tt> variable to control the directories
+       and jar/zip files that are searched for class files when running a 
+       java program.
+    </p>
+<p>
+        The <code class="java">java.lang.System</code> class provides
+        the <code class="java">getenv</code> static method to access
+        a process's environment.
+    </p>
+<p>
+        The entire environment can be accessed with the 
+        <code class="java">static Map&lt;String,String&gt; getenv() </code> method.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Printing the environment</h1>
+<div>
+<p>
+        The environment of a Java program, or any program,
+        can be printed with:
+    </p>
+<h2 class="src-name"><a href="PrintEnv.java">PrintEnv.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrintEnv</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">();</span>
+        <span class="c1">// Since the keys in the map must be unique,</span>
+        <span class="c1">// they can be represented by a set</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">keySet</span><span class="o">();</span>
+
+        <span class="c1">// iterate of the set and example the value</span>
+        <span class="k">for</span> <span class="o">(</span> <span class="n">String</span> <span class="n">n</span> <span class="o">:</span> <span class="n">set</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">n</span> <span class="o">+</span> <span class="s">"="</span> <span class="o">+</span> <span class="n">env</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>CGI Environment variables</h1>
+<div>
+<dl>
+<dt><tt>SERVER_NAME</tt></dt>
+<dd>
+            contains the name of the host.
+            An IP address can also be used to identify the host.
+        </dd>
+<dt><tt>SERVER_PORT</tt></dt>
+<dd>
+            contains the port number of the web server.
+        </dd>
+<dt><tt>REQUEST_METHOD</tt></dt>
+<dd>
+            contains the HTTP method. The method is usually GET or POST.
+        </dd>
+<dt><tt>PATH_INFO</tt></dt>
+<dd>
+            contains the part of the URL after the part that references
+            the CGI script.
+        </dd>
+<dt><tt>SCRIPT_NAME</tt></dt>
+<dd>
+            contains the part of the URL that references the CGI script.
+        </dd>
+<dt><tt>QUERY_STRING</tt></dt>
+<dd>
+            contains only the query string part of the URL, the
+            string after the '?' character.
+        </dd>
+<dt><tt>REMOTE_ADDR</tt></dt>
+<dd>
+            contains the IP number of the client.
+        </dd>
+<dt><tt>HTTP_USER_AGENT</tt></dt>
+<dd>
+            contains the name of the web browser making the request.
+        </dd>
+<dt><tt>CONTENT_TYPE</tt></dt>
+<dd>
+            contains the type of data found in the standard input.
+            Does not apply to GET requests.
+        </dd>
+<dt><tt>CONTENT_LENGTH</tt></dt>
+<dd>
+            contains the number of bytes in the standard input.
+        </dd>
+</dl>
+<p>
+        There are more environment variables.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1> Script output</h1>
+<div>
+<p>
+        The script's output must contain a header and then
+        the content. The header consists of name/value pairs
+        that provide information about the content.
+        Each pair must appear on a separate line terminated by '\r\n'.
+        The content and header are separated by '\r\n'.
+    </p>
+<p>
+        A minimal message could contain:
+    </p>
+<div class="text"><pre><span>Content-Type: text/plain</span>
+<span></span>
+<span>hello</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>A CGI script that outputs the environment</h1>
+<div>
+<p>
+        The following Java program is a CGI script that outputs
+        the most important environment variables passed to the script.
+    </p>
+<h2 class="src-name"><a href="echo/EchoEnv.java">echo/EchoEnv.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoEnv</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/plain\r\n\r\n"</span><span class="o">);</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"server name = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"SERVER_NAME"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"server port = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"SERVER_PORT"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"method = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"REQUEST_METHOD"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"query = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"QUERY_STRING"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"info = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"PATH_INFO"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"script = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"SCRIPT_NAME"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"addr = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"REMOTE_ADDR"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"user = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"HTTP_USER_AGENT"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"type = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"CONTENT_TYPE"</span><span class="o">));</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"length = "</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"CONTENT_LENGTH"</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        All CGI scripts must output a header line that
+        specifies the MIME type of the generated page.
+        This is done with:
+    </p>
+<div class="text"><pre><span>
+        System.out.print("Content-Type: text/plain\r\n\r\n");
+        </span>
+</pre></div>
+<p>
+        The following shell script executes the EchoEnv Java program.
+    </p>
+<h2 class="src-name"><a href="echo/cgi-bin/echo.sh">echo/cgi-bin/echo.sh</a></h2>
+<div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<span class="nv">BASEDIR</span><span class="o">=</span><span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>
+<span class="nb">exec </span>java -cp <span class="nv">$BASEDIR</span> EchoEnv
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Gentest CGI script</h1>
+<div>
+<p>
+        The Java program that generates the
+        <a href="http://www.cs.mun.ca/cgi-bin/user-cgi/~rod/3715-a3/gentest.sh?student=123">link</a> page for
+        an old assignment where the student number is 123 is:
+    </p>
+<h2 class="src-name"><a href="a3/GenerateTestPage.java">a3/GenerateTestPage.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenerateTestPage</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">parseStudentId</span><span class="o">(</span> <span class="n">String</span> <span class="n">query</span> <span class="o">)</span>
+	<span class="kd">throws</span> <span class="n">NumberFormatException</span><span class="o">,</span> <span class="n">IllegalArgumentException</span>
+    <span class="o">{</span>
+        <span class="n">String</span> <span class="o">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"&amp;"</span><span class="o">);</span>
+	<span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">String</span> <span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">split</span><span class="o">(</span><span class="s">"="</span><span class="o">);</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"student"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"missing student param"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_LIST</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_SEED</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">genseq</span> <span class="o">=</span> <span class="s">"genseq.sh"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">generateList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">seeds</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">MAX_LIST</span><span class="o">];</span>
+	<span class="n">Random</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;ol&gt;"</span><span class="o">);</span>
+	<span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">seeds</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">seeds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span> <span class="n">MAX_SEED</span> <span class="o">);</span>
+	    <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="n">genseq</span> <span class="o">+</span> <span class="s">"?seed="</span> <span class="o">+</span> <span class="n">seeds</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;li&gt;"</span><span class="o">);</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"&lt;a href='"</span> <span class="o">+</span> <span class="n">url</span> <span class="o">+</span> <span class="s">"'&gt;"</span> <span class="o">);</span> 
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">seeds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">"&lt;/a&gt;"</span> <span class="o">);</span> 
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/li&gt;"</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/ol&gt;"</span><span class="o">);</span>
+	<span class="k">return</span> <span class="n">seeds</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+	<span class="kt">long</span> <span class="n">student</span><span class="o">;</span>
+	<span class="n">TransactionLog</span> <span class="n">log</span><span class="o">;</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="n">student</span> <span class="o">=</span> <span class="n">parseStudentId</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"QUERY_STRING"</span><span class="o">)</span> <span class="o">);</span>
+	    <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TransactionLog</span><span class="o">(</span> <span class="s">"transaction.log"</span> <span class="o">);</span>
+	    <span class="n">log</span><span class="o">.</span><span class="na">record</span><span class="o">(</span><span class="s">"test: "</span> <span class="o">+</span> <span class="n">student</span> <span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/plain\r\n\r\n"</span><span class="o">);</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+	    <span class="k">return</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/html\r\n\r\n"</span><span class="o">);</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;"</span> <span class="o">);</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">seeds</span><span class="o">;</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="n">seeds</span> <span class="o">=</span> <span class="n">generateList</span><span class="o">();</span>
+	    <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+	    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="s">"sum: "</span> <span class="o">+</span> <span class="n">student</span><span class="o">);</span>
+	    <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">seeds</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">seeds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	    <span class="n">log</span><span class="o">.</span><span class="na">record</span><span class="o">(</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">);</span>
+	    <span class="n">log</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="c1">// ignore error, XXX</span>
+	<span class="o">}</span>
+	<span class="k">finally</span> <span class="o">{</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/body&gt;&lt;/html&gt;"</span> <span class="o">);</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Genseq CGI script</h1>
+<div>
+<p>
+        The Java program that generates the integer sequence page for
+        an old assignment 3 is:
+    </p>
+<h2 class="src-name"><a href="a3/GenerateRandomSequence.java">a3/GenerateRandomSequence.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenerateRandomSequence</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">parseSeed</span><span class="o">(</span> <span class="n">String</span> <span class="n">query</span> <span class="o">)</span>
+	<span class="kd">throws</span> <span class="n">NumberFormatException</span><span class="o">,</span> <span class="n">IllegalArgumentException</span>
+    <span class="o">{</span>
+        <span class="n">String</span> <span class="o">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"&amp;"</span><span class="o">);</span>
+	<span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">String</span> <span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">split</span><span class="o">(</span><span class="s">"="</span><span class="o">);</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"seed"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"missing seed param"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_SEQUENCE</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_NUMBER</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/plain\r\n\r\n"</span><span class="o">);</span>
+	 <span class="kt">int</span> <span class="n">seed</span><span class="o">;</span>
+	 <span class="k">try</span> <span class="o">{</span>
+	     <span class="n">seed</span> <span class="o">=</span> <span class="n">parseSeed</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"QUERY_STRING"</span><span class="o">)</span> <span class="o">);</span>
+	 <span class="o">}</span>
+	 <span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+	     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+	     <span class="k">return</span><span class="o">;</span>
+	 <span class="o">}</span>
+	 <span class="n">Random</span> <span class="n">seq</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">(</span> <span class="n">seed</span> <span class="o">);</span>
+	 <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_SEQUENCE</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">seq</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span> <span class="n">MAX_NUMBER</span> <span class="o">)</span> <span class="o">);</span>
+	 <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Logging and file locking</h1>
+<div>
+<p>
+        The two previous CGI scripts use <code class="java">TransactionLog</code>
+        to log information about the requests.
+    </p>
+<h2 class="src-name"><a href="a3/TransactionLog.java">a3/TransactionLog.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStreamWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.nio.channels.FileChannel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.nio.channels.FileLock</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TransactionLog</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">FileOutputStream</span> <span class="n">fout</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">FileChannel</span> <span class="n">channel</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">TransactionLog</span><span class="o">(</span> <span class="n">String</span> <span class="n">filename</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+	<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span> <span class="n">filename</span> <span class="o">);</span>
+	<span class="c1">// open log file for append only</span>
+	<span class="n">fout</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+	<span class="n">channel</span> <span class="o">=</span> <span class="n">fout</span><span class="o">.</span><span class="na">getChannel</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">record</span><span class="o">(</span> <span class="n">String</span> <span class="n">transaction</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+	<span class="c1">// lock file when saving transaction</span>
+	<span class="n">FileLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> 
+		<span class="k">new</span> <span class="nf">PrintWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="n">fout</span><span class="o">)</span> <span class="o">);</span>
+	    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">transaction</span> <span class="o">);</span>
+	    <span class="n">pw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="k">finally</span> <span class="o">{</span>
+	    <span class="n">lock</span><span class="o">.</span><span class="na">release</span><span class="o">();</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+	<span class="n">fout</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Most web servers allow the concurrent executions of CGI
+        scripts. File locking is necessary to ensure that concurrent
+        access to the log file does not corrupt the file's contents.
+        Once a file is <em>locked</em> by one process, any other
+        process that attempts to lock a file will be blocked, until
+        the first lock is released.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Report CGI script</h1>
+<div>
+<p>
+        The <tt>report.sh</tt> CGI script saves the reported sum
+        using <code class="java">TransactionLog</code>. The code is:
+    </p>
+<h2 class="src-name"><a href="a3/ReportSum.java">a3/ReportSum.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReportSum</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span><span class="o">[]</span> <span class="nf">parseParams</span><span class="o">(</span> <span class="n">String</span> <span class="n">query</span> <span class="o">)</span>
+	<span class="kd">throws</span> <span class="n">NumberFormatException</span><span class="o">,</span> <span class="n">IllegalArgumentException</span>
+    <span class="o">{</span>
+        <span class="kt">long</span><span class="o">[]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+
+        <span class="n">String</span> <span class="o">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"&amp;"</span><span class="o">);</span>
+	<span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">String</span> <span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">split</span><span class="o">(</span><span class="s">"="</span><span class="o">);</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"student"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+	        <span class="n">result</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"sum"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+	        <span class="n">result</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+	    <span class="o">}</span>
+	    <span class="k">else</span> <span class="o">{</span>
+		<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"unknown param"</span><span class="o">);</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+	<span class="kt">long</span><span class="o">[]</span> <span class="n">params</span><span class="o">;</span>
+	<span class="n">TransactionLog</span> <span class="n">log</span><span class="o">;</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="n">params</span> <span class="o">=</span> <span class="n">parseParams</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"QUERY_STRING"</span><span class="o">)</span> <span class="o">);</span>
+	    <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TransactionLog</span><span class="o">(</span> <span class="s">"transaction.log"</span> <span class="o">);</span>
+	    <span class="n">String</span> <span class="n">remote</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"REMOTE_ADDR"</span><span class="o">);</span>
+	    <span class="k">if</span> <span class="o">(</span> <span class="n">remote</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="n">remote</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+	    <span class="n">log</span><span class="o">.</span><span class="na">record</span><span class="o">(</span><span class="s">"result: "</span> <span class="o">+</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">params</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">remote</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/plain\r\n\r\n"</span><span class="o">);</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+	    <span class="k">return</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"Content-Type: text/plain\r\n\r\n"</span><span class="o">);</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"The "</span> <span class="o">+</span> <span class="n">params</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="s">" for "</span> <span class="o">+</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">" has been recorded"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Capturing a CGI script output without a browser</h1>
+<div>
+<p>
+        Acesses to web servers is provided by the <code class="java">URL</code> and
+        <code class="java">URLConnection</code> classes defined in the 
+        <code class="java">java.net</code> package.
+        The <code class="java">URLConnection</code> class implements the client-side
+        of the HTTP protocol. These classes can be used to retrieve
+        the documents provided by a web server. The <code class="java">Wget</code>
+        program outputs the returned document from the argument URL.
+        The code is:
+    </p>
+<h2 class="src-name"><a href="Wget.java">Wget.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.net.URLConnection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Wget</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+	<span class="n">URLConnection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+	<span class="n">conn</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+	<span class="n">InputStreamReader</span> <span class="n">content</span> <span class="o">=</span>
+	    <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span> <span class="n">conn</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+	<span class="kt">int</span> <span class="n">ch</span><span class="o">;</span>
+	<span class="k">while</span><span class="o">(</span> <span class="o">(</span><span class="n">ch</span><span class="o">=</span><span class="n">content</span><span class="o">.</span><span class="na">read</span><span class="o">())</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">)</span> <span class="o">{</span>
+	    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span> <span class="o">(</span><span class="kt">char</span><span class="o">)</span><span class="n">ch</span> <span class="o">);</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The output of the <tt>genseq</tt> CGI can be viewed with
+        the command:
+    </p>
+<div class="highlight"><pre>java Wget http://www.cs.mun.ca/cgi-bin/user-cgi/~rod/3715-a3/gentest.sh?student=123
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Testing CGI scripts without a http server</h1>
+<div>
+<p>
+        The <code class="java">RunCgi</code> provides a test harness
+        for CGI scripts by executing the CGI script in the
+        same way that a web server executes the script.
+        The code for  <code class="java">RunCgi</code> is:
+    </p>
+<h2 class="src-name"><a href="RunCgi.java">RunCgi.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileOutputStream</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RunCgi</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">ProcessBuilder</span> <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="s">"/bin/sh"</span><span class="o">,</span> <span class="s">"gentest.sh"</span> <span class="o">);</span>
+        <span class="n">pb</span><span class="o">.</span><span class="na">directory</span><span class="o">(</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">"."</span><span class="o">)</span> <span class="o">);</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">environment</span><span class="o">();</span>
+        <span class="n">env</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="n">env</span><span class="o">.</span><span class="na">put</span><span class="o">(</span> <span class="s">"QUERY_STRING"</span><span class="o">,</span> <span class="s">"student=123"</span> <span class="o">);</span>
+        <span class="n">Process</span> <span class="n">p</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">InputStream</span> <span class="n">instream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        <span class="n">FileOutputStream</span> <span class="n">save</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="s">"result.txt"</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">ch</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">(</span> <span class="o">(</span><span class="n">ch</span><span class="o">=</span><span class="n">instream</span><span class="o">.</span><span class="na">read</span><span class="o">())</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">save</span><span class="o">.</span><span class="na">write</span><span class="o">(</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="n">ch</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">save</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>CGI Setup for CS Students</h1>
+<div>
+<p>
+        If enabled, a CS student creates and executes a cgi script by:
+    </p>
+<ol>
+<li>
+            Creating the <code>~/.cgi-bin</code> directory.
+        </li>
+<li>
+            Setting the premission to <code>0700</code> with
+            <code>chmod 0700 ~/.cgi-bin</code>.
+        </li>
+<li>
+           Placing an executable program with the <code>0700</code>
+           premissions in the above directory.
+        </li>
+<li>
+            The URL to execute the CGI script is:
+            <blockquote>
+                http://www.cs.mun.ca/cgi-bin/user-cgi/~user/executable
+            </blockquote>
+            where <code>user</code> is the user's login name,
+            and <code>executable</code> is the path to
+            the cgi-script contained in  <code>~/.cgi-bin</code>.
+        </li>
+</ol>
+<p>
+        PHP and html can be placed in <tt>.www</tt>.
+        A PHP script ends with <tt>.php</tt>.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

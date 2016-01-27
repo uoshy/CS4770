@@ -1,0 +1,7 @@
+li { background: gray; color : red; }
+li:hover { background: black; color: white; }
+li.img { background-image:url(../images/gold_crinkle.jpg); }
+li.img:hover { background: white; color: blue; }
+div.hov:hover p { color: purple; }
+div.hov p.yel { background: rgb(40,250,60); }
+div.hov:hover p.yel { background: yellow; }

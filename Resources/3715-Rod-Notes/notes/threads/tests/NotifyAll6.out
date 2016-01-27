@@ -1,0 +1,6 @@
+wait:th0 true
+wait:th1 true
+wait:th2 true
+wait:th3 true
+wait:th4 true
+cmd: wait:th5 true

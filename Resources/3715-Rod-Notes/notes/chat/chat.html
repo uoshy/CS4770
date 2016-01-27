@@ -1,0 +1,802 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-12T16:33:11-02:30, Rod Byrne --><title>chat</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Chatting</h1>
+<div>
+<p>
+         Design an application the allows two or more users
+         to exchange text messages. Two possible architectures are:
+    </p>
+<img src="chat-arch.png"><ul>
+<li>
+            What issues occur when the system must be implemented
+            as a web application?
+        </li>
+<li>
+            Which of the above two architectures is the better match
+            to the chatting application?
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Pull Model</h1>
+<div>
+<p>
+        The web uses a <b>pull</b> model, where a web browser fetches
+        documents from a server. The server cannot <b>push</b> any data
+        unless the browser has made a request.
+    </p>
+<p>
+        Websockets is a new standard that will allow a push model.
+    </p>
+<p>
+        The pull approach is also called the <a href="http://en.wikipedia.org/wiki/Comet_%28programming%29">Comet</a>.
+    </p>
+<p>
+        In a chat application, the users expect that a message
+        will be delivered when the user finishes the message.
+        How can a pull model achieve this function?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Chatting Web Application</h1>
+<div>
+<p>
+         A typical servlet implementation of an applications
+         can be depicted as:
+    </p>
+<img src="chat-web-arch.png"><ul>
+<li>
+            Each HTTP protocol exchange is normally performed
+            in a distinct thread.
+        </li>
+<li>
+            Almost instant update of message exchanges
+            can be done with a pending HTTP request, that
+            blocks at the server until a new message arrives.
+            Timeouts of the HTTP request must be addressed.
+        </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Chatting Web Application Protocol</h1>
+<div>
+<p>
+        A browser communications with a server by requesting
+        URLs. The designed URLs define the types of requests
+        the a web application uses to communicate. The chatting
+        application can be implemented with:
+    </p>
+<ul class="code">
+<li>
+            chat/add?speaker=<em>speaker</em>&amp;phrase=<em>message</em>
+</li>
+<li>
+            chat/next?start=<em>nextIndex</em>
+</li>
+</ul>
+<p>
+        The <tt>chat</tt> part identifies the servlet.
+        A messages is added with the <tt>chat/add</tt> URL.
+        The speaker and message are specified in the query string.
+        The messages exchanged starting at <tt><em>nextIndex</em></tt>
+        are retrieved with the <tt>chat/next</tt> URL.
+    </p>
+<p>
+        A web browsers uses the  <tt>chat/add</tt> to send a message
+        that the users types. The server responds with a status reply.
+    </p>
+<p>
+        The browser continually makes <tt>chat/next</tt> requests to
+        check for any new messages.
+        The server responses with a HTML fragment containing all
+        of the messages received from the given index.
+        Note, these two URLs are independent, and can be requested
+        concurrently.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Chatting Web Application Main Page</h1>
+<div>
+<h2 class="src-name"><a href="webapp/src/main/webapp/index.html">webapp/src/main/webapp/index.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"chat.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"chat.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;label&gt;</span>
+Speaker:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"16"</span> <span class="na">id=</span><span class="s">"speakerData"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"phraseFrom"</span> <span class="na">action=</span><span class="s">"javascript:void(1);"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>
+Message:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"40"</span> <span class="na">id=</span><span class="s">"phraseData"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;br&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"dialog"</span> <span class="na">class=</span><span class="s">"dialog"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Design of Chatting Web Application</h1>
+<div>
+<p>
+        A phrase in a chat session can be modeled by:
+    </p>
+<ul>
+<li> the phrase (message), </li>
+<li> the speaker, </li>
+<li> the host, and </li>
+<li> the date the message arrived. </li>
+</ul>
+<p>
+        A Java class for a phrase is:
+    </p>
+<h2 class="src-name"><a href="webapp/src/main/java/chat/Phrase.java">webapp/src/main/java/chat/Phrase.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">chat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Phrase</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">speaker</span> <span class="o">=</span> <span class="s">"unknown"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">phrase</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">date</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="nf">Phrase</span><span class="o">(</span> <span class="n">String</span> <span class="n">phrase</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">phrase</span> <span class="o">=</span> <span class="n">phrase</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Phrase</span><span class="o">(</span> <span class="n">String</span> <span class="n">speaker</span><span class="o">,</span> <span class="n">String</span> <span class="n">phrase</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span> <span class="n">phrase</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">speaker</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Phrase</span><span class="o">(</span> <span class="n">String</span> <span class="n">speaker</span><span class="o">,</span> <span class="n">String</span> <span class="n">phrase</span><span class="o">,</span> <span class="n">String</span> <span class="n">host</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span> <span class="n">speaker</span><span class="o">,</span> <span class="n">phrase</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">host</span> <span class="o">=</span> <span class="n">host</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Phrase</span><span class="o">(</span> <span class="n">String</span> <span class="n">speaker</span><span class="o">,</span> <span class="n">String</span> <span class="n">phrase</span><span class="o">,</span> <span class="n">String</span> <span class="n">host</span><span class="o">,</span> <span class="n">Date</span> <span class="n">date</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span> <span class="n">speaker</span><span class="o">,</span> <span class="n">phrase</span><span class="o">,</span> <span class="n">host</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="n">date</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">speaker</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">speaker</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="s">"unknown"</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="s">":"</span> <span class="o">);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="n">speaker</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">host</span> <span class="o">!=</span> <span class="kc">null</span>  <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="s">":"</span> <span class="o">);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">phrase</span> <span class="o">!=</span> <span class="kc">null</span>  <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="s">":"</span> <span class="o">);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span> <span class="n">phrase</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getHost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">host</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getSpeaker</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">speaker</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPhrase</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">phrase</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Date</span> <span class="nf">getDate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">date</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">Phrase</span> <span class="n">ph</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Phrase</span><span class="o">(</span> <span class="s">"rod"</span><span class="o">,</span> <span class="s">"hi."</span> <span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">ph</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Why does the class implement <span class="code">Serializable</span>?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Modeling a chat</h1>
+<div>
+<p>
+        A chat is a sequence of phrases. A chat can be modeled by:
+    </p>
+<h2 class="src-name"><a href="webapp/src/main/java/chat/Chat.java">webapp/src/main/java/chat/Chat.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">chat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Chat</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span> <span class="n">phrases</span> <span class="o">=</span>
+        <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;();</span>
+
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">ChatIterator</span> <span class="kd">implements</span>
+        <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span>
+    <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">ChatIterator</span><span class="o">(</span> <span class="kt">int</span> <span class="n">startIndex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="n">startIndex</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">phrases</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Phrase</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">Phrase</span> <span class="n">ph</span> <span class="o">=</span> <span class="n">phrases</span><span class="o">.</span><span class="na">get</span><span class="o">(</span> <span class="n">index</span> <span class="o">);</span>
+            <span class="n">index</span><span class="o">++;</span>
+            <span class="k">return</span> <span class="n">ph</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">UnsupportedOperationException</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Chat</span><span class="o">()</span> <span class="o">{}</span> 
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">addPhrase</span><span class="o">(</span> <span class="n">Phrase</span> <span class="n">ph</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">phrases</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="n">ph</span> <span class="o">);</span>
+        <span class="c1">// notifyAll is required to alert threads</span>
+        <span class="c1">// waiting for new phrases.</span>
+        <span class="n">notifyAll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span> <span class="nf">getPhrasesAfter</span><span class="o">(</span> <span class="kt">int</span> <span class="n">start</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ChatIterator</span><span class="o">(</span> <span class="n">start</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span>
+    <span class="nf">getPhrasesAfterWait</span><span class="o">(</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">waitTime</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">phrases</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="c1">// the wait will block the servlet thread</span>
+                <span class="c1">// until it times out, or new phrases arrive</span>
+                <span class="n">wait</span><span class="o">(</span> <span class="n">waitTime</span> <span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">phrases</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">)</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ChatIterator</span><span class="o">(</span> <span class="n">start</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">phrases</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul>
+<li>What is <span class="code">notifyAll()</span>'s role?</li>
+<li>Why not <span class="code">notify()</span>?</li>
+<li>What is an iterator, an inner class?</li>
+<li>Why are some of the methods <span class="code">synchronized</span>?</li>
+<li>Why is <span class="code">wait(timeout)</span> necessary? </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Implementing the servlet (server side)</h1>
+<div>
+<h2 class="src-name"><a href="webapp/src/main/java/chat/ChatServlet.java">webapp/src/main/java/chat/ChatServlet.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">chat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServlet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpSession</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.UnsupportedEncodingException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ChatServlet</span> <span class="kd">extends</span> <span class="n">HttpServlet</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ADD</span> <span class="o">=</span> <span class="s">"add"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">NEXT</span> <span class="o">=</span> <span class="s">"next"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">START</span> <span class="o">=</span> <span class="s">"start"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PHRASE</span> <span class="o">=</span> <span class="s">"phrase"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SPEAKER</span> <span class="o">=</span> <span class="s">"speaker"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">WAIT_TIME</span> <span class="o">=</span> <span class="mi">30000</span><span class="o">;</span> <span class="c1">// 30 seconds</span>
+
+    <span class="kd">private</span> <span class="n">Chat</span> <span class="n">chat</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Chat</span><span class="o">();</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doPost</span><span class="o">(</span>
+        <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="n">doGet</span><span class="o">(</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sendReply</span><span class="o">(</span>
+        <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="n">String</span> <span class="n">top</span><span class="o">,</span> <span class="n">String</span> <span class="n">msg</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span> <span class="n">top</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">msg</span> <span class="o">);</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/xml"</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"&lt;"</span> <span class="o">+</span> <span class="n">top</span> <span class="o">+</span> <span class="s">"&gt;"</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span> <span class="n">msg</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/"</span> <span class="o">+</span> <span class="n">top</span> <span class="o">+</span> <span class="s">"&gt;"</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span>
+        <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="n">String</span> <span class="n">info</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getPathInfo</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">info</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">info</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sendReply</span><span class="o">(</span> <span class="n">response</span><span class="o">,</span> <span class="s">"error"</span><span class="o">,</span> <span class="s">"bad url"</span> <span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">info</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="n">NEXT</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">processNext</span><span class="o">(</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">info</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="n">ADD</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// this blocks for a fixed amount of time</span>
+            <span class="n">processAdd</span><span class="o">(</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="n">sendReply</span><span class="o">(</span> <span class="n">response</span><span class="o">,</span> <span class="s">"error"</span><span class="o">,</span> <span class="s">"bad url"</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">processAdd</span><span class="o">(</span>
+        <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/xml"</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">phrase</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span> <span class="n">PHRASE</span> <span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">phrase</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">(</span> <span class="s">"error: missing phrase"</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;error&gt;missing phrase&lt;/error&gt;"</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">speaker</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span> <span class="n">SPEAKER</span> <span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">speaker</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">(</span> <span class="s">"error: missing speaker"</span> <span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;error&gt;missing speaker&lt;/error&gt;"</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRemoteAddr</span><span class="o">();</span>
+        <span class="n">Phrase</span> <span class="n">ph</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Phrase</span><span class="o">(</span><span class="n">speaker</span><span class="o">,</span> <span class="n">phrase</span><span class="o">,</span> <span class="n">host</span> <span class="o">);</span>
+        <span class="n">chat</span><span class="o">.</span><span class="na">addPhrase</span><span class="o">(</span> <span class="n">ph</span> <span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;done&gt;added&lt;/done&gt;"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">(</span> <span class="n">chat</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">speaker</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">phrase</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">processNext</span><span class="o">(</span>
+        <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span>
+    <span class="o">{</span>
+        <span class="n">String</span> <span class="n">st</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span> <span class="n">START</span> <span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">st</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sendReply</span><span class="o">(</span> <span class="n">response</span><span class="o">,</span> <span class="s">"error"</span><span class="o">,</span> <span class="s">"missing start"</span> <span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">st</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sendReply</span><span class="o">(</span> <span class="n">response</span><span class="o">,</span> <span class="s">"error"</span><span class="o">,</span> <span class="s">"illegal start"</span> <span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span>
+            <span class="n">chat</span><span class="o">.</span><span class="na">getPhrasesAfterWait</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">WAIT_TIME</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">it</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">sendReply</span><span class="o">(</span> <span class="n">response</span><span class="o">,</span> <span class="s">"timeout"</span><span class="o">,</span> <span class="s">"timed out"</span> <span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/xml"</span><span class="o">);</span>
+        <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+        <span class="n">outputPhrases</span><span class="o">(</span> <span class="n">out</span><span class="o">,</span> <span class="n">it</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">outputPhrases</span><span class="o">(</span>
+        <span class="n">PrintWriter</span> <span class="n">out</span><span class="o">,</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Phrase</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"&lt;div xmlns='http://www.w3.org/1999/xhtml'&gt;"</span> <span class="o">);</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">Phrase</span> <span class="n">ph</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;div class='phrase'&gt;"</span><span class="o">);</span>
+            <span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ph</span><span class="o">.</span><span class="na">getDate</span><span class="o">();</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;div class='date'&gt;"</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="s">"&lt;/div&gt;"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">h</span> <span class="o">=</span> <span class="n">ph</span><span class="o">.</span><span class="na">getHost</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">h</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                 <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;div class='host'&gt;"</span> <span class="o">+</span> <span class="n">h</span> <span class="o">+</span> <span class="s">"&lt;/div&gt;"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ph</span><span class="o">.</span><span class="na">getSpeaker</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">s</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                 <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;div class='speaker'&gt;"</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="s">"&lt;/div&gt;"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">m</span> <span class="o">=</span> <span class="n">ph</span><span class="o">.</span><span class="na">getPhrase</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">m</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                 <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;div class='phrase'&gt;"</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="s">"&lt;/div&gt;"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/div&gt;"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"&lt;/div&gt;"</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Implementing the client with AJAX</h1>
+<div>
+<h2 class="src-name"><a href="webapp/src/main/webapp/chat.js">webapp/src/main/webapp/chat.js</a></h2>
+<div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+
+<span class="kd">var</span> <span class="nx">phraseText</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">speakerData</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">dialogDiv</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">phraseCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">doAddPhrase</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'chat/add?'</span><span class="p">;</span>
+    <span class="nx">url</span> <span class="o">+=</span> <span class="s1">'speaker='</span> <span class="o">+</span> <span class="nx">escape</span><span class="p">(</span><span class="nx">speakerData</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+    <span class="nx">url</span> <span class="o">+=</span> <span class="s1">'&amp;phrase='</span> <span class="o">+</span> <span class="nx">escape</span><span class="p">(</span><span class="nx">phraseText</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+    <span class="nx">phraseText</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">"GET"</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">req</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">req</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">)</span> <span class="p">{</span>
+                <span class="nx">checkAdd</span><span class="p">(</span> <span class="nx">req</span> <span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">alert</span><span class="p">(</span> <span class="nx">req</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">checkAdd</span><span class="p">(</span> <span class="nx">req</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">responseXML</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">'error'</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">textContent</span> <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">doGetChat</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'chat/next?start='</span> <span class="o">+</span> <span class="nx">phraseCount</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">"GET"</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">req</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">req</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">)</span> <span class="p">{</span>
+                <span class="nx">addChat</span><span class="p">(</span> <span class="nx">req</span> <span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">alert</span><span class="p">(</span> <span class="nx">req</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">req</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">addChat</span><span class="p">(</span> <span class="nx">req</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">responseXML</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">r</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">'error'</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">textContent</span> <span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">'timeout'</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">doGetChat</span><span class="p">();</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">l</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">e</span><span class="p">.</span><span class="nx">nodeType</span> <span class="o">==</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">ELEMENT_NODE</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">importNode</span><span class="p">(</span> <span class="nx">e</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+            <span class="nx">dialogDiv</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">n</span> <span class="p">);</span>
+            <span class="nx">phraseCount</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// scroll to bottom</span>
+    <span class="nx">dialogDiv</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">=</span> <span class="nx">dialogDiv</span><span class="p">.</span><span class="nx">scrollHeight</span><span class="p">;</span>
+    <span class="nx">doGetChat</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">init_page</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//window.setInterval( doPing, 1000 );</span>
+
+     <span class="nx">phraseText</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">'phraseData'</span> <span class="p">);</span>
+     <span class="nx">speakerData</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">'speakerData'</span> <span class="p">);</span>
+     <span class="nx">dialogDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">'dialog'</span> <span class="p">);</span>
+
+     <span class="nx">b</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">'phraseFrom'</span> <span class="p">);</span>
+     <span class="nx">b</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="nx">doAddPhrase</span><span class="p">,</span> <span class="kc">false</span> <span class="p">);</span>
+
+     <span class="c1">// start fetching chat updates</span>
+     <span class="nx">doGetChat</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'load'</span><span class="p">,</span> <span class="nx">init_page</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>web.xml, filters</h1>
+<div>
+<h2 class="src-name"><a href="webapp/src/main/webapp/WEB-INF/web.xml">webapp/src/main/webapp/WEB-INF/web.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE web-app</span>
+<span class="cp">    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"</span>
+<span class="cp">    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"&gt;</span>
+<span class="nt">&lt;web-app&gt;</span>
+    <span class="nt">&lt;filter&gt;</span>
+      <span class="nt">&lt;filter-name&gt;</span>logger<span class="nt">&lt;/filter-name&gt;</span>
+      <span class="nt">&lt;filter-class&gt;</span>chat.LogFilter<span class="nt">&lt;/filter-class&gt;</span>
+    <span class="nt">&lt;/filter&gt;</span>
+    <span class="nt">&lt;filter-mapping&gt;</span>
+        <span class="nt">&lt;filter-name&gt;</span>logger<span class="nt">&lt;/filter-name&gt;</span>
+        <span class="nt">&lt;url-pattern&gt;</span> /* <span class="nt">&lt;/url-pattern&gt;</span>
+    <span class="nt">&lt;/filter-mapping&gt;</span>
+  <span class="nt">&lt;servlet&gt;</span>
+      <span class="nt">&lt;servlet-name&gt;</span>chat<span class="nt">&lt;/servlet-name&gt;</span>
+      <span class="nt">&lt;servlet-class&gt;</span>chat.ChatServlet<span class="nt">&lt;/servlet-class&gt;</span>
+  <span class="nt">&lt;/servlet&gt;</span>
+  <span class="nt">&lt;servlet-mapping&gt;</span>
+      <span class="nt">&lt;servlet-name&gt;</span>chat<span class="nt">&lt;/servlet-name&gt;</span>
+      <span class="nt">&lt;url-pattern&gt;</span>/chat/*<span class="nt">&lt;/url-pattern&gt;</span>
+  <span class="nt">&lt;/servlet-mapping&gt;</span>
+<span class="nt">&lt;/web-app&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Filtering</h1>
+<div>
+<h2 class="src-name"><a href="webapp/src/main/java/chat/LogFilter.java">webapp/src/main/java/chat/LogFilter.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">chat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.Filter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.FilterChain</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.FilterConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletResponse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LogFilter</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">FilterConfig</span> <span class="n">filterConfig</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">ServletContext</span> <span class="n">context</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doFilter</span> <span class="o">(</span>
+        <span class="n">ServletRequest</span> <span class="n">request</span><span class="o">,</span>
+        <span class="n">ServletResponse</span> <span class="n">response</span><span class="o">,</span>
+        <span class="n">FilterChain</span> <span class="n">chain</span> <span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">ServletException</span>
+    <span class="o">{</span>
+        <span class="n">HttpServletRequest</span> <span class="n">req</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpServletRequest</span><span class="o">)</span><span class="n">request</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">context</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> 
+            <span class="n">context</span><span class="o">.</span><span class="na">log</span><span class="o">(</span> <span class="s">"LOG:"</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="na">getRemoteHost</span><span class="o">()</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">chain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span> <span class="o">(</span><span class="n">FilterConfig</span> <span class="n">filterConfig</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filterConfig</span> <span class="o">=</span> <span class="n">filterConfig</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">filterConfig</span><span class="o">.</span><span class="na">getServletContext</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">destroy</span> <span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filterConfig</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Using Maven</h1>
+<div>
+<p>
+       Maven is a project management tool, that can build, run, test,
+       and deploy applications.
+       The maven pom file is:
+    </p>
+<h2 class="src-name"><a href="webapp/pom.xml">webapp/pom.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span> <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>mun-cs-web<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>chat-app<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>war<span class="nt">&lt;/packaging&gt;</span>
+    <span class="nt">&lt;name&gt;</span>chat<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+        <span class="c">&lt;!-- latest jetty 8, as of April 2013 --&gt;</span>
+        <span class="c">&lt;!-- working 8.1.10.v20130312 --&gt;</span>
+        <span class="c">&lt;!-- working 8.1.14.v20131031 --&gt;</span>
+        <span class="nt">&lt;jettyVersion&gt;</span>9.0.7.v20131107<span class="nt">&lt;/jettyVersion&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.eclipse.jetty<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>jetty-server<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>${jettyVersion}<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.eclipse.jetty<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>jetty-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>${jettyVersion}<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="c">&lt;!-- org.eclipse.jetty for version 9 --&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.eclipse.jetty<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>jetty-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>${jettyVersion}<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;webApp&gt;</span>
+                        <span class="nt">&lt;contextPath&gt;</span>/${project.name}<span class="nt">&lt;/contextPath&gt;</span>
+                    <span class="nt">&lt;/webApp&gt;</span>
+                    <span class="nt">&lt;requestLog</span> <span class="na">implementation=</span><span class="s">"org.eclipse.jetty.server.NCSARequestLog"</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;filename&gt;</span>target/yyyy_mm_dd.request.log<span class="nt">&lt;/filename&gt;</span>
+                        <span class="nt">&lt;retainDays&gt;</span>90<span class="nt">&lt;/retainDays&gt;</span>
+                        <span class="nt">&lt;append&gt;</span>true<span class="nt">&lt;/append&gt;</span>
+                        <span class="nt">&lt;extended&gt;</span>false<span class="nt">&lt;/extended&gt;</span>
+                        <span class="nt">&lt;logTimeZone&gt;</span>GMT<span class="nt">&lt;/logTimeZone&gt;</span>
+                    <span class="nt">&lt;/requestLog&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;jdkLevel&gt;</span>1.6<span class="nt">&lt;/jdkLevel&gt;</span>
+                    <span class="nt">&lt;source&gt;</span>1.6<span class="nt">&lt;/source&gt;</span>
+                    <span class="nt">&lt;target&gt;</span>1.6<span class="nt">&lt;/target&gt;</span>
+                    <span class="nt">&lt;compilerArgument/&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+        It can be tested with:
+    </p>
+<div class="highlight"><pre>% mvn jetty:run
+</pre></div>
+<p>
+        Help on the jetty commands is output with:
+    </p>
+<div class="highlight"><pre>% mvn jetty:help
+</pre></div>
+<p>
+        The webapp directory and war file can be created with:
+    </p>
+<div class="highlight"><pre>% mvn package
+</pre></div>
+<p>
+        The generated files can be removed with:
+    </p>
+<div class="highlight"><pre>% mvn clean
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

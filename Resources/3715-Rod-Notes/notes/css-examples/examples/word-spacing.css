@@ -1,0 +1,3 @@
+li.ws1 { word-spacing: 0.5em; }
+li.ws2 { word-spacing: -0.5em; }
+li.ws3 { word-spacing: normal; }

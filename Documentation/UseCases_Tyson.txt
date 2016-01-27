@@ -1,0 +1,193 @@
+01. Name: Login to system
+User stories addressed: - -
+Actors: Registered User
+Precondition: GUI is downloaded and is accessible to user. GUI on their system.
+Main Scenario:
+    1) User (admin, instructor, marker, student) opens GUI
+    2) User enters login credentials 
+    3) User clicks “Login” on main GUI menu
+    4) System verifies current account credentials
+Postcondition: User is viewing system main menu (after logged in)
+Alternate scenario:
+  Incorrect credentials
+        4.0) System determines user credentials are incorrect
+        4.1) System returns prompt asking to re-enter user login credentials
+
+02. Name: Logout from system
+User stories addressed: - -
+Actors: Registered User
+Precondition: User finished UC-01 (login), & finished with current session
+Main Scenario:
+    1) User clicks “Logout" button on appropriate system menu
+    2) System prompts User to confirm logout
+    3) User confirms logout
+Postcondition: User is viewing GUI main login menu
+Alternate scenario: 
+  Click 'X' to logout
+        1.0) User clicks 'x' button on GUI
+  Save before closing
+        2.0) System determines if user has unsaved work
+        2.1) System prompts user to save current work
+        2.2) System commits save(s) to server
+
+03. Name: Create a/multiple user account(s)
+User stories addressed: US-01
+Actors: Admin
+Precondition: Admin is finished UC-01 (login), & is viewing system main (admin) menu
+Main Scenario:
+    1) Admin clicks “Add Accounts” via menu
+    2) System prompts admin to enter user account info
+    3) Admin uploads file containing user account info (username / tmp-password)
+    4) System creates all accounts (add to database – if no error) 
+    5) Admin clicks “Create”
+    6) System returns confirmation/prompt of success
+Postcondition: Admin is viewing list of added usernames/passwords
+Alternate scenario: 
+  Manually add user accounts
+        3.0) Admin manually inputs user account info (username/password) via GUI menu
+  Cancel adding accounts
+        5.0) Admin clicks “Cancel”
+    Postcondition: Admin is viewing system main (admin) menu
+  Error uploading user account info
+        3.0) System informs admin of error(s) via pop-up/a prompt
+        3.1) Admin addresses error(s). (uploading error)
+  Error creating account(s)
+        6.0) System informs admin of error(s) via pop-up/a prompt
+        6.1) Admin addresses error(s). (username/password error, etc.)
+
+04. Name: Create a/multiple course(s)
+User stories addressed: US-02
+Actors: Admin
+Precondition: Admin is finished UC-01 (login), & is viewing system main (admin) menu
+Main Scenario:
+    1) Admin clicks “Add Courses” via menu
+    2) System prompts admin to enter course info
+    3) Admin uploads file containing course info (code, name, short description)
+    4) System creates all courses (adds to database – if no error)
+    5) Admin clicks “Create”
+    6) System returns confirmation/prompt of success
+Postcondition: Admin is viewing list of recently added courses
+Alternate scenario:
+  Manually add course(s)
+        3.0) Admin manually inputs course info via GUI menu
+  Cancel adding accounts
+        5.0) Admin clicks “Cancel”
+    Postcondition: Admin is viewing system main (admin) menu
+  Error uploading course info
+        3.0) System informs admin of error(s) via pop-up/a prompt
+        3.1) Admin addresses error(s). (uploading error)
+  Error creating course(s)
+        6.0) System informs admin of error(s) via pop-up/a prompt
+        6.1) Admin addresses error(s). (course error)
+  Semester-specific courses
+        4.0) Organize courses by year and semester via GUI menu
+
+05. Name: Assign user(s) to course(s) 
+User stories addressed: US-03, US-05
+Actors: Admin
+Precondition: Admin finished UC-03, UC-04, & is viewing system main (admin) menu
+    1) Admin clicks “Assign Users” via menu
+    2) System prompts admin to link users to courses (system page/menu)
+    3) Admin links users to courses via appropriate system page/menu
+    4) Admin commit changes via “Save” option/menu (commit changes to database)
+Postcondition: Admin is viewing list courses with assigned users
+Alternate scenario:
+  Error linking user to course
+        3.0) System informs admin of error(s) via pop-up/a prompt 
+        3.1) Admin addresses error(s). (course full, etc)
+  Revert changes
+        4.0) Admin reverts changes via “Cancel” option/menu 
+    Postcondition: Admin is viewing system main (admin) menu
+
+06. Name: Remove user(s) from course(s)
+User stories addressed: US-04
+Actors: Admin
+Precondition: Admin finished UC-01 & UC-05, & is viewing system main (admin) menu
+    1) Admin clicks “Remove Users” via menu
+    2) System prompts admin to remove users from course(s) (system page/menu)
+    3) Admin chooses course to remove user(s)
+    4) Admin removes user(s) from course
+    5) Admin commit changes via “Save” option/menu (commit changes to database)
+Postcondition: Admin is viewing list of removed users 
+Alternate scenario:
+  Manually remove user
+        1.0) Admin clicks User via GUI menu
+        1.1) System prompts user with User info page
+        1.2) Admin continues from step 3
+  Right-click remove User
+        1.0) Admin right-clicks user via GUI menu
+        1.1) Admin selects remove from course
+        1.2) Admin continues from step 3
+  Revert changes
+        5.0) Admin reverts changes via “Cancel” option/menu
+    Postcondition: Admin is viewing system main (admin) menu
+
+07. Name: Reset user(s) password(s)
+User stories addressed: US-04
+Actors: Admin, Registered User
+Precondition: Admin finished UC-01 & UC-03, & is viewing system main (admin) menu
+    1) Admin clicks “Reset User Password” via menu
+    2) System prompts admin to reset user password (list of courses/users)
+    3) Admin selects user(s) to reset password
+    5) Admin commit changes via “Save” option/menu? (commit changes to database)
+Postcondition: Admin viewing page/menu with user name & generated password 
+Alternate scenario:
+  Right-click remove User
+        1.0) Admin right-clicks user via GUI menu
+        1.1) Admin selects reset password
+        1.2) Admin continues from step 3
+  Revert changes
+        5.0) Admin reverts changes via “Cancel” option/menu?
+  Automated password reset
+    Precondition: UC-01 & UC-03 finished. User is viewing system main (login) menu
+        1.0) User clicks “Reset Password” button via GUI login menu
+        1.1) System prompts user for confirmation
+        1.2) User accepts or declines
+    Postcondition: User viewing GUI main login page
+
+
+08. Name: Set new account password
+User stories addressed: - -
+Actors: Registered User
+Precondition: Admin finished UC-01, UC-03 & UC-07, & user is viewing system login menu
+    1) User enters login credentials via system login menu
+    2) System recognizes that current user's password was reset & prompts user (menu/page)
+    3) User enters new account password in field 
+    4) User clicks “Submit”
+    5) System returns confirmation/prompt of success
+    6) System prompts user to login with new password via system login menu
+Postcondition: User is viewing system login menu
+Alternate scenario:
+  Password error
+        4.0) Entered password violates password rules or isn't accepted
+        4.1) System returns prompt asking to re-enter different user password
+
+
+09. Name: Add new assignment
+User stories addressed: US-06
+Actors: Instructor
+Precondition: Finished UC-03 to 05 & UC-09, & instructor is viewing main (instructor) menu
+    1) Instructor clicks “Add Assignment” via menu
+    2) System prompts instructor to add assignment to course(s) (system page/menu)
+    3) Instructor selects course from list
+    4) System prompts instructor to add new assignment
+    5) Instructor selects directory (w/ files) for new assignment
+    6) System adds directory (w/ files) to cloud to be downloaded by users
+    7) System returns confirmation/prompt of success
+    8) System notifies all users (linked to course) of new assignment
+Postcondition: Instructor is viewing newly added assignment directory
+Alternate scenario:
+  Manually add assignment
+        5.0) Instructor creates directory for new assignment
+        5.1) Instructor creates files via GUI
+        5.2) Instructor adds files to new assignment
+        5.3) Instructor continues from step 7
+  Error selecting/creating assignment
+        6.0) System informs instructor of error(s) via pop-up/a prompt
+        6.1) Instructor addresses error(s). Consult admin? Retry?
+  Modify existing assignment
+        1.0) Instructor clicks assignment from appropriate system menu list
+        1.1) System prompts instructor with assignment info menu (directory w/files)
+        1.2) Instructor clicks “Edit”
+        1.3) Instructor modifies existing assignment (directory/files)
+        1.4) Instructor continues from step 7

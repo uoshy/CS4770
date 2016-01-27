@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root
+    xmlns:rod="http://www.cs.mun.ca/~rod"
+    xmlns="http://www.what.com/default">
+    <rod:letter> hi there </rod:letter>
+    <!-- rod:letter is a qualified name -->
+    <letter>
+        another letter with the same local name
+    </letter>
+    <!-- letter is in the "http://www.what.com/default"
+          namespace -->
+</root>

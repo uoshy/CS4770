@@ -1,0 +1,19 @@
+<html>
+<head>
+   <title>Form Element</title>
+</head>
+   <script type="text/javascript">
+      function copyarea() {
+         var src = document.getElementById('tsrc');
+         var dst = document.getElementById('tdst');
+         dst.value = src.value
+      }
+   </script>
+<body>
+   <textarea rows="10" cols="20" id="tsrc" onchange="copyarea();">
+      Edit me.
+   </textarea>
+   <textarea rows="10" cols="20" readonly id="tdst" >
+   </textarea>
+</body>
+</html>

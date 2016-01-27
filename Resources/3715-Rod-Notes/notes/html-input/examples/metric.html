@@ -1,0 +1,31 @@
+<html>
+<head>
+   <title>Metric Conversion</title>
+   <script type="text/javascript" defer >
+      function ftoc() {
+          var f = document.getElementById( "fahrenheit" );
+          var c = document.getElementById( "celsius" );
+          var vf = parseFloat( f.value );
+          c.value = (vf - 32.0)/1.8;
+      }
+      function ctof() {
+         var f = document.getElementById( "fahrenheit" );
+         var c = document.getElementById( "celsius" );
+         var cf = parseFloat( c.value );
+         f.value =  cf*1.8 + 32.0;
+      }
+   </script>
+</head>
+<body>
+   <button onclick="ftoc()">F to C</button>
+   <button onclick="ctof()">C to F </button>
+   <br>
+   <label> Fahrenheit:
+   <input type="text" size="8" value="32" id="fahrenheit">
+   </label>
+   <br>
+   <label> Celsius:
+   <input type="text" size="8" value="0" id="celsius">
+   </label>
+</body>
+</html>

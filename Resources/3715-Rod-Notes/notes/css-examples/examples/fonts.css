@@ -1,0 +1,9 @@
+tr.first { font-family : serif; }
+tr.second { font-family : sans-serif; }
+tr.third { font-family : monospace; }
+tr.fourth { font-family : cursive; }
+td.it { font-style: italic; }
+td.ob { font-style: oblique; }
+td.normal { font-style: normal; }
+table:hover { font-size: 1.2em; font-weight: bold; }
+table { margin-left: 20%; width:60%; background:gray;}

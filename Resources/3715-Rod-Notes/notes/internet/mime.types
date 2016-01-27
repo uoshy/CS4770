@@ -1,0 +1,27 @@
+application/ogg                 ogg
+application/x-tex		tex
+application/xhtml+xml		xhtml xht
+application/xml
+application/xml-dtd
+application/xml-external-parsed-entity
+application/zip			zip
+audio/mpeg			mpga mp2 mp3
+audio/x-pn-realaudio		ram rm
+audio/x-wav			wav
+image/bmp			bmp
+image/gif			gif
+image/jpeg			jpeg jpg jpe
+image/png			png
+image/tiff			tiff tif
+model/vrml			wrl vrml
+multipart/form-data
+multipart/mixed
+text/css			css
+text/html			html htm
+text/plain			asc txt
+text/sgml			sgml sgm
+text/x-setext			etx
+text/xml			xml xsl
+video/mpeg			mpeg mpg mpe
+video/quicktime			qt mov
+video/x-msvideo			avi

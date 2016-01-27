@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Text Formating</title>
+<link rel="stylesheet" type="text/css" href="text-formatting.css">
+
+<script type="text/javascript" src="text-formatting.js">
+</script>
+</head>
+<body>
+<div class="controls">
+<label>Colour:
+<select id="sel-colour" onchange="setColour(this.value)">
+<option>inherit</option>
+<option>aqua</option> <option>black</option>
+<option>blue</option> <option>fuchsia</option>
+<option>gray</option> <option>green</option>
+<option>lime</option> <option>maroon</option>
+<option>navy</option> <option>olive</option>
+<option>orange</option> <option>purple</option>
+<option>red</option> <option>silver</option>
+<option>teal</option> <option>white</option>
+<option>yellow</option>
+</select>
+</label>
+
+<label>Background:
+<select id="sel-bg-colour"  onchange="setBackgroundColour(this.value)">
+<option>inherit</option>
+<option>aqua</option> <option>black</option>
+<option>blue</option> <option>fuchsia</option>
+<option>gray</option> <option>green</option>
+<option>lime</option> <option>maroon</option>
+<option>navy</option> <option>olive</option>
+<option>orange</option> <option>purple</option>
+<option>red</option> <option>silver</option>
+<option>teal</option> <option>white</option>
+<option>yellow</option>
+</select>
+</label>
+
+<label>Font:
+<select id="sel-font" onchange="setFont(this.value)">
+<option>inherit</option>
+<option>monospace</option>
+<option>serif</option>
+<option>sans-serif</option>
+</select>
+</label>
+
+<label>Size:
+<select id="sel-font-size"  onchange="setFontSize(this.value)">
+<option>inherit</option>
+<option>0.7em</option>
+<option>0.8em</option>
+<option>1.2em</option>
+<option>1.5em</option>
+<option>7pt</option>
+<option>8pt</option>
+<option>9pt</option>
+<option>10pt</option>
+<option>11pt</option>
+<option>12pt</option>
+<option>13pt</option>
+<option>14pt</option>
+<option>16pt</option>
+<option>18pt</option>
+<option>20pt</option>
+</select>
+</label>
+</div>
+
+<div id="format-area">
+<p>
+Every element in a HTML document is also a Javascript object.
+Most elements have a <em>style</em> property that contains
+the CSS properties. The background colour can be set with
+<code class="jss">element.style.background</code>. The foreground colour
+is controlled by the value of <code class="jss">element.style.color</code>.
+</p>
+<p>
+Multiple word CSS properties (words separated by hyphens) are converted
+to Javascript identifiers where the individual words are capitalized.
+The CCS property <code class="css">font-family</code> is 
+<code class="jss">fontFamily</code>.
+The <code class="css">border-left-width</code> property is accessed with
+<code class="jss">borderLeftWidth</code> in Javascript.
+</p>
+</div>
+</body>
+</html>

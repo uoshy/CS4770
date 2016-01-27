@@ -1,0 +1,678 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-02-23T15:58:36-03:30, Rod Byrne --><title>ajax</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>AJAX</h1>
+<div>
+<p>
+        AJAX stands for Asynchronous JavaScript and XML. 
+        AJAX uses the <tt>XMLHttpRequest</tt> object, first developed
+        by Microsoft, to make <em>asynchronous</em> HTTP requests
+        between a web browser and a web server.
+    </p>
+<p>
+        In a <em>synchronous</em> request, the request is sent
+        and then the sender waits for the response to arrive.
+        In an <em>asynchronous</em> request, the sender does <b>not</b>
+        wait, instead an <em>event handler (callback)</em> function
+        is registered. This function will be <em>callbacked</em>
+        when the response arrives.
+    </p>
+<p>
+       Initally, <em>XML</em> documents were exchanged, now days
+       many different document types are exchanged. Documents with JSON
+       encoding is one of the more popular.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>XMLHttpRequest</h1>
+<div>
+<p>
+         The <code>XMLHttpRequest</code> object available to
+         most browsers allows the browser to request XML
+         (and other document types) from a server
+         without reloading the page making the request.
+         The request can only be made to the same server as
+         the page making the request orginated.
+    </p>
+<p>
+        The <code>XMLHttpRequest</code> object provides
+        the following methods and properties:
+    </p>
+<dl class="code">
+<dt>abort()</dt>
+<dd>aborts the current request</dd>
+<dt>getAllResponseHeaders()</dt>
+<dd>return a string containing the HTTP header</dd>
+<dt>getResponseHeader(label)</dt>
+<dd>return the value of the header given by label</dd>
+<dt>open(method, URL, asyncFlag, user, password)</dt>
+<dd>
+            method is GET, POST, PUT, DELETE, HEAD, ...,
+            URL is the requested document,
+            asyncFlag is true for an asynchronous request,
+            user and password are used when required for authentication,
+            the last three parameters are optional
+        </dd>
+<dt>send()</dt>
+<dd>
+            transmits the request, no body content is sent
+        </dd>
+<dt>send(document)</dt>
+<dd>
+            transmit the document when the method is POST, set to null
+            when the method is GET
+        </dd>
+<dt>send( string )</dt>
+<dd>
+            transmit the string, set to null when the method is GET
+        </dd>
+<dt>setRequestHeader(label, value)</dt>
+<dd>set one of the HTTP headers </dd>
+<dt>onreadystatechange</dt>
+<dd>sets the event handler</dd>
+<dt>readyState</dt>
+<dd>0:uninitialized, 1:loading, 2:loaded, 3:interactive, 4:complete</dd>
+<dt>response</dt>
+<dd>The entire response according it <tt>responseType</tt>
+</dd>
+<dt>responseText</dt>
+<dd>The entire response as a string</dd>
+<dt>responseType</dt>
+<dd>
+            some standard types are: arraybuffer, blob, json, text
+        </dd>
+<dt>responseXML</dt>
+<dd>the document object, accessible with DOM</dd>
+<dt>status</dt>
+<dd>
+            numeric status response from server, 200 is OK, 404 is
+            a missing document
+        </dd>
+<dt>statusText</dt>
+<dd>any status message</dd>
+<dt>timeout</dt>
+<dd>the number of milliseconds before aborting, 0 waits forever</dd>
+<dt>ontimeout</dt>
+<dd>
+            function called if/when the timeout occurs
+        </dd>
+</dl>
+<p>
+        The following event handlers are also defined:
+        <tt>onloadstart</tt>,
+        <tt>onprogress</tt>,
+        <tt>onabort</tt>,
+        <tt>onload</tt>, and
+        <tt>onloadend</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Testing XMLHttpRequest</h1>
+<div>
+<p>
+        A test of <tt>XMLHttpRequest</tt> that returns the headers and
+        content of a URL is:
+    </p>
+<h2 class="src-name"><a href="code/static/examples/header.html">code/static/examples/header.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+<span class="kd">function</span> <span class="nx">request</span><span class="p">(</span> <span class="nx">url</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+    <span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">displayResult</span><span class="p">(</span> <span class="nx">xhr</span> <span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+    <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">displayResult</span><span class="p">(</span> <span class="nx">xhr</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">display</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"display-response"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">status</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"display-status"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"display-text"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">textmsg</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"display-status-message"</span><span class="p">);</span>
+
+    <span class="nx">display</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">getAllResponseHeaders</span><span class="p">();</span>
+    <span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+    <span class="nx">text</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+    <span class="nx">textmsg</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">statusText</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">'request("/examples/header.html" )'</span><span class="nt">&gt;</span>Get headers.html<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;br&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">'request("http://www.cs.mun.ca/~rod" )'</span><span class="nt">&gt;</span>Get ~rod<span class="nt">&lt;/button&gt;</span>
+This request is not allowed (different site).
+
+<span class="nt">&lt;h3&gt;</span>Headers<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;pre</span> <span class="na">id=</span><span class="s">"display-response"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/pre&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+<span class="nt">&lt;b&gt;</span>status:<span class="nt">&lt;/b&gt;</span> <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"display-status"</span><span class="nt">&gt;</span> <span class="nt">&lt;/span&gt;&lt;br&gt;</span>
+<span class="nt">&lt;b&gt;</span>message:<span class="nt">&lt;/b&gt;</span> <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"display-status-message"</span><span class="nt">&gt;</span> <span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;h3&gt;</span>Document text<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;pre</span> <span class="na">id=</span><span class="s">"display-text"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/pre&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</pre></div>
+<p>
+        This example also demonstrates that requests can only
+        be made to the site the delivered the orginal HTML page.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>AJAX to add two integers</h1>
+<div>
+<p>
+         Three different ways that AJAX can be used to
+         send integers to add by a web server. The techniques are:
+    </p>
+<dl>
+<dt>In the URL</dt>
+<dd>
+            In form 1, the integers are sent as part of the URL.
+        </dd>
+<dt>POSTed</dt>
+<dd>
+            In form 2, the integers are sent as name/value pairs
+            from a form.
+        </dd>
+<dt>JSON</dt>
+<dd>
+            In form 3, the integers are sent as a Javascript object
+            serailized with JSON.
+        </dd>
+</dl>
+<p>
+        The sum is returned as a <tt>text/plain</tt> document.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Form 1</h1>
+<div>
+<p>
+        In this example, AJAX is used to send a request to add two integers.
+        The integers are sent within the URL. The last two
+        path elements contain the two integers.
+    </p>
+<p>
+        The HTML form, <tt>f1</tt>, contains a <tt>doAdd</tt>
+        button and two text fields, <tt>v1</tt> and <tt>v2</tt>.
+        Clicking on the <tt>doAdd</tt> button, sends the AJAX request.
+        The value <tt>output</tt> element is replaced by the
+         AJAX response.
+    </p>
+<p>
+        The <tt>placeholder</tt> attribute in the <tt>text</tt>
+        inputs provides an initial hint to the contents of the input.
+    </p>
+<h2 class="src-name"><a href="code/static/add.html">code/static/add.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Using GET with values in URL<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"f1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"doAdd"</span><span class="nt">&gt;</span>Add<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;label&gt;</span>V1: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v1"</span> <span class="na">placeholder=</span><span class="s">"v1"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    +
+    <span class="nt">&lt;label&gt;</span>V2: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v2"</span> <span class="na">placeholder=</span><span class="s">"v2"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    =
+    <span class="nt">&lt;output</span> <span class="na">name=</span><span class="s">"result"</span><span class="nt">&gt;</span>   <span class="nt">&lt;/output&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+<p>
+        The <tt>init_add1</tt> function adds an event
+        handler to the <tt>doAdd</tt> button. The
+        <tt>f1</tt> variable holds a references to the
+        HTML form  element. All the input elements can
+        be directly accessed as properties of the <tt>f1</tt> object.
+        Thus <tt>f1.doAdd</tt> references the <tt>doAdd</tt> button.
+    </p>
+<p>
+        The click event handler sends an XMLHttpRequest. It creates
+        the URL using the values of the <tt>v1</tt> and <tt>v2</tt>
+        text inputs. This event handler cancels the form submission 
+        action with <tt>evt.preventDefault()</tt>.
+    </p>
+<p>
+        If the response status was 200 or 400, then the value 
+        of the <tt>output</tt> element is replaced by the
+        response text. Notice that both an error response
+        and good response are placed in the <tt>output</tt> element.
+    </p>
+<h2 class="src-name"><a href="code/static/js/add.js">code/static/js/add.js</a></h2>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">init_add1</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">f1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"form[name='f1']"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">doAddURL</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span> <span class="o">+</span> <span class="s1">'/doAddGet'</span><span class="p">;</span>
+
+    <span class="nx">f1</span><span class="p">.</span><span class="nx">doAdd</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">v1</span> <span class="o">=</span> <span class="nx">f1</span><span class="p">.</span><span class="nx">v1</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">v2</span> <span class="o">=</span> <span class="nx">f1</span><span class="p">.</span><span class="nx">v2</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">f1</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nb">encodeURI</span><span class="p">(</span> <span class="s1">'/'</span> <span class="o">+</span> <span class="nx">v1</span> <span class="o">+</span> <span class="s1">'/'</span> <span class="o">+</span> <span class="nx">v2</span> <span class="p">);</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">doAddURL</span> <span class="o">+</span> <span class="nx">url</span><span class="p">;</span>
+        <span class="c1">// get an AJAX object</span>
+        <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="o">||</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">"Unknown ERROR"</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+    <span class="p">}</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+        The Javascript code the handles the AJAX response is
+        an example of a closure inside a closure (the click event
+        handler) inside a closure (the <tt>init_add1</tt> function).
+        There is actually one more closure, this closure is used
+        to create a module.
+    </p>
+<p>
+        The server uses the <tt>Spark</tt> framework to
+        respond to the add request. The <tt>/doAddGet/:v1/:v2</tt>
+        route specifies the last two path elements as parameters.
+        The <tt>request.params</tt> method is used to extract
+        each element. Note this is not the same as the 
+        <tt>request.queryParams</tt> method.
+    </p>
+<p>
+        The server side, checks that the values are present 
+        and that they are integers. An error message
+        is returned with the <tt>halt</tt> method.
+        How does <tt>halt</tt> work?
+    </p>
+<p>
+        The statement, <tt>return String.valueOf( sum );</tt>
+        returns the sum. The <tt>String.valueOf</tt> method
+        converts an integer into a string that represents
+        the integer.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="n">get</span><span class="o">(</span><span class="s">"/doAddGet/:v1/:v2"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">params</span><span class="o">(</span><span class="s">":v1"</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">params</span><span class="o">(</span><span class="s">":v2"</span><span class="o">);</span>
+    <span class="k">if</span><span class="o">(</span> <span class="n">v1</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">v2</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span><span class="s">"/doAddGet: missing values"</span><span class="o">);</span>
+        <span class="n">halt</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="s">"missing values"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">i1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">v1</span> <span class="o">);</span>
+        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">v2</span> <span class="o">);</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">i1</span> <span class="o">+</span> <span class="n">i2</span><span class="o">;</span>
+        <span class="n">log</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"/doAddGet: %d + %d = %d"</span><span class="o">,</span> <span class="n">i1</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="n">sum</span> <span class="o">));</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span><span class="s">"/doAddGet: malformed values"</span><span class="o">);</span>
+        <span class="n">halt</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="s">"malformed values"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">});</span>
+</pre></div>
+<p>
+        Debugging is improved by <em>logging</em> the
+        action of the server side with the <tt>log</tt>
+        method that outputs to the standard output.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Form 2</h1>
+<div>
+<p>
+        Two integers are also summed using form 2. 
+        The HTML code is identical with only the name
+        of the form changing to <tt>f2</tt>.
+    </p>
+<h2 class="src-name"><a href="code/static/add.html">code/static/add.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Using POST <span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"f2"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"doAdd"</span><span class="nt">&gt;</span>Add<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;label&gt;</span>V1: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v1"</span> <span class="na">placeholder=</span><span class="s">"v1"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    +
+    <span class="nt">&lt;label&gt;</span>V2: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v2"</span> <span class="na">placeholder=</span><span class="s">"v2"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    =
+    <span class="nt">&lt;output</span> <span class="na">name=</span><span class="s">"result"</span><span class="nt">&gt;</span>   <span class="nt">&lt;/output&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+<p>
+        The integers are sent in the body of the <tt>POST</tt>
+        request. The MIME type of the content is
+        <tt>application/x-www-form-urlencoded</tt>.
+        The body is identical to the query string of
+        a GET form submission. In general, form 2 is a 
+        better implementation of the integer add service.
+    </p>
+<p>
+        The content type of the body is set with
+        <tt>setRequestHeader</tt> method.
+    </p>
+<h2 class="src-name"><a href="code/static/js/add.js">code/static/js/add.js</a></h2>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">init_add2</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">f2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"form[name='f2']"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">doAddPostURL</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span> <span class="o">+</span> <span class="s1">'/doAddPost'</span><span class="p">;</span>
+
+    <span class="nx">f2</span><span class="p">.</span><span class="nx">doAdd</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">v1</span> <span class="o">=</span> <span class="nx">f2</span><span class="p">.</span><span class="nx">v1</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">v2</span> <span class="o">=</span> <span class="nx">f2</span><span class="p">.</span><span class="nx">v2</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">f2</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
+        <span class="c1">// get an AJAX object</span>
+        <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="nx">doAddPostURL</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">setRequestHeader</span><span class="p">(</span><span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/x-www-form-urlencoded"</span><span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="o">||</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">"Unknown ERROR"</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+        <span class="c1">// slighty ugly</span>
+        <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="s2">"v1="</span> <span class="o">+</span> <span class="nb">encodeURI</span><span class="p">(</span><span class="nx">v1</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"&amp;v2="</span> <span class="o">+</span> <span class="nb">encodeURI</span><span class="p">(</span><span class="nx">v2</span><span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="nx">doc</span> <span class="p">);</span>
+    <span class="p">}</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+        The server side implementation of form 2 is almost
+        identical to form 1. The values to add are
+        extracted with the <tt>request.queryParams</tt>
+        method. Any values sent in the query string of
+        the URL or in a POSTed form can be extracted
+        with <tt>request.queryParams</tt>.
+        The <tt>request.params</tt> method uses
+        the URL as specified by the route, and
+        the <tt>request.queryParams</tt> uses
+        the POSTed content or the query string part of the URL.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="n">post</span><span class="o">(</span><span class="s">"/doAddPost"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"v1"</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"v2"</span><span class="o">);</span>
+    <span class="k">if</span><span class="o">(</span> <span class="n">v1</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">v2</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span><span class="s">"/doAddPost: missing values"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">(</span> <span class="s">"body:\n"</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="na">body</span><span class="o">()</span> <span class="o">);</span>
+        <span class="n">halt</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="s">"missing values"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">i1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">v1</span> <span class="o">);</span>
+        <span class="kt">int</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">v2</span> <span class="o">);</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">i1</span> <span class="o">+</span> <span class="n">i2</span><span class="o">;</span>
+        <span class="n">log</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"/doAddPost: %d + %d = %d"</span><span class="o">,</span> <span class="n">i1</span><span class="o">,</span> <span class="n">i2</span><span class="o">,</span> <span class="n">sum</span> <span class="o">));</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span><span class="s">"/doAddGet: malformed values"</span><span class="o">);</span>
+        <span class="n">halt</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="s">"malformed values"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">});</span>
+</pre></div>
+<p>
+        Again logging is used to aid in debugging.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Form 3</h1>
+<div>
+<p>
+        The HTML of form 3 differs in only the name of the form.
+        Its name is <tt>f3</tt>.
+    </p>
+<h2 class="src-name"><a href="code/static/add.html">code/static/add.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Using POST and JSON <span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"f3"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">name=</span><span class="s">"doAdd"</span><span class="nt">&gt;</span>Add<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;label&gt;</span>V1: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v1"</span> <span class="na">placeholder=</span><span class="s">"v1"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    +
+    <span class="nt">&lt;label&gt;</span>V2: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"v2"</span> <span class="na">placeholder=</span><span class="s">"v2"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/label&gt;</span>
+    =
+    <span class="nt">&lt;output</span> <span class="na">name=</span><span class="s">"result"</span><span class="nt">&gt;</span>   <span class="nt">&lt;/output&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+<p>
+        An object with property names, <tt>v1</tt> and
+        <tt>v2</tt> is created to contain the
+        integers to add. This object is sent to the server
+        by serializing it with <tt>JSON.stringify</tt>.
+    </p>
+<p>
+        The technique in the form 2 examples is simpilier,
+        but this example illustrates how a more complex
+        JSON object could be sent.
+    </p>
+<h2 class="src-name"><a href="code/static/js/add.js">code/static/js/add.js</a></h2>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">init_add3</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">f3</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"form[name='f3']"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">doAddPostURL</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span> <span class="o">+</span> <span class="s1">'/doAddJSON'</span><span class="p">;</span>
+
+    <span class="nx">f3</span><span class="p">.</span><span class="nx">doAdd</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">evt</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">f3</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">v1</span> <span class="o">=</span> <span class="nx">f3</span><span class="p">.</span><span class="nx">v1</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">v2</span> <span class="o">=</span> <span class="nx">f3</span><span class="p">.</span><span class="nx">v2</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+        <span class="nx">v1</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span> <span class="nx">v1</span> <span class="p">);</span>
+        <span class="nx">v2</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span> <span class="nx">v2</span> <span class="p">);</span>
+        <span class="c1">// check for valid integers</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nx">v1</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nx">v2</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">"malformed"</span><span class="p">;</span>
+            <span class="c1">// inform the user, do not send a request</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// create a Javascript object to send</span>
+        <span class="kd">var</span> <span class="nx">sumObject</span> <span class="o">=</span> <span class="p">{</span><span class="nx">v1</span><span class="o">:</span> <span class="nx">v1</span><span class="p">,</span> <span class="nx">v2</span><span class="o">:</span> <span class="nx">v2</span><span class="p">};</span>
+        <span class="c1">// get an AJAX object</span>
+        <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="nx">doAddPostURL</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">setRequestHeader</span><span class="p">(</span><span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="o">||</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">"Unknown ERROR"</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+        <span class="c1">// convert to the offical JSON syntax</span>
+        <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">sumObject</span> <span class="p">);</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span> <span class="nx">doc</span> <span class="p">);</span>
+    <span class="p">}</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+        The <tt>com.google.gson.Gson</tt> Java package from
+        google is used to parse the JSON object. This package
+        provides a mapping from a JSON object to a Java object.
+        The property/instance names <b>must</b> be identical.
+        The <tt>gson.fromJson(b, SumObject.class)</tt> method
+        attempts to parse the body of the message as JSON.
+        A matching Java object is created.
+    </p>
+<p>
+       This automatic translations simplfies the communication
+       between the browser-side and server-side software.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="c1">// demonstrates receiving an object with JSON</span>
+<span class="n">post</span><span class="o">(</span><span class="s">"/doAddJSON"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">);</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+
+        <span class="n">String</span> <span class="n">b</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">body</span><span class="o">();</span>
+        <span class="c1">// attempt to convert JSON to SumObject</span>
+        <span class="n">SumObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">SumObject</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="na">v1</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="na">v2</span><span class="o">;</span>
+        <span class="n">log</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"/doAddJSON: %d + %d = %d"</span><span class="o">,</span><span class="n">obj</span><span class="o">.</span><span class="na">v1</span><span class="o">,</span> <span class="n">obj</span><span class="o">.</span><span class="na">v2</span><span class="o">,</span> <span class="n">sum</span> <span class="o">));</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span> <span class="n">JsonParseException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">(</span><span class="s">"/doAddGet: malformed values"</span><span class="o">);</span>
+        <span class="n">halt</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="s">"malformed values"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">});</span>
+</pre></div>
+<p>
+        The <tt>ivy</tt> in <tt>ant</tt> software
+        is reponsible for fetching the <tt>com.google.gson.Gson</tt>
+        package.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>JSON report</h1>
+<div>
+<p>
+        The  <tt>com.google.gson.Gson</tt> package can also
+        serialize a Java object into a JSON document.
+        As an example, consider the <tt>HelloObject</tt> class.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">HelloObject</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">hw</span> <span class="o">=</span> <span class="s">"hello"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">47</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        An object of this class contains a String, an integer,
+        and a date.
+    </p>
+<p>
+        The <tt>/json</tt> route lambda expression
+        returns a new <tt>HelloObject</tt> object
+        on every HTTP request. This means that the date
+        will change.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="c1">// demonstrates sending an object with JSON</span>
+<span class="c1">// test with: curl http://localhost:8090/json</span>
+<span class="n">get</span><span class="o">(</span><span class="s">"/json"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">HelloObject</span><span class="o">();</span>
+<span class="o">},</span> <span class="k">new</span> <span class="n">JsonTransformer</span><span class="o">()</span> <span class="o">);</span>
+</pre></div>
+<p>
+        The <tt>JsonTransformer</tt>
+        class is responsible for converting a Java
+        object into its JSON string.
+    </p>
+<h2 class="src-name"><a href="code/src/AjaxAddDemo.java">code/src/AjaxAddDemo.java</a></h2>
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">JsonTransformer</span> <span class="kd">implements</span> <span class="n">ResponseTransformer</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">render</span><span class="o">(</span><span class="n">Object</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">gson</span><span class="o">.</span><span class="na">toJson</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Instead of using a browser, the following <tt>curl</tt>
+        command can be used to demonstrate this behaviour.
+    </p>
+<div class="highlight"><pre>curl http://localhost:8090/json
+</pre></div>
+<p>
+        Each request will result in a new date.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes>
+    <!-- with children nodes -->
+    <rect>
+        <x> 3 </x>
+        <y> 4 </y>
+        <width> 10 </width>
+        <height> 20 </height>
+    </rect>
+    <!-- with attribute nodes -->
+    <rect x="3" y="4" width="10" height="20"/>
+</shapes>

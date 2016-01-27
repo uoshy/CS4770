@@ -1,0 +1,6 @@
+div.dv_vis { border : blue solid thick; }
+div.dv_vis p {visibility:hidden; background:#DED; border: thin solid black;}
+div.dv_vis:hover p {visibility:visible; background:#DED; border: thin solid black;}
+div.dv_dis { border : red solid thick; }
+div.dv_dis p {display:none; background:#DED; border: thin solid black;}
+div.dv_dis:hover p {display:block; background:#DED; border: thin solid black;}

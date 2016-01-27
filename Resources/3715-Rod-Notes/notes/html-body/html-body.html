@@ -1,0 +1,1313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-15T16:34:30-03:30, Rod Byrne --><title>html-body</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>inline, block, replaced, structural</h1>
+<div>
+<p>
+        The rules used to place content on a page depend
+        on the type of element that contains the content.
+        The placement also depends on the writing rules for
+        the language (e.g., left-to-right, top-to-bottom).
+        The element types are:
+    </p>
+<dl>
+<dt>inline</dt>
+<dd>
+           The inline content is fitted along a <em>line</em>,
+           if it cannot fit, it is moved to the next line.
+           Some inline tags are: <tt>tt</tt>, <tt>em</tt>,
+           <tt>s</tt>, and <tt>code</tt>.
+        </dd>
+<dt>block</dt>
+<dd>
+            The lines of inline content are placed in a block
+            (i.e., the lines a stacked inside the block).
+            Each block has a margin, border, and padding.
+            The blocks are stacked along the page.
+            A block usually takes all the horizontal area.
+            Some block tags are:
+            <tt>p</tt>, <tt>dl</tt>, and <tt>blockquote</tt>.
+        </dd>
+<dt>replaced</dt>
+<dd>
+            Images and input elements are replaced by a graphic.
+            Replaced element are treated like inline elements.
+            Some replaced tags are:
+            <tt>img</tt>, <tt>input</tt>, and <tt>textarea</tt>.
+        </dd>
+<dt>structural</dt>
+<dd>
+            Content can be grouped with the following elements:
+            <tt>div</tt>, <tt>article</tt>, <tt>section</tt>,
+            <tt>nav</tt>, <tt>aside</tt>.
+            Most of the elements are defined in html5.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>inline, block, replaced, grouping</h1>
+<div>
+<p>
+        Some of the more common block elements in the <tt>body</tt> element are:
+    </p>
+<ul>
+<li> h1, h2, h3, h4, h5, h6</li>
+<li> dl, ol, ul, li</li>
+<li> table, tr, td, td, tbody, thead, tfoot</li>
+<li> p, pre, blockquote </li>
+<li> hr, br, img </li>
+</ul>
+<p>
+        Some of the more common inline elements in the <tt>body</tt> element are:
+    </p>
+<ul>
+<li> tt, i, b, big, small </li>
+<li> em, strong, dfn, code, samp, kbd, var, cite, abbr, acronym</li>
+<li> a </li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>headings</h1>
+<div>
+<p>
+        Heading in the document are found in the 
+        header tags, the tags are:
+        <tt>h1</tt>, <tt>h2</tt>, <tt>h3</tt>,
+        <tt>h4</tt>, <tt>h5</tt>, and <tt>h6</tt>.
+        The <tt>h1</tt> headers are the most important,
+        the <tt>h6</tt> headers are the least important.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/helloworld-h1.html">examples/helloworld-h1.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Hello World<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>
+            Hello World
+        <span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+           The first sentence.
+       <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>paragraphs</h1>
+<div>
+<p>
+        Paragraphs are rendered as distinct blocks of text.
+        In most western languages, the blocks are stacked vertically
+        and start at the top of the screen/page.
+        A block is separated from other blocks by a margin.
+        A border can optionally surround the block.
+        The content is separate from the borders by the padding.
+    </p>
+<p>
+        Text is rendered as a sequence of lines.
+        A sequence of text can be highlighted with the following 
+        tags:
+        <tt>b</tt>, <tt>em</tt>,
+        <tt>u</tt>, <tt>code</tt>,
+        <tt>s</tt>, <tt>strong</tt>,
+        <tt>q</tt>, <tt>tt</tt>,
+        and <tt>small</tt>.
+        These tags only affect what decoration or fonts are used
+        to display the characters. These tags are part
+        of the inline formatting.
+    </p>
+<p>
+        A <tt>p</tt> tag should not nest inside of another
+        <tt>p</tt> tag. In general bock tags should not nest, why?
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/para.html">examples/para.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Paragraphs<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">"border:thin blue solid;"</span> <span class="nt">&gt;</span>
+        The <span class="nt">&lt;b&gt;</span>quick<span class="nt">&lt;/b&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;em&gt;</span>quick<span class="nt">&lt;/em&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;u&gt;</span>quick<span class="nt">&lt;/u&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;code&gt;</span>quick<span class="nt">&lt;/code&gt;</span> brown fox jumps over the
+            lazy dog's back.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">"border:thick blue solid; padding : 20px;"</span><span class="nt">&gt;</span>
+            The <span class="nt">&lt;s&gt;</span>quick<span class="nt">&lt;/s&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;strong&gt;</span>quick<span class="nt">&lt;/strong&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;q&gt;</span>quick<span class="nt">&lt;/q&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;small&gt;</span>quick<span class="nt">&lt;/small&gt;</span> brown fox jumps over the
+            lazy dog's back.
+            The <span class="nt">&lt;tt&gt;</span>quick<span class="nt">&lt;/tt&gt;</span> brown fox jumps over the
+            lazy dog's back.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">"border:5px red solid; margin-top: 50px;"</span><span class="nt">&gt;</span>
+            The End.
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>unordered lists</h1>
+<div>
+<p>
+        Unorder lists are specified with the
+        <tt>ul</tt> and <tt>li</tt> tags,
+        where <tt>ul</tt> stand for unordered
+        list, and <tt>li</tt>
+        stands for list item.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/ulist.html">examples/ulist.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Unordered List<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;</span>first<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>second<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>third<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+        <span class="c">&lt;!-- a comment --&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Common, but bad<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            some indented text
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>ordered lists</h1>
+<div>
+<p>
+        The <tt>ol</tt> tag introduces an 
+        ordered list. List can contain 
+        block formatted items like other
+        lists or paragraphs.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/olist.html">examples/olist.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Ordered List<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;ol&gt;</span>
+            <span class="nt">&lt;li&gt;</span>first<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>second<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>third<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                <span class="nt">&lt;p&gt;</span>
+                    A paragraph can nest
+                    inside a list item.
+                <span class="nt">&lt;/p&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                <span class="nt">&lt;ol&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>red<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>green<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>blue<span class="nt">&lt;/li&gt;</span>
+                <span class="nt">&lt;/ol&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span> the end. <span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ol&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>definition lists</h1>
+<div>
+<p>
+        A definition list, <tt>dl</tt>.
+        contains terms, <tt>dt</tt>,
+        and definitions, <tt>dd</tt>.
+        The terms and definitions can contain block items.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/dlist.html">examples/dlist.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Definition List<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;dl&gt;</span>
+            <span class="nt">&lt;dt&gt;</span> red <span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;</span> the colour of strawberries <span class="nt">&lt;/dd&gt;</span>
+            <span class="nt">&lt;dt&gt;</span> green <span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;</span> the colour of leaves <span class="nt">&lt;/dd&gt;</span>
+            <span class="nt">&lt;dt&gt;</span> blue <span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;</span> the colour of the sea <span class="nt">&lt;/dd&gt;</span>
+            <span class="nt">&lt;dt&gt;</span> rainbow <span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;</span>
+               <span class="nt">&lt;ul&gt;</span>
+                   <span class="nt">&lt;li&gt;</span>red<span class="nt">&lt;/li&gt;</span>
+                   <span class="nt">&lt;li&gt;</span>green<span class="nt">&lt;/li&gt;</span>
+                   <span class="nt">&lt;li&gt;</span>blue<span class="nt">&lt;/li&gt;</span>
+               <span class="nt">&lt;/ul&gt;</span>
+            <span class="nt">&lt;/dd&gt;</span>
+        <span class="nt">&lt;/dl&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>lists in lists</h1>
+<div>
+<p>
+        Arbitrary nesting of lists is allowed.
+        Different markers are used for nested unordered lists.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/listlist.html">examples/listlist.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Lists in Lists in Lists<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;</span>first<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;p&gt;</span> not a good idea, or is it <span class="nt">&lt;/p&gt;</span>
+            <span class="nt">&lt;li&gt;</span>second<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>third<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                <span class="nt">&lt;ul&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>red<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>green<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>blue<span class="nt">&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;</span>
+                       <span class="nt">&lt;ul&gt;</span>
+                           <span class="nt">&lt;li&gt;</span>dog<span class="nt">&lt;/li&gt;</span>
+                           <span class="nt">&lt;li&gt;</span>cat<span class="nt">&lt;/li&gt;</span>
+                       <span class="nt">&lt;/ul&gt;</span>
+                    <span class="nt">&lt;/li&gt;</span>
+                <span class="nt">&lt;/ul&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span> the end. <span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>exercise</h1>
+<div>
+<p>
+        What markup is used to produce this page?
+    </p>
+<dl>
+<dt> HTML </dt>
+<dd>
+            Hypertext Markup Language
+            <ul>
+<li> HTML 1 </li>
+<li> HTML 2 </li>
+<li> HTML 3.2 </li>
+<li> HTML 4 </li>
+</ul>
+</dd>
+<dt> XHTML </dt>
+<dd> E<b>x</b>tensible Hypertext Markup Language </dd>
+</dl>
+<p>
+        Which tags are block tags and which are inline tags:
+    </p>
+<ol>
+<li>b - bold </li>
+<li>li - list item </li>
+<li>s - strike out </li>
+<li>p - paragraph </li>
+</ol>
+</div>
+</div>
+<div class="slide">
+<h1>blockquote</h1>
+<div>
+<p>
+        Long quotes can be done with the 
+        <tt>blockquote</tt> tag.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/blockquote.html">examples/blockquote.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>blockquote<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Since a block quote is a block, it should not
+            appear inside of a paragraph.
+            A quote :
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;blockquote&gt;</span>
+            To be or not to be, that is the question,
+            weather ...
+        <span class="nt">&lt;/blockquote&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>tables</h1>
+<div>
+<p>
+        A table is composed of rows. Each row has cells.
+        A cell contains the content.
+        A table can have headings.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables1.html">examples/tables1.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>tables<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;th&gt;</span>tag<span class="nt">&lt;/th&gt;</span>
+                <span class="nt">&lt;th&gt;</span>type<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>s<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>p<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>block<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>b<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The width of a column is by default determined 
+        by the width of the widest cell in the column.
+        The table is normally left aligned.
+    </p>
+<p>
+        Tables were commonly misused to control page layout.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>tables: row span</h1>
+<div>
+<p>
+        A single row can span multiple rows.
+        A caption tag specifies the tables caption.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables2.html">examples/tables2.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>tables<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;th&gt;</span>tag<span class="nt">&lt;/th&gt;</span>
+                <span class="nt">&lt;td</span> <span class="na">rowspan=</span><span class="s">"4"</span><span class="nt">&gt;</span>
+                    space in middle
+                <span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;th&gt;</span>type<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>s<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>p<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>block<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>b<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;caption&gt;</span>
+                row span example
+            <span class="nt">&lt;/caption&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>tables: column span</h1>
+<div>
+<p>
+        A single column can span multiple columns.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables3.html">examples/tables3.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>tables<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellpadding=</span><span class="s">"5"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;caption</span> <span class="na">align=</span><span class="s">"bottom"</span><span class="nt">&gt;</span> column span <span class="nt">&lt;/caption&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span><span class="nt">&gt;</span> tag types <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;th&gt;</span>tag<span class="nt">&lt;/th&gt;</span>
+                <span class="nt">&lt;th&gt;</span>type<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>s<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>p<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>block<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>b<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>table attributes</h1>
+<div>
+<p>
+        A table tag has the following attributes:
+    </p>
+<dl>
+<dt>width={size}</dt>
+<dd>controls the table's width (e.g., width="90%")</dd>
+<dt>height={size}</dt>
+<dd>controls the table's height (e.g., width="200")</dd>
+<dt>align={alignment}</dt>
+<dd>specifies the alignment: center, left, right.
+        left and right will float the table</dd>
+<dt>border={size}</dt>
+<dd>specifies the size of borders</dd>
+<dt>cellspacing={size}</dt>
+<dd>spacing between cell</dd>
+<dt>cellpadding={size}</dt>
+<dd>padding inside a cell</dd>
+<dt>rules={none|groups|rows|cols|all}</dt>
+<dd>rules between cells</dd>
+<dt>frame={void|above|below|hsides|lhs|rhs|vsides|box|border}</dt>
+<dd>the table frame</dd>
+</dl>
+<p>
+        These attributes have been replaced by CSS.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>table exercise</h1>
+<div>
+<p>
+        What markup produces the following table:
+    </p>
+<table border="1" align="center" width="80%">
+<tr><th colspan="4">
+                the top row
+            </th></tr>
+<tr>
+<td rowspan="3"> left </td>
+<td> cols1 </td>
+<td> cols2 </td>
+<td> cols3 </td>
+</tr>
+<tr>
+<td> colsa </td>
+<td> colsb </td>
+<td rowspan="2"> right </td>
+</tr>
+<tr><td colspan="2"> bottom </td></tr>
+<tr>
+<td align="center"> 1 </td>
+<td align="center"> 2 </td>
+<td align="center"> 3 </td>
+<td align="center"> 4 </td>
+</tr>
+</table>
+</div>
+</div>
+<div class="slide">
+<h1>row groups</h1>
+<div>
+<p>
+        The rows of a tables can be grouped into
+        a table head, <tt>thead</tt>, a foot, <tt>tfoot</tt>,
+        and the body, <tt>tbody</tt>.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables4.html">examples/tables4.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>row groups<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">rules=</span><span class="s">"rows"</span> <span class="na">width=</span><span class="s">"70%"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;caption</span> <span class="na">align=</span><span class="s">"top"</span><span class="nt">&gt;</span> row groups <span class="nt">&lt;/caption&gt;</span>
+	    <span class="nt">&lt;thead&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+		    <span class="nt">&lt;th&gt;</span>tag<span class="nt">&lt;/th&gt;</span>
+		    <span class="nt">&lt;th&gt;</span>type<span class="nt">&lt;/th&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;/thead&gt;</span>
+	    <span class="nt">&lt;tfoot&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+		    <span class="nt">&lt;th&gt;</span>tag<span class="nt">&lt;/th&gt;</span>
+		    <span class="nt">&lt;th&gt;</span>type<span class="nt">&lt;/th&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;/tfoot&gt;</span>
+	    <span class="nt">&lt;tbody&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>s<span class="nt">&lt;/td&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>p<span class="nt">&lt;/td&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>block<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>b<span class="nt">&lt;/td&gt;</span>
+		    <span class="nt">&lt;td&gt;</span>inline<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;/tbody&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        If present, the header and footer must come before the body.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>table cell content alignment</h1>
+<div>
+<p>
+       The alignment of the contents of the table cells,
+       <tt>td</tt> and <tt>th</tt>, are controlled
+       by the attributes:
+     </p>
+<dl>
+<dt>align={left|center|right|justify|char}</dt>
+<dd>Affects the horizontal alignment.</dd>
+<dt>valign={top|middle|bottom|baseline}</dt>
+<dd>Affects the vertical alignment.</dd>
+<dt>char={character}</dt>
+<dd>
+            The alignment character for align=char.
+            This alignment is not widely implemented.
+        </dd>
+</dl>
+<p>
+        The default horizontal alignment for <tt>th</tt> is center.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>table cell content alignment</h1>
+<div>
+<p>
+        An example for the different alignments.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables5.html">examples/tables5.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>cell alignment<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">th</span> <span class="p">{</span> <span class="k">width</span><span class="o">:</span><span class="m">20</span><span class="o">%</span><span class="p">;</span> <span class="p">}</span>
+        <span class="nt">td</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span> <span class="m">50px</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">align=</span><span class="s">center</span> <span class="na">border=</span><span class="s">1</span> <span class="na">width=</span><span class="s">500</span><span class="nt">&gt;</span>
+	    <span class="nt">&lt;tr&gt;</span>
+	       <span class="nt">&lt;th&gt;</span> <span class="nt">&lt;/th&gt;</span>
+	       <span class="nt">&lt;th</span> <span class="na">align=</span><span class="s">left</span><span class="nt">&gt;</span>left<span class="nt">&lt;/th&gt;</span>
+	       <span class="nt">&lt;th</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;</span>center<span class="nt">&lt;/th&gt;</span>
+	       <span class="nt">&lt;th</span> <span class="na">align=</span><span class="s">right</span><span class="nt">&gt;</span>right<span class="nt">&lt;/th&gt;</span>
+	       <span class="nt">&lt;th</span> <span class="na">align=</span><span class="s">justify</span><span class="nt">&gt;</span>justify<span class="nt">&lt;/th&gt;</span>
+	    <span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;tr&gt;</span>
+	       <span class="nt">&lt;td&gt;</span>top <span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">top</span> <span class="na">align=</span><span class="s">left</span><span class="nt">&gt;</span>left<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">top</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;</span>center<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">top</span> <span class="na">align=</span><span class="s">right</span><span class="nt">&gt;</span>right<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">top</span> <span class="na">align=</span><span class="s">justify</span><span class="nt">&gt;</span>justify<span class="nt">&lt;/td&gt;</span>
+	    <span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;tr&gt;</span>
+	       <span class="nt">&lt;td&gt;</span>middle <span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">middle</span> <span class="na">align=</span><span class="s">left</span><span class="nt">&gt;</span>left<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">middle</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;</span>center<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">middle</span> <span class="na">align=</span><span class="s">right</span><span class="nt">&gt;</span>right<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">middle</span> <span class="na">align=</span><span class="s">justify</span><span class="nt">&gt;</span>justify<span class="nt">&lt;/td&gt;</span>
+	   <span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;tr&gt;</span>
+	       <span class="nt">&lt;td&gt;</span>bottom <span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">bottom</span> <span class="na">align=</span><span class="s">left</span><span class="nt">&gt;</span>left<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">bottom</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;</span>center<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">bottom</span> <span class="na">align=</span><span class="s">right</span><span class="nt">&gt;</span>right<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">bottom</span> <span class="na">align=</span><span class="s">justify</span><span class="nt">&gt;</span>justify<span class="nt">&lt;/td&gt;</span>
+	   <span class="nt">&lt;/tr&gt;</span>
+	    <span class="nt">&lt;tr&gt;</span>
+	       <span class="nt">&lt;td&gt;</span>baseline <span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">baseline</span> <span class="na">align=</span><span class="s">left</span><span class="nt">&gt;</span>left<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">baseline</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;</span>center<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">baseline</span> <span class="na">align=</span><span class="s">right</span><span class="nt">&gt;</span>right<span class="nt">&lt;/td&gt;</span>
+	       <span class="nt">&lt;td</span> <span class="na">valign=</span><span class="s">baseline</span> <span class="na">align=</span><span class="s">justify</span><span class="nt">&gt;</span>justify<span class="nt">&lt;/td&gt;</span>
+	   <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>nested tables</h1>
+<div>
+<p>
+       A table can be nested inside of another table.
+       This was/is the favourite page layout trick.
+   </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables5a.html">examples/tables5a.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>nested tables<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">width=</span><span class="s">"80%"</span> <span class="na">border=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;th</span> <span class="na">width=</span><span class="s">"33%"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/th&gt;</span>
+                <span class="nt">&lt;th</span> <span class="na">width=</span><span class="s">"33%"</span><span class="nt">&gt;</span>2<span class="nt">&lt;/th&gt;</span>
+                <span class="nt">&lt;th</span> <span class="na">width=</span><span class="s">"33%"</span><span class="nt">&gt;</span>3<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+                <span class="nt">&lt;td&gt;</span>4<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>5<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;td&gt;</span>
+		    <span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+		        <span class="nt">&lt;tr&gt;&lt;td&gt;</span>A<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>B<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+		        <span class="nt">&lt;tr&gt;&lt;td&gt;</span>C<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>D<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+		    <span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+            <span class="nt">&lt;tr&gt;</span>
+		<span class="nt">&lt;td&gt;</span>
+		    <span class="nt">&lt;table&gt;</span>
+		        <span class="nt">&lt;tr&gt;&lt;td&gt;</span>red<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>green<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+		        <span class="nt">&lt;tr&gt;&lt;td&gt;</span>blue<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;td&gt;</span>white<span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+		    <span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>6<span class="nt">&lt;/td&gt;</span>
+                <span class="nt">&lt;td&gt;</span>7<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>floating tables</h1>
+<div>
+<p>
+      Floating tables allow for side bars. The width of the
+      table must be specified.
+   </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/tables6.html">examples/tables6.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>floating tables<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+            <span class="nt">table</span> <span class="p">{</span> <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span> <span class="p">}</span>
+        <span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">align=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">100</span> <span class="na">bgcolor=</span><span class="s">"white"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span> right <span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">align=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">70</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span> left <span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+        <span class="nt">&lt;table</span> <span class="na">align=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">110</span> <span class="na">height=</span><span class="s">100</span> <span class="na">bgcolor=</span><span class="s">"yellow"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;tr&gt;</span> <span class="nt">&lt;td&gt;</span> next right <span class="nt">&lt;/td&gt;</span> <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;/table&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+           A table can float right or left.
+           The quick brown fox jumps over the lazy dogs back.
+           The quick brown fox jumps over the lazy dogs back.
+           The quick brown fox jumps over the lazy dogs back.
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>image element</h1>
+<div>
+<p>
+        Images play an important role in presentation.
+        They were introduced by Netscape (i.e.,
+        they were not part of the orginal HTML specification).
+        The <tt>src</tt> attribute gives the URL
+        for the image. The <tt>alt</tt> attribute
+        is the alternate if the image cannot be rendered
+        of the link is broken.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/images1.html">examples/images1.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Image Tag<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            The image tag is the most used and abused tag.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">alt=</span><span class="s">"broken"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>image attributes</h1>
+<div>
+<p>
+        The <tt>img</tt> tag supports the following
+        attributes:
+    </p>
+<dl>
+<dt>src={URL}</dt>
+<dd>where to get the image</dd>
+<dt>alt={short description}</dt>
+<dd>a short description in case the image can not be displayed</dd>
+<dt>name={identifier}</dt>
+<dd>identifies the image in scripts.</dd>
+<dt>width={dimensions}</dt>
+<dd>defines the width of the image, used for many effects</dd>
+<dt>height={dimensions}</dt>
+<dd>defines the height of the image, used for many effects</dd>
+<dt>border={size}</dt>
+<dd>the size of a border, useful when inside of a link</dd>
+<dt>longdesc={URL}</dt>
+<dd>a URL for more information</dd>
+<dt>hspace={dimensions}</dt>
+<dd>horizontal padding</dd>
+<dt>vspace={dimensions}</dt>
+<dd>vertical padding</dd>
+<dt>align={left|right|top|bottom|middle}</dt>
+<dd>
+            images can float left or right, when not floated
+            image can be aligned to the top, bottom, or middle
+            of the current line
+        </dd>
+</dl>
+<p>
+        There is also the <tt>usemap</tt> and <tt>ismap</tt>
+        attributes. 
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>deprecated uses</h1>
+<div>
+<p>
+        In the early early days, images were used to provide spacing
+        and borders. For example:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/images2.html">examples/images2.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Images for space and borders<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">height=</span><span class="s">"4"</span> <span class="na">src=</span><span class="s">"1x1-red.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">height=</span><span class="s">"8"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+           A paragraph surrounded by space and borders.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">vspace=</span><span class="s">"40"</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">height=</span><span class="s">"10"</span> <span class="na">src=</span><span class="s">"1x1-red.png"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+       Now days, CSS provides much better and cleaner control,
+       this use is discouraged.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>horizontal rules</h1>
+<div>
+<p>
+        Borders between segments of the page can be done
+        with horizontal rules, the <tt>HR</tt> tag.
+        This tag supports: <tt>width</tt>, <tt>size</tt>,
+        <tt>align</tt>, and <tt>noshade</tt> attributes.
+        The colour of the <tt>HR</tt> could not be controlled.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/hr.html">examples/hr.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Horizontal Rules<span class="nt">&lt;/title&gt;</span>
+	<span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+	<span class="c">&lt;!-- no ending tag required for html --&gt;</span>
+	<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">size=</span><span class="s">"4"</span> <span class="na">style=</span><span class="s">"background-color:red"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;!-- transparent still required for space before css--&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">height=</span><span class="s">"8"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;p&gt;</span>
+	   A paragraph surrounded by space and horizontal rules.
+        <span class="nt">&lt;/p&gt;</span>
+	<span class="c">&lt;!-- attributes do not require values --&gt;</span>
+	<span class="nt">&lt;hr</span> <span class="na">noshade</span> <span class="na">align=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">size=</span><span class="s">"8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>inline images</h1>
+<div>
+<p>
+        Unless placed outside of a paragraph, an image
+        is treated like a character/word and placed
+        inline with the rest of the text.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/images4.html">examples/images4.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>inline images<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+      <span class="nt">&lt;p&gt;</span>
+        An image is really a big character, it will take
+        the place of a period in this sentence
+        <span class="nt">&lt;img</span> <span class="na">width=</span><span class="s">"35"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        Notice that it is placed in the a line with the text.
+        Images, like this one,
+        <span class="nt">&lt;img</span> <span class="na">height=</span><span class="s">"20"</span> <span class="na">width=</span><span class="s">"60"</span> <span class="na">align=</span><span class="s">"middle"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        are inserted in a line, with the surrounding text.
+        And now some more filler text.
+      <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Images are no different then a glyph that 
+        makes up a rendering for a character.
+        Each character glyph has a width, height, and baseline alignment.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>floating images</h1>
+<div>
+<p>
+        An <tt>img</tt> can be floated left or right with
+        the alignment attribute (this use is also discouraged,
+        the CSS properties should be used).
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/images3.html">examples/images3.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Image Tag<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">align=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"150"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Some text to fill the space.
+            The is really really really filling, not!
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">align=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"150"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            Some text to fill the space.
+            The is really really really filling, not!
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+            The quick brown fox jumps over the lazy dogs back.
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>exercise with images</h1>
+<div>
+<h4>
+        What is the HTML encoding for this page.
+    </h4>
+<img hspace="10" src="../images/circles.png" align="right"><p>
+        A long sentence to take up some room, so that the paragraph
+        bumps into the image.  <em>Images</em> are used for:
+    </p>
+<ul>
+<li>showing pictures,</li>
+<li>spacing the layout,</li>
+<li>making borders,</li>
+<li>
+           appearing in list:
+           <img src="../images/circles.png" width="40" align="top">
+           inside of an item
+       </li>
+<li>creating inline character,</li>
+<li>...</li>
+</ul>
+<img src="../images/1x1-red.png" width="100%" height="10">
+</div>
+</div>
+<div class="slide">
+<h1>varying margins</h1>
+<div>
+<p>
+        An illustration of transparent images and floats
+        to create varying margins. 
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/margins-img.html">examples/margins-img.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Varying Margins<span class="nt">&lt;/title&gt;</span>
+	<span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+	    <span class="nt">img</span><span class="nc">.left</span> <span class="p">{</span>
+            <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span> <span class="k">clear</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span> <span class="k">height</span><span class="o">:</span><span class="m">32</span><span class="p">;</span>
+            <span class="k">border</span><span class="o">:</span> <span class="k">thin</span> <span class="nb">green</span> <span class="k">solid</span><span class="p">;</span>
+        <span class="p">}</span>
+	    <span class="nt">img</span><span class="nc">.right</span> <span class="p">{</span> <span class="k">float</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span> <span class="k">clear</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span> <span class="k">height</span><span class="o">:</span><span class="m">32</span><span class="p">;</span> <span class="p">}</span>
+	<span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body</span> <span class="na">style=</span><span class="s">"background: rgb(170,180,255)"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"80"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"80"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"60"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"60"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"40"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"40"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"20"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"20"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"40"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"40"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"60"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"60"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"left"</span> <span class="na">width=</span><span class="s">"80"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"right"</span> <span class="na">width=</span><span class="s">"80"</span> <span class="na">src=</span><span class="s">"1x1-blank.png"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;p&gt;</span>
+	   There are very many small words, its, ifs, buts, thens.
+	   There are very many small words, its, ifs, buts, thens.
+	   There are very many small words, its, ifs, buts, thens.
+	   There are very many small words, its, ifs, buts, thens.
+	   There are very many small words, its, ifs, buts, thens.
+	   There are very many small words, its, ifs, buts, thens.
+       <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>anchor tag</h1>
+<div>
+<p>
+        The anchor tag, <tt>a</tt> allows a spot in the document
+        to be referenced or linked to a document (any document).
+        The first form's syntax is:
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">name=</span><span class="s">"name"</span><span class="nt">&gt;</span>
+</pre></div>
+<p>
+        The second form is :
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"URL"</span><span class="nt">&gt;</span>
+</pre></div>
+<p>
+        The anchor tag supports the following attributes:
+    </p>
+<dl>
+<dt>name="{unique name}"</dt>
+<dd>
+            Uniquely identifies this part of the document, the name must
+            be unique in this document.
+        </dd>
+<dt>href="{URL}"</dt>
+<dd>
+            The URL of the referenced document.
+        </dd>
+<dt>tabindex="{number}"</dt>
+<dd>
+            Enables keyboard tabbing.
+        </dd>
+<dt>accesskey="{key}"</dt>
+<dd>
+            Gives focus to this element when the key is pressed.
+        </dd>
+</dl>
+<p>
+        Other attributes are: <tt>type</tt>, <tt>rel</tt>,
+        <tt>coords</tt>, <tt>shape</tt>, ...
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>linking and linked</h1>
+<div>
+<p>
+        Linking and linked anchors are demonstrated with:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/anchors.html">examples/anchors.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>anchors<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">name=</span><span class="s">"first"</span><span class="nt">&gt;</span>first<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">name=</span><span class="s">"second"</span><span class="nt">&gt;</span>second<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">name=</span><span class="s">"third"</span><span class="nt">&gt;</span>third<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 1<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 2<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 3<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 4<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 5<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 5<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 6<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 7<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 8<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 9<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 10<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 11<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 12<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>skipping 13<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#first"</span><span class="nt">&gt;</span>back to first<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"helloworld.html"</span><span class="nt">&gt;</span>hello world<span class="nt">&lt;/a&gt;</span> document
+            is a complete but simple HTML page.
+        <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+        The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.w3.org/TR/html4/struct/links.html"</span><span class="nt">&gt;</span> anchor tag<span class="nt">&lt;/a&gt;</span>
+        provides the hyper in HTML.
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>URLs</h1>
+<div>
+<p>
+        The general URL form is:
+    </p>
+<blockquote>
+<em>protocol</em>://<em>host</em>/<em>path</em>#<em>name</em>?<em>query</em>
+</blockquote>
+<dl>
+<dt>protocol</dt>
+<dd>
+            http, ftp, telnet, javascript, gopher ...
+        </dd>
+<dt>host</dt>
+<dd>
+            domain name of host, can include ":port-number"
+        </dd>
+<dt>path</dt>
+<dd>
+            the path name to the document
+        </dd>
+<dt>name</dt>
+<dd>
+            name in an anchor in the document (optional)
+        </dd>
+<dt>query</dt>
+<dd>
+            query string (optional)
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>linking with images</h1>
+<div>
+<p>
+        An image tag can also appear inside of an anchor tag.
+        This allowing linking of images.
+        An example is:
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/img_anchors.html">examples/img_anchors.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Linking with Images<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;base</span> <span class="na">href=</span><span class="s">"../../images/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">name=</span><span class="s">"target"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;img</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">alt=</span><span class="s">"broken"</span> <span class="na">height=</span><span class="s">"300"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;br&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#target"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;img</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">alt=</span><span class="s">"broken"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;br&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#target"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;img</span> <span class="na">border=</span><span class="s">"0"</span> <span class="na">alt=</span><span class="s">"broken"</span> <span class="na">src=</span><span class="s">"circles.png"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        Notice that the last image has no border, thus
+        it is not a obvious link.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>grouping content</h1>
+<div>
+<p>
+        The <tt>span</tt> element groups text or
+        other inline content.
+        The <tt>div</tt> element groups block
+        content. These tags are used with CSS to apply
+        style to a group. This allows the logical structure
+        of the document to be marked.
+    </p>
+<h2 xmlns="http://www.w3.org/1999/xhtml" class="src-name"><a href="examples/div_span.html">examples/div_span.html</a></h2><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Div and Span<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;p&gt;</span>
+               <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"foo"</span><span class="nt">&gt;</span>The first sentence.<span class="nt">&lt;/span&gt;</span>
+               Just a <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"bar"</span><span class="nt">&gt;</span>word<span class="nt">&lt;/span&gt;</span> in the span.
+            <span class="nt">&lt;/p&gt;</span>
+            <span class="nt">&lt;p&gt;</span>
+               Another paragraph.
+            <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"second"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ul&gt;</span>
+                <span class="nt">&lt;li&gt;</span>red <span class="nt">&lt;/li&gt;</span>
+                <span class="nt">&lt;li&gt;</span>green<span class="nt">&lt;/li&gt;</span>
+                <span class="nt">&lt;li&gt;</span>blue<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;/ul&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>common attributes</h1>
+<div>
+<p>
+        Every HTML element can use the following 
+        common attributes:
+    </p>
+<dl>
+<dt>id="{unique-id}"</dt>
+<dd>
+            a name that identifies the element in the document,
+            must be unique, the id is used by the DOM 
+        </dd>
+<dt>class="{class-name}"</dt>
+<dd>
+            assigns a class to an element, multiple elements
+            can belong to the same class.
+        </dd>
+<dt>style="{css}"</dt>
+<dd>
+            the css rules for an element can be placed inline
+            with the style attribute, this should be avoided
+        </dd>
+<dt>title="{description}"</dt>
+<dd>
+            a title for the element
+        </dd>
+</dl>
+<p>
+        The event handling attributes will be discussed later.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

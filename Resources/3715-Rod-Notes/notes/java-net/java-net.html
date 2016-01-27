@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-09T16:21:25-02:30, Rod Byrne --><title>java-net</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Java Network API</h1>
+<div>
+<p>
+        The <span class="code">java.net</span> package contains the Java application
+        programmers interface to the transport layer of the Internet.
+        Most of the concepts used in the Internet have equivalent 
+        classes in Java package. Some of the important ones are:
+    </p>
+<dl>
+<dt><span class="code">java.net.InetAddress</span></dt>
+<dd>
+            represents an Internet address. This class is the super class
+            of <span class="code">Inet4Address</span> and <span class="code">Inet6Address</span>.
+            DNS services are also provided.
+        </dd>
+<dt><span class="code">java.net.ServerSocket</span></dt>
+<dd>
+            listens for incoming connections.
+        </dd>
+<dt><span class="code">java.net.Socket</span></dt>
+<dd>
+            provides a TCP connection. Each <span class="code">Socket</span>
+            has an input stream and an output stream.
+        </dd>
+<dt><span class="code">java.net.DatagramSocket</span></dt>
+<dd>
+            provides an UDP end point. This socket can send and receive
+            datagrams.
+        </dd>
+<dt><span class="code">java.net.DatagramPacket</span></dt>
+<dd>
+            a container for data and network address.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>InetAddress</h1>
+<div>
+<p>
+        The static method, <span class="code">getAllByName</span>, can be used
+        to translate a domain name into an IP address.
+        An exception gets thrown if the domain name lookup fails.
+        If the IP number cannot be found, then the original string
+        is returned.
+        A Java program that uses this class is:
+    </p>
+<h2 class="src-name"><a href="examples/NSLookup.java">examples/NSLookup.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.UnknownHostException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NSLookup</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">1</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"usage: java NSLookup host-name"</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span> <span class="c1">// indicate an error</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">InetAddress</span><span class="o">[]</span> <span class="n">addrs</span> <span class="o">=</span>
+                <span class="n">InetAddress</span><span class="o">.</span><span class="na">getAllByName</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span> <span class="n">InetAddress</span> <span class="n">addr</span> <span class="o">:</span> <span class="n">addrs</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">addr</span><span class="o">.</span><span class="na">getHostAddress</span><span class="o">()</span> <span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span>  <span class="n">UnknownHostException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span> 
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>InetAddress examples</h1>
+<div>
+<div class="highlight"><pre>% java NSLookup google.com
+74.125.226.3
+74.125.226.2
+74.125.226.6
+74.125.226.7
+74.125.226.0
+74.125.226.9
+74.125.226.4
+74.125.226.5
+74.125.226.1
+74.125.226.14
+74.125.226.8
+2607:f8b0:4006:806:0:0:0:1000     # ipv6
+% java NSLookup garfield.cs.mun.ca
+134.153.48.1
+$ java NSLookup cbc.ca
+159.33.3.85
+% java NSLookup wired.com
+66.171.224.80
+66.171.224.112
+% java NSLookup google.ca
+74.125.226.24
+74.125.226.31
+74.125.226.23
+2607:f8b0:4006:802:0:0:0:101f
+</pre></div>
+<p>
+        How to pick an IP address when there is more than one?
+        Use a random number!
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Line Server/Client</h1>
+<div>
+<p>
+        Construct a client program that transmits lines to
+        a server program across the Internet. The server program
+        should capitalize a line and send the line back to the client.
+    </p>
+<p class="center"><img src="line-c-s.png"></p>
+</div>
+</div>
+<div class="slide">
+<h1>LineServer</h1>
+<div>
+<p>
+        The <span class="code">LineServer</span> class demonstrates
+        the network API by accepting incoming connections
+        and echoing any incoming data after converting it
+        to upper case. After the connection is dropped the
+        server waits for another client to connect.
+    </p>
+<p>
+        A server socket with an OS picked port is created with:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+</pre></div>
+<p>
+        The server's port is found with:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server port is "</span> <span class="o">+</span> <span class="n">listen</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+</pre></div>
+<p>
+        The server waits for a connection with the following.
+        This method blocks until a connection is made by a client.
+        Notice that the <span class="code">listen</span> socket is only 
+        used to receive a connection, and the <span class="code">accept</span>
+        method returns a new socket.
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</pre></div>
+<p>
+        The data input and output streams of the socket are accessed with:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="cm">/* data from client */</span>
+<span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">());</span>
+
+<span class="cm">/* data to client */</span>
+<span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+</pre></div>
+<p>
+        The boolean, <tt>true</tt>, set the <tt>PrintWriter</tt>
+        to auto flush.
+        Information about the connection is printed with:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Accepted connection from "</span>
+     <span class="o">+</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInetAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">" at port "</span> 
+     <span class="o">+</span> <span class="n">sock</span><span class="o">.</span><span class="na">getPort</span><span class="o">()</span> <span class="o">);</span>
+</pre></div>
+<p>
+        Reading the incoming lines and replying is done by:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Sockets should always be cleaned up with:
+    </p>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"closing"</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+<span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// clean up required</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Complete LineServer</h1>
+<div>
+<h2 class="src-name"><a href="line/LineServer.java">line/LineServer.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">LineServer</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server port is "</span> <span class="o">+</span> <span class="n">listen</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="cm">/* handle one client at a time */</span>
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+
+                <span class="cm">/* data from client */</span>
+                <span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">());</span>
+
+                <span class="cm">/* data to client */</span>
+                <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Accepted connection from "</span>
+                     <span class="o">+</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInetAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">" at port "</span> 
+                     <span class="o">+</span> <span class="n">sock</span><span class="o">.</span><span class="na">getPort</span><span class="o">()</span> <span class="o">);</span>
+
+                <span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+                    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"closing"</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+                <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// clean up required</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>LineClient</h1>
+<div>
+<p>
+        The <span class="code">LineClient</span> allows
+        users to send lines of text the server.
+        The server will then echo the line back, and
+        the client will output the line to the screen.
+    </p>
+<p>
+        The client must specify the host and port number of the server.
+        This is done with:
+    </p>
+<h2 class="src-name"><a href="line/LineClient.java">line/LineClient.java</a></h2>
+<div class="highlight"><pre><span class="n">InetAddress</span> <span class="n">server</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+<span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span> <span class="n">server</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+</pre></div>
+<p>
+         The return value will contain a socket connected to
+         the server. An exception is thrown if the connection fails.
+         The <span class="code">PrintWriter</span> is constructed with the
+         <span class="code">true</span> flag to turn on auto-flushing.
+         The output is flushed whenever one of the
+         <span class="code">println</span>, <span class="code">printf</span>, or
+         <span class="code">format</span> is invoked.
+         The data streams are retrieved and converted to
+         a <span class="code">Scanner</span> and a <span class="code">PrintWriter</span>
+        with:
+    </p>
+<h2 class="src-name"><a href="line/LineClient.java">line/LineClient.java</a></h2>
+<div class="highlight"><pre><span class="cm">/* get the input stream */</span>
+<span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+<span class="cm">/* get the output stream */</span>
+<span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+<span class="cm">/* attach it to a print writer */</span>
+<span class="n">PrintWriter</span> <span class="n">wr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">out</span><span class="o">,</span> <span class="kc">true</span> <span class="o">);</span>
+<span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">in</span> <span class="o">);</span>
+<span class="cm">/* get an input reader */</span>
+<span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+</pre></div>
+<!--
+    <h:p>
+         Are there any problems with this?
+    </h:p>
+    --><p>
+        The following loop accepts input from the user, sends
+        it to the server, prints the server's reply.
+    </p>
+<h2 class="src-name"><a href="line/LineClient.java">line/LineClient.java</a></h2>
+<div class="highlight"><pre><span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+    <span class="n">wr</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+    <span class="n">wr</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span> <span class="c1">// ask it to be sent</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">()</span> <span class="o">);</span><span class="c1">// sc from server</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Complete LineClient</h1>
+<div>
+<h2 class="src-name"><a href="line/LineClient.java">line/LineClient.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.UnknownHostException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.InetAddress</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * The client program can send text lines to a server program.</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">LineClient</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: java LineClient host port"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad port number"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="cm">/* determine the address of the server and connect to it */</span>
+            <span class="n">InetAddress</span> <span class="n">server</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="o">.</span><span class="na">getByName</span><span class="o">(</span> <span class="n">host</span> <span class="o">);</span>
+            <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Socket</span><span class="o">(</span> <span class="n">server</span><span class="o">,</span> <span class="n">port</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"connected: "</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+            <span class="cm">/* get the input stream */</span>
+            <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+            <span class="cm">/* get the output stream */</span>
+            <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+            <span class="cm">/* attach it to a print writer */</span>
+            <span class="n">PrintWriter</span> <span class="n">wr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span> <span class="n">out</span><span class="o">,</span> <span class="kc">true</span> <span class="o">);</span>
+            <span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="n">in</span> <span class="o">);</span>
+            <span class="cm">/* get an input reader */</span>
+            <span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+            <span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                <span class="n">wr</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="n">wr</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span> <span class="c1">// ask it to be sent</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">()</span> <span class="o">);</span><span class="c1">// sc from server</span>
+            <span class="o">}</span>
+            <span class="cm">/* terminate the connection */</span>
+            <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">UnknownHostException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bad host name"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"io error:"</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>client/server example</h1>
+<div>
+<p>
+        A transcript of the server output is:
+    </p>
+<div class="highlight"><pre>% java LineServer
+Server port is 33233
+Accepted new connection from /127.0.0.1 at port 33236
+HELLO WORLD
+THE SECOND LINE
+Connection closed
+Accepted new connection from /127.0.0.1 at port 33271
+ANOTHER CLIENT
+Connection closed
+</pre></div>
+<p>
+        A transcript of the client session is:
+    </p>
+<div class="highlight"><pre>% java LineClient localhost 33233
+connected: Socket[addr=localhost/127.0.0.1,port=33233,localport=57415]
+Hello World
+HELLO WORLD
+The second line
+THE SECOND LINE
+^D
+% java LineClient localhost 33233
+connected: Socket[addr=localhost/127.0.0.1,port=33233,localport=57488]
+another client
+ANOTHER CLIENT
+^D
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>line protocol</h1>
+<div>
+<p>
+        A possible message exchange between a
+        LineClient and LineServer after the client has connected
+        to the server is:
+    </p>
+<dl>
+<dt>Client:</dt>
+<dd>Hello World </dd>
+<dt>Server:</dt>
+<dd>HELLO WORLD </dd>
+<dt>Client:</dt>
+<dd>The second line </dd>
+<dt>Server:</dt>
+<dd>THE SECOND LINE </dd>
+</dl>
+<p>
+        In this protocol the client sends the first line,
+        then waits for a line in reply, and then either
+        terminates the connection, or sends another line
+        and expects a reply.
+        The protocol will fail if the message sequence is altered.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>MultiLineServer</h1>
+<div>
+<p>
+        The LineServer accepts only one client, at a time.
+        A new client is only handled with <tt>listen</tt> is invoked
+        again.
+        Multiple clients can be handled by starting a new
+        thread for every client connection.
+    </p>
+<h2 class="src-name"><a href="line/MultiLineServer.java">line/MultiLineServer.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">MultiLineServer</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Socket</span> <span class="n">sock</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MultiLineServer</span><span class="o">(</span> <span class="n">Socket</span> <span class="n">sock</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">sock</span> <span class="o">=</span> <span class="n">sock</span><span class="o">;</span>
+        <span class="n">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="cm">/* data from client */</span>
+            <span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span>  <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="cm">/* data to client */</span>
+            <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+
+            <span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+                <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"closing"</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+            <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// clean up required</span>
+            <span class="n">rd</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dumpThreads</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">activeCount</span><span class="o">();</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">threads</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">count</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">enumerate</span><span class="o">(</span> <span class="n">threads</span> <span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server port is "</span> <span class="o">+</span> <span class="n">listen</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+                <span class="k">new</span> <span class="nf">MultiLineServer</span><span class="o">(</span> <span class="n">sock</span> <span class="o">);</span>
+                <span class="n">dumpThreads</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>MultiLineServerTP using a Thread Pool</h1>
+<div>
+<p>
+        Multiple clients can be handled by with
+        a thread pool in this example. Since the pool
+        is fixed there is a maximum number of concurrent clients.
+    </p>
+<h2 class="src-name"><a href="line/MultiLineServerTP.java">line/MultiLineServerTP.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.PrintWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.ServerSocket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.Socket</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutorService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MultiLineServerTP</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Socket</span> <span class="n">sock</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MultiLineServerTP</span><span class="o">(</span> <span class="n">Socket</span> <span class="n">sock</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">sock</span> <span class="o">=</span> <span class="n">sock</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="cm">/* data from client */</span>
+            <span class="n">Scanner</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span>  <span class="n">sock</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="cm">/* data to client */</span>
+            <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">sock</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+
+            <span class="k">while</span> <span class="o">(</span> <span class="n">rd</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+                <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">line</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"closing"</span> <span class="o">+</span> <span class="n">sock</span> <span class="o">);</span>
+            <span class="n">sock</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// clean up required</span>
+            <span class="n">rd</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dumpThreads</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">activeCount</span><span class="o">();</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">threads</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">count</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">enumerate</span><span class="o">(</span> <span class="n">threads</span> <span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// create 5 thread pool threads</span>
+        <span class="n">ExecutorService</span> <span class="n">tpes</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ServerSocket</span> <span class="n">listen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span> <span class="mi">0</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server port is "</span> <span class="o">+</span> <span class="n">listen</span><span class="o">.</span><span class="na">getLocalPort</span><span class="o">()</span> <span class="o">);</span>
+
+            <span class="k">while</span> <span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Socket</span> <span class="n">sock</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+                <span class="n">tpes</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span> <span class="k">new</span> <span class="n">MultiLineServer</span><span class="o">(</span> <span class="n">sock</span> <span class="o">));</span>
+                <span class="n">dumpThreads</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error: "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">tpes</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>C-language server code</h1>
+<div>
+<p>
+         A mostly equivalent code in C-language that
+         implements a server is:
+    </p>
+<h2 class="src-name"><a href="stream/server.c">stream/server.c</a></h2>
+<div class="highlight"><pre><span class="cp">#include &lt;sys/types.h&gt;</span>
+<span class="cp">#include &lt;sys/socket.h&gt;</span>
+<span class="cp">#include &lt;errno.h&gt;</span>
+<span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;netinet/in.h&gt;</span>
+<span class="cp">#include &lt;unistd.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">ac</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">av</span><span class="p">[]</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sock</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">newsock</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">server_addr</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sa_len</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">newaddr</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">newsize</span><span class="p">,</span> <span class="n">datasize</span><span class="p">;</span>
+
+    <span class="cm">/* domain,  type,        protocol */</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span> <span class="n">PF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">sock</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"socket"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">bind</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"bind"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">sa_len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">server_addr</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">getsockname</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">server_addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sa_len</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"listen"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"port number = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">server_addr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">listen</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"listen"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">newsize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span> <span class="n">newaddr</span> <span class="p">);</span>
+    <span class="n">newsock</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">newaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">newsize</span> <span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">newsock</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"accept"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">datasize</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span> <span class="n">newsock</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">datasize</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"read"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* assume that data send is a nul terminated character string */</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"mesg = %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">buf</span> <span class="p">);</span>
+
+    <span class="n">close</span><span class="p">(</span> <span class="n">newsock</span> <span class="p">);</span>
+    <span class="n">close</span><span class="p">(</span> <span class="n">sock</span> <span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>C-language client code</h1>
+<div>
+<p>
+         The C-language client's code is:
+    </p>
+<h2 class="src-name"><a href="stream/client.c">stream/client.c</a></h2>
+<div class="highlight"><pre><span class="cp">#include &lt;sys/types.h&gt;</span>
+<span class="cp">#include &lt;sys/socket.h&gt;</span>
+<span class="cp">#include &lt;errno.h&gt;</span>
+<span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;netinet/in.h&gt;</span>
+<span class="cp">#include &lt;netdb.h&gt;</span>
+<span class="cp">#include &lt;string.h&gt;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">ac</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">av</span><span class="p">[]</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sock</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sock_status</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">destaddr</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">hostent</span> <span class="o">*</span><span class="n">hp</span><span class="p">;</span>  
+    <span class="kt">int</span> <span class="n">datasize</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">server_port</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">ac</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"usage: client port</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">server_port</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span> <span class="n">av</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">);</span>
+
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span> <span class="n">PF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">sock</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"socket"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span> <span class="cm">/* OS picks port */</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">bind</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"bind"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">hp</span> <span class="o">=</span> <span class="n">gethostbyname</span><span class="p">(</span> <span class="s">"localhost"</span> <span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">hp</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">"name lookup failed</span><span class="se">\n</span><span class="s">"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+ 
+    <span class="n">destaddr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">destaddr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span> <span class="n">server_port</span> <span class="p">);</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">hp</span><span class="o">-&gt;</span><span class="n">h_addr</span><span class="p">,</span> <span class="n">hp</span><span class="o">-&gt;</span><span class="n">h_length</span><span class="p">);</span>   
+    <span class="n">sock_status</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">destaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">destaddr</span><span class="p">)</span> <span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">sock_status</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"connect"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">datasize</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span> <span class="n">sock</span><span class="p">,</span> <span class="s">"hello world</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="mi">13</span> <span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">datasize</span> <span class="o">!=</span> <span class="mi">13</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"read"</span> <span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">close</span><span class="p">(</span> <span class="n">sock</span> <span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

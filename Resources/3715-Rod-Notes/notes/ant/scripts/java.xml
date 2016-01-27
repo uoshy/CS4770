@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="exercute" default="run">
+    <target name="run">
+        <java classname="Test" fork="true">
+            <arg value="one"/>
+            <classpath>
+                <pathelement location="./test.jar"/>
+                <pathelement path="classes"/>
+            </classpath>
+        </java>
+    </target>
+</project>

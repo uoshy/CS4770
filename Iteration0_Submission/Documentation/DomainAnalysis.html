@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Domain Analysis</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Domain Analysis</h2>
+    <br>
+    <h3>Data Dictionary</h3>    
+    <dl>
+        <dt>Course</dt>
+        <dd>An offering of a <i>Course</i> in specific semester. Each course has one or more <i>Instructors</i> and 1 or more <i>Students.</i></dd>
+
+        <dt>Instructor</dt>
+        <dd>An <i>Instructor</i> of a <i>Course.</i></dd>
+            
+        <dt>Assignment</dt>
+        <dd>A method of evaluation for a <i>Course</i>. Each <i>Assignment</i> is linked with one <i>Course</i> and each <i>Course</i> may have many <i>Assignments</i>.</dd>
+        
+        <dt>Test Suite</dt>
+        <dd>A set of programs which automatically test the functionality of a <i>Student's Assignment Submission</i> when it is submitted. An <i>Instructor</i> can supply or create the<i>Test Suite</i> for a particular <i>Assignment.</i></dd>
+
+        <dt>Assignment Solutions</dt>
+        <dd>A set of <i>Files</i> supplied by the <i>Instructor</i> which are the proper solutions to a particular <i>Assignment</i>.</dd>
+     
+        <dt>Student</dt>
+        <dd>A <i>Student</i> enrolled in a particular <i>Course</i>. They use the system to create <i>Files</i> and <i>Assignment Submissions</i>. They receive <i>Grades</i> for their <i>Assignment Submissions</i>.</dd>
+        
+        <dt>Assignment Submission</dt>
+        <dd>A set of <i>Files</i> created, and owned, by a <i>Student</i>. The <i>Assignment Submission</i> corresponds to exactly one <i>Assignment</i>. <i>Students</i> may have the option of creating multiple <i>Assignment Submissions</i> for a single <i>Assignment</i>.</dd>
+    
+        <dt>File</dt>    
+        <dd>A collection of data stored on a computer. This could be a text file, binary file, source code file, etc. A <i>User</i> can upload and download files to and from the system.</dd>
+    
+        <dt>Test Report</dt>
+        <dd>An optional report returned to a <i>Student</i> after an <i>Assignment Submission</i> has been submitted. The report reflects the running of a <i>Test Suite</i> on the <i>Assingment Submission</i>, as specified by the <i>Course</i>'s <i>Instructor</i>.</dd> 
+    
+        <dt>Marker</dt>
+        <dd>An assistant for the <i>Instructor</i> of a <i>Course</i> who is responsible for marking <i>Students'</i> <i>Assignment Submissions</i>. They give <i>Students Grades</i> and possibly <i>Comments</i>.</dd>
+
+        <dt>Grade</dt>
+        <dd>A marking on the quality of an <i>Assignment Submission</i>. Usually a numerical value of 100.</dd>
+        
+        <dt>Comments</dt>
+        <dd>Additional <i>Comments</i> for an <i>Assignment Submission</i> given by the <i>Marker</i>. These <i>Comments</i> can contain information on why a certain <i>Grade</i> was given or how to improve later <i>Assignment Submissions</i>.</dd> 
+
+        <dt>Users</dt>
+        <dd>A <i>User</i> of the software system/website. This may be a <i>Student</i>, <i>Instructor</i>, or <i>Marker</i>.</dd>
+
+        <dt>Source Code File</dt>
+        <dd>A type of <i>File</i> containing programming code. These files are given to a <i>Compiler</i> program to be turned into <i>Object Files</i> and eventually <i>Executable Files</i>.</dd>
+
+        <dt>Object Files</dt>
+        <dd>A compiled <i>Source Code File</i> returned by the <i>Compiler</i>. It more closely resembles machine language than the verbose programming language of a <i>Source Code File</i>
+
+        <dt>Archive Files</dt>
+        <dd>A collection of <i>Object Files</i>. The collection can be used for easier bundling of multiple <i>Files</i> within a single <i>File</i>. It can also be referenced by <i>Executable Files</i> at runtime. </dd>
+
+        <dt>Executable<dt>
+        <dd>A program that runs on a computer. Usually it will receive input and give output. These can be <i>Console</i>-based applications or graphical in nature.</dd>
+
+        <dt>Compiler</dt>
+        <dd>A program that recieves <i>Source Code Files</i> and turns them into <i>Object Files</i> or <i>Executable Files</i>. The <i>Compiler may give a <i>Compiler Message</i> if the input <i>Source Code Files</i> have errors, or for other reasons.</dd>
+
+        <dt>Compiler Message</dt>
+        <dd>Text that describes the operation of a <i>Compiler</i>. Can supply warnings or errors related to input <i>Source Code Files</i>.</dd>
+
+        <dt>Console</dt>
+        <dd>A program that runs other programs within it. A <i>Console</i>-based <i>Executable File</i> can be ran and interacted with using a <i>Console</i>. Also known as a terminal.</dd>
+        
+    </dl>
+
+    <h2>Domain Models</h2>
+    <img src="Images/DomainModel_Assignments.png" class="DomainModel">
+    <img src="Images/DomainModel_Code.png" class="DomainModel">
+</body>
+</html>

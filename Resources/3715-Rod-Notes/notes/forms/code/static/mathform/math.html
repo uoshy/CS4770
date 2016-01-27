@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Arithmetic Using GET</title>
+</head>
+<body>
+<h1>Click the Link to Calculate</h1>
+<ul>
+<li><a href="/add?x=50&y=70"> 50 + 70 </a> </li>
+<li><a href="/add?x=35&y=77"> 35 + 77 </a> </li>
+<li><a href="/mult?x=50&y=70"> 50 * 70 </a> </li>
+<li><a href="/mult?x=100&y=200"> 100 * 200 </a> </li>
+</ul>
+<h1>Or Use A Form To Add</h1>
+<form action="/add"> <!-- the default is a GET -->
+<label>x: <input type="text" name="x"> </label>
+<label>y: <input type="text" name="y"> </label>
+<input type="submit" value="add">
+</form>
+<h1>Or Use A Form To Multiply</h1>
+<form action="/mult" method="get">
+<label>x: <input type="text" name="x"> </label>
+<label>y: <input type="text" name="y"> </label>
+<input type="submit" value="mult">
+</form>
+</body>
+</html>

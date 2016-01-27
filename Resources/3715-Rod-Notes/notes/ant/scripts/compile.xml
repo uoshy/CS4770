@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="javacc" default="compile">
+
+    <property name="package.dir" value="package"/>
+    <property name="dest.dir" value="classes"/>
+
+    <target name="init">
+        <mkdir dir="${dest.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac
+            srcdir="${package.dir}"
+            destdir="${dest.dir}"
+            includes="**/*.java"/>
+    </target>
+
+</project>

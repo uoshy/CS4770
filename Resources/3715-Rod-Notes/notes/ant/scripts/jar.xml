@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="jar" default="jar">
+
+    <!-- creates jar files that can be run with
+      java -jar vds.jar -->
+    <target name="jar" depends="init, compile">
+        <jar jarfile="vds.jar" basedir="classes"
+            includes="vds/**/*.class">
+            <manifest>
+                <attribute name="Main-Class"
+                    value="vds/VoltageDividerSearcher" />
+            </manifest>
+        </jar>
+    </target>
+
+</project>

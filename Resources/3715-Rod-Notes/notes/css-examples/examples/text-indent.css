@@ -1,0 +1,4 @@
+div.indent { margin-left: 10%; }
+p.i1 { text-indent: 3em; width: 75%; border: thin red solid; }
+p.i2 { text-indent: -0.5in; width: 75%; border: thin blue solid; }
+p.i3 { text-indent: 1in; width: 75%; border: thin green solid; }

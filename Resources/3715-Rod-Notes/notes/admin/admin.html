@@ -1,0 +1,618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-02-09T21:22:04-03:30, Rod Byrne --><title>admin</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Administrative Example</h1>
+<div>
+<p>
+        This example will demonstrate:
+    </p>
+<ul>
+<li>Session based authentication with roles</li>
+<li>Java Packages</li>
+<li>OO modelling for users and authentication</li>
+<li>Text File I/O with parsing and writing</li>
+<li>URL routes that support authentication
+        <ul>
+<li>
+<tt>/admin/*</tt> requires admin role</li>
+<li>
+<tt>/auth/*</tt> requires authentication</li>
+</ul>
+</li>
+<li>moustache templating in Spark (google java reflection)</li>
+</ul>
+</div>
+</div>
+<div class="slide">
+<h1>Administrative Source Tree</h1>
+<div>
+<p>
+        The development files and directories for this applications are:
+    </p>
+<dl>
+<dt><tt>static/admin</tt></dt>
+<dd>
+            Directory containing the static HTML pages served
+            by the application.
+        </dd>
+<dt><tt>admin-temp</tt></dt>
+<dd>
+            Directory containing <em>mustache</em> template
+            files. This directory is deployed to the <tt>classes</tt>
+            directory.
+        </dd>
+<dt><tt>build.xml</tt></dt>
+<dd>
+            Ant build script.
+        </dd>
+<dt><tt>ivy.xml</tt></dt>
+<dd>
+            List the application dependencies.
+        </dd>
+<dt><tt>src/admin</tt></dt>
+<dd>
+            Java soruce code for the web application control using Spark.
+        </dd>
+<dt><tt>src/users</tt></dt>
+<dd>
+            Java classes used to manage user information and authenticaltion.
+        </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>Modelling a User</h1>
+<div>
+<ul>
+<li>Name</li>
+<li>Password</li>
+<li>Role</li>
+</ul>
+<h2 class="src-name"><a href="code/src/users/User.java">code/src/users/User.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">users</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">role</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span> <span class="n">String</span> <span class="n">n</span><span class="o">,</span> <span class="n">String</span> <span class="n">p</span><span class="o">,</span> <span class="n">String</span> <span class="n">r</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">n</span><span class="o">;</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+        <span class="n">role</span> <span class="o">=</span> <span class="n">r</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p><tt>final</tt> means the none of the fields can be change.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>UserAuthentication responsibilities</h1>
+<div>
+<p>
+        The <tt>UserAuthentication</tt> is responsible for:
+    </p>
+<ul>
+<li>parsing text file of users</li>
+<li>finding users by name</li>
+<li>add/changing a user</li>
+<li>removing a user</li>
+<li>returning a list of users</li>
+<li>write the users to a text file</li>
+</ul>
+<h2 class="src-name"><a href="code/src/users/UserAuthentication.java">code/src/users/UserAuthentication.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">users</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.PrintStream</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserAuthentication</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">UserAuthentication</span><span class="o">(</span> <span class="n">String</span> <span class="n">path</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">parseUserFile</span><span class="o">(</span> <span class="n">path</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kt">void</span> <span class="nf">parseUserFile</span><span class="o">(</span> <span class="n">String</span> <span class="n">path</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span> <span class="n">path</span> <span class="o">)</span> <span class="o">);</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">trim</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">line</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"#"</span><span class="o">)</span> <span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+
+            <span class="n">String</span><span class="o">[]</span> <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">words</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">3</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">"malformed line"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">users</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span> <span class="n">words</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">words</span><span class="o">[</span><span class="mi">1</span><span class="o">],</span> <span class="n">words</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">)</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">findByName</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span><span class="o">(</span> <span class="n">User</span> <span class="n">u</span> <span class="o">:</span> <span class="n">users</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="n">name</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">u</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addChangeUser</span><span class="o">(</span> <span class="n">User</span> <span class="n">nu</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">removeUserByName</span><span class="o">(</span> <span class="n">nu</span><span class="o">.</span><span class="na">name</span> <span class="o">);</span>
+        <span class="n">users</span><span class="o">.</span><span class="na">add</span><span class="o">(</span> <span class="n">nu</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeUserByName</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">ou</span> <span class="o">=</span> <span class="n">findByName</span><span class="o">(</span> <span class="n">name</span> <span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">ou</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">users</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span> <span class="n">ou</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// return a copy of the list</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;(</span><span class="n">users</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">writeUsersFile</span><span class="o">(</span> <span class="n">String</span> <span class="n">path</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">PrintStream</span> <span class="n">ps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintStream</span><span class="o">(</span> <span class="n">path</span> <span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="n">User</span> <span class="n">u</span> <span class="o">:</span> <span class="n">users</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">ps</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"%s:%s:%s%n"</span><span class="o">,</span> <span class="n">u</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="n">u</span><span class="o">.</span><span class="na">password</span><span class="o">,</span> <span class="n">u</span><span class="o">.</span><span class="na">role</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">ps</span><span class="o">.</span><span class="na">checkError</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">"write user file failed"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">ps</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Administration Web Application</h1>
+<div>
+<p>
+       The <tt>before</tt> calls protect the <tt>admin</tt>
+       and <tt>auth</tt> paths.
+    </p>
+<p>
+        The <tt>/</tt> route is redirected to <tt>/login.html</tt>.
+    </p>
+<p>
+        The <tt>/admin/users</tt> route is processed by moustache.
+        This page allows modifications of the users.
+    </p>
+<p>
+        The <tt>/admin/delete/:user</tt> route is used to
+        delete a user.
+    </p>
+<p>
+        New users are added with the <tt>/admin/newuser</tt> route.
+        Adding a user also updates the <tt>users.txt</tt> file.
+    </p>
+<p>
+        User passwords are changed with the <tt>/admin/password</tt> route.
+    </p>
+<p>
+        The <tt>/login</tt> route handles user authentication,
+        and uses sessions to manage the authentication.
+    </p>
+<h2 class="src-name"><a href="code/src/admin/AdminDemo.java">code/src/admin/AdminDemo.java</a></h2>
+<div class="highlight"><pre><span class="kn">package</span> <span class="n">admin</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">post</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">externalStaticFileLocation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Session</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">spark.ModelAndView</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.template.mustache.MustacheTemplateEngine</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Request</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Response</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">users.UserAuthentication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">users.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdminDemo</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ADMIN_TEMPLATE</span> <span class="o">=</span> <span class="s">"admin.mustache"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ERROR_TEMPLATE</span> <span class="o">=</span> <span class="s">"error.mustache"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">redirectError</span><span class="o">(</span>
+        <span class="n">Request</span> <span class="n">req</span><span class="o">,</span> <span class="n">Response</span> <span class="n">res</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">Session</span> <span class="n">sess</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">session</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">sess</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">res</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">sess</span><span class="o">.</span><span class="na">attribute</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+        <span class="n">res</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span> <span class="o">{</span>
+        <span class="n">port</span><span class="o">(</span><span class="mi">8090</span><span class="o">);</span> <span class="c1">// change to port 8090</span>
+        <span class="n">UserAuthentication</span> <span class="n">ua</span> <span class="o">=</span> <span class="k">new</span>  <span class="n">UserAuthentication</span><span class="o">(</span> <span class="s">"users.txt"</span> <span class="o">);</span>
+        <span class="n">MustacheTemplateEngine</span> <span class="n">mte</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MustacheTemplateEngine</span><span class="o">(</span><span class="s">"admin-temp"</span><span class="o">);</span>
+
+        <span class="n">externalStaticFileLocation</span><span class="o">(</span><span class="s">"static/admin"</span><span class="o">);</span>
+
+        <span class="n">before</span><span class="o">(</span><span class="s">"/"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"text/html; charset=utf-8"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">before</span><span class="o">(</span><span class="s">"/auth/*"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/not-signed-in.html"</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// accept all roles</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">before</span><span class="o">(</span><span class="s">"/admin/*"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/not-signed-in.html"</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">user</span><span class="o">.</span><span class="na">role</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span> <span class="s">"admin"</span> <span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/not-admin.html"</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="c1">// redirect / to /login.html</span>
+        <span class="n">get</span><span class="o">(</span><span class="s">"/"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/login.html"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/error"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"message"</span><span class="o">);</span>
+            <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span> <span class="c1">// remove message</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">msg</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="n">msg</span> <span class="o">=</span> <span class="s">"No Message"</span><span class="o">;</span>
+            <span class="n">Map</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+            <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="n">msg</span> <span class="o">);</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="n">map</span><span class="o">,</span> <span class="n">ERROR_TEMPLATE</span><span class="o">);</span>
+        <span class="o">},</span> <span class="n">mte</span> <span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/admin/users"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Map</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+            <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"users"</span><span class="o">,</span> <span class="n">ua</span><span class="o">.</span><span class="na">getUsers</span><span class="o">()</span> <span class="o">);</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="n">map</span><span class="o">,</span> <span class="n">ADMIN_TEMPLATE</span><span class="o">);</span>
+        <span class="o">},</span> <span class="n">mte</span> <span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/admin/delete/:user"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">params</span><span class="o">(</span><span class="s">":user"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">user</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">ua</span><span class="o">.</span><span class="na">removeUserByName</span><span class="o">(</span> <span class="n">user</span> <span class="o">);</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/admin/users"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">post</span><span class="o">(</span><span class="s">"/admin/newuser"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">u</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"password"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">role</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"role"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">pw</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">role</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">ua</span><span class="o">.</span><span class="na">findByName</span><span class="o">(</span> <span class="n">u</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">redirectError</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="s">"Not a new user"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">User</span> <span class="n">newUser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span> <span class="n">u</span><span class="o">,</span> <span class="n">pw</span><span class="o">,</span> <span class="n">role</span> <span class="o">);</span>
+            <span class="n">ua</span><span class="o">.</span><span class="na">addChangeUser</span><span class="o">(</span> <span class="n">newUser</span> <span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="c1">// XXX This is here only for a demo</span>
+                <span class="n">ua</span><span class="o">.</span><span class="na">writeUsersFile</span><span class="o">(</span><span class="s">"users.txt"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">IOException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">redirectError</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/admin/users"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">post</span><span class="o">(</span><span class="s">"/admin/password"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">u</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"password"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">pw</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">ua</span><span class="o">.</span><span class="na">findByName</span><span class="o">(</span> <span class="n">u</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">User</span> <span class="n">newUser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span> <span class="n">user</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="n">pw</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">role</span> <span class="o">);</span>
+            <span class="n">ua</span><span class="o">.</span><span class="na">addChangeUser</span><span class="o">(</span> <span class="n">newUser</span> <span class="o">);</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/admin/users"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">post</span><span class="o">(</span><span class="s">"/login"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">u</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"password"</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">pw</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">ua</span><span class="o">.</span><span class="na">findByName</span><span class="o">(</span> <span class="n">u</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/login.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">Session</span> <span class="n">sess</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">sess</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">sess</span><span class="o">.</span><span class="na">attribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="n">user</span><span class="o">);</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/auth/index.html"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>User Moustache Templating</h1>
+<div>
+<p>
+        The <tt>admin.mustache</tt> is a template
+        for listing all the users and provides forms
+        to change information on the users.
+    </p>
+<h2 class="src-name"><a href="code/admin-temp/admin.mustache">code/admin-temp/admin.mustache</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+<span class="nt">body</span> <span class="p">{</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">10mm</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nc">.over</span> <span class="p">{</span>
+    <span class="k">display</span> <span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+    <span class="k">position</span> <span class="o">:</span> <span class="k">fixed</span><span class="p">;</span>
+    <span class="k">padding</span> <span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+    <span class="k">left</span> <span class="o">:</span> <span class="m">50</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">top</span> <span class="o">:</span> <span class="m">10</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">width</span> <span class="o">:</span> <span class="m">400px</span><span class="p">;</span>
+    <span class="k">height</span> <span class="o">:</span> <span class="m">200px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="o">:</span> <span class="m">-200px</span><span class="p">;</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">230</span><span class="o">,</span><span class="m">220</span><span class="o">,</span><span class="m">220</span><span class="p">);</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">solid</span> <span class="nb">blue</span> <span class="k">thick</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nf">#users</span> <span class="p">{</span>
+    <span class="k">border-collapse</span><span class="o">:</span> <span class="k">collapse</span><span class="p">;</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nf">#users</span> <span class="nt">td</span><span class="o">,</span> <span class="nt">table</span><span class="nf">#users</span> <span class="nt">th</span> <span class="p">{</span>
+    <span class="k">border</span> <span class="o">:</span> <span class="k">thin</span> <span class="nb">blue</span> <span class="k">solid</span><span class="p">;</span>
+    <span class="k">padding</span> <span class="o">:</span> <span class="m">4px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">table</span><span class="nf">#users</span> <span class="nt">td</span><span class="nd">:nth-child</span><span class="o">(</span><span class="nt">2</span><span class="o">)</span><span class="nd">:hover</span><span class="o">,</span>
+<span class="nt">table</span><span class="nf">#users</span> <span class="nt">td</span><span class="nd">:nth-child</span><span class="o">(</span><span class="nt">4</span><span class="o">)</span><span class="nd">:hover</span> <span class="p">{</span>
+    <span class="k">background</span> <span class="o">:</span> <span class="k">rgb</span><span class="p">(</span><span class="m">255</span><span class="o">,</span><span class="m">200</span><span class="o">,</span><span class="m">200</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"load"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">over</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"#over-form"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">over_form</span> <span class="o">=</span> <span class="nx">over</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span> <span class="s2">"form"</span> <span class="p">);</span>
+    <span class="c1">// add event handler to all password entries</span>
+    <span class="kd">var</span> <span class="nx">pws</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">"td.pw-button"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">pws</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">pws</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s2">"click"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">over</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">'block'</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">cpw</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">textContent</span><span class="p">;</span>
+            <span class="nx">over_form</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">cpw</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"td:first-child"</span><span class="p">).</span><span class="nx">textContent</span><span class="p">;</span>
+            <span class="nx">over_form</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">over_form</span><span class="p">.</span><span class="nx">user</span> <span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">over_form</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// event handlers for password form</span>
+    <span class="kd">var</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"#over-form input[value='change']"</span><span class="p">);</span>
+    <span class="nx">sub</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s2">"click"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">over</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">'none'</span><span class="p">;</span>
+    <span class="p">}</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">cancel</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"#over-form input[value='cancel']"</span><span class="p">);</span>
+    <span class="nx">cancel</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span> <span class="s2">"click"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// prevents the form's submission</span>
+        <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="nx">over</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">'none'</span><span class="p">;</span>
+    <span class="p">}</span> <span class="p">);</span>
+
+<span class="p">}</span> <span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span> Manage Users <span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;table</span> <span class="na">id=</span><span class="s">"users"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;tr&gt;&lt;th&gt;</span>User<span class="nt">&lt;/th&gt;&lt;th&gt;</span>Password<span class="nt">&lt;/th&gt;&lt;th&gt;</span>Role<span class="nt">&lt;/th&gt;&lt;th&gt;</span>Actions<span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+{{#users}}
+<span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span>{{name}}<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"pw-button"</span><span class="nt">&gt;</span>{{password}}<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span>{{role}}<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/admin/delete/{{name}}"</span><span class="nt">&gt;</span>Delete<span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+{{/users}}
+<span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>Add Users<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/admin/newuser"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>Name: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"user"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;label&gt;</span>Password: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"password"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;label&gt;</span>Role: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"role"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"add"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/admin/index.html"</span><span class="nt">&gt;</span>Back to Admin<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="c">&lt;!-- change password overlay --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"over"</span> <span class="na">id=</span><span class="s">"over-form"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;h2&gt;</span>Change Password<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/admin/password"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"user"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>New password:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"change"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"cancel"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Error Moustache Templating</h1>
+<div>
+<p>
+        A template file for error reporting is:
+    </p>
+<h2 class="src-name"><a href="code/admin-temp/error.mustache">code/admin-temp/error.mustache</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span> 
+<span class="nt">&lt;title&gt;</span>Error Message Page<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>An Error<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+{{message}}
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/auth"</span><span class="nt">&gt;</span> Back to Main Page<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The template is expanded with:
+    </p>
+<div class="highlight"><pre><span class="n">Map</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+<span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="n">msg</span> <span class="o">);</span>
+<span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="n">map</span><span class="o">,</span> <span class="n">ERROR_TEMPLATE</span><span class="o">);</span>
+</pre></div>
+<p>
+        The relevant part of the template file  is:
+    </p>
+<div class="highlight"><pre><span class="nt">&lt;p&gt;</span>
+{{message}}
+<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

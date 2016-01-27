@@ -1,0 +1,469 @@
+<html>
+<head>
+<title>Use Cases</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Use Cases</h2>
+
+    <div style="margin-left:2em;">
+    <pre>01. Name: Login to system
+User stories addressed: - -
+Actors: Registered User
+Precondition: GUI is downloaded and is accessible to user. GUI on their system.
+Main Scenario:
+    1) User (admin, instructor, marker, student) opens GUI
+    2) User enters login credentials 
+    3) User clicks “Login” on main GUI menu
+    4) System verifies current account credentials
+Postcondition: User is viewing system main menu (after logged in)
+Alternate scenario:
+  Incorrect credentials
+        4.0) System determines user credentials are incorrect
+        4.1) System returns prompt asking to re-enter user login credentials
+
+
+
+02. Name: Logout from system
+User stories addressed: - -
+Actors: Registered User
+Precondition: User finished UC-01 (login), & finished with current session
+Main Scenario:
+    1) User clicks “Logout" button on appropriate system menu
+    2) System prompts User to confirm logout
+    3) User confirms logout
+Postcondition: User is viewing GUI main login menu
+Alternate scenario: 
+  Click 'X' to logout
+        1.0) User clicks 'x' button on GUI
+  Save before closing
+        2.0) System determines if user has unsaved work
+        2.1) System prompts user to save current work
+        2.2) System commits save(s) to server
+
+
+
+03. Name: Create a/multiple user account(s)
+User stories addressed: US-01
+Actors: Admin
+Precondition: Admin is finished UC-01 (login), & is viewing system main (admin) menu
+Main Scenario:
+    1) Admin clicks “Add Accounts” via menu
+    2) System prompts admin to enter user account info
+    3) Admin uploads file containing user account info (username / tmp-password)
+    4) System creates all accounts (add to database – if no error) 
+    5) Admin clicks “Create”
+    6) System returns confirmation/prompt of success
+Postcondition: Admin is viewing list of added usernames/passwords
+Alternate scenario: 
+  Manually add user accounts
+        3.0) Admin manually inputs user account info (username/password) via GUI menu
+  Cancel adding accounts
+        5.0) Admin clicks “Cancel”
+    Postcondition: Admin is viewing system main (admin) menu
+  Error uploading user account info
+        3.0) System informs admin of error(s) via pop-up/a prompt
+        3.1) Admin addresses error(s). (uploading error)
+  Error creating account(s)
+        6.0) System informs admin of error(s) via pop-up/a prompt
+        6.1) Admin addresses error(s). (username/password error, etc.)
+
+
+
+04. Name: Create a/multiple course(s)
+User stories addressed: US-02
+Actors: Admin
+Precondition: Admin is finished UC-01 (login), & is viewing system main (admin) menu
+Main Scenario:
+    1) Admin clicks “Add Courses” via menu
+    2) System prompts admin to enter course info
+    3) Admin uploads file containing course info (code, name, short description)
+    4) System creates all courses (adds to database – if no error)
+    5) Admin clicks “Create”
+    6) System returns confirmation/prompt of success
+Postcondition: Admin is viewing list of recently added courses
+Alternate scenario:
+  Manually add course(s)
+        3.0) Admin manually inputs course info via GUI menu
+  Cancel adding accounts
+        5.0) Admin clicks “Cancel”
+    Postcondition: Admin is viewing system main (admin) menu
+  Error uploading course info
+        3.0) System informs admin of error(s) via pop-up/a prompt
+        3.1) Admin addresses error(s). (uploading error)
+  Error creating course(s)
+        6.0) System informs admin of error(s) via pop-up/a prompt
+        6.1) Admin addresses error(s). (course error)
+  Semester-specific courses
+        4.0) Organize courses by year and semester via GUI menu
+
+
+
+05. Name: Assign user(s) to course(s) 
+User stories addressed: US-03, US-05
+Actors: Admin
+Precondition: Admin finished UC-03, UC-04, & is viewing system main (admin) menu
+    1) Admin clicks “Assign Users” via menu
+    2) System prompts admin to link users to courses (system page/menu)
+    3) Admin links users to courses via appropriate system page/menu
+    4) Admin commit changes via “Save” option/menu (commit changes to database)
+Postcondition: Admin is viewing list courses with assigned users
+Alternate scenario:
+  Error linking user to course
+        3.0) System informs admin of error(s) via pop-up/a prompt 
+        3.1) Admin addresses error(s). (course full, etc)
+  Revert changes
+        4.0) Admin reverts changes via “Cancel” option/menu 
+    Postcondition: Admin is viewing system main (admin) menu
+
+
+
+06. Name: Remove user(s) from course(s)
+User stories addressed: US-04
+Actors: Admin
+Precondition: Admin finished UC-01 & UC-05, & is viewing system main (admin) menu
+    1) Admin clicks “Remove Users” via menu
+    2) System prompts admin to remove users from course(s) (system page/menu)
+    3) Admin chooses course to remove user(s)
+    4) Admin removes user(s) from course
+    5) Admin commit changes via “Save” option/menu (commit changes to database)
+Postcondition: Admin is viewing list of removed users 
+Alternate scenario:
+  Manually remove user
+        1.0) Admin clicks User via GUI menu
+        1.1) System prompts user with User info page
+        1.2) Admin continues from step 3
+  Right-click remove User
+        1.0) Admin right-clicks user via GUI menu
+        1.1) Admin selects remove from course
+        1.2) Admin continues from step 3
+  Revert changes
+        5.0) Admin reverts changes via “Cancel” option/menu
+    Postcondition: Admin is viewing system main (admin) menu
+
+
+
+07. Name: Reset user(s) password(s)
+User stories addressed: US-04
+Actors: Admin, Registered User
+Precondition: Admin finished UC-01 & UC-03, & is viewing system main (admin) menu
+    1) Admin clicks “Reset User Password” via menu
+    2) System prompts admin to reset user password (list of courses/users)
+    3) Admin selects user(s) to reset password
+    5) Admin commit changes via “Save” option/menu? (commit changes to database)
+Postcondition: Admin viewing page/menu with user name & generated password 
+Alternate scenario:
+  Right-click remove User
+        1.0) Admin right-clicks user via GUI menu
+        1.1) Admin selects reset password
+        1.2) Admin continues from step 3
+  Revert changes
+        5.0) Admin reverts changes via “Cancel” option/menu?
+  Automated password reset
+    Precondition: UC-01 & UC-03 finished. User is viewing system main (login) menu
+        1.0) User clicks “Reset Password” button via GUI login menu
+        1.1) System prompts user for confirmation
+        1.2) User accepts or declines
+    Postcondition: User viewing GUI main login page
+
+
+
+08. Name: Set new account password
+User stories addressed: - -
+Actors: Registered User
+Precondition: Admin finished UC-01, UC-03 & UC-07, & user is viewing system login menu
+    1) User enters login credentials via system login menu
+    2) System recognizes that current user's password was reset & prompts user (menu/page)
+    3) User enters new account password in field 
+    4) User clicks “Submit”
+    5) System returns confirmation/prompt of success
+    6) System prompts user to login with new password via system login menu
+Postcondition: User is viewing system login menu
+Alternate scenario:
+  Password error
+        4.0) Entered password violates password rules or isn't accepted
+        4.1) System returns prompt asking to re-enter different user password
+
+
+
+09. Name: Add new assignment
+User stories addressed: US-06
+Actors: Instructor
+Precondition: Finished UC-03 to 05 & UC-09, & instructor is viewing main (instructor) menu
+    1) Instructor clicks “Add Assignment” via menu
+    2) System prompts instructor to add assignment to course(s) (system page/menu)
+    3) Instructor selects course from list
+    4) System prompts instructor to add new assignment
+    5) Instructor selects directory (w/ files) for new assignment
+    6) System adds directory (w/ files) to cloud to be downloaded by users
+    7) System returns confirmation/prompt of success
+    8) System notifies all users (linked to course) of new assignment
+Postcondition: Instructor is viewing newly added assignment directory
+Alternate scenario:
+  Manually add assignment
+        5.0) Instructor creates directory for new assignment
+        5.1) Instructor creates files via GUI
+        5.2) Instructor adds files to new assignment
+        5.3) Instructor continues from step 7
+  Error selecting/creating assignment
+        6.0) System informs instructor of error(s) via pop-up/a prompt
+        6.1) Instructor addresses error(s). Consult admin? Retry?
+  Modify existing assignment
+        1.0) Instructor clicks assignment from appropriate system menu list
+        1.1) System prompts instructor with assignment info menu (directory w/files)
+        1.2) Instructor clicks “Edit”
+        1.3) Instructor modifies existing assignment (directory/files)
+        1.4) Instructor continues from step 7</pre>
+
+        
+    </div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Use Cases</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Use Cases</h2>
+    <dl>
+
+      <dt>Add Test Suite</dt>
+      <dd>Use cases referenced: 7, 12, 13</dd>
+      <dd>Actor: Instructor</dd>
+      <dd>Preconditions: Instructor is logged in and on the main page.</dd>
+      <dd>Basic Flow:<br>
+        7.1 Instructor selects the "Editor" button.<br>
+        7.2 Instructor selects the "Test Suite" option under the "New" menu tab.<br>
+        7.3 Instructor writes the test suite.<br>
+        7.4 When the instructor navigates away from the editor the system compiles the files in the instructor's "Test Suites" directory.<br>
+	Postconditions: The instructor's test suite is saved and compiled. It is not associated with any particular assignment.<br>
+      </dd><br>
+      <dd>Alternate Flow 7.1A: Upload Existing Test Suite<br>
+        7.1A1 Instructor selects "Files".<br>
+	7.1A2 Instructor selects the "Test Suites" directory.<br>
+	7.1A3 Instructor selects "Add Files".<br>
+	7.1A4 Instructor uploads the files from their computer.<br>
+	7.1A5 When the instructor navigates away from the "Test Suites" directory the system compiles the files.<br>
+  	Postconditions: The instructor's test suite is saved and compiled. It is not associated with any particular assignment.<br>
+      </dd><br>
+      <dd>Alternate Flow 7.1A4B: Invalid Upload<br>
+        7.1A4B1 Instructor is informed the files they uploaded are invalid (with a reason if possible.)<br>
+        7.1A4B2 Instructor is returned to their "Test Suites" directory.<br>
+        Postconditions: Nothing is saved by the system.<br>
+      </dd><br>
+
+      <dt>Associate Test Suite with Assignment</dt>
+      <dd>Use cases referenced: 8</dd>
+      <dd>Actor: Instructor</dd>
+      <dd>Preconditions: Instructor is logged in and on the main page.</dd>
+      <dd>Basic Flow:<br>
+        8.1 Instructor navigates to the page of the relevant course.<br>
+        8.2 Instructor selects the assignment/evaluation with which they want to associate the test suite.<br>
+        8.3 Instructor is prompted to select the desired test suite from their "Test Suites" directory.<br>
+        8.4 Instructor is prompted to select whether they want the suite run automatically on incoming submissions.<br>
+        8.5 Instructor is prompted to select if they want the suite to automatically return results to students.<br>
+        Postconditions: The system saves the suite to apply to the assignment's submissions.
+      </dd><br>
+      <dd>Alternate Flow 8.2A: Associate Test Suite with New Assignment<br>
+        8.2A1 Instructor selects the "Add New Evaluation" option. (Refer to US-6)<br>
+        8.2A2 Instructor adds an assignment.<br>
+        8.2A3 Instructor is prompted to select files to add as test suites if they want.<br>
+        Continue to 8.4.
+      </dd><br>
+
+      <dt>Retrieve Students' Marks</dt>
+      <dd>Use cases referenced: 9</dd>
+      <dd>Actor: Instructor</dd>
+      <dd>Preconditions: Instructor is logged in and on the main page.</dd><br>
+      <dd>Basic Flow:<br>
+        9.1 Instructor selects any course the specified student is taking and is taken to the course page.<br>
+        9.2 Instructor selects "Grades" and is taken to a page containing a table with all marks for every student in that course.<br>
+        9.3 Instructor selects "Download Grades" and is prompted to select a file format (XML, CSV, etc.)<br>
+        9.4 The table is downloaded to the instructor's computer.<br>
+        Postconditions: The instructor has access to a file containing all student marks in the selected course.<br>
+      </dd><br>
+      <dd>Alternate Flow 9.3A: Retrieve One Student's Marks<br>
+        9.3A1 Instructor chooses the desired student from the table.<br>
+        9.3A2 Instructor is taken to a page with a table containing the students grades in all the courses they have access to (i.e., in which the instructor is either a Marker or Instructor)<br>
+        9.3A3 Instructor selects "Download Grades" and is prompted to select a file format.<br>
+        9.3A4 The table is downloaded to the instructor's computer.<br>
+        Postconditions: The instructor has access to a file containing the student's marks.<br>
+      </dd><br>
+
+      <dt>Upload Assignment Solutions</dt>
+      <dd>Use cases referenced: 10</dd>
+      <dd>Actor: Instructor</dd>
+      <dd>Preconditions: Instructor is logged in and on the main page.</dd><br>
+      <dd>Basic Flow:<br>
+        10.1 Instructor navigates to the page of the relevant course.<br>
+        10.2 Instructor selects the relevant assignment.<br>
+        10.3 Instructor selects the "Add Solution" option.<br>
+        10.4 Instructor is prompted to upload a file (docx, pdf, doc, etc.)<br>
+        10.5 Instructor selects when solution is to be made available (immediately, as soon as assignment deadline is reached, at specified time.)<br>
+        Postconditions: The instructor has access to a file containing all student marks in the selected course.<br>
+      </dd><br>
+
+      <dt>Mark Assignments</dt>
+      <dd>Use cases referenced: 11</dd>
+      <dd>Actor: Marker</dd>
+      <dd>Preconditions: Marker is logged in and on the main page.</dd><br>
+      <dd>Basic Flow:<br>
+        11.1 Marker selects the relevant course.<br>
+        11.2 Marker selects the relevant evaluation.<br>
+        11.3 Marker selects the first submission they want to grade.<br>
+        11.4 Marker is given the option to either compile and run the submission or review the code.<br>
+        11.5 Marker selects "Compile and Run"<br>
+        11.6 The program is run in the terminal window.<br>
+        11.7 The marker selects "Assign Grade".<br>
+        11.8 The marker is prompted for a grade.<br>
+        11.9 The marker is returned to the evaluation page.<br>
+        Postconditions: The system assigns the marker's grade to the evaluation, sends the student any feedback, notifies the student.<br>
+      </dd><br>
+      <dd>Alternate Flow 11.3A: Download Every Assignment Submission<br>
+        11.3A3 Marker selects "Download All".<br>
+        11.3A4 The code is downloaded to the marker's computer.<br>
+        Postconditions: The marker has downloaded every submission's code.<br>
+      </dd><br>
+      <dd>Alternate Flow 11.3B: Download One Assignment<br>
+        11.3B3 Marker selects the targeted submission.<br>
+        11.3B4 Marker selects "Download".<br>
+        11.3B5 The code is downloaded to the marker's computer.<br>
+        Postconditions: The marker has downloaded the assignment's code.<br>
+      </dd><br>
+      <dd>Alternate Flow 11.5CA: Use Test Suite Added by Instructor<br>
+        11.5C1 Marker selects "View Available Test Suites".<br>
+        11.5C2 Marker selects the "Use for selected evaluation" option of the appropriate test suite.<br>
+        11.5C3 The suite's output is displayed to the marker.<br>
+        Postconditions: The system displays the suite's results.<br>
+      </dd><br>
+      <dd>Alternate Flow 11.5D: Marker Views the Code<br>
+        11.5D1 The marker is shown the code and a blank editable comments file in adjacent panes.<br>
+        11.5D2 The marker selects "Submit Feedback"<br>
+        11.5D3 The marker is returned to the targeted submission's page.<br>
+        Postconditions: The system displays the assignment's code.<br>
+      </dd><br>
+
+      <dt>Use Text Editor</dt>
+      <dd>Use cases referenced: 12</dd>
+      <dd>Actor: Student</dd>
+      <dd>Preconditions: Student is logged in and on the main page.</dd><br>
+      <dd>Basic Flow:<br>
+        12.1 Student selects the "Editor" button.<br>
+        12.2 Student is taken to a basic text editor.<br>
+        12.3 Student saves the file to their directory in the cloud.<br>
+        Postconditions: The system saves the file the student has created. The student is still on the editor page.<br>
+      </dd><br>
+    </dl>
+</body>
+</html>
+
+    <pre>Name: Registered user compiles through the cloud.
+User story addressed: US-13
+Precondition: The cloud are capable of executing files written by multiple languages(Java, C, C++,etc).
+Main Scenario:
+        1.User clicks on language button to choose the preferred language, like Java, C,C++,etc.
+        2.User chooses the language.
+        3.User compiles through the cloud.
+        4.The cloud highlights syntax and matches bracket based on the language the user chose.
+        5.The cloud can save the code in a specific interval. 
+        6.The user runs the program.
+        7a.The cloud returns the output.
+        8a.The cloud stores the class/executable files into user’s account after the user has done.
+Alternate Scenario:
+        7b.The code has errors, the cloud reports the error type and the line in which the error lies.
+        8b. User modifies the code and reruns the code.
+Postcondition: User must keep the files in the appropriate locations in the account.
+
+
+Name: Registered user downloads compile object files to execute written code.
+User story addressed: US-14
+Precondition: User has complied objected files in the account to download.
+Main Scenario :
+         1. User goes to the location that contains the compile files.
+         2. User chooses the download option.
+         3. User chooses the file(s) to download, multiple choice of file is available.
+         4. User clicks on download button.
+         5. User chooses the local directory.
+         6a. User downloads the file(s).
+ Alternate Scenario:
+         6b. There are name conflicts between some of the file on the cloud and the local file. System asks user which way to choose:  replace or cancel.
+         7. User chooses cancel.
+         8. User resolves the name conflicts and downloads the files.
+Postcondition: User downloads the files to the appropriate locate so that the files are executable locally.
+
+
+
+
+Name: Registered user uploads/downloads files to share files with other users.
+User story addresses: US-15
+Precondition: The GUI interface must be connected to the cloud.
+Main Scenario:
+           1. User opens the interface.
+           2. User clicks on upload/download button to upload/download files.
+           3.  A window that shows the local directories or the cloud directories pops up.
+           4. User chooses the file(s) from the directory, multiple choice of files is available.
+           5a. User chooses the appropriate directory to upload/download to.
+           6a. User uploads/downloads the file(s).
+Alternate Scenario:
+           5b. There are name conflicts between upload/download files and local/cloud files. User has two choices: replace or cancel.
+           6b. User chooses cancel.
+           7. User resolves the name conflicts and upload/download file(s).
+Postcondition: Other designated users have authority to access the uploaded/downloaded file(s).
+    
+
+
+
+
+Name: Registered user execute command line application to test written code.
+User story addressed: US-16
+Precondition: The user can input the parameters of the code through GUI interface to the cloud and can retrieve the output given by the cloud.
+Main Scenario:
+         1. User opens the GUI interface.
+         2. GUI interface pops up.
+         3. User chooses the files to  execute.
+         4a. User types the command line to execute the code. If there are inputs for the code, just type the inputs after the command line.
+         5a. The result from the cloud shows on the terminal window.  
+Alternate Scenario:
+         4b. There are errors or the inputs don't meet the requirement (the number or the type of inputs doesn’t match), errors are reported or the input problem is reported, and the line in which the errors 
+lie is also shown.
+         5b. User fixes the errors or the input problem.
+         6. User retypes the command line to run to code.
+         7. The result shows on the termianl window.
+ Postcondition: User can run the code in the GUI interface for many times.
+
+
+
+
+Name: Student submits assignments to be marked.
+User story addressed: US-17
+Precondition:  Student must submit the assignment through the right account.
+Main Scenario:
+         1. Student opens GUI interface.
+         2. Student chooses the language the code was written in.
+         3. Student chooses the assignment.
+         4a. Student clicks on submit.
+         5a. Student submits the assignments.
+Alternate Scenario:
+         4b. Student modifies the assignment before the deadline, and submits the assignments again.
+         5b. Student has only submitted part of the assignment, and then submits the rest.
+Postcondition: The mark must figure if the student submits more than one time, if the last time is the rest of the assignment or the modified assignment, so that he/she can know the previous submission can be disregarded.
+
+
+
+Name: Registered user runs GUI application.
+User story addressed: US-18
+Precondition: All the files to be compiled into exe or jar must be in the same directory.
+Main Scenario:
+          1. User opens GUI interface.
+          2. User chooses the compiled type: exe or jar.
+          3. User chooses the files to run.
+          4a. User clicked on compile button.
+          5a. User runs the files.
+Alternate Scenario:
+          4b. There are errors,the error and the line in which the erro lies are reported.
+          5a. User modifies the files.
+          6. User reruns the files.
+Postcondition: The compiled files must be executable through the GUI interface.</pre>
+</body>
+</html>

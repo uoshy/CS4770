@@ -1,0 +1,833 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-03-12T16:20:28-02:30, Rod Byrne --><title>producer-consumer</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>producer/consumer</h1>
+<div>
+<p>
+        One of the most common forms of cooperating
+        threads is the producer/consumer pair.
+        The producer generates data that the consumer
+        uses. The producer and consumer each run in
+        their own thread. The producer should only
+        produce as fast as the consumer can consume.
+    </p>
+<p>
+        The unix pipe command,
+    </p>
+<blockquote><tt>cmd1 | cmd2</tt></blockquote>
+<p>
+        creates a producer consumer pair, the 
+        first command's output is sent to
+        the second command's standard input.
+        The producer is suspended if the consumer
+        cannot keep up.
+        The consumer is suspended if it attempts to 
+        consume too much. 
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>link</h1>
+<div>
+<p>
+        The Link interface will be used to connect
+        the producer to the consumer. By defining
+        an interface, we are free to provide
+        different implementations.
+    </p>
+<h2 class="src-name"><a href="tests/Link.java">tests/Link.java</a></h2>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Object o is send via the Link with send, </span>
+<span class="cm"> * recv is used to retrieve the object,</span>
+<span class="cm"> * close indicates that no more objects will be</span>
+<span class="cm"> * sent via the link.</span>
+<span class="cm"> * The number of object stored in the link is given</span>
+<span class="cm"> * by getSize().</span>
+<span class="cm"> */</span>
+<span class="kd">interface</span> <span class="nc">Link</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span> <span class="n">Object</span> <span class="n">o</span> <span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">close</span><span class="o">();</span>
+    <span class="n">Object</span> <span class="nf">recv</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="nf">getSize</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Producer</h1>
+<div>
+<p>
+        The producer will generate data and send it via
+        the link to the consumer. The link
+        must block the producer if the consumer does not
+        keep up.
+    </p>
+<h2 class="src-name"><a href="tests/Producer.java">tests/Producer.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Producer</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Link</span> <span class="n">link</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">totalItems</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">flush</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Producer</span><span class="o">(</span> <span class="n">Link</span> <span class="n">link</span><span class="o">,</span> <span class="kt">int</span> <span class="n">totalItems</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">flush</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">link</span> <span class="o">=</span> <span class="n">link</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">totalItems</span> <span class="o">=</span> <span class="n">totalItems</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">flush</span> <span class="o">=</span> <span class="n">flush</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">items</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">items</span> <span class="o">&lt;</span> <span class="n">totalItems</span><span class="o">;</span> <span class="n">items</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">Integer</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span> <span class="n">items</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"sending: "</span> <span class="o">+</span> <span class="n">i</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">flush</span> <span class="o">)</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+            <span class="n">link</span><span class="o">.</span><span class="na">send</span><span class="o">(</span> <span class="n">i</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">"sent: "</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="s">" size: "</span>
+                    <span class="o">+</span> <span class="n">link</span><span class="o">.</span><span class="na">getSize</span><span class="o">()</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">flush</span> <span class="o">)</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">link</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Consumer</h1>
+<div>
+<p>
+        The consumer thread will attempt to retrieve objects
+        from the link. The link should block if there is
+        no available objects.
+    </p>
+<h2 class="src-name"><a href="tests/Consumer.java">tests/Consumer.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Consumer</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Link</span> <span class="n">link</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Consumer</span><span class="o">(</span> <span class="n">Link</span> <span class="n">link</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">link</span> <span class="o">=</span> <span class="n">link</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">do</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"wait to recv"</span> <span class="o">);</span>
+                <span class="n">Object</span> <span class="n">o</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="na">recv</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+                <span class="n">Integer</span> <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">Integer</span><span class="o">)</span><span class="n">o</span><span class="o">;</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"recv: "</span> <span class="o">+</span> <span class="n">i</span> <span class="o">);</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">(</span> <span class="n">link</span><span class="o">.</span><span class="na">getSize</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="mi">10</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>produce/consumer test</h1>
+<div>
+<p>
+        Test the produce/consumer pair by sending
+        a fixed number of items, before closing
+        the link. The usage is:
+        <blockquote class="code"><tt>java  TestProdConsum num_items link_size</tt></blockquote>
+        where link_size is the size of the buffer in the 
+        link and num_items is the number of items to produce.
+    </p>
+<h2 class="src-name"><a href="tests/TestProdConsum.java">tests/TestProdConsum.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestProdConsum</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">3</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"usage: java TestProdConsum prods buf flush"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span> <span class="mi">1</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">products</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+            <span class="kt">int</span> <span class="n">bufSize</span> <span class="o">=</span>  <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">);</span>
+            <span class="kt">boolean</span> <span class="n">flush</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">"flush"</span><span class="o">);</span>
+            <span class="n">Link</span> <span class="n">link</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bounded</span><span class="o">(</span> <span class="n">bufSize</span> <span class="o">);</span>
+
+            <span class="n">Producer</span> <span class="n">prod</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Producer</span><span class="o">(</span> <span class="n">link</span><span class="o">,</span> <span class="n">products</span><span class="o">,</span> <span class="n">flush</span> <span class="o">);</span>
+            <span class="n">Consumer</span> <span class="n">consum</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Consumer</span><span class="o">(</span> <span class="n">link</span> <span class="o">);</span>
+
+            <span class="n">consum</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">prod</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">Exception</span> <span class="n">e</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<div class="highlight"><pre>% java TestProdConsum 5 1 t
+    wait to recv
+    sending: 0
+    sent: 0 size: 0
+    recv: 0
+    sending: 1
+    sent: 1 size: 1
+    sending: 2
+    wait to recv
+    recv: 1
+    wait to recv
+    sent: 2 size: 1
+    recv: 2
+    sending: 3
+    sent: 3 size: 1
+    sending: 4
+    wait to recv
+    recv: 3
+    wait to recv
+    sent: 4 size: 1
+    recv: 4
+    wait to recv
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>producer/consumer testing</h1>
+<div>
+<p>
+        If the buffer is large, then the producer can <em>produce</em>
+        more items before being suspended.
+    </p>
+<div class="highlight"><pre>% java TestProdConsum 5 5 t
+wait to recv
+sending: 0
+sent: 0 size: 0
+recv: 0
+sending: 1
+sent: 1 size: 1
+sending: 2
+sent: 2 size: 2
+sending: 3
+sent: 3 size: 3
+sending: 4
+sent: 4 size: 4
+wait to recv
+recv: 1
+wait to recv
+recv: 2
+wait to recv
+recv: 3
+wait to recv
+recv: 4
+wait to rec
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>producer/consumer testing</h1>
+<div>
+<p>
+        Mixture of producing and consuming is shown 
+        by the following.
+    </p>
+<div class="highlight"><pre>% java TestProdConsum 10 3 t
+sending: 0
+wait to recv
+sent: 0 size: 1
+recv: 0
+sending: 1
+sent: 1 size: 1
+sending: 2
+sent: 2 size: 2
+sending: 3
+sent: 3 size: 3
+sending: 4
+wait to recv
+recv: 1
+wait to recv
+sent: 4 size: 3
+recv: 2
+wait to recv
+sending: 5
+recv: 3
+wait to recv
+sent: 5 size: 2
+recv: 4
+wait to recv
+sending: 6
+recv: 5
+wait to recv
+sent: 6 size: 1
+recv: 6
+sending: 7
+sent: 7 size: 1
+sending: 8
+sent: 8 size: 2
+sending: 9
+sent: 9 size: 3
+wait to recv
+recv: 7
+wait to recv
+recv: 8
+wait to recv
+recv: 9
+wait to recv
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>bounded buffer implementation</h1>
+<div>
+<p>
+        A fixed size bounded buffer is:
+    </p>
+<h2 class="src-name"><a href="tests/Bounded.java">tests/Bounded.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bounded</span> <span class="kd">implements</span> <span class="n">Link</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">buffer</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">head</span><span class="o">,</span> <span class="n">tail</span><span class="o">,</span> <span class="n">len</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">closed</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Bounded</span><span class="o">(</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">tail</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">closed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span> <span class="n">Object</span> <span class="n">o</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="n">len</span> <span class="o">&gt;=</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">wait</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">buffer</span><span class="o">[</span> <span class="n">head</span> <span class="o">]</span> <span class="o">=</span> <span class="n">o</span><span class="o">;</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="o">(</span> <span class="n">head</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">)</span> <span class="o">%</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="n">len</span><span class="o">++;</span>
+        <span class="n">notify</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Object</span> <span class="nf">recv</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">closed</span> <span class="o">)</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span> <span class="n">len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">wait</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">closed</span> <span class="o">)</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">Object</span> <span class="n">o</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">[</span><span class="n">tail</span><span class="o">];</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="o">(</span><span class="n">tail</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="n">len</span><span class="o">--;</span>
+        <span class="n">notify</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">o</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">closed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">notify</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">getSize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">len</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>deadlock</h1>
+<div>
+<p>
+         Deadlock occurs when two or more threads attempt
+         to lock resources already claimed by other threads.
+         If thread t1 has resource r1 and thread t2 has resource
+         r2 and t1 attempts to lock r2, while t2 is trying to
+         lock r1, then the threads are deadlocked. These
+         thread are now stuck since they will not release 
+         any resource until they get a resource which is already
+         locked. The classic deadlock is shown by:
+    </p>
+<h2 class="src-name"><a href="tests/DeadLock.java">tests/DeadLock.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DeadLock</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Object</span> <span class="n">res1</span><span class="o">,</span> <span class="n">res2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">DeadLock</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Object</span> <span class="n">res1</span><span class="o">,</span> <span class="n">Object</span> <span class="n">res2</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">name</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">res1</span> <span class="o">=</span> <span class="n">res1</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">res2</span> <span class="o">=</span> <span class="n">res2</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// lock res1</span>
+        <span class="kd">synchronized</span><span class="o">(</span> <span class="n">res1</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">res1</span> <span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="mi">100</span> <span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">catch</span><span class="o">(</span> <span class="n">InterruptedException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="o">}</span>
+            <span class="c1">// now try to get res2</span>
+            <span class="kd">synchronized</span><span class="o">(</span> <span class="n">res2</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">res2</span> <span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="n">Object</span> <span class="n">r1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+        <span class="n">Object</span> <span class="n">r2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+        <span class="n">DeadLock</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeadLock</span><span class="o">(</span><span class="s">"t1"</span><span class="o">,</span> <span class="n">r1</span><span class="o">,</span> <span class="n">r2</span><span class="o">);</span>
+        <span class="n">DeadLock</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeadLock</span><span class="o">(</span><span class="s">"t2"</span><span class="o">,</span> <span class="n">r2</span><span class="o">,</span> <span class="n">r1</span><span class="o">);</span>
+        <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">threads</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">enumerate</span><span class="o">(</span> <span class="n">threads</span> <span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The program's output is:
+    </p>
+<div class="highlight"><pre>% java DeadLock
+Thread[main,5,main]
+Thread[t1,5,main]
+t1: locked java.lang.Object@65de41c3
+t2: locked java.lang.Object@38d8fb2b
+Thread[t2,5,main]
+^C
+% 
+</pre></div>
+<p>
+        What simple change would eliminate the deadlock from
+        the above code?
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Deadlock that takes awhile</h1>
+<div>
+<p>
+        The Deadlock class will always deadlock since
+        the sleep force t1 to get r1 and t2 to get r2
+        before the threads attempt to get the next resource.
+        DeadLock1 shows a more realistic situation
+        where the deadlock will eventually happen,
+        but when is not known.
+        This deadlock occurs when a thread has captured
+        res1 but is suspended before it captures res2.
+        The second thread can now capture res2, and
+        then can not get res1.
+    </p>
+<h2 class="src-name"><a href="tests/DeadLock1.java">tests/DeadLock1.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DeadLock1</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Object</span> <span class="n">res1</span><span class="o">,</span> <span class="n">res2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">DeadLock1</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Object</span> <span class="n">res1</span><span class="o">,</span> <span class="n">Object</span> <span class="n">res2</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">name</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">res1</span> <span class="o">=</span> <span class="n">res1</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">res2</span> <span class="o">=</span> <span class="n">res2</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// lock res1</span>
+        <span class="kd">synchronized</span><span class="o">(</span> <span class="n">res1</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">res1</span><span class="o">);</span>
+            <span class="c1">// now try to get res2</span>
+            <span class="kd">synchronized</span><span class="o">(</span> <span class="n">res2</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">res2</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">Object</span> <span class="n">r1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+            <span class="n">Object</span> <span class="n">r2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+            <span class="n">DeadLock1</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeadLock1</span><span class="o">(</span><span class="s">"t1"</span><span class="o">,</span> <span class="n">r1</span><span class="o">,</span> <span class="n">r2</span><span class="o">);</span>
+            <span class="n">DeadLock1</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeadLock1</span><span class="o">(</span><span class="s">"t2"</span><span class="o">,</span> <span class="n">r2</span><span class="o">,</span> <span class="n">r1</span><span class="o">);</span>
+            <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+            <span class="c1">// wait for t1 and t2 to die before restarting</span>
+            <span class="n">t1</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">t2</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"loop = "</span> <span class="o">+</span> <span class="n">count</span> <span class="o">);</span>
+            <span class="n">count</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        In the following experiment, deadlock occured 
+	after 108045 steps.
+    </p>
+<div class="highlight"><pre>% taskset -c 0 java DeadLock1
+.
+.
+.
+loop = 108043
+t1: locked java.lang.Object@7900f481
+t1: locked java.lang.Object@2db47f37
+t2: locked java.lang.Object@2db47f37
+t2: locked java.lang.Object@7900f481
+loop = 108044
+t1: locked java.lang.Object@3652bece
+t1: locked java.lang.Object@726ce23e
+t2: locked java.lang.Object@726ce23e
+t2: locked java.lang.Object@3652bece
+loop = 108045
+t1: locked java.lang.Object@77154a6c
+t2: locked java.lang.Object@16c93588
+   
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>realistic deadlock</h1>
+<div>
+<p><tt>RealisticDeadLock</tt> presents a more realistic
+	deadlock situration.
+    </p>
+<h2 class="src-name"><a href="tests/RealisticDeadLock.java">tests/RealisticDeadLock.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.PrintStream</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">MyCounter</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">count</span><span class="o">;</span>
+    <span class="n">MyCounter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">T1</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="n">PrintStream</span> <span class="n">out</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="n">MyCounter</span> <span class="n">counter</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">T1</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">MyCounter</span> <span class="n">counter</span><span class="o">,</span>  <span class="n">PrintStream</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">name</span> <span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">counter</span> <span class="o">=</span> <span class="n">counter</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": running "</span><span class="o">);</span>
+        <span class="kd">synchronized</span><span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">out</span><span class="o">);</span>
+            <span class="c1">// now try to get res2</span>
+            <span class="kd">synchronized</span><span class="o">(</span> <span class="n">counter</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">counter</span><span class="o">);</span>
+                <span class="n">counter</span><span class="o">.</span><span class="na">count</span><span class="o">++;</span>
+                <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" c="</span> <span class="o">+</span> <span class="n">counter</span><span class="o">.</span><span class="na">count</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// this is an example of bad inheritance</span>
+<span class="kd">class</span> <span class="nc">T2</span> <span class="kd">extends</span> <span class="n">T1</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">T2</span><span class="o">(</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">MyCounter</span> <span class="n">counter</span><span class="o">,</span>  <span class="n">PrintStream</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span> <span class="n">name</span><span class="o">,</span> <span class="n">counter</span><span class="o">,</span> <span class="n">out</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": running "</span><span class="o">);</span>
+        <span class="kd">synchronized</span><span class="o">(</span> <span class="n">counter</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">counter</span><span class="o">);</span>
+            <span class="n">counter</span><span class="o">.</span><span class="na">count</span><span class="o">++;</span>
+            <span class="kd">synchronized</span><span class="o">(</span> <span class="n">out</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">": locked "</span> <span class="o">+</span> <span class="n">out</span><span class="o">);</span>
+                <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" c="</span> <span class="o">+</span> <span class="n">counter</span><span class="o">.</span><span class="na">count</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RealisticDeadLock</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">MyCounter</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyCounter</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(</span> <span class="kc">true</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">T1</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">T1</span><span class="o">(</span><span class="s">"t1"</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">);</span>
+            <span class="n">T2</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">T2</span><span class="o">(</span><span class="s">"t2"</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">);</span>
+            <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+            <span class="c1">// wait for t1 and t2 to die before restarting</span>
+            <span class="n">t1</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">t2</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        A deadlock with 2 CPUs
+    </p>
+<div class="highlight"><pre>% taskset -c 0,1 java RealisticDeadLock
+.
+.
+.
+t1: running 
+t1: locked java.io.PrintStream@136bf0aa
+t1: locked MyCounter@5ba88001
+t1 c=39
+t2: running 
+t2: locked MyCounter@5ba88001
+t2: locked java.io.PrintStream@136bf0aa
+t2 c=40
+t1: running 
+t2: running 
+t1: locked java.io.PrintStream@136bf0aa
+   
+</pre></div>
+<p>
+        It did not deadlock with only one CPU after 5577849
+	iterations. Thus deadlock with with CPU appears to
+	be uncommon.
+    </p>
+<div class="highlight"><pre>% taskset -c 0 java RealisticDeadLock
+.
+.
+.
+t1: running 
+t1: locked java.io.PrintStream@60607135
+t1: locked MyCounter@5ba88001
+t1 c=5577847
+t2: running 
+t2: locked MyCounter@5ba88001
+t2: locked java.io.PrintStream@60607135
+t2 c=5577848
+t1: running 
+t1: locked java.io.PrintStream@60607135
+t1: locked MyCounter@5ba88001
+t1 c=5577849
+   
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Scheduling</h1>
+<div>
+<ul>
+<li>Preemptive - thread switches at any time </li>
+<li>Nonpreemptive - switches only when another thread yields</li>
+</ul>
+<p>
+        Threads can be assigned an priority, it has little effect
+	on current JVMs.
+    </p>
+<h2 class="src-name"><a href="tests/Scheduling.java">tests/Scheduling.java</a></h2>
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">Ticking</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Ticking</span><span class="o">[]</span> <span class="n">threads</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">limit</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">interval</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">inc</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Ticking</span><span class="o">(</span> 
+        <span class="n">Ticking</span><span class="o">[]</span> <span class="n">threads</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span>
+        <span class="kt">int</span> <span class="n">limit</span><span class="o">,</span> <span class="kt">int</span> <span class="n">interval</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pri</span> <span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">threads</span> <span class="o">=</span> <span class="n">threads</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">limit</span> <span class="o">=</span> <span class="n">limit</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">interval</span> <span class="o">=</span> <span class="n">interval</span><span class="o">;</span>
+        <span class="n">setPriority</span><span class="o">(</span> <span class="n">pri</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getInc</span><span class="o">()</span> <span class="o">{</span> 
+        <span class="k">return</span> <span class="n">inc</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span>  <span class="nf">spin</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">loops</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">;</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">loops</span><span class="o">];</span>
+
+        <span class="k">while</span> <span class="o">(</span> <span class="n">loops</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+           <span class="n">loops</span><span class="o">--;</span>
+           <span class="n">d</span><span class="o">[</span><span class="n">loops</span><span class="o">]</span> <span class="o">=</span> <span class="n">loops</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">d</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span><span class="o">(</span> <span class="n">inc</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">inc</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="o">;</span> <span class="n">inc</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">(</span> <span class="n">inc</span> <span class="o">%</span> <span class="n">interval</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="kd">synchronized</span><span class="o">(</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span> <span class="s">"thread: "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" :"</span><span class="o">);</span>
+                    <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">threads</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getInc</span><span class="o">()</span> <span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="kt">int</span><span class="o">[]</span> <span class="n">d</span> <span class="o">=</span> <span class="n">spin</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * MAX_PRIORITY = 10</span>
+<span class="cm"> * MIN_PRIORITY = 1</span>
+<span class="cm"> * NORM_PRIORITY = 5</span>
+<span class="cm"> *</span>
+<span class="cm"> * The effect of priority is implementation specific.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Scheduling</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">100000</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">;</span>
+        <span class="n">Ticking</span><span class="o">[]</span> <span class="n">threads</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ticking</span><span class="o">[</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">];</span>
+
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">pri</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">args</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">);</span>
+            <span class="n">Ticking</span> <span class="n">t</span> <span class="o">=</span>
+                <span class="k">new</span> <span class="nf">Ticking</span><span class="o">(</span><span class="n">threads</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">limit</span><span class="o">,</span> <span class="n">interval</span><span class="o">,</span> <span class="n">pri</span> <span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">i</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="na">getPriority</span><span class="o">()</span> <span class="o">);</span>
+            <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>thread state summary</h1>
+<div>
+<p class="center"><img src="thread-state.png"></p>
+<!--
+    <h:p>
+        Identify one unsafe operation in the above code?
+    </h:p>
+    -->
+</div>
+</div>
+<div class="slide">
+<h1>Thread API summary</h1>
+<div>
+<p>
+        The most important methods of a thread object are:
+    </p>
+<dl>
+<dt>void run() </dt>
+<dd>
+            The main method to execute when the thread starts.
+        </dd>
+<dt>String getName() </dt>
+<dd>
+            Return the name of the thread.
+        </dd>
+<dt>int getPriority()</dt>
+<dd>
+            Return the priority from 1 (MIN) to 10 (MAX).
+        </dd>
+<dt>void setPriority(int p )</dt>
+<dd>
+            Change the priority to p.
+        </dd>
+<!--
+        <h:dt>void interrupt()</h:dt>
+        <h:dd>
+            Only guaranteed to interrupt a thread that is
+            sleeping or waiting.
+        </h:dd>
+        --><dt>void join()</dt>
+<dd>
+            Block current thread until the join thread dies.
+        </dd>
+<dt>void start()</dt>
+<dd>
+            Make the thread runnable.  The JVM can now schedule it.
+        </dd>
+<dt>void sleep( long mills )</dt>
+<dd>
+            Sleep for mills milliseconds. Can be interrupted.
+        </dd>
+<dt>void yield()</dt>
+<dd>
+            Ask the JVM to schedule another thread. The same thread
+            could be restarted.
+        </dd>
+</dl>
+<p>
+        The following <tt>Thread</tt> methods should be avoided:
+        suspend, resume, stop.
+    </p>
+</div>
+</div>
+</div></body>
+</html>

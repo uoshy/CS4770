@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>script element</title>
+        <script type="text/javascript">
+            // define functions and variables
+            var count = 1;
+            function hello() {
+                var d = new Date();
+                document.writeln(
+                    "<h1> Hi " + count + " " + d + 
+                    " there </h1>" );
+                count++;
+            }
+        </script>
+    </head>
+    <body>
+        <script> hello() </script>
+        <p> The first sentence.  </p>
+        <script> hello() </script>
+        <p> The second sentence.  </p>
+    </body>
+</html>

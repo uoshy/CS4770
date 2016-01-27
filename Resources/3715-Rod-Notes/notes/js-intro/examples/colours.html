@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Arrays</title>
+<script type="text/javascript">
+var colours =
+    [ 'aqua', "black", 'blue', "fuchsia", 'gray', "green",
+      'lime', "maroon", "navy", 'olive', 'orange', "purple",
+      "red", "silver", "teal", "white", "yellow" ];
+
+function colourTR( tab, from, to ) {
+    var i;
+    var tr = document.createElement("tr");
+    for( i = from ; i < to; i++ ) {
+        var td = "<td style='background:" + colours[i] + "'>" +
+           colours[i] + "</td>";
+        tr.innerHTML += td;
+        console.log( td ); // debugging
+    }
+    tab.appendChild( tr );
+}
+
+function createColors( event ) {
+    var t = document.getElementById('thetable');
+    colourTR(t, 0, 6 );
+    colourTR(t, 6, 12 );
+    colourTR(t, 12, 17 );
+}
+window.addEventListener( 'load', createColors );
+</script>
+</head>
+<body>
+<table id="thetable">
+</table>
+</body>
+</html>

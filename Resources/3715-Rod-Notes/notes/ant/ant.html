@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-13T15:07:21-03:30, Rod Byrne --><title>ant</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>ant</h1>
+<div>
+<p>
+            The <em>ant</em> tool automates the building of a software
+            system.
+            It was created to automate the building of systems
+            that use the Java programming language.
+            The ant tool uses a build file (build.xml) based on
+            XML that describes which <b>tasks</b> to execute
+            to build a <b>target</b>.
+            Ant uses the following terms:
+        </p>
+<dl>
+<dt>
+                project
+            </dt>
+<dd>
+                the root element of the build file which
+                specifies the default target. The project
+                element contains target elements.
+                In this description, element refers to
+                an XML element (content between the &lt;project&gt;
+                and &lt;/project&gt; tags).
+            </dd>
+<dt>
+                target
+            </dt>
+<dd>
+                a target is the name assigned by the user
+                to the entity created by a list of tasks
+                given in the target element.
+                Targets can also specify a set of targets
+                that must be done before the tasks in
+                this target can be executed.
+                Typical target names
+                are: compile, jar, clean, and test.
+            </dd>
+<dt>
+                task
+            </dt>
+<dd>
+                Ant provides a standard set of tasks required
+                to build a software product. Some tasks
+                are: create directory, remove files, 
+                compile java programs, create a jar file, ...
+            </dd>
+<dt>
+                property
+            </dt>
+<dd>
+                Ant allows named properties (variables) to be associated
+                with values. Properties are used to customize
+                the building process.
+            </dd>
+</dl>
+</div>
+</div>
+<div class="slide">
+<h1>greetings from ant</h1>
+<div>
+<p> The <em>greetings</em> project has one
+            target called <em>sayit</em>. The <em>sayit</em>
+            target contains the <em>echo</em> task.
+            The <em>echo</em> task outputs its contents
+            to the screen.
+            A <em>description</em> element can be used to document
+            the project.
+            The source of <tt>greetings.xml</tt> is:
+        </p>
+<h2 class="src-name"><a href="scripts/greetings.xml">scripts/greetings.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"greetings"</span> <span class="na">default=</span><span class="s">"sayit"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;description&gt;</span>
+        Do a greeting.
+    <span class="nt">&lt;/description&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"sayit"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;echo&gt;</span> Hi there. <span class="nt">&lt;/echo&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+            The command to invoke ant on this file is:
+        </p>
+<div class="highlight"><pre>% ant -f greetings.xml
+</pre></div>
+<p>
+            Ant will then produce:
+        </p>
+<h2 class="src-name"><a href="scripts/greetings.out">scripts/greetings.out</a></h2>
+<div class="highlight"><pre>Buildfile: greetings.xml
+
+sayit:
+     [echo]  Hi there. 
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>greetings with properties</h1>
+<div>
+<p>
+            Properties are set with the element:
+        </p>
+<div class="highlight"><pre>&lt;property name="name" value="value" /&gt;
+</pre></div>
+<p>
+            where the name attribute defines the name and
+            the value is found in the value attribute.
+        </p>
+<p>
+            The value of the property is retrieved with:
+        </p>
+<div class="highlight"><pre>${property-name}
+</pre></div>
+<p>
+            Properties are use when a configuration
+            value can appear more than once.
+            Properties can be specified on the command line with:
+            <blockquote><tt>
+                -Dname=value
+            </tt></blockquote></p>
+</div>
+</div>
+<div class="slide">
+<h1>greetings with properties</h1>
+<div>
+<p> 
+            An example ant script that uses properties and
+            demonstrates target dependencies is:
+        </p>
+<h2 class="src-name"><a href="scripts/greetprop.xml">scripts/greetprop.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"greetings"</span> <span class="na">default=</span><span class="s">"sayit"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;description&gt;</span>
+        Demonstrate properties.
+    <span class="nt">&lt;/description&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"projectname"</span> <span class="na">value=</span><span class="s">"Exploring Ant"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"version"</span> <span class="na">value=</span><span class="s">"v0.1"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!-- message can appear in the</span>
+<span class="c">             message attribute --&gt;</span>
+         <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"init( ${projectname} )."</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"sayit"</span> <span class="na">depends=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;echo&gt;</span>
+            Project ${projectname} is at
+            version  ${version}
+        <span class="nt">&lt;/echo&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+            The command to invoke ant on this file is:
+        </p>
+<div class="highlight"><pre>% ant -f greetprop.xml
+</pre></div>
+<p>
+            Ant will then produce:
+        </p>
+<h2 class="src-name"><a href="scripts/greetprop.out">scripts/greetprop.out</a></h2>
+<div class="highlight"><pre>Build greetprop.xml
+
+init:
+     [echo] init( Exploring Ant ).
+
+sayit:
+     [echo]
+     [echo]             Project Exploring Ant is at
+     [echo]             version  v0.1
+     [echo]
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+</pre></div>
+<p>
+            Notices that the init's task are executed
+            before the sayit's task.
+        </p>
+</div>
+</div>
+<div class="slide">
+<h1>file tasks</h1>
+<div>
+<p>
+            Creating and maintaining directory layouts
+            are accomplished with the mkdir, delete,
+            and copy tasks.
+        </p>
+<p>
+            The example mkdir task is:
+        </p>
+<div class="highlight"><pre><span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"some/dir/list"</span> <span class="nt">/&gt;</span>
+</pre></div>
+<p>
+            This task will create all the directories
+            (if necessary) to the last directory named on the path.
+        </p>
+<p>
+            The delete task will delete a file if the file attribute
+            is used, or delete a directory tree if the dir attribute is
+            used.
+        </p>
+<div class="highlight"><pre><span class="nt">&lt;delete</span> <span class="na">file=</span><span class="s">"junk"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;delete</span> <span class="na">dir=</span><span class="s">"classes"</span> <span class="nt">/&gt;</span>
+</pre></div>
+<p>
+            Files are copied with:
+        </p>
+<div class="highlight"><pre><span class="nt">&lt;copy</span> <span class="na">file=</span><span class="s">"stuff"</span> <span class="na">tofile=</span><span class="s">"stuff.bak"</span><span class="nt">/&gt;</span>
+</pre></div>
+<p>
+            A file can be copied to a directory with
+        </p>
+<div class="highlight"><pre><span class="nt">&lt;copy</span> <span class="na">file=</span><span class="s">"stuff"</span> <span class="na">todir=</span><span class="s">"backup"</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>fileset</h1>
+<div>
+<p>
+            More complex file sets can be constructed with 
+            the fileset element. Many tasks use the fileset
+            element to select the files to operate on.
+        </p>
+<p>
+            All the java files in a directory tree are 
+            selected with:
+            <div class="highlight"><pre><span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">"base_dir"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"**/*.java"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/fileset&gt;</span>
+</pre></div></p>
+<p>
+            Files can also be excluded from a fileset,
+            for example the following excludes any
+            file with a .bak suffix.
+            <div class="highlight"><pre><span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">"base_dir"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"**/*"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;exclude</span> <span class="na">name=</span><span class="s">"**/*.bak"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/fileset&gt;</span>
+</pre></div></p>
+</div>
+</div>
+<div class="slide">
+<h1>backing up and cleaning up</h1>
+<div>
+<p>
+            The following ant script contains task to save
+            a copy of all java files in a directory, and
+            to remove the backup directory during cleanup.
+        </p>
+<h2 class="src-name"><a href="scripts/files.xml">scripts/files.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"files"</span> <span class="na">default=</span><span class="s">"backup"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"src.dir"</span> <span class="na">value=</span><span class="s">"vds"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"backup.dir"</span> <span class="na">value=</span><span class="s">"backup"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"remove"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;delete</span> <span class="na">dir=</span><span class="s">"${backup.dir}"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${backup.dir}"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"backup"</span> <span class="na">depends=</span><span class="s">"remove"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;copy</span> <span class="na">todir=</span><span class="s">"${backup.dir}"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">"${src.dir}"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"**/*.java"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/fileset&gt;</span>
+        <span class="nt">&lt;/copy&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>compiling java source</h1>
+<div>
+<p>
+            The javac task invokes a java compiler to
+            transform java source into class files.
+            The javac task supports that same file selection
+            elements as the fileset element.
+            A ant script to compile a java package and 
+            store the class files in a separate directory is: 
+        </p>
+<h2 class="src-name"><a href="scripts/compile.xml">scripts/compile.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"javacc"</span> <span class="na">default=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"package.dir"</span> <span class="na">value=</span><span class="s">"package"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dest.dir"</span> <span class="na">value=</span><span class="s">"classes"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"compile"</span> <span class="na">depends=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;javac</span>
+            <span class="na">srcdir=</span><span class="s">"${package.dir}"</span>
+            <span class="na">destdir=</span><span class="s">"${dest.dir}"</span>
+            <span class="na">includes=</span><span class="s">"**/*.java"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>compiling with fileset</h1>
+<div>
+<p>
+            The source can be specified with include element
+            inside the javac element.
+        </p>
+<h2 class="src-name"><a href="scripts/compile2.xml">scripts/compile2.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"javacc"</span> <span class="na">default=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"package.dir"</span> <span class="na">value=</span><span class="s">"package"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dest.dir"</span> <span class="na">value=</span><span class="s">"classes"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"compile"</span> <span class="na">depends=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;javac</span>
+            <span class="na">srcdir=</span><span class="s">"${package.dir}"</span>
+            <span class="na">destdir=</span><span class="s">"${dest.dir}"</span> <span class="nt">&gt;</span>
+            <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"**/*.java"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/javac&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>jar files</h1>
+<div>
+<p>
+            The jar (Java archive) tool is used to manage collection of
+            class files.  It uses the zip archive format.
+            An archive (jar file) is created, specified by the c flag, with:
+        </p>
+<div class="highlight"><pre>% jar cvf file.jar input-files ...
+</pre></div>
+<p>
+            A listing of the jar files contents is done with:
+        </p>
+<div class="highlight"><pre>% jar tvf file.jar
+</pre></div>
+<p>
+            Extracting, specified by x, the contents is done by:
+        </p>
+<div class="highlight"><pre>% jar xvf file.jar
+</pre></div>
+<p>
+            The v flag means verbose, it causes <tt>jar</tt> to
+            describe its progress.
+            The f flag means that the next argument is
+            the name of the jar file.
+        </p>
+</div>
+</div>
+<div class="slide">
+<h1>executing jar files </h1>
+<div>
+<p>
+            The classes that make up a Java program
+            can be stored into a jar file and a 
+            manifest file can be used to specify
+            the main class. The program contained in the
+            jar file is executed with:
+        </p>
+<div class="highlight"><pre>% java -jar file.jar
+</pre></div>
+<p>
+            The manifest file must contain the name of the main class.
+            For example, the main class is specified with:
+        </p>
+<div class="highlight"><pre>Main-Class: vds/VoltageDividerSearcher
+</pre></div>
+<p>
+            on a line by itself in the manifest file.
+            A jar file containing a manifest is created with:
+        </p>
+<div class="highlight"><pre>% jar cvmf manifest-file file.jar input-files
+</pre></div>
+<p>
+            The m flag indicates that a manifest file follows.
+            The f flag indicates the name of the jar file to
+            create. Since the flags are specified as mf, the
+            the manifest file precedes the jar file.
+        </p>
+</div>
+</div>
+<div class="slide">
+<h1>jar task</h1>
+<div>
+<p>
+            Creating jar files is supported by the jar task in
+            the ant build tool.
+            An example of creating a jar file for the <tt>vds</tt> program
+            with a manifest is:
+        </p>
+<h2 class="src-name"><a href="scripts/jar.xml">scripts/jar.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"jar"</span> <span class="na">default=</span><span class="s">"jar"</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- creates jar files that can be run with</span>
+<span class="c">      java -jar vds.jar --&gt;</span>
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"jar"</span> <span class="na">depends=</span><span class="s">"init, compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;jar</span> <span class="na">jarfile=</span><span class="s">"vds.jar"</span> <span class="na">basedir=</span><span class="s">"classes"</span>
+            <span class="na">includes=</span><span class="s">"vds/**/*.class"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;manifest&gt;</span>
+                <span class="nt">&lt;attribute</span> <span class="na">name=</span><span class="s">"Main-Class"</span>
+                    <span class="na">value=</span><span class="s">"vds/VoltageDividerSearcher"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/manifest&gt;</span>
+        <span class="nt">&lt;/jar&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+            Note the above is only a partial build file.
+        </p>
+</div>
+</div>
+<div class="slide">
+<h1>using the java task</h1>
+<div>
+<p>
+            Java programs can be executed with the java task.
+            An example is:
+        </p>
+<h2 class="src-name"><a href="scripts/java.xml">scripts/java.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"exercute"</span> <span class="na">default=</span><span class="s">"run"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"run"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"Test"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">"one"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">location=</span><span class="s">"./test.jar"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"classes"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+<p>
+            The fork attribute specifies if a new JavaVM is created
+            to run the program. When fork is "true" an new
+            JavaVM is forked(created).
+        </p>
+</div>
+</div>
+<div class="slide">
+<h1>more tasks</h1>
+<div><p>
+            Ant supports many task not mentioned here. Some other
+            tasks are:
+            <ul>
+<li>move: rename files and directories</li>
+<li>junit: runs some junit tests</li>
+<li>cvs: use cvs to update source code</li>
+<li>rmic: invoke the rmi compiler</li>
+<li>unjar: extract files </li>
+<li> ... </li>
+</ul></p></div>
+</div>
+</div></body>
+</html>

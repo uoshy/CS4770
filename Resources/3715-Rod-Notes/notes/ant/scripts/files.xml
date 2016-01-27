@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<project name="files" default="backup">
+    <property name="src.dir" value="vds" />
+    <property name="backup.dir" value="backup" />
+
+    <target name="remove">
+        <delete dir="${backup.dir}" />
+        <mkdir dir="${backup.dir}" />
+    </target>
+
+    <target name="backup" depends="remove">
+        <copy todir="${backup.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

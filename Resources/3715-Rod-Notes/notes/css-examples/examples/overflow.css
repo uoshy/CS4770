@@ -1,0 +1,3 @@
+p.a1 { height:3em;width:8em; overflow:hidden; border:thin dashed red;}
+p.a2 { height:3em;width:8em; overflow:auto; border:thin solid blue; }
+p.a3 { height:3em;width:8em; overflow:visible; border:thin dotted rgb(200,100,50);}

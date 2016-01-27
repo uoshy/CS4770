@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <a>
+        <b> 1 </b>
+        <b> 2 </b>
+    </a>
+    <c>
+        <d>
+            <e> 3 </e>
+            <e> 4 </e>
+        </d>
+        <f> 5 </f>
+    </c>
+    hi 
+</root>

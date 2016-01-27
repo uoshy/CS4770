@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-07T20:48:55-03:30, Rod Byrne --><title>sparc-intro</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Spark Demo Directory Setup</h1>
+<div>
+<p>
+        One possible directory and contents setup
+        for <em>java-spark</em> development is:
+    </p>
+<ul>
+<li><tt>build.xml</tt></li>
+<li><tt>ivy.xml</tt></li>
+<li>
+<tt>src</tt><ul>
+<li><tt>All.java</tt></li>
+<li><tt>CountWorldInterface.java</tt></li>
+<li><tt>CountSessionExample.java</tt></li>
+<li><tt>CountWorld.java</tt></li>
+</ul>
+</li>
+<li>
+<tt>static</tt><ul><li><tt>hi.html</tt></li></ul>
+</li>
+</ul>
+<p>
+        The <tt>build.xml</tt> file contains an <em>ant</em>
+        script to build the <em>java-spark</em> demos. It also
+        downloads any required jar files.
+    </p>
+<p>
+       The <tt>ivy.xml</tt> file specifies the dependencies.
+       Not all of the dependencies are being used in these
+       examples.
+    </p>
+<p>
+       The <tt>src</tt> directory contains individual demos.
+    </p>
+<p>
+       The <tt>static</tt> directory contains a html file.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Running the Count World Demo</h1>
+<div>
+<p>
+        The web server is started with:
+    </p>
+<div class="highlight"><pre>% ant cw
+</pre></div>
+<p>
+        The server can be tested by typing
+        <tt>http://localhost:4567/count</tt>
+        in a browsers URL field. Alternative the <tt>curl</tt>
+        command can be used.
+    </p>
+<div class="highlight"><pre>% curl http://localhost:4567/count
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Ant build script</h1>
+<div>
+<p>
+        Sample build script.
+    </p>
+<h2 class="src-name"><a href="spark-intro/build.xml">spark-intro/build.xml</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns:ivy=</span><span class="s">"antlib:org.apache.ivy.ant"</span>
+    <span class="na">name=</span><span class="s">"spark-intro"</span> <span class="na">default=</span><span class="s">"help"</span> <span class="na">basedir=</span><span class="s">"."</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"help"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant help -- print this message"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant compile -- compiles the source"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant resolve -- fetches dependencies"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant cw -- run count world test"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant cwi -- run count world interface test"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant cs -- run count world session test"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant all -- run all test"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;echo</span> <span class="na">message=</span><span class="s">"ant clean -- removes classes"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dest.dir"</span> <span class="na">value=</span><span class="s">"./classes"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"lib.dir"</span> <span class="na">value=</span><span class="s">"./lib"</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- location of libaray jars --&gt;</span>
+    <span class="nt">&lt;path</span> <span class="na">id=</span><span class="s">"lib-jars"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">"${lib.dir}/default"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/path&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"init"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${lib.dir}"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span>
+        <span class="na">name=</span><span class="s">"resolve"</span> <span class="na">depends=</span><span class="s">"init"</span>
+        <span class="na">description=</span><span class="s">"retreive dependencies with ivy"</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">"${lib.dir}"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;ivy:retrieve</span>
+            <span class="na">pattern=</span><span class="s">"${lib.dir}/[conf]/[artifact].[ext]"</span>
+            <span class="na">conf=</span><span class="s">"default"</span> <span class="na">log=</span><span class="s">"quiet"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"compile"</span> <span class="na">depends=</span><span class="s">"resolve"</span><span class="nt">&gt;</span>
+            <span class="c">&lt;!-- executable="/opt/jdk1.8.0_25/bin/javac" --&gt;</span>
+        <span class="nt">&lt;javac</span>
+            <span class="na">includeantruntime=</span><span class="s">"false"</span>
+            <span class="na">srcdir=</span><span class="s">"src"</span> <span class="na">destdir=</span><span class="s">"${dest.dir}"</span><span class="nt">&gt;</span>
+
+            <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"**/*.java"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">"lib-jars"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/javac&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"cw"</span> <span class="na">depends=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"CountWorld"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">"lib-jars"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"cwi"</span> <span class="na">depends=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"CountWorldInterface"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">"lib-jars"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"cs"</span> <span class="na">depends=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"CountSessionExample"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">"lib-jars"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"all"</span> <span class="na">depends=</span><span class="s">"compile"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;java</span> <span class="na">classname=</span><span class="s">"All"</span> <span class="na">fork=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;classpath&gt;</span>
+                <span class="nt">&lt;pathelement</span> <span class="na">path=</span><span class="s">"${dest.dir}"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">"lib-jars"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/classpath&gt;</span>
+        <span class="nt">&lt;/java&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"clean"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;delete</span> <span class="na">includeemptydirs=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">"classes"</span> <span class="na">includes=</span><span class="s">"**/*"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/delete&gt;</span>
+    <span class="nt">&lt;/target&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Ivy script</h1>
+<div>
+<p>
+        Specifies the dependencies.
+    </p>
+<h2 class="src-name"><a href="spark-intro/ivy.xml">spark-intro/ivy.xml</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;ivy-module</span> <span class="na">version=</span><span class="s">"2.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;info</span> <span class="na">organisation=</span><span class="s">"ca.mun.cs"</span> <span class="na">module=</span><span class="s">"spark-ivy"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;configurations&gt;</span>
+        <span class="nt">&lt;conf</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">description=</span><span class="s">"the defaults"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/configurations&gt;</span>
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency</span>
+            <span class="na">org=</span><span class="s">"com.sparkjava"</span>
+            <span class="na">name=</span><span class="s">"spark-core"</span>
+            <span class="na">rev=</span><span class="s">"2.1"</span> <span class="na">conf=</span><span class="s">"default"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;dependency</span>
+            <span class="na">org=</span><span class="s">"org.slf4j"</span>
+            <span class="na">name=</span><span class="s">"slf4j-simple"</span>
+            <span class="na">rev=</span><span class="s">"1.7.7"</span> <span class="na">conf=</span><span class="s">"default"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;dependency</span> <span class="na">org=</span><span class="s">"com.sparkjava"</span>
+            <span class="na">name=</span><span class="s">"spark-template-mustache"</span>
+            <span class="na">rev=</span><span class="s">"1.0.0"</span> <span class="na">conf=</span><span class="s">"default"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;dependency</span> <span class="na">org=</span><span class="s">"com.google.code.gson"</span>
+            <span class="na">name=</span><span class="s">"gson"</span>
+            <span class="na">rev=</span><span class="s">"2.3.1"</span> <span class="na">conf=</span><span class="s">"default"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/ivy-module&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Count World Demo</h1>
+<div>
+<p>
+        Documentation for <a href="http://sparkjava.com/">SparkJava</a>
+        is found at <tt>http://sparkjava.com/</tt>.
+    </p>
+<h2 class="src-name"><a href="spark-intro/src/CountWorld.java">spark-intro/src/CountWorld.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountWorld</span> <span class="o">{</span>
+   <span class="c1">// counter, not thread safe</span>
+   <span class="kd">static</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+   
+      <span class="n">get</span><span class="o">(</span><span class="s">"/count"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+         <span class="n">c</span><span class="o">++;</span>
+         <span class="k">return</span> <span class="s">"The count is "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+      <span class="o">});</span>
+
+      <span class="n">get</span><span class="o">(</span><span class="s">"/reset"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+         <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+         <span class="k">return</span> <span class="s">"The count is reset to "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+      <span class="o">});</span>
+   
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        This web application understands two routes:
+    </p>
+<dl>
+<dt><tt>/count</tt></dt>
+<dd>
+            Fetch the page with an increasing count.
+        </dd>
+<dt><tt>/reset</tt></dt>
+<dd>
+            Reset the count to zero.
+        </dd>
+</dl>
+<p>
+        The <tt>spark.Spark.get</tt> static method adds a route
+        to the server with a <em>call back</em> functions.
+        The route is the first argument, the second argument
+        can contain a Java lambda expression, used to define the function.
+    </p>
+<p>
+        Lambda expressions are provided by Java 8.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Count World Demo using an anonymous method class</h1>
+<div>
+<p></p>
+<h2 class="src-name"><a href="spark-intro/src/CountWorldInterface.java">spark-intro/src/CountWorldInterface.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Route</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Request</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Response</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountWorldInterface</span> <span class="o">{</span>
+    <span class="c1">// counter, not thread safe</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/count"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Route</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">handle</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">Exception</span>
+            <span class="o">{</span>
+                <span class="n">c</span><span class="o">++;</span>
+                <span class="k">return</span> <span class="s">"The count-interface is "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/reset"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">return</span> <span class="s">"The count is reset to "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+        <span class="o">});</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        This version is tested with: <tt>ant cwi</tt>.
+    </p>
+<p>
+        Lambda expressions, while identical, read much better.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Count World Demo with sessions</h1>
+<div>
+<p>
+        Most web applications are required to manage
+        a session with a particular user. This
+        example shows how sessions can be realized.
+        A separate count is maintained for each session.
+    </p>
+<h2 class="src-name"><a href="spark-intro/src/CountSessionExample.java">spark-intro/src/CountSessionExample.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountSessionExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">get</span><span class="o">(</span><span class="s">"/count"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Integer</span> <span class="n">count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">count</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"count"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">c</span><span class="o">));</span>
+            <span class="k">return</span> <span class="s">"The count for each session is "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/reset"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"count"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+            <span class="k">return</span> <span class="s">"The count for each session reset"</span><span class="o">;</span> 
+        <span class="o">});</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>A demo combining all other demos</h1>
+<div>
+<p>
+         Static files can be easily served with the
+         <tt>SparkJava</tt> framework.
+         This demo also combines the previous two demos.
+    </p>
+<h2 class="src-name"><a href="spark-intro/src/All.java">spark-intro/src/All.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">externalStaticFileLocation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">All</span> <span class="o">{</span>
+    <span class="c1">// counter, not thread safe</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="c1">// path to files</span>
+        <span class="n">externalStaticFileLocation</span><span class="o">(</span><span class="s">"static"</span><span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/count"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">c</span><span class="o">++;</span>
+            <span class="k">return</span> <span class="s">"The count is "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/sess"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Integer</span> <span class="n">count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">count</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"count"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">c</span><span class="o">));</span>
+            <span class="k">return</span> <span class="s">"Session count is "</span> <span class="o">+</span>  <span class="n">c</span><span class="o">;</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

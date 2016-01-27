@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Replace</title>
+<style>
+button { color: white; border: thin solid red; background: gray; }
+textarea { background:#AFF; border: thick dotted blue; }
+input[type="text"] { background:#FFA; border: thin red dashed; }
+</style>
+<script type="text/javascript">
+function doReplace( evt ) {
+    var form = evt.target.form;
+    var s = form.search.value;
+    var r = form.replace.value;
+    var re = new RegExp( s, "g");
+    form.text.value = form.text.value.replace(re, r );
+}
+
+function doAdd( evt ) {
+    var form = evt.target.form;
+    var div = document.getElementById('add-dest');
+    var p = "<p>" + form.text.value + "</p>";
+    div.innerHTML = p + div.innerHTML;
+}
+
+function initForms() {
+    var form = document.getElementById('theform');
+    form.doReplace.onclick = doReplace; // old style
+    // form.doReplace.addEventListener( 'click', doReplace );
+    form.doAdd.onclick = doAdd; // old style
+    // form.doAdd.addEventListener( 'click', doAdd );
+}
+</script>
+</head>
+<body onload="initForms()">
+<form action="javascript:void 1" name="theform" id="theform">
+<button name="doReplace">replace</button>
+<input type="text" size="10" name="search">
+<input type="text" size="10" name="replace">
+<button name="doAdd">add</button>
+<br>
+<textarea wrap="nowrap" rows="10" cols="40" name="text">
+Some random text
+that will be modified by the
+search and replace function.
+0 1 2 3 4 5 6 7 8 9
+</textarea>
+</form>
+<div id="add-dest">
+</div>
+</body>
+</html>

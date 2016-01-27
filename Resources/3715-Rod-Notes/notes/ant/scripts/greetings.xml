@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<project name="greetings" default="sayit">
+    <description>
+        Do a greeting.
+    </description>
+
+    <target name="sayit">
+        <echo> Hi there. </echo>
+    </target>
+</project>

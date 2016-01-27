@@ -1,0 +1,798 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Copyright 2015-01-28T18:03:27-03:30, Rod Byrne --><title>forms</title>
+<link rel="stylesheet" href="../css/online.css" type="text/css">
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+</head>
+<body><div class="notes">
+<div class="slide">
+<h1>Simple Form</h1>
+<div>
+<h2 class="src-name"><a href="code/src/SimpleForm.java">code/src/SimpleForm.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">post</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleForm</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FORM_PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;body&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;form action='/form' method='POST'&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;label&gt;text1 &lt;input type='text' name='text1'&gt;&lt;/label&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;label&gt;on &lt;input type='radio' name='onoff' value='on' checked&gt;&lt;/label&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;label&gt;off &lt;input type='radio' name='onoff' value='off'&gt;&lt;/label&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;input type='submit' name='type' value='html'&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;input type='submit' name='type' value='plain'&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;/body&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;/html&gt;\n"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SUBMIT_PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;body&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;p&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"text1 = (%s)&lt;br&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"onoff = (%s)&lt;br&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;a href='/form'&gt;Return to form&lt;/a&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;/p&gt;\n"</span> <span class="o">+</span>
+        <span class="s">"&lt;/body&gt;\n"</span> <span class="o">+</span> 
+        <span class="s">"&lt;/html&gt;\n"</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">port</span><span class="o">(</span><span class="mi">8090</span><span class="o">);</span> <span class="c1">// change to port to 8090</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/form"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">FORM_PAGE</span> <span class="o">);</span>
+
+        <span class="n">post</span><span class="o">(</span><span class="s">"/form"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"type"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">type</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"plain"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">);</span> <span class="c1">// change default</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"text1"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"onoff"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">SUBMIT_PAGE</span><span class="o">,</span> <span class="n">t1</span><span class="o">,</span> <span class="n">t2</span> <span class="o">);</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The <a href="http://sparkjava.com/">Java Spark</a> framework
+        is used to create a web application that demonstrates
+        form submission. The application responds to the
+        following URLs:
+    </p>
+<dl>
+<dt><tt>http://localhost:8090/form</tt></dt>
+<dd>
+            A GET request produces a html page containing a form.
+            This form can be submitted with two buttons.
+            One button produces a HTML document, the other
+            button produces the same document, but the content-type
+            is set to <tt>text/plain</tt>.
+            A POST request examines the submitted form's parameters
+            and produces a web page using those parameters.
+        </dd>
+</dl>
+<p>
+        The application Java Spark framework, and all framework,
+        can distinguish between GET and POST requests.
+    </p>
+<p>
+        Inside the form demo directory, this application is run with:
+        <tt>ant sf</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Forms With Static Content</h1>
+<div>
+<p>
+         The <a href="http://sparkjava.com/">Java Spark</a> framework
+         can delivery files containing static content. A sample
+         file contain forms and links that demonstrates GET requests is:
+    </p>
+<h2 class="src-name"><a href="code/static/mathform/math.html">code/static/mathform/math.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Arithmetic Using GET<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Click the Link to Calculate<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/add?x=50&amp;y=70"</span><span class="nt">&gt;</span> 50 + 70 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/add?x=35&amp;y=77"</span><span class="nt">&gt;</span> 35 + 77 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/mult?x=50&amp;y=70"</span><span class="nt">&gt;</span> 50 * 70 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/mult?x=100&amp;y=200"</span><span class="nt">&gt;</span> 100 * 200 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Or Use A Form To Add<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/add"</span><span class="nt">&gt;</span> <span class="c">&lt;!-- the default is a GET --&gt;</span>
+<span class="nt">&lt;label&gt;</span>x: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"x"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>y: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"y"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"add"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Or Use A Form To Multiply<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/mult"</span> <span class="na">method=</span><span class="s">"get"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>x: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"x"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>y: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"y"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"mult"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+         A query URL can be placed in the <tt>href</tt> of an anchor or
+         generated by a form.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Static Content Server App</h1>
+<div>
+<p>
+        The code that serves file content
+        and responds to the <tt>/add</tt> and
+        <tt>/mult</tt> paths is:
+    </p>
+<h2 class="src-name"><a href="code/src/MathForm.java">code/src/MathForm.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">post</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">externalStaticFileLocation</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MathForm</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">port</span><span class="o">(</span><span class="mi">8090</span><span class="o">);</span> <span class="c1">// change to port to 8090</span>
+        <span class="n">externalStaticFileLocation</span><span class="o">(</span><span class="s">"static/mathform"</span><span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/add"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"x"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">y</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"y"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">MathCalc</span><span class="o">.</span><span class="na">addPage</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/mult"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"x"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">y</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"y"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">MathCalc</span><span class="o">.</span><span class="na">multPage</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        The content is generated by the <tt>MathCalc</tt>
+        class. When the complexity of page generation
+        becomes too high, then separate class(es) should be used.
+        CSS is used to generate the graphical effects.
+    </p>
+<h2 class="src-name"><a href="code/src/MathCalc.java">code/src/MathCalc.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MathCalc</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">BLOCK_HEIGHT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ERROR_PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;&lt;title&gt;Math Calculations&lt;/title&gt;&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;Error&lt;/h1&gt; %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;style type='text/css'&gt; div.b {background:red; margin: 5px;}&lt;/style&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;title&gt;Math Calculations&lt;/title&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;The Result&lt;/h1&gt;"</span> <span class="o">+</span>
+        <span class="s">"%s &lt;br&gt; %s &lt;br&gt; %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">block</span><span class="o">(</span> <span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span>
+            <span class="s">"&lt;div class='b' style='width:%d ; height:%d'&gt;&lt;/div&gt;"</span><span class="o">,</span>
+            <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">addPage</span><span class="o">(</span> <span class="n">String</span> <span class="n">x</span><span class="o">,</span> <span class="n">String</span> <span class="n">y</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">x</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">y</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="s">"missing params"</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">ix</span><span class="o">,</span> <span class="n">iy</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ix</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">x</span> <span class="o">);</span>
+            <span class="n">iy</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">y</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">ix</span><span class="o">,</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" and &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">iy</span><span class="o">,</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" is &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">ix</span><span class="o">+</span><span class="n">iy</span><span class="o">,</span> <span class="n">BLOCK_HEIGHT</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">multPage</span><span class="o">(</span><span class="n">String</span> <span class="n">x</span><span class="o">,</span> <span class="n">String</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">x</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">y</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="s">"missing params"</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">ix</span><span class="o">,</span> <span class="n">iy</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">ix</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">x</span> <span class="o">);</span>
+            <span class="n">iy</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">y</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">ix</span><span class="o">,</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" and &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">iy</span><span class="o">,</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" is &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">prod</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">ix</span><span class="o">,</span> <span class="n">iy</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">prod</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Inside the form demo directory, this application is run with:
+        <tt>ant mf</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Sessions</h1>
+<div><p>
+        The HTTP protocol is stateless, each request/response
+        is independent. Browsers can use cookies to manage state.
+        The Java Spark framework provides <tt>Session</tt>
+        class to manage a session between a browser and a server.
+    </p></div>
+</div>
+<div class="slide">
+<h1>Selecting A Presentation Style</h1>
+<div>
+<p>
+        This version of the math presenter uses sessions
+        with cookies to manage whether the response is text based
+        or graphical. The style of interaction is choose
+        by the <tt>choose.html</tt> page.
+    </p>
+<h2 class="src-name"><a href="code/static/mathpage/choose.html">code/static/mathpage/choose.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Choose Style<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+Choose the style of math presentation:
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/style"</span> <span class="na">method=</span><span class="s">"get"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"style"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"text"</span><span class="nt">&gt;</span>Text<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"graphics"</span><span class="nt">&gt;</span>Graphics<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The choice of style is stored in a server based
+        session. The session is identified by a cookie.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Selecting A Presenter</h1>
+<div>
+<p>
+        Once the session is established, the following URLs
+        will display either a graphical result or
+        one based on text. This page is identical to
+        the one used in the previous application.
+    </p>
+<h2 class="src-name"><a href="code/static/mathpage/math-form.html">code/static/mathpage/math-form.html</a></h2>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Arithmetic Using GET<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Click the Link to Calculate<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/add?x=50&amp;y=70"</span><span class="nt">&gt;</span> 50 + 70 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/add?x=35&amp;y=77"</span><span class="nt">&gt;</span> 35 + 77 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/mult?x=50&amp;y=70"</span><span class="nt">&gt;</span> 50 * 70 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/mult?x=100&amp;y=200"</span><span class="nt">&gt;</span> 100 * 200 <span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Or Use A Form To Add<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/add"</span><span class="nt">&gt;</span> <span class="c">&lt;!-- the default is a GET --&gt;</span>
+<span class="nt">&lt;label&gt;</span>x: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"x"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>y: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"y"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"add"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Or Use A Form To Multiply<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/mult"</span> <span class="na">method=</span><span class="s">"get"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>x: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"x"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>y: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"y"</span><span class="nt">&gt;</span> <span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"mult"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Object-Oriented Design</h1>
+<div>
+<p>
+        The math presenter application has to generate
+        two different styles of html pages for the
+        same result. Class inheritance and an abstract
+        base class provides a software architecture
+        for this type of problem. The <tt>MathPresenter</tt>
+        is the abstract base class. It provides the
+        following abstract methods the must be
+        overridden in subclasses.
+    </p>
+<ul>
+<li><tt>public abstract String getAddPage();</tt></li>
+<li><tt>public abstract String getMultPage();</tt></li>
+</ul>
+<p><tt>getAddPage()</tt> generates add results,
+        and <tt>getMultPage()</tt> generates multiply results.
+    </p>
+<p>
+        The  <tt>MathPresenter</tt> class is also responsible
+        for parsing the parameters to the page and checking
+        for input errors. The parameters are stored in the
+        base class.
+    </p>
+<h2 class="src-name"><a href="code/src/MathPresenter.java">code/src/MathPresenter.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">MathPresenter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ERROR_PAGE</span> <span class="o">=</span>
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;&lt;title&gt;Math Calculations&lt;/title&gt;&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;Error&lt;/h1&gt; %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getX</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getY</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">y</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="c1">// return null if parse OK, otherwise return error page</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">parseParams</span><span class="o">(</span> <span class="n">String</span> <span class="n">x</span><span class="o">,</span> <span class="n">String</span> <span class="n">y</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="n">x</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">y</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="s">"missing params"</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">x</span> <span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span> <span class="n">y</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span> <span class="n">NumberFormatException</span> <span class="n">ex</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getAddPage</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getMultPage</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Text Style</h1>
+<div>
+<p>
+        Generates pages using a text only style.
+    </p>
+<h2 class="src-name"><a href="code/src/TextMathPresenter.java">code/src/TextMathPresenter.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextMathPresenter</span> <span class="kd">extends</span> <span class="n">MathPresenter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;title&gt;Math Calculations&lt;/title&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;The Result&lt;/h1&gt;"</span> <span class="o">+</span>
+        <span class="s">"%s %s %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAddPage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">getX</span><span class="o">()</span> <span class="o">+</span> <span class="s">" plus "</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">getY</span><span class="o">()</span> <span class="o">+</span> <span class="s">" equals "</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">getX</span><span class="o">()</span> <span class="o">+</span> <span class="n">getY</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getMultPage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">getX</span><span class="o">()</span> <span class="o">+</span> <span class="s">" times "</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">getY</span><span class="o">()</span> <span class="o">+</span> <span class="s">" equals "</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">getX</span><span class="o">()</span> <span class="o">*</span> <span class="n">getY</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Graphical Style</h1>
+<div>
+<p>
+        Generates pages using a graphical style.
+    </p>
+<h2 class="src-name"><a href="code/src/GraphicMathPresenter.java">code/src/GraphicMathPresenter.java</a></h2>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GraphicMathPresenter</span> <span class="kd">extends</span> <span class="n">MathPresenter</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">BLOCK_HEIGHT</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;style type='text/css'&gt; div.b{background:red; margin: 5px;}&lt;/style&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;title&gt;Math Calculations&lt;/title&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;The Result&lt;/h1&gt;"</span> <span class="o">+</span>
+        <span class="s">"%s &lt;br&gt; %s &lt;br&gt; %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">block</span><span class="o">(</span> <span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span>
+            <span class="s">"&lt;div class='b' style='width:%d ; height:%d'&gt;&lt;/div&gt;"</span><span class="o">,</span>
+            <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAddPage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span> <span class="n">getX</span><span class="o">(),</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" and &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span> <span class="n">getY</span><span class="o">(),</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" is &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">getX</span><span class="o">()+</span><span class="n">getY</span><span class="o">(),</span> <span class="n">BLOCK_HEIGHT</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">sum</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getMultPage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">xv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span> <span class="n">getX</span><span class="o">(),</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" and &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span> <span class="n">getY</span><span class="o">(),</span> <span class="n">BLOCK_HEIGHT</span><span class="o">)</span> <span class="o">+</span> <span class="s">" is &lt;br&gt;"</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">prod</span> <span class="o">=</span> <span class="n">block</span><span class="o">(</span><span class="n">getX</span><span class="o">(),</span> <span class="n">getY</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">PAGE</span><span class="o">,</span> <span class="n">xv</span><span class="o">,</span> <span class="n">yv</span><span class="o">,</span> <span class="n">prod</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Math Presenter Web Application</h1>
+<div>
+<p>
+        The <tt>MathPage</tt> web application is responsible
+        for session management and math result presentation.
+        This application server static content in the
+        <tt>static/mathpage</tt> directory and
+        handles the following <em>routes</em>:
+    </p>
+<dl>
+<dt><tt>/style</tt></dt>
+<dd>
+            Accepts the form submitted from <tt>choose.html</tt>,
+            creates/updates a session with the selected style.
+            The appropriate subclass of <tt>MathPresenter</tt>
+            is created for the selected style.
+        </dd>
+<dt><tt>/add</tt></dt>
+<dd>
+            Uses the session to select the presenter,
+            and then generates the <em>add</em> page.
+        </dd>
+<dt><tt>/mult</tt></dt>
+<dd>
+            Uses the session to select the presenter,
+            and then generates the <em>mult</em> page.
+        </dd>
+</dl>
+<h2 class="src-name"><a href="code/src/MathPage.java">code/src/MathPage.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">post</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">externalStaticFileLocation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Session</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MathPage</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ERROR_PAGE</span> <span class="o">=</span> 
+        <span class="s">"&lt;html&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;head&gt;&lt;title&gt;Math Calculations&lt;/title&gt;&lt;/head&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;body&gt; &lt;h1&gt;Error&lt;/h1&gt; %s &lt;/body&gt;"</span> <span class="o">+</span>
+        <span class="s">"&lt;/html&gt;"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">errorPage</span><span class="o">(</span> <span class="n">String</span> <span class="n">msg</span> <span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span> <span class="n">ERROR_PAGE</span><span class="o">,</span> <span class="n">msg</span> <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">port</span><span class="o">(</span><span class="mi">8090</span><span class="o">);</span> <span class="c1">// change to port to 8090</span>
+        <span class="n">externalStaticFileLocation</span><span class="o">(</span><span class="s">"static/mathpage"</span><span class="o">);</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/style"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Session</span> <span class="n">sess</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">sess</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">errorPage</span><span class="o">(</span><span class="s">"could not create session"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">style</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"style"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">style</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">errorPage</span><span class="o">(</span><span class="s">"no style attribute"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">style</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">sess</span><span class="o">.</span><span class="na">attribute</span><span class="o">(</span><span class="s">"presenter"</span><span class="o">,</span> <span class="k">new</span> <span class="n">TextMathPresenter</span><span class="o">()</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span> <span class="n">style</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"graphics"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">sess</span><span class="o">.</span><span class="na">attribute</span><span class="o">(</span><span class="s">"presenter"</span><span class="o">,</span> <span class="k">new</span> <span class="n">GraphicMathPresenter</span><span class="o">()</span> <span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="nf">errorPage</span><span class="o">(</span><span class="s">"unknown style"</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/math-form.html"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/add"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">MathPresenter</span> <span class="n">presenter</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"presenter"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">presenter</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">errorPage</span><span class="o">(</span><span class="s">"unknown presenter"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"x"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">y</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"y"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">res</span> <span class="o">=</span> <span class="n">presenter</span><span class="o">.</span><span class="na">parseParams</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">res</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">presenter</span><span class="o">.</span><span class="na">getAddPage</span><span class="o">();</span>
+        <span class="o">});</span>
+
+        <span class="n">get</span><span class="o">(</span><span class="s">"/mult"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">MathPresenter</span> <span class="n">presenter</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"presenter"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">presenter</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">errorPage</span><span class="o">(</span><span class="s">"unknown presenter"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"x"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">y</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"y"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">res</span> <span class="o">=</span> <span class="n">presenter</span><span class="o">.</span><span class="na">parseParams</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">res</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">presenter</span><span class="o">.</span><span class="na">getMultPage</span><span class="o">();</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+        Inside the form demo directory, this application is run with:
+        <tt>ant mp</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Session and Authentication</h1>
+<div>
+<p>
+        Most web site that provides services require user
+        accounts. Most of the website is only accessible to
+        authenticated users. Session can be used to provide
+        authentication. But first the form.
+    </p>
+<h2 class="src-name"><a href="code/static/login/login.html">code/static/login/login.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Login Page<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+Please login:
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/login"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;label&gt;</span>user:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"user"</span> <span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>password:
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"login"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        The <tt>not-signed-in.html</tt> is used to 
+        inform that user that they must log in.
+    </p>
+<h2 class="src-name"><a href="code/static/login/not-signed-in.html">code/static/login/not-signed-in.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>No Yet Logged In<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Please Log In<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/login.html"</span><span class="nt">&gt;</span>Login Page<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<p>
+        A simple error page is:
+    </p>
+<h2 class="src-name"><a href="code/static/login/error.html">code/static/login/error.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Error Page<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>An Error<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="slide">
+<h1>Login Spark Java Example</h1>
+<div>
+<h2 class="src-name"><a href="code/src/Login.java">code/src/Login.java</a></h2>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">get</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">post</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">spark</span><span class="o">.</span><span class="na">Spark</span><span class="o">.</span><span class="na">externalStaticFileLocation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">spark.Session</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Login</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">port</span><span class="o">(</span><span class="mi">8090</span><span class="o">);</span> <span class="c1">// change to port to 8090</span>
+        <span class="n">externalStaticFileLocation</span><span class="o">(</span><span class="s">"static/login"</span><span class="o">);</span>
+
+        <span class="n">before</span><span class="o">(</span><span class="s">"/auth/*"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/not-signed-in.html"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">);</span>
+
+        <span class="n">post</span><span class="o">(</span><span class="s">"/login"</span><span class="o">,</span> <span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">u</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="s">"password"</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">pw</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="n">u</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"foo"</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">pw</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"bar"</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">Session</span> <span class="n">sess</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">session</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span> <span class="n">sess</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span> <span class="o">{</span>
+                    <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/error.html"</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">sess</span><span class="o">.</span><span class="na">attribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="n">u</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">response</span><span class="o">.</span><span class="na">redirect</span><span class="o">(</span><span class="s">"/auth/main.html"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+       The <tt>before</tt> method registers a lambda that
+       is always invoked if the <em>route</em> matches.
+    </p>
+<p>
+        This lambda checks to see if the session contains
+        a <tt>user</tt> attributes. If not the browsers
+        is redirected to the <tt>not-signed-in.html</tt>
+        page.
+    </p>
+<p>
+        Inside the form demo directory, this application is run with:
+        <tt>ant login</tt>.
+    </p>
+</div>
+</div>
+<div class="slide">
+<h1>Authenticated Access</h1>
+<div>
+<p>
+        The <tt>auth</tt> directory matches the
+        <em>auth/*</em> route, and only authenticated
+        users can access these files.
+        The content is:
+    </p>
+<h2 class="src-name"><a href="code/static/login/auth/main.html">code/static/login/auth/main.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Valid User<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Hello User<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+See another <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"another-page.html"</span><span class="nt">&gt;</span>page<span class="nt">&lt;/a&gt;</span>.
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+<h2 class="src-name"><a href="code/static/login/auth/another-page.html">code/static/login/auth/another-page.html</a></h2>
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>More Protected Pages<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>More stuff here<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+</div></body>
+</html>

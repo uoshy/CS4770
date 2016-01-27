@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<project name="greetings" default="sayit">
+    <description>
+        Demonstrate properties.
+    </description>
+    <property name="projectname" value="Exploring Ant" />
+    <property name="version" value="v0.1" />
+
+    <target name="init">
+        <!-- message can appear in the
+             message attribute -->
+         <echo message="init( ${projectname} )."/>
+    </target>
+
+    <target name="sayit" depends="init">
+        <echo>
+            Project ${projectname} is at
+            version  ${version}
+        </echo>
+    </target>
+</project>

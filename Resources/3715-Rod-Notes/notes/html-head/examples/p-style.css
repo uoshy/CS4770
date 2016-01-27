@@ -1,0 +1,18 @@
+p {
+    font-style : italic;
+}
+
+#p1 {
+    color : red ;
+    text-align: center;
+}
+
+#p2 {
+    background : #CDA;
+    width : 50%;
+}
+
+#p3 {
+    font-size: 200%;
+    border : black solid;
+}
