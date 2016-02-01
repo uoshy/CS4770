@@ -637,6 +637,7 @@
         <b>UC15.</b> <br>
         <b>Name:</b> Use Text Editor<br>
         <b>User stories addressed:</b> US-12<br>
+        <b>Note:</b> Each user-created file does not necessarily need to be linked to an assignment. Students are able to write and compile their own programs.<br>
         <b>Actors: </b>Registered User<br>
         <b>Preconditions: </b>Student is logged in and on the main page.<br>
         <dl class="UseCase">
@@ -649,7 +650,17 @@
         </dl>
         <dl class="UseCase">
         <dt>
-
+        <b>Alternate scenario:</b><br>
+        Use Text Editor for Specified Assignment<br>
+            <b>Preconditions: Student is logged in and on the relevant assignment page.</b>
+        </dt>Save to Files
+            <dd>5.0) The assignment is displayed to the student/</dd>
+            <dd>5.1) The student selects "Save to Files".</dd>
+            <dd>5.2) The student is prompted either to "Go to Editor" or to select the desired save directory.</dd>
+            <dd>5.2) The student selects "Go to Editor"</dd>
+            <dd>5.2) The student is taken to the text editor with the default save location set to a directory corresponding to the course and assignment name.</dd>
+            <dd>Postconditions: The system displays the assignment's code.</dd>
+        </dl>
         <p class="UseCase"><b>State Chart</b></p>
         <img src="Images/StateCharts_Tim/EditText.jpg" class="StateChart">
         <p class="UseCase"><b>Sequence Diagram</b></p>
