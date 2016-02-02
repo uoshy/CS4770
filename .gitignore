@@ -17,3 +17,8 @@ hs_err_pid*
 
 #MAC stuff #
 *.DS_Store
+
+#Eclipse project stuff #
+*.metadata
+*.project
+*.classpath
