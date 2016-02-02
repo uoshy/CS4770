@@ -3,6 +3,7 @@ TODO:
 Alex: 
 - Server setup
 - Compiling/Execution
+- Create/Update sequence diagram page
 
 Tyson:
 
@@ -10,11 +11,12 @@ Tyson:
 - Document necessary WebAPIs (HTTP requests the server should respond to)
 
 Tim:
-- Database schemata
+- Database schema (done)
+- User cases from new user stories
+- Verbage from usecases added to data dictionary. (Separate data dictioanry so sepearte file)
 - Java database interface code?
 
 Xiuzhi:
-- Skeleton code
+- Skeleton code (done)
+- Update pre and post conditions of old use cases.
 
-Everyone: 
-- Update user stories and use cases as per iteration 0 feedback
