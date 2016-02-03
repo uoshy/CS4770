@@ -11,7 +11,7 @@ Tyson:
 
 Tim:
 - Database schema (done)
-- User cases from new user stories
+- User cases from new user stories (done)
 - Verbage from usecases added to data dictionary. (Separate data dictioanry so sepearte file)
 - Java database interface code?
 
