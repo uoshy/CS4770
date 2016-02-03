@@ -857,5 +857,85 @@ lie is also shown.</dd>
 
         <div class="horizontalLine"></div>
    </div>
+<!-- --------------------------------------------- -->
+     <div class="UseCase">
+        <p>
+        <b>UC22.</b> <br>
+        <b>Name:</b> Student uses test suite.<br>
+        <b>User stories addressed:</b> US-19<br>
+        <b>Actors:</b> Student<br>
+        <b>Precondition:</b> Student is logged in and on the page of the relevant assignment submission. The code is compiled.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd> 1) Student selects "Run with tests".</dd>
+          <dd> 2) The system prompts the student to choose an available test suite.</dd>
+          <dd> 3) Student selects the desired test suite.</dd>
+          <dd> 4) The system runs the test suite and the code.</dd>
+          <dd> Postconditions: The code output and test results are displayed to the student on the system's console.</dd>
+        </dl>
+
+        <!--<p class="UseCase"><b>State Chart</b></p>-->
+        <!--<img src="StateChart_Liu/Run GUI.png" class="StateChart">-->
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+     <div class="UseCase">
+        <p>
+        <b>UC23.</b> <br>
+        <b>Name:</b> Registered user creates file.<br>
+        <b>User stories addressed:</b> US-20<br>
+        <b>Actors:</b> Registered user<br>
+        <b>Precondition:</b> The user is logged in and on the editor page.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd> 1) User selects "Save to Files"</dd>
+          <dd> 2) User is prompted to enter a name and select a file type.</dd>
+          <dd> 3) The system saves the file.</dd>
+	  <dd> Postconditions: The user is still on the text editor page. The file is saved by the system.</dd>
+        </dl>
+        <p>       
+        <dl class="UseCase">
+        <dt>
+        <b>Alternate scenario:</b><br>
+	Error in saving<br>
+        </dt>
+         <dd>3.1) The system alters the user of the error's cause (e.g. invalid filename).</dd>
+         <dd>3.2) The "Save As" window is displayed again to give the user another chance to save the file.</dd>
+  
+        <b>Postcondition:</b> The file is not saved. The system displays the "Save As" window.
+</p><br><br>  
+        </dl>
+
+        <!--<p class="UseCase"><b>State Chart</b></p>-->
+        <!--<img src="StateChart_Liu/Run GUI.png" class="StateChart">-->
+
+        <div class="horizontalLine"></div>
+   </div>
+<!-- --------------------------------------------- -->
+     <div class="UseCase">
+        <p>
+        <b>UC24.</b> <br>
+        <b>Name:</b> Student views feedback on assignment submission.<br>
+        <b>User stories addressed:</b> US-21<br>
+        <b>Actors:</b> Student<br>
+        <b>Precondition:</b> The student is logged in and on the main page.<br>
+        <dl class="UseCase">
+        <dt>
+        <b>Main Scenario:</b></dt>
+          <dd> 1) Student selects "Files" from the left menubar.</dd>
+          <dd> 2) User navigates to the directory containing the desired assignment.</dd>
+          <dd> 3) User chooses the file titled "Feedback".</dd>
+          <dd> 4) The system displays the feedback file.</dd>
+          <dd> Postonditions: The student is on the "View File" page. The System is displaying the student's assignment's submission's feedback.</dd>
+        </dl>
+
+        <!--<p class="UseCase"><b>State Chart</b></p>-->
+        <!--<img src="StateChart_Liu/Run GUI.png" class="StateChart">-->
+
+        <div class="horizontalLine"></div>
+   </div>
 </body>
 </html>
