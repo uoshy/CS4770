@@ -1,9 +1,8 @@
 TODO:
 
 Alex: 
-- Server setup
 - Compiling/Execution
-- Create/Update sequence diagram page
+- Generate javadoc
 
 Tyson:
 

@@ -143,8 +143,27 @@ img.PackageDiagram {
     width: 65%;
 }
 
+img.DatabaseSchema {
+    border : 2px solid rgb(50,50,50);
+    margin: 2em;
+    padding: 1em;
+    background : white;
+    width: 90%;
+    max-width: 810px;
+}
 
+dl.DatabaseSchema dt { 
+    font-size: 1em;
+}
+dl.DatabaseSchema dd {
+    font-size: 0.9em;
+}
 
+dl.DatabaseSchema ul {
+    margin: 0;
+    margin-top: 0.5em;
+    
+}
 
 
 
