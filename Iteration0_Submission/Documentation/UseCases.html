@@ -664,7 +664,7 @@
 		<b>Name:</b> Registered user compiles through the cloud.<br>
         <b>User stories addressed:</b>  US-13<br>
         <b>Actors:</b> Registered User<br>
-        <b>Precondition:</b> The cloud are capable of executing files written by multiple languages(Java, C, C++,etc).<br>
+        <b>Precondition:</b> The logs in and on the main page of the cloud.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -683,7 +683,7 @@
         </dt>
             <dd>7b) The code has errors, the cloud reports the error type and the line in which the error lies.</dd>
             <dd>8b) User modifies the code and reruns the code.</dd>
-           <b>Postcondition: </b>User must keep the files in the appropriate locations in the account.
+           <b>Postcondition: </b>User saves the files in cloud.
 <br><br>
         </dl>
         <p class="UseCase"><b>State Chart</b></p>
@@ -700,7 +700,7 @@
 		<b>Name:</b> Registered user downloads compile object files to execute written code.<br>
         <b>User stories addressed:</b> US-14<br>
         <b>Actors:</b> Registered User<br>
-        <b>Precondition:</b> User has complied objected files in the account to download.<br>
+        <b>Precondition:</b> User logs in and on the main page.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -736,7 +736,7 @@
 		<b>Name:</b> Registered user uploads/downloads files to share files with other users.<br>
         <b>User stories addressed:</b> US-15<br>
         <b>Actors:</b> Registered user<br>
-        <b>Precondition:</b> The GUI interface must be connected to the cloud.<br>
+        <b>Precondition:</b> User connects to the cloud after logs in the GUI interface.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -757,7 +757,7 @@
          <dd>  6b) User chooses cancel.</dd>
           <dd> 7) User resolves the name conflicts and upload/download file(s).</dd>
   
-		<b>Postcondition:</b>  Other designated users have authority to access the uploaded/downloaded file(s).
+		<b>Postcondition:</b> The system shares the uploaded/downloaded file(s) with other designated users.
 </p><br><br>  
         </dl>
 
@@ -775,7 +775,7 @@
         <b>Name:</b> Registered user execute command line application to test written code.<br>
         <b>User stories addressed:</b> US-16<br>
         <b>Actors:</b> Registered user<br>
-        <b>Precondition:</b> The user can input the parameters of the code through GUI interface to the cloud and can retrieve the output given by the cloud.<br>
+        <b>Precondition:</b> User logs in GUI interface and the terminal window shows.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -796,7 +796,7 @@ lie is also shown.</dd>
         <dd> 5b) User fixes the errors or the input problem.</dd>
        <dd>  6) User retypes the command line to run to code.</dd>
        <dd>  7) The result shows on the terminal window.</dd>
-        <b>Postcondition:</b> User can run the code in the GUI interface for many times.
+        <b>Postcondition:</b> The new command line prompt shows on terminal window so that user can retype the command line after the result is shown.
 </p><br><br>  
         </dl>
 
@@ -815,7 +815,7 @@ lie is also shown.</dd>
         <b>Name:</b> Student submits assignments to be marked.<br>
         <b>User stories addressed:</b> US-17<br>
         <b>Actors:</b> Student<br>
-        <b>Precondition:</b> Student must submit the assignment through the right account.<br>
+        <b>Precondition:</b> Student logs in the right account.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -833,7 +833,7 @@ lie is also shown.</dd>
         </dt>
         <dd> 4b) Student modifies the assignment before the deadline, and submits the assignments again.</dd>
          <dd> 5b) Student has only submitted part of the assignment, and then submits the rest.</dd>
-        <b>Postcondition:</b> The marker must figure if the student submits more than one time, if the last time is the rest of the assignment or the modified assignment, so that he/she can know the previous submission can be disregarded.
+        <b>Postcondition:</b> The submission page returns so that student can resubmit the assignment.
 </p><br><br>  
         </dl>
         <p class="UseCase"><b>State Chart</b></p>
@@ -850,7 +850,7 @@ lie is also shown.</dd>
         <b>Name:</b> Registered user runs GUI application.<br>
         <b>User stories addressed:</b> US-18<br>
         <b>Actors:</b> Registered user<br>
-        <b>Precondition:</b> All the files to be compiled into exe or jar must be in the same directory.<br>
+        <b>Precondition:</b> User compiles the file(s) into exe or jar  in the same directory.<br>
         <dl class="UseCase">
         <dt>
         <b>Main Scenario:</b></dt>
@@ -869,7 +869,7 @@ lie is also shown.</dd>
          <dd>  5b) User modifies the files.</dd>
           <dd> 6) User reruns the files.</dd>
   
-        <b>Postcondition:</b> The compiled files must be executable through the GUI interface.
+        <b>Postcondition:</b> The page allows user to rerun the file(s).
 </p><br><br>  
         </dl>
 
