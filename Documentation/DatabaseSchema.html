@@ -11,8 +11,12 @@
     <dl class="DatabaseSchema">
 
         <dt>Users</dt>
-            <dd><b>Description: A student, marker, or instructor.</b>    </dd>
-
+            <dd><b>Description: A student, marker, or instructor.</b> Supports database storage of users (of any role).</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Users to Enrollments: One-to-many.</li>
+                    <li>Users to AssignmentSubmissions: One-to-many.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                     <li>username</li>
@@ -26,7 +30,12 @@
              </dd>
 
         <dt>Courses</dt>
-            <dd><b>Description:</b>     </dd>
+            <dd><b>Description:</b> Supports database storage of system courses.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Courses to Enrollments: One-to-many.</li>
+                    <li>Courses to Assignments: One-to-many.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                     <li>courseID</li>
@@ -40,7 +49,12 @@
             </dd>
 
         <dt>Enrollments</dt>
-            <dd><b>Description:</b>     </dd>
+            <dd><b>Description:</b> Enrollments affiliate a user with a specific class.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Enrollments to Users: Many-to-one.</li>
+                    <li>Enrollments to Courses: Many-to-one.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                     <li>username</li>
@@ -62,7 +76,13 @@
             </dd>
 
         <dt>Assignments</dt>
-            <dd><b>Description:</b>     </dd>
+            <dd><b>Description:</b> A set of problems to which students may submit answers.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Assignments to Courses: Many-to-one.</li>
+                    <li>Assignments to AssignmentSolutions: One-to-one.</li>
+                    <li>Assignments to AssignmentSubmissions: One-to-many.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                   <li>courseID</li>
@@ -86,7 +106,12 @@
             </dd>
 
         <dt>AssignmentSubmissions</dt>
-            <dd><b>Description:</b>     </dd>
+            <dd><b>Description:</b> A student's submitted answers to a single assignment's questions.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>AssignmentSubmissions to Users: Many-to-one.</li>
+                    <li>AssignmentSubmissions to Assignments: Many-to-one.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                   <li>username</li>
@@ -112,7 +137,11 @@
             </dd>
 
         <dt>AssignmentSolutions</dt>
-            <dd><b>Description:</b>   </dd>
+            <dd><b>Description:</b> An answer key to an assignment.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>AssignmentSolutions to Assignments: One-to-one.</li>
+                </ul>
             <dd><b>Primary Key:</b>
                 <ul>
                   <li>courseID</li>
