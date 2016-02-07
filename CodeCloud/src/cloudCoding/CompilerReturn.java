@@ -1,5 +1,8 @@
 package cloudCoding;
 
+import java.util.Collection;
+
+import files.UserFile;
 import utility.HTMLDisplayable;
 
 /**
@@ -14,6 +17,12 @@ public class CompilerReturn implements HTMLDisplayable
 	 * The output of a compiler stored as a string.
 	 */
 	public String compilerMessage;
+	
+	/** 
+	 * The collection of compiled files. 
+	 * May be object files or library files depending on compiler options.
+	 */
+	public Collection<UserFile> returnedFiles;
 	
 	/**
 	 * Encode the compiler message as an HTML string to be displayed
