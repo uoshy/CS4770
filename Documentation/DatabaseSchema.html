@@ -5,114 +5,135 @@
 </head>
 <body>
     <h2>Database Schema</h2>
-    
+
     <img src="Images/DBSchema.png" class="DatabaseSchema">
 
     <dl class="DatabaseSchema">
 
-        <dt>User</dt>
-            <dd><b>Description: A student, marker, or instructor.</b>    </dd>   
-                     
-            <dd><b>Primary Key:</b>     
+        <dt>Users</dt>
+            <dd><b>Description: A student, marker, or instructor.</b>    </dd>
+
+            <dd><b>Primary Key:</b>
                 <ul>
-                    <li>username</li>    
+                    <li>username</li>
                 </ul>
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
                     <li>activeRole</li>
-		    <li>password</li>    
-                </ul> 
+		                <li>password</li>
+                </ul>
              </dd>
 
-        <dt>Course</dt>
-            <dd><b>Description:</b>     </dd>            
-            <dd><b>Primary Key:</b>     
+        <dt>Courses</dt>
+            <dd><b>Description:</b>     </dd>
+            <dd><b>Primary Key:</b>
                 <ul>
                     <li>courseID</li>
-                    <li>term</li>   
-                </ul> 
+                    <li>term</li>
+                </ul>
             </dd>
-            <dd><b>Additional Fields:</b>     
+            <dd><b>Additional Fields:</b>
                 <ul>
-                    <li></li>   
-                    <li>name</li>   
-                </ul> 
-            </dd>
-            
-        <dt>Enrollment</dt>
-            <dd><b>Description:</b>     </dd>            
-            <dd><b>Primary Key:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Foreign Keys:</b>  
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Additional Fields:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            
-        <dt>Assignment</dt>
-            <dd><b>Description:</b>     </dd>            
-            <dd><b>Primary Key:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Foreign Keys:</b> 
-                <ul>
-                    <li></li>    
-                </ul> 
-             </dd>
-            <dd><b>Additional Fields:</b>     
-                <ul>
-                    <li></li>    
-                </ul>        
-            </dd>
-            
-        <dt>AssignmentSubmission</dt>
-            <dd><b>Description:</b>     </dd>            
-            <dd><b>Primary Key:</b>    
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Foreign Keys:</b>  
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Additional Fields:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            
-        <dt>AssignmentSolution</dt>
-            <dd><b>Description:</b>   </dd>            
-            <dd><b>Primary Key:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Foreign Keys:</b>  
-                <ul>
-                    <li></li>    
-                </ul> 
-            </dd>
-            <dd><b>Additional Fields:</b>     
-                <ul>
-                    <li></li>    
-                </ul> 
+                    <li>name</li>
+                </ul>
             </dd>
 
-            
+        <dt>Enrollments</dt>
+            <dd><b>Description:</b>     </dd>
+            <dd><b>Primary Key:</b>
+                <ul>
+                    <li>username</li>
+                    <li>courseID</li>
+                    <li>term</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>role</li>
+                </ul>
+            </dd>
+
+        <dt>Assignments</dt>
+            <dd><b>Description:</b>     </dd>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                </ul>
+             </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>path</li>
+                    <li>name</li>
+                    <li>submissionLimit</li>
+                    <li>testSuitePath</li>
+                </ul>
+            </dd>
+
+        <dt>AssignmentSubmissions</dt>
+            <dd><b>Description:</b>     </dd>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                  <li>path</li>
+                  <li>name</li>
+                  <li>grade</li>
+                </ul>
+            </dd>
+
+        <dt>AssignmentSolutions</dt>
+            <dd><b>Description:</b>   </dd>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>path</li>
+                </ul>
+            </dd>
+
+
 
 
 
