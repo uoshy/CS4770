@@ -51,7 +51,7 @@
     </target>
 
     <target name="CodeCloud" depends="compile">
-        <java classname="CodeCloudMain" fork="true">
+        <java classname="main/CodeCloudMain" fork="true">
             <classpath>
                 <pathelement path="${dest.dir}"/>
                 <path refid="lib-jars"/>

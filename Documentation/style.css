@@ -44,6 +44,20 @@ ol.UserStories li ul li {
     padding: 0.3em;
 
 }
+
+p.IterationNotes {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+ul.IterationNotes {
+    margin-top: 0.5em;
+}
+
+ul.IterationNotes li{
+    font-style: italic;
+    margin-left:1em;
+}
  
 dl {
     padding-left: 1em;
