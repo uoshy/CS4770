@@ -19,12 +19,12 @@
                 </ul>
             <dd><b>Primary Key:</b>
                 <ul>
-                    <li>username</li>
+                    <li>username: A unique identity of each user</li>
                 </ul>
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-		                <li>password</li>
+		                <li>password: A unique identifier used to authenticate a user</li>
                 </ul>
              </dd>
 
@@ -37,13 +37,13 @@
                 </ul>
             <dd><b>Primary Key:</b>
                 <ul>
-                    <li>courseID</li>
-                    <li>term</li>
+                    <li>courseID: A string containing a course's subject, number, and section number.</li>
+                    <li>term: A string containing the time of year and term one specific instance of a course is offered.</li>
                 </ul>
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-                    <li>name</li>
+                    <li>name: The course's name.</li>
                 </ul>
             </dd>
 
@@ -70,7 +70,7 @@
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-                    <li>role</li>
+                    <li>role: The role with which the person designated by the enrollment is associated with the course (i.e. Student, Marker, or Instructor).</li>
                 </ul>
             </dd>
 
@@ -86,7 +86,7 @@
                 <ul>
                   <li>courseID</li>
                   <li>term</li>
-                  <li>number</li>
+                  <li>number: </li>
                 </ul>
             </dd>
             <dd><b>Foreign Keys:</b>
@@ -97,10 +97,10 @@
              </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-                    <li>path</li>
-                    <li>name</li>
-                    <li>submissionLimit</li>
-                    <li>testSuitePath</li>
+                    <li>path: The location at which the system has stored the file (or the files) of which the assignment consists.</li>
+                    <li>name: The name of the assignment.</li>
+                    <li>submissionLimit: The number of submissions a given student is allowed to make for the assignment.</li>
+                    <li>testSuitePath: The location a which the system has stored a test suite related to the assignment and accessible to the course's students (if one exists).</li>
                 </ul>
             </dd>
 
@@ -129,9 +129,9 @@
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-                  <li>path</li>
-                  <li>name</li>
-                  <li>grade</li>
+                  <li>path: The location at which the system has stored the file (or files) which make up the student's assignment submission.</li>
+                  <li>submissionNumber: An index number that keeps track of the number of submissions a student makes for each assignment.</li>
+                  <li>grade: The mark received by the student for the assignmentSubmission.</li>
                 </ul>
             </dd>
 
@@ -157,7 +157,7 @@
             </dd>
             <dd><b>Additional Fields:</b>
                 <ul>
-                    <li>path</li>
+                    <li>path: The location at which the system has stored the file(s) of which the solution consists.</li>
                 </ul>
             </dd>
 
