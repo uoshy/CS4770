@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>Test Plan</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Test Plan</h2>
+    
+    <h3>Introduction</h3>
+    <p>The Test Plan communicates the desired testing strategies for this project. This plan should be followed to ensure robust and maintainable code.</p>
+
+    <h3>Testing Approach</h3>
+    <p>There will be a combintaion of three different testing methodologies used throughout the project development.
+        <ol>
+            <li>Continuous Testing</li>
+            <li>Smoke/Destructive Testing</li>
+            <li>Alpha Testing</li>
+        </ol>
+
+    <h3>Test Schedule</h3>
+    <p>The test schedule follows with the <a href="WorkPlan.html">Work Plan</a>.</p>
+    <h4>Continuous Testing</h4>
+    <p>Throughout the development process we will use JUnit unit tests for automated testing of the server-side java code. These tests will be created concurrently with the source code for continual testing. Writing tests concurrently with implementation helps code quality remain high throughout the development process. The writing of automated unit tests will also allow for regression testing later in the project to ensure new features do not degrade the stability of previous features.<p></li>
+    <h4>Smoke/Destructive Testing</h4>
+    <p>The development cycle will follow an Agile approach with weekly smaller iterations. At the end of each week, Friday, a build will be created. This build will encompass the week's newly implemented features and all previous features. This build will be smoke tested to ensure the basic functionality of the system and features works. Destruvtive testing will follow where developers attempt to break the system and note places of breaking (if any). Throughout destructive testing developers are to ensure that their steps are reproducible for easier bug fixing. Bug that are found shall be fixed over the next day or two and then the next iteration of new features will be started. Using the Agile approach to deliver a working build each week will help maintain code quality and allow new features to be constantly integrated into the main system throughout development.</p>
+    <h4>Alpha Testing</h4> 
+    <p>The final two weeks of the project have been slated solely for review and polish. During these two weeks developers will continuously perform alpha testing. This testing simulates real use of the system by users. Hopefully this testing will reveal that the system is able to perform with all features being used simultaneously. Any bugs will be noted and logged. Bug-fixing is encapsualted within polish and shall be addressed in the final two weeks. </p> 
+
+    <h3>Milestones</h3>
+    <p>See the <a href="WorkPlan.html">Work Plan</a> for projected times of completion of each feature.</p>
+</body>
+</html>

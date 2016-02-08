@@ -1,0 +1,701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Team A - WebAPI</title>
+
+<link href="style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<h2>CodeCloud API: One-stop-shop for coding assignments</h2><br><hr>
+<h2>Method login</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/login</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+      <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user
+      </dd>
+      <dt>password : string</dt>
+      <dd>User's password</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, login authorized, response code 200</li>
+      <li>Incorrect login credentials, response code 401</li>
+	  <li>If user hasn't been created (not the credentials of a user), response code 400</li>
+    </ul>
+  </dd>
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is a JSON encoded user-entity with the following fields
+    <dl>
+      <dt>activeRole : Role</dt>
+      <dd>User's active role on the system (i.e. Instructor, Marker, Student)</dd>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 401)</strong></dt>
+  <dd>The body of the response is an error message (unauthorized)
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method logout</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/logout</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>None
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, remove authorization of user, response code 204</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method changeRole</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/change-role</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>PUT</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+      <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user
+      </dd>
+      <dt>activeRole : Role</dt>
+      <dd>User's active role on the system (i.e. Instructor, Marker, Student)</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, user's active role is changed, response code 204</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method createAccount</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/create-user</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user
+      </dd>
+      <dt>password : string</dt>
+      <dd>User's password</dd>
+	  <dt>activeRole : Role</dt>
+      <dd>User's active role on the system (i.e. Instructor, Marker, Student)
+      </dd>
+      <dt>firstname : string</dt>
+      <dd>User's firstname</dd>
+	  <dt>lastname : string</dt>
+      <dd>User's lastname</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, user account is created with given parameters, response code 201</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 201)</strong></dt>
+  <dd>The body of the response is a JSON encoded user-entity with the following fields
+    <dl>
+	  <dt>username : string </dt>
+      <dd>User's username; uniquely identifies user</dd>
+      <dt>password : string</dt>
+      <dd>User's password
+      </dd>
+      <dt>activeRole : Role</dt>
+      <dd>User's active role on the system (i.e. Instructor, Marker, Student)</dd>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method createCourse</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/create-course</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>courseID : string</dt>
+      <dd>Unique identifier for course & section
+      </dd>
+      <dt>term : string</dt>
+      <dd>Semester specified for this instance of the course</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, course is added with given parameters, response code 201</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 201)</strong></dt>
+  <dd>The body of the response is a JSON encoded course-entity with the parameter fields above
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method addUserToCourse</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/add-user</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>PUT</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>courseID : string</dt>
+      <dd>Unique identifier for course & section
+      </dd>
+      <dt>term : string</dt>
+      <dd>Semester specified for this instance of the course</dd>
+	  <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user</dd>
+	  <dt>activeRole : Role</dt>
+      <dd>User's active role on the system (i.e. Instructor, Marker, Student)</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, user is added to appropriate user-collection based on role, response code 204</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method removeUserFromCourse</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/remove-user</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>DELETE</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>courseID : string</dt>
+      <dd>Unique identifier for course & section</dd>
+      <dt>term : string</dt>
+      <dd>Semester specified for this instance of the course</dd>
+	  <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, user is removed from appropriate user-collection, response code 204</li>
+	  <li><li>If the request is invalid, response code 400</li></li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method resetPassword</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/reset-pass</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, sends notification to admin/email to user to set new password, response code 204</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method setNewPassword</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/new-pass</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>username : string</dt>
+      <dd>User's username; uniquely identifies user</dd>
+	  <dt>password : string</dt>
+      <dd>User's password</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, user's password is set to new password, response code 204</li>
+	  <li>Password violates password policy, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message (policy violation)
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method createAssignment</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/create-assignment</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>course : Course</dt>
+      <dd>The course which the assignment belongs</dd>
+      <dt>assignmentFiles : collection<UserFiles> (optional)</dt>
+      <dd>Collection of files containing the details of this assignment</dd>
+	  <dt>tests : TestSuite (optional)</dt>
+      <dd>Tests for testing assignment submissions</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, assignment is added with given parameters, response code 201</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 201)</strong></dt>
+  <dd>The body of the response is a JSON encoded assignment-entity with the parameter fields above
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method getStudentMarks</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/student-mark</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>GET</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>grade : float</dt>
+      <dd>Assignment submission grade</dd>
+	  <dt>owner : User</dt>
+      <dd>User who owns assignment submission</dd>
+	  <dt>relatedAssignment : Assignment (optional)</dt>
+      <dd>Particular assignment which the submission attempts to solve</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, get user's mark for given assignmentSubmission, response code 200</li>
+	  <li>If the request is invalid, response code </li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is a JSON encoded grade-entity with the parameter fields above
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method saveFile</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/save-file</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>owner : User</dt>
+      <dd>User who owns the file</dd>
+	  <dt>path : string</dt>
+      <dd>Path to the file in the file system</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, file-entity's contents saved to appropriate server location, response code 204</li>
+	  <li>If the file have save conflicts, try again, response code 409</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 204)</strong></dt>
+  <dd>No response body
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 409)</strong></dt>
+  <dd>The body of the response is an error message (save conflict)
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method viewFile</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/view-file</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>owner : User</dt>
+      <dd>User who owns the file</dd>
+	  <dt>path : string</dt>
+      <dd>Path to the file in the file system</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, file contents shown in text area, response code 200</li>
+	  <li>If the request results in file not found, response code 404</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is JSON encoded file-entity contents with the parameter fields above
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 404)</strong></dt>
+  <dd>The body of the response is an error message (not found)
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method compileCode</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/compile-code</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded archive of all appropriate files.
+    <dl>
+	  <dt>file : UserFile</dt>
+      <dd>Representation of user's file stored in the server; contains path & owner</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, archive of files sent to server to be compiled, response code 200</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is JSON encoded entity containing console outputs/prompts
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method downloadFiles</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/download-files</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded archive of all appropriate files.
+    <dl>
+	  <dt>file : UserFile</dt>
+      <dd>Representation of user's files stored in the server; contains path & owner</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, archive of files sent from server to client, response code 200</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is JSON encoded entity containing directory & files
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method uploadFiles</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/upload-files</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded archive of all appropriate files.
+    <dl>
+	  <dt>file : UserFile</dt>
+      <dd>Representation of user's files stored locally; contains path & owner</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, archive of files sent from client to server, response code 200</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is JSON encoded entity containing directory & files
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+
+<h2>Method runApplications</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/run-apps</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded archive of all appropriate files.
+    <dl>
+	  <dt>file : UserFile</dt>
+      <dd>Representation of user's file stored in the server; contains path & owner</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, archive of files sent to server to be compiled, response code 200</li>
+	  <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>  
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is JSON encoded entity containing GUI application or command line execution
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+    <dl>
+    </dl>
+  </dd>
+</dl><br><hr>
+
+<h2>Method viewCourses</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/view-courses</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>courseID : string (optional)</dt>
+      <dd>Unique identifier for course & section
+      </dd>
+      <dt>term : string (optional)</dt>
+      <dd>Semester specified for this instance of the course</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, returns set of all available courses, response code 200.</li>
+      <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is a JSON encoded array. Each item of the array is an object with the parameter fields above
+    <dl>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+  </dd>
+</dl>
+
+
+<h2>Method viewAssignments</h2>
+<dl>
+  <dt><strong>URL</strong></dt>
+  <dd>/website/api/view-assignments</dd>
+  <dt><strong>HTTP Verb</strong></dt>
+  <dd>POST</dd>
+  <dt><strong>Parameters</strong></dt>
+  <dd>Parameters are sent in the request body as fields of a JSON encoded object.
+    <dl>
+	  <dt>course : Course (optional)</dt>
+      <dd>The course which the assignment belongs</dd>
+    </dl>
+  </dd>
+  <dt><strong>Behaviour</strong></dt>
+  <dd>
+    <ul>
+      <li>If successful, returns set of all available assignments, response code 200.</li>
+      <li>If the request is invalid, response code 400</li>
+    </ul>
+  </dd>
+  <dt><strong>Response (HTTP status 200)</strong></dt>
+  <dd>The body of the response is a JSON encoded array. Each item of the array is an object with the parameter fields above
+    <dl>
+	  <dt>course : Course</dt>
+      <dd>The course which the assignment belongs</dd>
+      <dt>assignmentFiles : collection<UserFiles></dt>
+      <dd>Collection of files containing the details of this assignment</dd>
+	  <dt>tests : TestSuite</dt>
+      <dd>Tests for testing assignment submissions</dd>
+	  <dt>submissions : Collection<AssignmentSubmission></dt>
+      <dd>Collection of submission made towards this assignment</dd>
+    </dl>
+  </dd>
+  <dt><strong>Response (HTTP status 400)</strong></dt>
+  <dd>The body of the response is an error message
+  </dd>
+</dl>
+
+</body>
+</html>

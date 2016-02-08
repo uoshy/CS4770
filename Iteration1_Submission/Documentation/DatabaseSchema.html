@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>Database Schema</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h2>Database Schema</h2>
+
+    <img src="Images/DBSchema.png" class="DatabaseSchema">
+
+    <dl class="DatabaseSchema">
+
+        <dt>Users</dt>
+            <dd><b>Description: A student, marker, or instructor.</b> Supports database storage of users (of any role).</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Users to Enrollments: One-to-many.</li>
+                    <li>Users to AssignmentSubmissions: One-to-many.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                    <li>username: A unique identity of each user</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+		                <li>password: A unique identifier used to authenticate a user</li>
+                </ul>
+             </dd>
+
+        <dt>Courses</dt>
+            <dd><b>Description:</b> Supports database storage of system courses.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Courses to Enrollments: One-to-many.</li>
+                    <li>Courses to Assignments: One-to-many.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                    <li>courseID: A string containing a course's subject, number, and section number.</li>
+                    <li>term: A string containing the time of year and term one specific instance of a course is offered.</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>name: The course's name.</li>
+                </ul>
+            </dd>
+
+        <dt>Enrollments</dt>
+            <dd><b>Description:</b> Enrollments affiliate a user with a specific class.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Enrollments to Users: Many-to-one.</li>
+                    <li>Enrollments to Courses: Many-to-one.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                    <li>username</li>
+                    <li>courseID</li>
+                    <li>term</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>role: The role with which the person designated by the enrollment is associated with the course (i.e. Student, Marker, or Instructor).</li>
+                </ul>
+            </dd>
+
+        <dt>Assignments</dt>
+            <dd><b>Description:</b> A set of problems to which students may submit answers.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>Assignments to Courses: Many-to-one.</li>
+                    <li>Assignments to AssignmentSolutions: One-to-one.</li>
+                    <li>Assignments to AssignmentSubmissions: One-to-many.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number: </li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                </ul>
+             </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>path: The location at which the system has stored the file (or the files) of which the assignment consists.</li>
+                    <li>name: The name of the assignment.</li>
+                    <li>submissionLimit: The number of submissions a given student is allowed to make for the assignment.</li>
+                    <li>testSuitePath: The location a which the system has stored a test suite related to the assignment and accessible to the course's students (if one exists).</li>
+                </ul>
+            </dd>
+
+        <dt>AssignmentSubmissions</dt>
+            <dd><b>Description:</b> A student's submitted answers to a single assignment's questions.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>AssignmentSubmissions to Users: Many-to-one.</li>
+                    <li>AssignmentSubmissions to Assignments: Many-to-one.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>username</li>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                  <li>path: The location at which the system has stored the file (or files) which make up the student's assignment submission.</li>
+                  <li>submissionNumber: An index number that keeps track of the number of submissions a student makes for each assignment.</li>
+                  <li>grade: The mark received by the student for the assignmentSubmission.</li>
+                </ul>
+            </dd>
+
+        <dt>AssignmentSolutions</dt>
+            <dd><b>Description:</b> An answer key to an assignment.</dd>
+            <dd><b>Direct Relations:</b>
+                <ul>
+                    <li>AssignmentSolutions to Assignments: One-to-one.</li>
+                </ul>
+            <dd><b>Primary Key:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Foreign Keys:</b>
+                <ul>
+                  <li>courseID</li>
+                  <li>term</li>
+                  <li>number</li>
+                </ul>
+            </dd>
+            <dd><b>Additional Fields:</b>
+                <ul>
+                    <li>path: The location at which the system has stored the file(s) of which the solution consists.</li>
+                </ul>
+            </dd>
+
+
+
+
+
+
+
+    </dl>
+</body>
+</html>

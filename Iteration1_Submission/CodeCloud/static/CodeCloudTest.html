@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CodeCloud Test</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="NavBar">
+        <ul class="NavBar">
+            <li><a class="active" href="javascript:void(0)">Home</a></li>
+            <li><a href="javascript:void(0)">About</a></li>
+            <li><a href="javascript:void(0)" class="Current">Text Editor</a><li>
+        </ul>
+    </div>
+
+    <div class="Main">
+        <h2>CodeCloud Test</h2>
+        
+        <p>Enter code into the following text area:</p>
+        <pre class="TextEditor" contenteditable="true">public class Hello
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello World!");
+    }
+}</pre>
+
+        <div class="Console">
+            <div class="ConsoleHeader">
+                <button type="button">Compile</button>
+                <button type="button">Run</button>
+            </div>
+            <div class="ConsoleIO">
+            <span class="Output">Hello World!</span><br>
+            <span class="Input" contentEditable="true">Enter data: </span>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
