@@ -22,3 +22,8 @@ hs_err_pid*
 *.metadata
 *.project
 *.classpath
+
+#Excessive directories created by build file #
+CodeCloud/bin/
+CodeCloud/lib
+
