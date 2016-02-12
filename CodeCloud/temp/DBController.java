@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,125 +31,125 @@ public class DBController {
 
     //users
     //get a user by username
-    private static String selectUser =
+    private static String selectUserStatement =
     	"SELECT * FROM User WHERE username=?";
-    
+
     //get all users
-    private static String selectAllUsers = 
+    private static String selectAllUsersStatement =
     	"SELECT * FROM Users";
-    
+
     //add a user
-    private static String addUser = 
-	"INSERT INTO Users (username, password) VALUES(?, ?)";    
+    private static String addUserStatement =
+	"INSERT INTO Users (username, password) VALUES(?, ?)";
 
     //remove user
-    private static String removeUser = 
+    private static String removeUserStatement =
     	"DELETE FROM Users WHERE username=?";
 
     //courses
     //get a course by courseID and term
-    private static String selectCourse =
+    private static String selectCourseStatement =
     	"SELECT * FROM User WHERE username=? AND term=?";
-    
+
     //get all courses
-    private static String selectAllCourses = 
+    private static String selectAllCoursesStatement =
     	"SELECT * FROM Courses";
-    
-    //add a course 
-    private static String addCourse = 
+
+    //add a course
+    private static String addCourseStatement =
 	"INSERT INTO Courses (courseID, term, name) VALUES(?, ?, ?)";
 
     //remove course
-    private static String removeCourse = 
+    private static String removeCourseStatement =
     	"DELETE FROM Courses WHERE courseID=? AND term=?";
 
     //enrollments
     //get an enrollment by username, courseID, and term
-    private static String selectEnrollment =
+    private static String selectEnrollmentStatement =
     	"SELECT * FROM Courses WHERE username=? AND courseID=? AND term=?";
-    
+
     //get all enrollments
-    private static String selectAllEnrollments = 
+    private static String selectAllEnrollmentsStatement =
     	"SELECT * FROM Enrollments";
-    
+
     //add an enrollment
-    private static String addEnrollment = 
+    private static String addEnrollmentStatement =
 	"INSERT INTO Enrollments (username, courseID, term, role) VALUES(?, ?, ?, ?)";
 
     //remove enrollment
-    private static String removeEnrollment = 
+    private static String removeEnrollmentStatement =
     	"DELETE FROM Enrollments WHERE username=? AND courseID=? AND term=?";
 
     //assignments
     //get an assignment by courseID, term, and number
-    private static String selectAssignment =
+    private static String selectAssignmentStatement =
     	"SELECT * FROM Assignments WHERE courseID=? AND term=? AND number=?";
 
     //get all assignments
-    private static String selectAllAssignments = 
+    private static String selectAllAssignmentsStatement =
     	"SELECT * FROM Assignments";
-    
-    //add an assignment 
-    private static String addAssignment = 
+
+    //add an assignment
+    private static String addAssignmentStatement =
 	"INSERT INTO Assignments (courseID, term, number, name, path, testSuitePath, submissionLimit) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove assignment
-    private static String removeMember = 
+    private static String removeMemberStatement =
     	"DELETE FROM Assignments WHERE courseID=? AND term=? AND number=?";
 
     //assignment solutions
     //get an assignment solution by courseID, term, and number
-    private static String selectASolution =
+    private static String selectASolutionStatement =
     	"SELECT * FROM User WHERE courseID=? AND term=? AND number=?";
-    
+
     //get all assignment solutions
-    private static String selectAllASolutions =
+    private static String selectAllASolutionsStatement =
     	"SELECT * FROM AssignmentSolutions";
-    
-    //add an assignment solution 
-    private static String addASolution =
+
+    //add an assignment solution
+    private static String addASolutionStatement =
 	"INSERT INTO Users (courseID, term, number, path) VALUES(?, ?, ?, ?)";
 
     //remove assignment solution
-    private static String removeMember = 
+    private static String removeMemberStatement =
     	"DELETE FROM AssignmentSolutions WHERE courseID=? AND term=? AND number=?";
 
     //assignment feedback
     //get an assignment's feedback
-    private static String selectAFeedback =
+    private static String selectAFeedbackStatement =
     	"SELECT * FROM AssignmentFeedback WHERE username=? AND courseID=? AND term=? AND number=?";
-    
+
     //get all feedback
-    private static String selectAllAFeedback =
+    private static String selectAllAFeedbackStatement =
     	"SELECT * FROM AssignmentFeedback";
-    
+
     //add feedback
-    private static String addAFeedback =
+    private static String addAFeedbackStatement =
 	"INSERT INTO AssignmentFeedback (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove feedback
-    private static String removeMember = 
+    private static String removeMemberStatement =
     	"DELETE FROM AssignmentFeedback WHERE username=? AND courseID=? AND term=? and number=?";
 
     //assignment submissions
     //get an assignmentFeedback by courseID, term, number, and username
-    private static String selectAFeedback =
+    private static String selectAFeedbackStatement =
     	"SELECT * FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
-    
+
     //get all feedback
-    private static String selectAllAFeedback = 
+    private static String selectAllAFeedbackStatement =
     	"SELECT * FROM AssignmentFeedback";
-    
+
     //add feedback
-    private static String addAFeedback = 
+    private static String addAFeedbackStatement =
 	"INSERT INTO AssignmentFeedback (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove submission
-    private static String removeMember = 
+    private static String removeMemberStatement =
     	"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
-    
-    public static final String DB_FILENAME = "Database.db";	
+
+    public static final String DB_FILENAME = "Database.db";
     public static String DB_URL;
     public static final int TIMEOUT = 20;
 
@@ -163,7 +162,7 @@ public class DBController {
     		ex.printStackTrace();
     	}
     }
-    
+
     private static String searchForDatabaseFile() throws FileNotFoundException {
     	FilenameFilter dbFilter = new FilenameFilter() {
 			@Override
@@ -184,176 +183,73 @@ public class DBController {
     	throw new FileNotFoundException("Database file Database.db not found!");
     }
 
-	public static void addUser(User user){
-		//ArrayList<String> params = new ArrayList<>(Arrays.asList(user.getUsername(), user.getPassword()));
-		ArrayList params = new ArrayList<Object>();
-		params.add(StatementClassType.DBSTRING);
-		params.add(user.getUsername());
-		params.add(StatementClassType.DBSTRING);
-		params.add(user.getPassword());
-		addStatement(params);
-	}
 
-	public static void addStatement(ArrayList list){
-		try(
-			Connection connection = DriverManager.getConnection(DB_URL);
-			PreparedStatement preparedStatement = connection.prepareStatement(statementType);
-		){
-			for(int i = 1; i < list.size(); i += 2){
-				list.get(i-1).addToStatement(preparedStatement, list.get(i), i);
-			}
-		}
-	}
-		
+    public User getUser(String userName) {
+        try {
+                Connection conn = DriverManager.getConnection(dbURL);
+                PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
+            } catch(SQLException sqle){
+              sqle.printStackTrace();
+            }
+            stmt.setQueryTimeout(timeout);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.first()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                return new User(name, pass);
+            }
+            return null;
+    }
 
-		
-    
-/*    public static void addSociety(Society society) throws SQLException
-    {
-    	try(
-    			Connection conn = DriverManager.getConnection(DB_URL);
-    			PreparedStatement statement = conn.prepareStatement(addSociety);
-  
-			){
-	    	long societyID = society.getSocietyID();
-	    	SocietyInformation societyInfo = society.getSocietyInfo();
-	    	String name = societyInfo.getSocietyName();
-	    	long founderID = societyInfo.getFounderID();
-	    	String description = societyInfo.getDescription();
-		//Start index at 1
-	    	statement.setLong(1,  societyID);
-	    	statement.setString(2, name);
-	    	statement.setLong(3, founderID);
-	    	statement.setString(4, description);
-	    	statement.setBoolean(5, false);
-	    	statement.execute();
-	    	// add founder to the members of this society
-	    	DatabaseInterface.addMemberToSociety(societyID, founderID, MemberType.eMemberType.MT_founder);
-    	}
-    }
-    
-    public static Map<Long, Society> getAllSocieties() throws SQLException 
-    { 
-    	try(
-    			Connection conn = DriverManager.getConnection(DB_URL);
-    			PreparedStatement statement = conn.prepareStatement(selectAllSocieties);
-    			PreparedStatement statement2 = conn.prepareStatement(selectAllMembers);
-			){
-    		Map<Long, Society> map = new HashMap<>();
-    		
-    		statement.setQueryTimeout(TIMEOUT);
-    		ResultSet rs = statement.executeQuery();
-    		while(rs.next())
-    		{
-    			long societyID = rs.getLong(1);
-    			String societyName = rs.getString(2);
-    			long founderID = rs.getLong(3);
-    			String description = rs.getString(4);
-    			boolean isSanctioned = rs.getBoolean(5);
-    			
-    			SocietyInformation societyInfo = new SocietyInformation(societyName, founderID, description);
-    			Society society = new Society(societyInfo, societyID);
-    			map.put(societyID, society);
-    		}
-    		
-    		MemberType.eMemberType[] memTypes = MemberType.eMemberType.values();
-    		statement2.setQueryTimeout(TIMEOUT);
-    		rs = statement2.executeQuery();
-    		while(rs.next())
-    		{
-    			long societyID = rs.getLong(1);
-    			long accountID = rs.getLong(2);
-    			MemberType.eMemberType memType = memTypes[rs.getInt(3)];
-    			Society soc = map.get(societyID);
-    			soc.addMember(accountID, memType);
-    		}
-    		
-    		return map;
-    	}    	
-    }
-    
-    public static Map<Long, MemberType.eMemberType> getAllMembers(long societyID) throws SQLException {
-    	try(
-    			Connection conn = DriverManager.getConnection(DB_URL);
-    			PreparedStatement stmt = conn.prepareStatement(selectAllMembersOfSociety);
-			){
-    		Map<Long, MemberType.eMemberType> map = new HashMap<>();
-    		MemberType.eMemberType[] memTypes = MemberType.eMemberType.values();
-    		
-    		stmt.setLong(1, societyID);
-    		stmt.setQueryTimeout(TIMEOUT);
-    		ResultSet rs = stmt.executeQuery();
-    		while(rs.next())
-    		{
-    			long accountID = rs.getLong(2);
-    			MemberType.eMemberType memberType = memTypes[rs.getInt(3)];
-    			map.put(accountID, memberType);
-    		}
-    		
-    		return map;
-    	}
-    }
-    
-    public static void addAccount(Account acc) throws SQLException
-    {
-    	try(
-    			Connection conn = DriverManager.getConnection(DB_URL);
-    			PreparedStatement stmt = conn.prepareStatement(addAccount);
-  
-			){
-	    	long accountID = acc.getAccountID();
-	    	StudentInformation stuInfo = acc.getStudentInfo();
-	    	String name = stuInfo.getName();
-	    	long studentID = stuInfo.getStudentID();
-	    	Date DOB = stuInfo.getDateOfBirth();
-	    	String major = stuInfo.getMajor();
-	    	String user = acc.getUserName();
-	    	String pass = acc.getPassword();
-	    	stmt.setLong(1, accountID);
-	    	stmt.setString(2,  name);
-	    	stmt.setLong(3,  studentID);
-	    	stmt.setDate(4,  new java.sql.Date(DOB.getTime()));
-	    	stmt.setString(5,  user);
-	    	stmt.setString(6,  pass);
-	    	stmt.setString(7, major);
-	    	stmt.execute();
-    	
-    	}
-    }
-    
-    public static Map<Long, account.Account> getAllAccounts() throws SQLException
-    {
-    	try(
+    public static Map<String, User> getAllUsers() {
+    	try{
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(selectAllAccounts);
-  
-			){
-    		
-    		
+			}
+      catch (SQLException sqle){
+        sqle.printStackTrace();
+      }
+
     		//long ID, String name, long student id, Date DOB, String username, string password
-    		Map<Long, account.Account> map = new HashMap<>();
-    		
+    		Map<String, User> map = new HashMap<>();
+
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next())
     		{
-    			long accountID = rs.getLong(1);
-    			String name = rs.getString(2);
-    			long studentID = rs.getLong(3);
-    			Date DOB = rs.getDate(4);
-    			String user = rs.getString(5);
-    			String password = rs.getString(6);
-    			String major = rs.getString(7);
-    			
-    			StudentInformation stuInfo = new StudentInformation(name, studentID, DOB, major);
-    			Account acc = new Account(accountID, stuInfo, user, password);
-    			map.put(accountID, acc);
+    			String username = rs.getString(1);
+    			String password = rs.getString(2);
+    			map.put(username, new User(username, password));
     		}
-  
+
     		return map;
-    	} 
     }
-    
+
+   public static void addUser(User user){
+	    modifyStatement(addUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+	  }
+
+    public static void removeUser(User user){
+       modifyStatement(removeUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+    }
+
+
+    //For statements that change the state of a table (add/remove data)
+  	public static void modifyStatement(String statementType, DBObject[] dbArray){
+  		try{
+  			Connection connection = DriverManager.getConnection(DB_URL);
+  			PreparedStatement statement = connection.prepareStatement(statementType);
+  		}
+      catch (SQLException sqle){
+        sqle.printStackTrace();
+      }
+  		for (int i = 0; i < dbArray.length; i++){
+  			dbArray[i].addToStatement(statement, i+1);
+			}
+  	}
+
+
     /**
      * Can also be used to set a society members type
      * @param societyID
@@ -367,10 +263,10 @@ public class DBController {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(addMemberToSociety);
-  
+
 			){
 	    	stmt.setLong(1, societyID);
-	    	stmt.setLong(2, accountID); 
+	    	stmt.setLong(2, accountID);
 	    	stmt.setInt(3, memberType.ordinal());
 	    	stmt.execute();
     	}
@@ -381,86 +277,24 @@ public class DBController {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(removeMember);
-  
+
 			){
 	    	stmt.setLong(1, accountID);
 	    	stmt.setLong(2, societyID);
 	    	stmt.execute();
     	}
     }
-    
-    public static Map<Long, Election> getCurrentElections() throws SQLException {
-    	try(
-    			Connection conn = DriverManager.getConnection(DB_URL);
-    			PreparedStatement stmt = conn.prepareStatement(selectAllElections);
-    			PreparedStatement stmt2 = conn.prepareStatement(selectAllElectionsVoters);
-  
-			){
-    		stmt.setQueryTimeout(TIMEOUT);
-    		
-    		Map<Long, Election> map = new HashMap<Long, Election>();
-    		
-    		ResultSet rs = stmt.executeQuery();
-    		while(rs.next())
-    		{
-    			long societyID = rs.getLong(1);
-    			long time = rs.getLong(2);
-    			long candidateID = rs.getLong(3);
-    			//System.out.println(candidateID);
-    			//System.out.println(AccountManager.getInstance().getAccount(candidateID).getStudentInfo().getName());
-    			int votes = rs.getInt(4);
-    			Date endDate = new Date(time);
-    			Date now = new Date();
-    			if(now.before(endDate))
-    			{
-    				if(map.containsKey(societyID))
-    				{
-    					Election e = map.get(societyID);
-    					e.addCandidate(candidateID);
-    					e.setVotes(candidateID, votes);
-    					//for(Account a : e.getCandidates())
-    						//System.out.println(a.getStudentInfo().getName());
-    				}
-    				else
-    				{
-    					Election e = new Election(endDate, societyID);
-    					e.addCandidate(candidateID);
-    					e.setVotes(candidateID, votes);
-    					map.put(societyID, e);
-    				}
-    			}
-    		}
-    		ResultSet rs2 = stmt2.executeQuery();
-    		while(rs2.next()){
-    			long societyID = rs2.getLong(1);
-    			long time = rs2.getLong(2);
-    			long voterID = rs2.getLong(3);
-    			
-    			Date endDate = new Date(time);
-    			Date now = new Date();
-    			if(now.before(endDate)){
-    				if(map.containsKey(societyID))
-    				{
-    					Election e = map.get(societyID);
-    					e.addVoter(voterID);
-    				}
-    			}
-    		}
-    		
-    		return map;
-    	}
-    }
-    
+
     public static Map<Long, Collection<Election>> getPassedElections() throws SQLException {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(selectAllElections);
-  
+
 			){
     		stmt.setQueryTimeout(TIMEOUT);
-    		
+
     		Map<Long, Collection<Election>> map = new HashMap<Long, Collection<Election>>();
-    		
+
     		ResultSet rs = stmt.executeQuery();
     		while(rs.next())
     		{
@@ -507,7 +341,7 @@ public class DBController {
     		return map;
     	}
     }
-    
+
     public static void removeElectionVote(long socID, long vID) throws SQLException {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
@@ -518,12 +352,12 @@ public class DBController {
     		stmt.execute();
     	}
     }
-    
+
     public static void addElectionVoter(Election e, long socID, long vID)throws SQLException{
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(addElectionVoter);
-  
+
 			){
 	    	stmt.setLong(1, socID);
 	    	stmt.setLong(2, e.getInfo().getEndDate().getTime());
@@ -535,7 +369,7 @@ public class DBController {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(addElectionCandidate);
-  
+
 			){
 	    	stmt.setLong(1, socID);
 	    	stmt.setLong(2, e.getInfo().getEndDate().getTime());
@@ -549,22 +383,22 @@ public class DBController {
     	try(
     			Connection conn = DriverManager.getConnection(DB_URL);
     			PreparedStatement stmt = conn.prepareStatement(addElectionVote);
-    			
+
 			){
-    		
+
     		stmt.setLong(1, societyID);
     		stmt.setLong(2,  e.getInfo().getEndDate().getTime());
     		stmt.setLong(3, canID);
     		stmt.execute();
-    	}    	
+    	}
     }**/
-    
-    
 
-    
-    
+
+
+
+
     //For reference on using JDBC
-    
+
 //    public User getUserById( String name ) throws SQLException {
 //        try (
 //                Connection conn = DriverManager.getConnection(dbURL);
@@ -662,7 +496,7 @@ public class DBController {
 //            stmt.executeUpdate();
 //        }
 //    }
-//    
+//
 //    public void changeWins(String name, int wins) throws SQLException {
 //        try (
 //            Connection conn = DriverManager.getConnection(dbURL);
@@ -697,5 +531,5 @@ public class DBController {
 //            stmt.executeUpdate();
 //        }
 //    }
-    
+
 }
