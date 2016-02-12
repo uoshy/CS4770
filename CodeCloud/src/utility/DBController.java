@@ -145,7 +145,7 @@ public class DBController {
 	"INSERT INTO AssignmentFeedback (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove submission
-    private static String removeMemberStatement =
+    private static String removeAFeedbackStatement =
     	"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
 
@@ -245,7 +245,7 @@ public class DBController {
     		while (rs.next()){
     			String courseID = rs.getString(1);
     			String term = rs.getString(2);
-    			map.put(username, new Course(courseID, term));
+    			map.put(courseID + "|" + term, new Course(courseID, term));
     		}
 		return map;
 	}
@@ -279,82 +279,97 @@ public class DBController {
 
 	public static Map<String, Enrollment> getAllEnrollments() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
-    		PreparedStatement stmt = conn.prepareStatement(selectAllAccounts);
-		Map<String, User> map = new HashMap<>();
+    		PreparedStatement stmt = conn.prepareStatement(selectAllEnrollments);
+		Map<String, Enrollment> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
-    			String username = rs.getString(1);
-    			String password = rs.getString(2);
-    			map.put(username, new User(username, password));
+			String u = rs.getString("username");
+			String c = rs.getString("courseID");
+			String t = rs.getString("term");
+			String r = rs.getString("role");
+			map.put(String.format("%s|%s|%s|%s", u, c, t, r), new Enrollment(u, c, t, r));
     		}
 		return map;
 	}
 
-	public static void addUser(User user) throws SQLException {
-		modifyStatement(addUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+	public static void addEnrollment(Enrollment enrollment) throws SQLException {
+		modifyStatement(addEnrollmentStatement, new DBObject[]{new DBString(enrollment.getUsername()), new DBString(enrollment.getCourseID(), enrollment.getTerm(), enrollment.getRole())});
 	}
 
-	public static void removeUser(User user) throws SQLException {
-		modifyStatement(removeUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+	public static void removeEnrollment(Enrollment enrollment) throws SQLException {
+		modifyStatement(removeEnrollmentStatement, new DBObject[]{new DBString(enrollment.getUsername()), new DBString(enrollment.getCourseID(), enrollment.getTerm())});
 	}
 
-	public User getUser(String userName) throws SQLException {
+	//Assignment
+	public Assignment getAssignment(String username, String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(dbURL);
-                PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
+                PreparedStatement stmt = conn.prepareStatement(selectAssignmentStatement);
 		stmt.setQueryTimeout(timeout);
-		stmt.setString(1, name);
+		stmt.setString(1, username);
+		stmt.setString(2, courseID);
+		stmt.setString(3, term);
+		stmt.setInt(4, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
-			String username = rs.getString("username");
-			String password = rs.getString("password");
-			return new User(name, pass);
+			String u = rs.getString("username");
+			String c = rs.getString("courseID");
+			String t = rs.getString("term");
+			int n = rs.getInt("number");
+			return new Assignment(u, c, t, n);
 		}
 		return null;
 	}
 
-	public static Map<String, User> getAllUsers() throws SQLException {
+	public static Map<String, Assignment> getAllAssignments() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
-    		PreparedStatement stmt = conn.prepareStatement(selectAllAccounts);
-    		//long ID, String name, long student id, Date DOB, String username, string password
+    		PreparedStatement stmt = conn.prepareStatement(selectAllAssignmentsStatement);
 		Map<String, User> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
-    			String username = rs.getString(1);
-    			String password = rs.getString(2);
-    			map.put(username, new User(username, password));
+			String u = rs.getString("username");
+			String c = rs.getString("courseID");
+			String t = rs.getString("term");
+			int n = rs.getInt("number");
+    			map.put(String.format("%s|%s|%s|%d", u, c, t, n), new Assignment(u, c, t, n));
     		}
 		return map;
 	}
 
-	public static void addUser(User user) throws SQLException {
-		modifyStatement(addUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+	public static void addAssignment(Assignment assignment) throws SQLException {
+		modifyStatement(addAssignmentStatement, new DBObject[]{new DBString(assignment.getcourseID()), new DBString(assignment.getTerm(), new DBInt(assignment.getNumber(), new DBString(assignment.getName(),
+			new DBString(assignment.getPath(), new DBString(assignment.getTestSuitePath(), new DBInt(assignment.getSubmissionLimit())});
 	}
 
-	public static void removeUser(User user) throws SQLException {
-		modifyStatement(removeUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
+	public static void removeAssignment(Assignment assignment) throws SQLException {
+		modifyStatement(removeAssignmentStatement, new DBObject[]{new DBString(assignment.getcourseID()), new DBString(assignment.getTerm(), new DBInt(assignment.getNumber()});
 	}
 
-	public User getUser(String userName) throws SQLException {
+	//Assignment Submission
+	public AssignmentSubmission getAssignmentSubmission(String username, String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(dbURL);
                 PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
 		stmt.setQueryTimeout(timeout);
-		stmt.setString(1, name);
+		stmt.setString(1, username);
+		stmt.setString(2, courseID);
+		stmt.setString(3, term);
+		stmt.setInt(4, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
-			String username = rs.getString("username");
-			String password = rs.getString("password");
-			return new User(name, pass);
+			String u = rs.getString("username");
+			String c = rs.getString("courseID");
+			String t = rs.getString("term");
+			int n = rs.getString("number");
+			return new AssignmentSubmission(u, c, t, n);
 		}
 		return null;
 	}
 
-	public static Map<String, User> getAllUsers() throws SQLException {
+	public static Map<String, AssignmentSubmission> getAllAssignmentSubmissions() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
-    		PreparedStatement stmt = conn.prepareStatement(selectAllAccounts);
-    		//long ID, String name, long student id, Date DOB, String username, string password
-		Map<String, User> map = new HashMap<>();
+    		PreparedStatement stmt = conn.prepareStatement(selectAllASubmissions);
+		Map<String, AssignmentSubmission> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
@@ -414,10 +429,10 @@ public class DBController {
 	//For statements that change the state of a table (add/remove data)
 	public static void modifyStatement(String statementType, DBObject[] dbArray) throws SQLException {
 		Connection connection = DriverManager.getConnection(DB_URL);
-  		PreparedStatement statement = connection.prepareStatement(statementType);
+  		PreparedStatement stmt = connection.prepareStatement(statementType);
 		for (int i = 0; i < dbArray.length; i++){
   			dbArray[i].addToStatement(statement, i+1);
 		}
-		statement.execute();
+		stmt.execute();
   	}
 }

@@ -1,3 +1,4 @@
+package utility;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 public class DBStringObject extends DBObject {
