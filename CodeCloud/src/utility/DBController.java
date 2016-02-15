@@ -261,7 +261,8 @@ public class DBController {
 	}
 
 	//Enrollments
-	public Enrollment getEnrollment(String username, String courseID, String term) throws SQLException {
+	//Enrollments are treated as a String array with values [username, courseID, term, role]
+	public String[] getEnrollment(String username, String courseID, String term) throws SQLException {
 		Connection conn = DriverManager.getConnection(dbURL);
                 PreparedStatement stmt = conn.prepareStatement(selectEnrollmentStatement);
 		stmt.setQueryTimeout(timeout);
@@ -274,15 +275,15 @@ public class DBController {
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
 			String r = rs.getString("role");
-			return new Enrollment(u, c, t, r);
+			return new String[]{u, c, t, r};
 		}
 		return null;
 	}
 
-	public static Map<String, Enrollment> getAllEnrollments() throws SQLException {
+	public static Map<String, String[]> getAllEnrollments() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
     		PreparedStatement stmt = conn.prepareStatement(selectAllEnrollments);
-		Map<String, Enrollment> map = new HashMap<>();
+		Map<String, String[]> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
@@ -290,17 +291,17 @@ public class DBController {
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
 			String r = rs.getString("role");
-			map.put(String.format("%s|%s|%s|%s", u, c, t, r), new Enrollment(u, c, t, r));
+			map.put(String.format("%s|%s|%s|%s", u, c, t, r), new String{u, c, t, r});
     		}
 		return map;
 	}
 
-	public static void addEnrollment(Enrollment enrollment) throws SQLException {
-		modifyStatement(addEnrollmentStatement, new DBObject[]{new DBString(enrollment.getUsername()), new DBString(enrollment.getCourseID(), enrollment.getTerm(), enrollment.getRole())});
+	public static void addEnrollment(String[] enrollment) throws SQLException {
+		if (enrollment.length == 4) modifyStatement(addEnrollmentStatement, new DBObject[]{new DBString(enrollment[0]), new DBString(enrollment[1]), new DBString(enrollment[2]), new DBString(enrollment[3])});
 	}
 
-	public static void removeEnrollment(Enrollment enrollment) throws SQLException {
-		modifyStatement(removeEnrollmentStatement, new DBObject[]{new DBString(enrollment.getUsername()), new DBString(enrollment.getCourseID(), enrollment.getTerm())});
+	public static void removeEnrollment(String[] enrollment) throws SQLException {
+		if (enrollment.length == 3 || enrollment.length == 4) modifyStatement(removeEnrollmentStatement, new DBObject[]{new DBString(enrollment[0]), new DBString(enrollment[1]), new DBString(enrollment[2])});
 	}
 
 	//Assignment
