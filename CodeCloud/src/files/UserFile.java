@@ -24,6 +24,10 @@ public class UserFile {
      * @return The Java File object pointing to this user file in the file system.
      */
     public File getFile(){
+	//Should this method take a User object as a parameter?
+	FileManager manager = FileManager.getInstance();
+	//if manager.authorize(user, this){...} else{...}
+	File file = new File(path);
     	return null;
     }
 
