@@ -1,9 +1,13 @@
 package files;
 
-import files.UserFile;
-import users.User;
-
 import java.io.File;
+import java.lang.String;
+import java.sql.SQLException;
+
+import files.UserFile;
+import users.Role;
+import users.User;
+import utility.DBController;
 
 public class FileManager
 {
@@ -50,7 +54,70 @@ public class FileManager
 	 */
 	public boolean authorize(User user, UserFile file)
 	{
-		//TODO authorization
-		return true;
+		boolean auth = false;
+		String[] path = file.getPath.split("/");
+
+		if (path.length >= 2){
+			if (path[0].equals("users")){
+				if (path[1].equals(user.getUsername())) auth = true;
+			}
+
+			else if (path[0].equals("courses")){
+				if (path.length >= 3){
+					try (
+						String[] enrollment = DBController.getEnrollment(user.getUsername(), path[2], path[1]);
+					) catch (SQLException sqle){
+						return false;
+					}
+
+					if (enrollment == null) return false;
+
+					if (Role.valueOf(enrollment[3]).equals(Role.Student)){
+						if (path.length >= 6){
+							if (path[5].equals(user.getUsername()) || path[3].equals("assignments")) return true;
+						}
+						else if (path.length >= 4){
+							if (path[3].equals("assignments")) return true;
+						}
+					}
+
+					else {
+						auth = true;
+					}
+				}
+			}
+		}
+
+		return auth;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

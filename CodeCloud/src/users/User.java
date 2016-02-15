@@ -54,4 +54,8 @@ public class User {
 	{
 		return activeRole;
 	}
+
+	public String getUsername(){
+		return username;
+	}
 }

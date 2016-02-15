@@ -12,7 +12,8 @@ import users.User;
  */
 public class UserFile {
 	
-	/** The path to the file in the file system */
+    /** The path to the file in the file system */
+    //Does not start with 'static/'
     private String path;
     
     /** The owner of the file */
@@ -24,5 +25,13 @@ public class UserFile {
      */
     public File getFile(){
     	return null;
+    }
+
+    public User getOwner(){
+	return owner;
+    }
+
+    public String getPath(){
+	return path;
     }
 }
