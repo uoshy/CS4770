@@ -1,6 +1,6 @@
 package cloudCoding;
 
-import java.util.Collection;
+import java.util.List;
 
 import files.UserFile;
 import utility.HTMLDisplayable;
@@ -19,10 +19,10 @@ public class CompilerReturn implements HTMLDisplayable
 	public String compilerMessage;
 	
 	/** 
-	 * The collection of compiled files. 
+	 * The list of compiled files. 
 	 * May be object files or library files depending on compiler options.
 	 */
-	public Collection<UserFile> returnedFiles;
+	public List<UserFile> returnedFiles;
 	
 	/**
 	 * Encode the compiler message as an HTML string to be displayed
@@ -34,7 +34,12 @@ public class CompilerReturn implements HTMLDisplayable
 		String toReturn = "<div class=\"CompilerReturn\">"
 				+ "<pre class=\"CompilerReturn\">"
 				+ compilerMessage
-				+ "</pre></div>";
+				+ "</pre>";
+		for(int i = 0; i < returnedFiles.size(); i++)
+		{
+			toReturn += "<a href=\"" + returnedFiles.get(i).getPath() + "\">File " + i + "</a><br>";
+		}
+		toReturn += "</div>";
 		return toReturn;
 	}
 	

@@ -3,6 +3,8 @@
 <head>
 <title>CodeCloud Test</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="/compilerTest.js"></script>
+    
 </head>
 <body>
     <div class="NavBar">
@@ -17,7 +19,7 @@
         <h2>CodeCloud Test</h2>
         
         <p>Enter code into the following text area:</p>
-        <pre class="TextEditor" contenteditable="true">public class Hello
+        <pre class="TextEditor" contenteditable="true" id="editor">public class Hello
 {
     public static void main(String[] args)
     {
@@ -27,10 +29,10 @@
 
         <div class="Console">
             <div class="ConsoleHeader">
-                <button type="button">Compile</button>
+                <button type="button" onclick="compile()">Compile</button>
                 <button type="button">Run</button>
             </div>
-            <div class="ConsoleIO">
+            <div class="ConsoleIO" id="console">
             <span class="Output">Hello World!</span><br>
             <span class="Input" contentEditable="true">Enter data: </span>
             </div>

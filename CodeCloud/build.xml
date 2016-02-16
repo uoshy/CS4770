@@ -51,7 +51,7 @@
     </target>
 
     <target name="CodeCloud" depends="compile">
-        <java classname="main/CodeCloudMain" fork="true">
+        <java classname="main.CodeCloudMain" fork="true">
             <classpath>
                 <pathelement path="${dest.dir}"/>
                 <path refid="lib-jars"/>
@@ -61,7 +61,9 @@
 
     <target name="clean">
         <delete includeemptydirs="true">
-            <fileset dir="classes" includes="**/*"/>
+            <fileset dir="classes/"/>
+        	<fileset dir="bin/"/>
+        	<fileset dir="lib/"/>
         </delete>
     </target>
 

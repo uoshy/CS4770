@@ -17,12 +17,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import cloudCoding.CompilerReturn;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.SQLException;
 
 import json.CompilerInput;
+import files.UserFile;
 
 /**
  * The main class to run the java spark framework.
@@ -57,15 +63,38 @@ public class CodeCloudMain
             return null;   
         });
         
-        get("/editor/compile", (request, response) ->
+        get("/editor", (request, response) -> {
+        	response.redirect("/CodeCloudTest.html");
+        	return null;
+        });
+        
+        post("/editor/compile/java", (request, response) ->
         {   
-           response.type("application/json");
+           response.type("text/html");
            try
            {
         	   Gson gson = new Gson();
         	   String body = request.body();
         	   CompilerInput input = gson.fromJson(body, CompilerInput.class);
+        	   log(request.body());
+        	   log(input.fileContent);
+        	   log(input.fileName);
+        	   File dir = new File("static/temp");
+        	   if(!dir.exists())
+        		   dir.mkdir();
+        	   File file = new File("static/temp/" + input.fileName + ".java");
+        	   if(!file.exists())
+        		   file.createNewFile();
+        	   BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        	   out.write(input.fileContent, 0, input.fileContent.length());
+        	   out.flush();
+        	   out.close();
+        	   UserFile uFile = new UserFile(null, "static/temp/"+input.fileName + ".java");
         	   
+        	   UserFile uDir = new UserFile(null, "static/temp");
+        	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile});
+        	   log("CompilerMessage " + compRet.compilerMessage);
+        	   return compRet.displayAsHTML();
            }
            catch(JsonParseException ex)
            {
@@ -73,9 +102,7 @@ public class CodeCloudMain
                halt(400, "malformed values");
                return null;
            }
-           
-           return null;
-        }, new JsonTransformer() );
+        });
 
     }//main
 

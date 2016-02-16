@@ -50,7 +50,27 @@ public class JavaLanguage implements Language
 	@Override
 	public CompilerReturn compile(UserFile[] files)
 	{
-		return null;
+        if(files.length < 2)
+        {
+            //Not enough files to compile. 
+            return null;
+        }
+        String[] commands = new String[files.length];
+        commands[0] = "javac";
+        String workingDir = files[0].getPath();
+        for(int i = 1; i < commands.length; i++)
+        {
+        	String path = files[i].getPath();
+        	int index = path.indexOf(workingDir);
+        	path = path.substring(index+workingDir.length());
+        	if(path.indexOf("/") == 0)
+        		path = path.substring(1);
+            commands[i] = path;
+        }
+        System.out.println(workingDir);
+        for(int i = 0; i < commands.length; i++)
+        	System.out.println(commands[i]);
+        return Compiler.getInstance().compile(files[0], files.length-1, commands);
 	}
 	
 	@Override

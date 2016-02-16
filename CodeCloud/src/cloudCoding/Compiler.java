@@ -2,6 +2,11 @@ package cloudCoding;
 
 import files.UserFile;
 
+import java.util.Arrays;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class Compiler
 {
 	/** Singleton reference */
@@ -45,16 +50,84 @@ public class Compiler
 	 * executes the specified commands and returns the a CompilerReturn object
 	 * which encapsulates the compiler messages and output files.
 	 * 
-	 * The first UserFile in files should be a file pointer to the working directory
-	 * to compile from. The remaining files should be the files to compile.
+	 * The UserFile represents the working directory from which to compile.
+	 * The fileCount is the number of files to compile. The variable list
+	 * of command strings should always finish with the files names to compile and
+	 * therefore begin with the command and all arguments.
 	 * 
-	 * @param files an array of files representing the working directory and files to compile
+	 * @param file a file representing the working directory
+	 * @param fileCount the number of files to compile
 	 * @param commands a variable list of command arguments for execution
 	 * @return a CompilerReturn object encapsulating compiler output
 	 */
-	public CompilerReturn compile(UserFile[] files, String... commands)
+	public CompilerReturn compile(UserFile file, int fileCount, String... commands)
 	{
-		return null;
-		//TODO actual compiling
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.redirectErrorStream(true);
+		builder.command(commands);
+        
+        builder.directory(file.getFile());
+        try{
+            Process proc = builder.start();
+            System.out.println("Started");
+            StringBuilder output = new StringBuilder();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+            	System.out.println("Read: " + line);
+                output.append(line);
+                output.append("\n");
+            }
+            reader.close();
+            try{
+            	System.out.println("Waiting");
+            	proc.waitFor();
+            	System.out.println(proc.exitValue());
+            }
+            catch(InterruptedException ie){}
+            CompilerReturn toReturn = new CompilerReturn();
+            String outStr = output.toString();
+            if(outStr.length() > 0)
+            	toReturn.compilerMessage = output.toString();
+            else
+            	toReturn.compilerMessage = "Compilation Successful!";
+            
+            UserFile[] classFiles = new UserFile[fileCount];
+            String dir = file.getPath();
+        	int index = dir.indexOf("static/");
+        	if(index >= 0) 
+        		dir = dir.substring(index + 7);
+            for(int i = 0; i < fileCount; i++)
+            {
+            	String fileName = commands[commands.length - fileCount + i];
+            	int dotIndex = fileName.indexOf(".");
+            	if(dotIndex > 0)
+            		fileName = fileName.substring(0, dotIndex) + ".class";
+            	classFiles[i] = new UserFile(null, dir+"/"+fileName);
+            }
+            toReturn.returnedFiles = Arrays.asList(classFiles);
+            return toReturn;
+        }
+		catch(NullPointerException npe)
+        {
+            //one of the strings in commands where null
+            return null;
+        }
+        catch(IndexOutOfBoundsException iobe)
+        {
+            //commands had no elements in it
+            return null;
+        }
+        catch(SecurityException se)
+		{
+            //Security does not allow subprocesses or read/write access
+			return null;
+		}
+		catch(IOException ioe)
+        {
+            //error in process I/O
+            return null;
+        }
 	}
 }
