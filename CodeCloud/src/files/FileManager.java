@@ -55,7 +55,7 @@ public class FileManager
 	public boolean authorize(User user, UserFile file)
 	{
 		boolean auth = false;
-		String[] path = file.getPath.split("/");
+		String[] path = file.getPath().split("/");
 
 		if (path.length >= 2){
 			if (path[0].equals("users")){
@@ -64,9 +64,10 @@ public class FileManager
 
 			else if (path[0].equals("courses")){
 				if (path.length >= 3){
-					try (
-						String[] enrollment = DBController.getEnrollment(user.getUsername(), path[2], path[1]);
-					) catch (SQLException sqle){
+					String[] enrollment;
+					try {
+						enrollment = DBController.getEnrollment(user.getUsername(), path[2], path[1]);
+					} catch (SQLException sqle){
 						return false;
 					}
 

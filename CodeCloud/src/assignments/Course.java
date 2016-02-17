@@ -91,4 +91,16 @@ public class Course {
 	{
 		assignments.add(assignment);
 	}
+
+	public String getCourseID(){
+		return courseID;
+	}
+
+	public String getTerm(){
+		return term;
+	}
+
+	public String getName(){
+		return name;
+	}
 }
