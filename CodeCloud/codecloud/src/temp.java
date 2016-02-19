@@ -15,14 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import assignments.Assignment;
-import assignments.AssignmentSolution;
-import assignments.AssignmentSubmission;
-import assignments.Comments;
-import assignments.Course;
-import users.Role;
-import users.User;
-
 public class DBController {
     //try loading sqlite
     static {
@@ -31,6 +23,7 @@ public class DBController {
         }
         catch(Exception e) {
         	System.out.println("Error: Unable to load SQLite.");
+            System.err.println(e.printStackTrace());
             e.printStackTrace();
             System.exit(0);
         }
@@ -47,7 +40,7 @@ public class DBController {
 
     //add a user
     private static String addUserStatement =
-	"INSERT INTO Users (username, password, firstname, lastname, studentNumber) VALUES(?, ?, ?, ?, ?)";
+	"INSERT INTO Users (username, password) VALUES(?, ?)";
 
     //remove user
     private static String removeUserStatement =
@@ -118,25 +111,25 @@ public class DBController {
 	"INSERT INTO Users (courseID, term, number, path) VALUES(?, ?, ?, ?)";
 
     //remove assignment solution
-    private static String removeASolutionStatement =
+    private static String removeMemberStatement =
     	"DELETE FROM AssignmentSolutions WHERE courseID=? AND term=? AND number=?";
 
     //assignment feedback
     //get an assignment's feedback
     private static String selectAFeedbackStatement =
-    	"SELECT * FROM Comments WHERE username=? AND courseID=? AND term=? AND number=?";
+    	"SELECT * FROM AssignmentFeedback WHERE username=? AND courseID=? AND term=? AND number=?";
 
     //get all feedback
     private static String selectAllAFeedbackStatement =
-    	"SELECT * FROM Comments";
+    	"SELECT * FROM AssignmentFeedback";
 
     //add feedback
     private static String addAFeedbackStatement =
-	"INSERT INTO Comments (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	"INSERT INTO AssignmentFeedback (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove feedback
     private static String removeAFeedbackStatement =
-    	"DELETE FROM Comments WHERE username=? AND courseID=? AND term=? and number=?";
+    	"DELETE FROM AssignmentFeedback WHERE username=? AND courseID=? AND term=? and number=?";
 
     //assignment submissions
     //get an assignment ubmission by courseID, term, number, and username
@@ -162,9 +155,9 @@ public class DBController {
 
     public static void initialize() throws SQLException {
         //find path to database file
-    	try {
+    	try (
     		DB_URL = DBController.searchForDatabaseFile();
-    	} catch (FileNotFoundException ex) {
+    	) catch (FileNotFoundException ex) {
     		System.err.println(ex.getMessage());
     		ex.printStackTrace();
     	}
@@ -177,35 +170,31 @@ public class DBController {
 				return name.equals(DB_FILENAME);
 			}
 		};
- 
- 	   	//search for Database.db in the current directory and the two parent directories
-	   	File currentDir = new File(System.getProperty("user.dir"));
-    		int i = 0;
-    		do {
-		    	File[] filesInCurrentDir = currentDir.listFiles(dbFilter);
-		    	if (filesInCurrentDir.length > 0) {
-		    		return "jdbc:sqlite:" + filesInCurrentDir[0];
-		    	}
-		    	currentDir = currentDir.getParentFile();
-    		}
-		while (i < 2);
-			throw new FileNotFoundException("Database file Database.db not found!");
+    	};
+    	//search for Database.db in the current directory and the two parent directories
+    	File currentDir = new File(System.getProperty("user.dir"));
+    	int i = 0;
+    	do {
+	    	File[] filesInCurrentDir = currentDir.listFiles(dbFilter);
+	    	if (filesInCurrentDir.length > 0) {
+	    		return "jdbc:sqlite:" + filesInCurrentDir[0];
+	    	}
+	    	currentDir = currentDir.getParentFile();
+    	} while (i < 2);
+		throw new FileNotFoundException("Database file Database.db not found!");
 	}
 
 	//Users
-	public static User getUser(String userName) throws SQLException {
+	public User getUser(String userName) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
-		stmt.setQueryTimeout(TIMEOUT);
-		stmt.setString(1, userName);
+		stmt.setQueryTimeout(timeout);
+		stmt.setString(1, name);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
 			String username = rs.getString("username");
 			String password = rs.getString("password");
-			String firstname = rs.getString("firstname");
-			String lastname = rs.getString("lastname");
-			long studentNumber = rs.getLong("studentNumber");
-			return new User(username, password, firstname, lastname, studentNumber);
+			return new User(name, pass);
 		}
 		return null;
 	}
@@ -219,27 +208,24 @@ public class DBController {
     		while (rs.next()){
     			String username = rs.getString("username");
     			String password = rs.getString("password");
-			String firstname = rs.getString("firstname");
-			String lastname = rs.getString("lastname");
-			long studentNumber = rs.getLong("studentNumber");
-    			map.put(username, new User(username, password, firstname, lastname, studentNumber));
+    			map.put(username, new User(username, password));
     		}
 		return map;
 	}
 
 	public static void addUser(User user) throws SQLException {
-		modifyStatement(addUserStatement, new DBObject[]{new DBStringObject(user.getUsername()), new DBStringObject(user.getPassword()), new DBStringObject(user.getFirstname()), new DBStringObject(user.getLastname()), new DBFloatObject(user.getStudentNumber())});
+		modifyStatement(addUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
 	}
 
 	public static void removeUser(User user) throws SQLException {
-		modifyStatement(removeUserStatement, new DBObject[]{new DBStringObject(user.getUsername()), new DBStringObject(user.getPassword())});
+		modifyStatement(removeUserStatement, new DBObject[]{new DBString(user.getUsername()), new DBString(user.getPassword())});
 	}
 
 	//Courses
-	public static Course getCourse(String courseID, String term) throws SQLException {
+	public Course getCourse(String courseID, String term) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectCourseStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, courseID);
 		stmt.setString(2, term);
 		ResultSet rs = stmt.executeQuery();
@@ -262,25 +248,25 @@ public class DBController {
     			String cID = rs.getString("courseID");
     			String term = rs.getString("term");
 			String name = rs.getString("name");
-    			map.put(cID + "|" + term, new Course(cID, term, name));
+    			map.put(courseID + "|" + term, new Course(courseID, term, name));
     		}
 		return map;
 	}
 
 	public static void addCourse(Course course) throws SQLException {
-		modifyStatement(addCourseStatement, new DBObject[]{new DBStringObject(course.getCourseID()), new DBStringObject(course.getTerm())});
+		modifyStatement(addCourseStatement, new DBObject[]{new DBString(course.getCourseID()), new DBString(course.getTerm())});
 	}
 
 	public static void removeCourse(Course course) throws SQLException {
-		modifyStatement(removeCourseStatement, new DBObject[]{new DBStringObject(course.getCourseID()), new DBStringObject(course.getTerm()), new DBStringObject(course.getName())});
+		modifyStatement(removeCourseStatement, new DBObject[]{new DBString(course.getCourseID()), new DBString(course.getTerm()), new DBString(course.getName())});
 	}
 
 	//Enrollments
 	//Enrollments are treated as a String array with values [username, courseID, term, role]
-	public static String[] getEnrollment(String username, String courseID, String term) throws SQLException {
+	public String[] getEnrollment(String username, String courseID, String term) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectEnrollmentStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, username);
 		stmt.setString(2, courseID);
 		stmt.setString(3, term);
@@ -297,7 +283,7 @@ public class DBController {
 
 	public static Map<String, String[]> getAllEnrollments() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
-    		PreparedStatement stmt = conn.prepareStatement(selectAllEnrollmentsStatement);
+    		PreparedStatement stmt = conn.prepareStatement(selectAllEnrollments);
 		Map<String, String[]> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
@@ -312,18 +298,18 @@ public class DBController {
 	}
 
 	public static void addEnrollment(String[] enrollment) throws SQLException {
-		if (enrollment.length == 4) modifyStatement(addEnrollmentStatement, new DBObject[]{new DBStringObject(enrollment[0]), new DBStringObject(enrollment[1]), new DBStringObject(enrollment[2]), new DBStringObject(enrollment[3])});
+		if (enrollment.length == 4) modifyStatement(addEnrollmentStatement, new DBObject[]{new DBString(enrollment[0]), new DBString(enrollment[1]), new DBString(enrollment[2]), new DBString(enrollment[3])});
 	}
 
 	public static void removeEnrollment(String[] enrollment) throws SQLException {
-		if (enrollment.length == 3 || enrollment.length == 4) modifyStatement(removeEnrollmentStatement, new DBObject[]{new DBStringObject(enrollment[0]), new DBStringObject(enrollment[1]), new DBStringObject(enrollment[2])});
+		if (enrollment.length == 3 || enrollment.length == 4) modifyStatement(removeEnrollmentStatement, new DBObject[]{new DBString(enrollment[0]), new DBString(enrollment[1]), new DBString(enrollment[2])});
 	}
 
 	//Assignment
-	public static Assignment getAssignment(String courseID, String term, int number) throws SQLException {
+	public Assignment getAssignment(String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectAssignmentStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, courseID);
 		stmt.setString(2, term);
 		stmt.setInt(3, number);
@@ -361,19 +347,19 @@ public class DBController {
 	}
 
 	public static void addAssignment(Assignment assignment) throws SQLException {
-		modifyStatement(addAssignmentStatement, new DBObject[]{new DBStringObject(assignment.getCourse().getCourseID()), new DBStringObject(assignment.getCourse().getTerm()), new DBIntObject(assignment.getNumber()), new DBStringObject(assignment.getName()),
-			new DBStringObject(assignment.getPath()), new DBStringObject(assignment.getTestSuitePath()), new DBIntObject(assignment.getSubmissionLimit())});
+		modifyStatement(addAssignmentStatement, new DBObject[]{new DBString(assignment.getcourseID()), new DBString(assignment.getTerm()), new DBInt(assignment.getNumber()), new DBString(assignment.getName()),
+			new DBString(assignment.getPath()), new DBString(assignment.getTestSuitePath()), new DBInt(assignment.getSubmissionLimit())});
 	}
 
 	public static void removeAssignment(Assignment assignment) throws SQLException {
-		modifyStatement(removeAssignmentStatement, new DBObject[]{new DBStringObject(assignment.getCourse().getCourseID()), new DBStringObject(assignment.getCourse().getTerm()), new DBIntObject(assignment.getNumber())});
+		modifyStatement(removeAssignmentStatement, new DBObject[]{new DBString(assignment.getcourseID()), new DBString(assignment.getTerm()), new DBInt(assignment.getNumber())});
 	}
 
 	//Assignment Submission
-	public static AssignmentSubmission getAssignmentSubmission(String username, String courseID, String term, int number) throws SQLException {
+	public AssignmentSubmission getAssignmentSubmission(String username, String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectASubmissionStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, username);
 		stmt.setString(2, courseID);
 		stmt.setString(3, term);
@@ -410,19 +396,19 @@ public class DBController {
 	}
 
 	public static void addAssignmentSubmission(AssignmentSubmission aSub) throws SQLException {
-		modifyStatement(addAssignmentSubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getNumber()),
-			new DBStringObject(aSub.getPath()), new DBIntObject(aSub.getSubmissionNumber())});
+		modifyStatement(addAssignmentSubmissionStatement, new DBObject[]{new DBString(aSub.getUsername()), new DBString(aSub.getcourseID()), new DBString(aSub.getTerm()), new DBInt(aSub.getNumber()),
+			new DBString(aSub.getPath()), new DBInt(aSub.getSubmissionNumber())});
 	}
 
-	public static void removeAssignmentSubmission(Assignment aSub) throws SQLException {
-		modifyStatement(removeASubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getNumber())});
+	public static void removeAssignment(Assignment aSub) throws SQLException {
+		modifyStatement(removeAssignmentSubmissionStatement, new DBObject[]{new DBString(aSub.getUsername()), new DBString(aSub.getcourseID()), new DBString(aSub.getTerm()), new DBInt(aSub.getNumber())});
 	}
 
-	//Assignment Comments
-	public static Comments getComments(String username, String courseID, String term, int number) throws SQLException {
+	//Assignment Feedback
+	public AssignmentFeedback getAssignmentFeedback(String username, String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectAFeedbackStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, username);
 		stmt.setString(2, courseID);
 		stmt.setString(3, term);
@@ -433,7 +419,7 @@ public class DBController {
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
 			int n = rs.getInt("number");
-			float f = rs.getFloat("grade");
+			float f = rs.getString("grade");
 			String fp = rs.getString("feedbackPath");
 			String ft = rs.getString("feedbackText");
 			return new AssignmentSubmission(u, c, t, n, f, fp, ft);
@@ -441,10 +427,10 @@ public class DBController {
 		return null;
 	}
 
-	public static Map<String, Comments> getAllComments() throws SQLException {
+	public static Map<String, AssignmentFeedback> getAllAssignmentFeedback() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
     		PreparedStatement stmt = conn.prepareStatement(selectAllAFeedbackStatement);
-		Map<String, Comments> map = new HashMap<>();
+		Map<String, AssignmentFeedback> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
@@ -460,20 +446,20 @@ public class DBController {
 		return map;
 	}
 
-	public static void addComments(Comments aFeed) throws SQLException {
-		modifyStatement(addAFeedbackStatement, new DBObject[]{new DBStringObject(aFeed.getRecipient().getUsername()), new DBStringObject(aFeed.getRelatedSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aFeed.getRelatedSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aFeed.getRelatedSubmission().getRelatedAssignment.getCourse().getNumber()),
-			new DBFloatObject(aFeed.getGrade()), new DBStringObject(aFeed.getFeedbackPath()), new DBStringObject(aFeed.getFeedbackText())});
+	public static void addAssignmentFeedback(AssignmentFeedback aFeed) throws SQLException {
+		modifyStatement(addAssignmentFeedbackStatement, new DBObject[]{new DBString(aFeed.getUsername()), new DBString(aFeed.getcourseID()), new DBString(aFeed.getTerm()), new DBInt(aFeed.getNumber()),
+			new DBFloat(aFeed.getGrade()), new DBString(aFeed.getFeedbackPath()), new DBString(aFeed.getFeedbackText())});
 	}
 
-	public static void removeComments(Comments comm) throws SQLException {
-		modifyStatement(removeAFeedbackStatement, new DBObject[]{new DBStringObject(comm.getRecipient().getUsername()), new DBStringObject(comm.getRelatedSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(comm.getRelatedSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(comm.getRelatedSubmission().getRelatedAssignment().getNumber())});
+	public static void removeAssignment(Assignment aSub) throws SQLException {
+		modifyStatement(removeAssignmentSubmissionStatement, new DBObject[]{new DBString(aFeed.getUsername()), new DBString(aFeed.getcourseID()), new DBString(aFeed.getTerm()), new DBInt(aFeed.getNumber())});
 	}
 
 	//Assignment solutions
-	public static AssignmentSolution getAssignmentSolution(String courseID, String term, int number) throws SQLException {
+	public AssignmentSolution getAssignmentSolution(String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
-                PreparedStatement stmt = conn.prepareStatement(selectASolutionStatement);
-		stmt.setQueryTimeout(TIMEOUT);
+                PreparedStatement stmt = conn.prepareStatement(selectSolutionStatement);
+		stmt.setQueryTimeout(timeout);
 		stmt.setString(1, courseID);
 		stmt.setString(2, term);
 		stmt.setInt(3, number);
@@ -505,11 +491,11 @@ public class DBController {
 	}
 
 	public static void addAssignmentSolution(AssignmentSolution aSol) throws SQLException {
-		modifyStatement(addASolutionStatement, new DBObject[]{new DBStringObject(aSol.getAssignment().getCourse().getCourseID()), new DBStringObject(aSol.getAssignment().getCourse().getTerm()), new DBIntObject(aSol.getAssignment().getNumber()), new DBStringObject(aSol.getPath())});
+		modifyStatement(addASolutionStatement, new DBObject[]{new DBString(aSol.getcourseID()), new DBString(aSol.getTerm()), new DBInt(aSol.getNumber()), new DBString(aSol.getPath())});
 	}
 
 	public static void removeAssignment(AssignmentSolution aSol) throws SQLException {
-		modifyStatement(removeASolutionStatement, new DBObject[]{new DBStringObject(aSol.getAssignment().getCourse().getCourseID()), new DBStringObject(aSol.getAssignment().getCourse().getTerm()), new DBIntObject(aSol.getAssignment().getNumber())});
+		modifyStatement(removeASolutionStatement, new DBObject[]{new DBString(aSol.getcourseID()), new DBString(aSol.getTerm()), new DBInt(aSol.getNumber())});
 	}
 
 	//For statements that change the state of a table (add/remove data)
@@ -517,7 +503,7 @@ public class DBController {
 		Connection connection = DriverManager.getConnection(DB_URL);
   		PreparedStatement stmt = connection.prepareStatement(statementType);
 		for (int i = 0; i < dbArray.length; i++){
-  			dbArray[i].addToStatement(stmt, i+1);
+  			dbArray[i].addToStatement(statement, i+1);
 		}
 		stmt.execute();
   	}

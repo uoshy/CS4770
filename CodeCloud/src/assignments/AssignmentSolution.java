@@ -22,4 +22,8 @@ public class AssignmentSolution {
     	this.files = files;
     	this.relatedAssignment = relatedAssignment;
     }
+
+	public Assignment getAssignment(){
+		return relatedAssignment;
+	}
 }

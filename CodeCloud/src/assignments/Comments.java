@@ -3,6 +3,7 @@ package assignments;
 import java.util.Collection;
 
 import files.UserFile;
+import users.User;
 import utility.HTMLDisplayable;
 
 /**
@@ -26,15 +27,22 @@ public class Comments implements HTMLDisplayable {
 	
 	/** The written comments about the submission*/
 	private String feedback;
+
+	/* The user being given the feedback */
+	private User recipient;
+
+	private AssignmentSubmission relatedSubmission;
 	
 	/**
 	 * Create a comments encapsulating the feedback given to an Assignment
 	 * Submission. This instance does not have any extra associated files.
 	 * @param feedback the prose feedback for the assignment submission
 	 */
-	public Comments(String feedback)
+	public Comments(String feedback, User recipient, AssignmentSubmission relatedSubmission)
 	{
 		this.feedback = feedback;
+		this.recipient = recipient;
+		this.relatedSubmission = relatedSubmission;
 	}
 	
 	/**
@@ -45,12 +53,26 @@ public class Comments implements HTMLDisplayable {
 	 * @param feedback the prose feedback for the assignment submission
 	 * @param commentFiles a collection of UserFiles to be included with these Comments
 	 */
-	public Comments(String feedback, Collection<UserFile> commentFiles)
+	public Comments(String feedback, Collection<UserFile> commentFiles, User recipient, AssignmentSubmission relatedSubmission)
 	{
 		this.feedback = feedback;
 		this.commentFiles = commentFiles;
+		this.recipient = recipient;
+		this.relatedSubmission = relatedSubmission;
 	}
 	
+	public User getRecipient(){
+		return recipient;
+	}
+
+	public String getFeedback(){
+		return feedback;
+	}
+
+	public AssignmentSubmission getRelatedSubmission(){
+		return relatedSubmission;
+	}
+
     public String displayAsHTML(){
     	//TODO
     	return null;

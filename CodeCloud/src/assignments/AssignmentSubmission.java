@@ -42,4 +42,11 @@ public class AssignmentSubmission
     	//TODO create submission receipt
     }
     
+	public Assignment getRelatedAssignment(){
+		return relatedAssignment;
+	}
+
+	public User getOwner(){
+		return owner;
+	}
 }

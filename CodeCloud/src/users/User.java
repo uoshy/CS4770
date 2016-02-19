@@ -17,7 +17,7 @@ public class User {
 	/** The user's password */
 	private String password;
 
-	private long studenNumber;
+	private long studentNumber;
 	
 	/** The user's active role on the system */
 	private Role activeRole;
@@ -29,7 +29,7 @@ public class User {
 	 * @param firstname the user's first name
 	 * @param lastname the user's last name
 	 */
-	public User(String username,String password, String firstname, String lastname, long studentNumber){
+	public User(String username, String password, String firstname, String lastname, long studentNumber){
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
@@ -68,5 +68,13 @@ public class User {
 
 	public long getStudentNumber(){
 		return studentNumber;
+	}
+
+	public String getFirstname(){
+		return firstname;
+	}
+
+	public String getLastname(){
+		return lastname;
 	}
 }

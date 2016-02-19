@@ -30,6 +30,9 @@ public class Assignment
 	
 	/** An optional solution set for this assignment */
 	private AssignmentSolution solution;
+
+	/** The assignment's number in its course */
+	private int number;
 	
 	/**
 	 * Create a new Assignment for a particular course offering by supplying a 
@@ -76,4 +79,12 @@ public class Assignment
     	//TODO the testing?
     	return null;
     }
+
+	public Course getCourse(){
+		return course;
+	}
+
+	public int getNumber(){
+		return number;
+	}
 }

@@ -1,5 +1,6 @@
 package utility;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 public abstract class DBObject {
-  public void addToStatement(PreparedStatement statement, int index){}
+  public abstract void addToStatement(PreparedStatement statement, int index) throws SQLException;
 }
