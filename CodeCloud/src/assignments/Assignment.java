@@ -20,7 +20,7 @@ public class Assignment
 	private Course course; 
 	
 	/** A collection of files containing the details of this assignment */
-	private Collection<UserFile> assignmentFiles;
+	private UserFile assignmentDir;
 	
 	/** Optional tests for testing assignment submissions */
 	private TestSuite tests;
@@ -40,10 +40,10 @@ public class Assignment
 	 * @param course the particular course offering for this Assignment
 	 * @param assignmentFiles a collection of files detailing this Assignment
 	 */
-    public Assignment(Course course, Collection<UserFile> assignmentFiles)
+    public Assignment(Course course, UserFile assignmentDir)
     {
     	this.course = course;
-    	this.assignmentFiles = assignmentFiles;
+    	this.assignmentDir = assignmentDir;
     	submissions = new ArrayList<AssignmentSubmission>();
     }
     

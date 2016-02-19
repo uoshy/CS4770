@@ -329,6 +329,7 @@ public class DBController {
 		stmt.setInt(3, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
+			//Better to use instance variables?
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
 			int num = rs.getInt("number");
