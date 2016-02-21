@@ -1,3 +1,4 @@
+//TODO: s# pk of asub?
 package utility;
 
 import java.io.File;
@@ -104,10 +105,10 @@ public class DBController {
 
     //add an assignment
     private static String addAssignmentStatement =
-	"INSERT INTO Assignments (courseID, term, number, name, path, testSuitePath, submissionLimit) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	"INSERT INTO Assignments (courseID, term, number, path, testSuitePath, submissionLimit) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove assignment
-    private static String removeMemberStatement =
+    private static String removeAssignmentStatement =
     	"DELETE FROM Assignments WHERE courseID=? AND term=? AND number=?";
 
     //assignment solutions
@@ -350,16 +351,17 @@ public class DBController {
 		stmt.setInt(3, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
-			Course c = DBController.getCourse(rs.getString("courseID"), rs.getString("term"));
+			String cID = rs.getString("courseID");
+			String t = rs.getString("term");
+			Course c = DBController.getCourse(cID, t);
 			int num = rs.getInt("number");
-			String name = rs.getString("name");
 			String p = rs.getString("path");
 			String tsp = rs.getString("testSuitePath");
 			int sl = rs.getInt("submissionLimit");
 			User instructor = DBController.getInstructor(c);
-			UserFile suiteFile = new UserFile(instructor, "/courses/term/courseID/assignments/" + num + "/tests");
-			//Course course, UserFile assignmentDir, TestSuite tests, UserFile submissions, int number, int submissionLimit
-			return new Assignment(c, new UserFile(instructor, "/courses/term/courseID/assignments"), new TestSuite(suiteFile), new UserFile(instructor, "/courses/term/courseID/submissions/[number]/submissions"), num, sl);
+			//UserFile suiteFile = new UserFile(instructor, "/courses/term/courseID/assignments/" + num + "/tests");
+			//Course course, UserFile assignmentDir, UserFile submissions, int number, int submissionLimit
+			return new Assignment(c, new UserFile(instructor, "/courses/" + t + "/" + cID + "/assignments" + num), new UserFile(instructor, "/courses/" + t + "/" + cID + "/submissions" + num), num, sl);
 		}
 		return null;
 	}
@@ -371,21 +373,23 @@ public class DBController {
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
-			String c = rs.getString("courseID");
+			String cID = rs.getString("courseID");
 			String t = rs.getString("term");
+			Course c = DBController.getCourse(cID, t);
 			int num = rs.getInt("number");
-			String name = rs.getString("name");
 			String p = rs.getString("path");
 			String tsp = rs.getString("testSuitePath");
 			int sl = rs.getInt("submissionLimit");
-    			map.put(String.format("%s|%s|%d|%s|%s|%s|%d", c, t, num, name, p, tsp, sl), new Assignment(c, t, num, name, p, tsp, sl));
+			User instructor = DBController.getInstructor(c);
+			//UserFile suiteFile = new UserFile(instructor, "/courses/term/courseID/assignments/" + num + "/tests");
+			//Course course, UserFile assignmentDir, UserFile submissions, int number, int submissionLimit
+    			map.put(String.format("%s|%s|%d", cID, t, num), new Assignment(c, new UserFile(instructor, "/courses/" + t + "/" + cID + "/assignments"), new UserFile(instructor, "/courses/" + t + "/" + cID + "/submissions/" + num + "/submissions"), num, sl));
     		}
 		return map;
 	}
 
 	public static void addAssignment(Assignment assignment) throws SQLException {
-		modifyStatement(addAssignmentStatement, new DBObject[]{new DBStringObject(assignment.getCourse().getCourseID()), new DBStringObject(assignment.getCourse().getTerm()), new DBIntObject(assignment.getNumber()), new DBStringObject(assignment.getName()),
-			new DBStringObject(assignment.getPath()), new DBStringObject(assignment.getTestSuitePath()), new DBIntObject(assignment.getSubmissionLimit())});
+		modifyStatement(addAssignmentStatement, new DBObject[]{new DBStringObject(assignment.getCourse().getCourseID()), new DBStringObject(assignment.getCourse().getTerm()), new DBIntObject(assignment.getNumber()), new DBStringObject("/courses/" + assignment.getCourse().getTerm() + "/" + assignment.getCourse().getCourseID() + "/assignments/" + assignment.getNumber()), new DBStringObject("/courses/" + assignment.getCourse().getTerm() + "/" + assignment.getCourse().getCourseID() + "/assignments/ " + assignment.getNumber() + "/tests"), new DBIntObject(assignment.getSubmissionLimit())});
 	}
 
 	public static void removeAssignment(Assignment assignment) throws SQLException {
@@ -409,7 +413,9 @@ public class DBController {
 			int n = rs.getInt("number");
 			String p = rs.getString("path");
 			int sn = rs.getInt("submissionNumber");
-			return new AssignmentSubmission(u, c, t, n, p, sn);
+			User user = DBController.getUser(u);
+			Assignment assignment = DBController.getAssignment(c, t, n);
+			return new AssignmentSubmission(user, assignment, new UserFile(user, "/courses/" + term + "/" + courseID + "/submissions/" + number + "/" + username), sn);
 		}
 		return null;
 	}
@@ -427,18 +433,20 @@ public class DBController {
 			int n = rs.getInt("number");
 			String p = rs.getString("path");
 			int sn = rs.getInt("submissionNumber");
-			map.put(String.format("%s|%s|%s|%d|%s|%d", u, c, t, n, p, sn), new AssignmentSubmission(u, c, t, n, p, sn));
+			User user = DBController.getUser(u);
+			Assignment assignment = DBController.getAssignment(c, t, n);
+			map.put(String.format("%s|%s|%s|%d", u, c, t, n), new AssignmentSubmission(user, assignment, new UserFile(user, "/courses/" + t + "/" + c + "/submissions/" + n + "/" + u), sn));
     		}
 		return map;
 	}
 
 	public static void addAssignmentSubmission(AssignmentSubmission aSub) throws SQLException {
-		modifyStatement(addAssignmentSubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getNumber()),
-			new DBStringObject(aSub.getPath()), new DBIntObject(aSub.getSubmissionNumber())});
+		modifyStatement(addASubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getRelatedAssignment().getNumber()),
+			new DBStringObject("/courses/" + aSub.getRelatedAssignment().getCourse().getTerm() + "/" + aSub.getRelatedAssignment().getCourse().getCourseID() + "/submissions/" + aSub.getRelatedAssignment().getNumber() + "/" + aSub.getOwner().getUsername()), new DBIntObject(aSub.getSubmissionNum())});
 	}
 
-	public static void removeAssignmentSubmission(Assignment aSub) throws SQLException {
-		modifyStatement(removeASubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getNumber())});
+	public static void removeAssignmentSubmission(AssignmentSubmission aSub) throws SQLException {
+		modifyStatement(removeASubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getSubmissionNum())});
 	}
 
 	//Assignment Comments

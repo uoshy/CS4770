@@ -22,10 +22,12 @@ public class AssignmentSubmission
     private Assignment relatedAssignment;
     
     /** The collection of files this submission is comprised of */
-    private Collection<UserFile> files;
+    private UserFile files;
     
     /** The confirmation of submission of the assignment to the system */
     private SubmissionReceipt submissionRec;
+
+    private int submissionNum;
     
     /**
      * Create an AssignmentSubmission, supplying the owner of the submission, 
@@ -35,10 +37,11 @@ public class AssignmentSubmission
      * @param files the files which this submission consists of
      */
     public AssignmentSubmission(User owner,Assignment relatedAssignment,
-    		Collection<UserFile> files){
+    		UserFile files, int submissionNum){
     	this.owner=owner;
     	this.relatedAssignment=relatedAssignment;
     	this.files=files;
+	this.submissionNum = submissionNum;
     	//TODO create submission receipt
     }
     
@@ -48,5 +51,9 @@ public class AssignmentSubmission
 
 	public User getOwner(){
 		return owner;
+	}
+
+	public int getSubmissionNum(){
+		return submissionNum;
 	}
 }

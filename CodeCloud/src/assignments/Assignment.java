@@ -120,4 +120,8 @@ public class Assignment
 	public int getNumber(){
 		return number;
 	}
+
+	public int getSubmissionLimit(){
+		return submissionLimit;
+	}
 }
