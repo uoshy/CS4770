@@ -19,6 +19,7 @@ import java.util.Map;
 import assignments.Assignment;
 import assignments.AssignmentSolution;
 import assignments.AssignmentSubmission;
+import assignments.Grade;
 import assignments.Comments;
 import assignments.Course;
 import files.UserFile;
@@ -131,19 +132,19 @@ public class DBController {
     //assignment feedback
     //get an assignment's feedback
     private static String selectAFeedbackStatement =
-    	"SELECT * FROM Comments WHERE username=? AND courseID=? AND term=? AND number=?";
+    	"SELECT * FROM Grade WHERE username=? AND courseID=? AND term=? AND number=?";
 
     //get all feedback
     private static String selectAllAFeedbackStatement =
-    	"SELECT * FROM Comments";
+    	"SELECT * FROM Grade";
 
     //add feedback
     private static String addAFeedbackStatement =
-	"INSERT INTO Comments (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	"INSERT INTO Grade (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     //remove feedback
     private static String removeAFeedbackStatement =
-    	"DELETE FROM Comments WHERE username=? AND courseID=? AND term=? and number=?";
+    	"DELETE FROM Grade WHERE username=? AND courseID=? AND term=? and number=?";
 
     //assignment submissions
     //get an assignment ubmission by courseID, term, number, and username
@@ -449,8 +450,8 @@ public class DBController {
 		modifyStatement(removeASubmissionStatement, new DBObject[]{new DBStringObject(aSub.getOwner().getUsername()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aSub.getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aSub.getSubmissionNum())});
 	}
 
-	//Assignment Comments
-	public static Comments getComments(String username, String courseID, String term, int number) throws SQLException {
+	//Assignment Grade
+	public static Grade getGrade(String username, String courseID, String term, int number) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
                 PreparedStatement stmt = conn.prepareStatement(selectAFeedbackStatement);
 		stmt.setQueryTimeout(TIMEOUT);
@@ -460,22 +461,19 @@ public class DBController {
 		stmt.setInt(4, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
-			String u = rs.getString("username");
-			String c = rs.getString("courseID");
-			String t = rs.getString("term");
-			int n = rs.getInt("number");
 			float f = rs.getFloat("grade");
-			String fp = rs.getString("feedbackPath");
+			//String fp = rs.getString("feedbackPath");
 			String ft = rs.getString("feedbackText");
-			return new AssignmentSubmission(u, c, t, n, f, fp, ft);
+			AssignmentSubmission aSub = DBController.getAssignmentSubmission(username, courseID, term, number);
+			return new Grade(aSub, f, new Comments(ft, DBController.getUser(username), aSub));
 		}
 		return null;
 	}
 
-	public static Map<String, Comments> getAllComments() throws SQLException {
+	public static Map<String, Grade> getAllGrades() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
     		PreparedStatement stmt = conn.prepareStatement(selectAllAFeedbackStatement);
-		Map<String, Comments> map = new HashMap<>();
+		Map<String, Grade> map = new HashMap<>();
     		stmt.setQueryTimeout(TIMEOUT);
     		ResultSet rs = stmt.executeQuery();
     		while (rs.next()){
@@ -483,21 +481,22 @@ public class DBController {
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
 			int n = rs.getInt("number");
-			float f = rs.getString("grade");
-			String fp = rs.getString("feedbackPath");
+			float f = rs.getFloat("grade");
+			//String fp = rs.getString("feedbackPath");
 			String ft = rs.getString("feedbackText");
-			map.put(String.format("%s|%s|%s|%d|%f|%s|%s", u, c, t, n, f, fp, ft), new AssignmentSubmission(u, c, t, n, f, fp, ft));
+			AssignmentSubmission aSub = DBController.getAssignmentSubmission(u, c, t, n);
+			map.put(String.format("%s|%s|%s|%d", u, c, t, n), new Grade(aSub, f, new Comments(ft, DBController.getUser(u), aSub)));
     		}
 		return map;
 	}
 
-	public static void addComments(Comments aFeed) throws SQLException {
-		modifyStatement(addAFeedbackStatement, new DBObject[]{new DBStringObject(aFeed.getRecipient().getUsername()), new DBStringObject(aFeed.getRelatedSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aFeed.getRelatedSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aFeed.getRelatedSubmission().getRelatedAssignment.getCourse().getNumber()),
-			new DBFloatObject(aFeed.getGrade()), new DBStringObject(aFeed.getFeedbackPath()), new DBStringObject(aFeed.getFeedbackText())});
+	public static void addGrade(Grade aFeed) throws SQLException {
+		modifyStatement(addAFeedbackStatement, new DBObject[]{new DBStringObject(aFeed.getAssignmentSubmission().getOwner().getUsername()), new DBStringObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getNumber()),
+			new DBFloatObject(aFeed.getGrade()), new DBStringObject(aFeed.getComments().getCommentFiles().getPath()), new DBStringObject(aFeed.getComments().getFeedback())});
 	}
 
-	public static void removeComments(Comments comm) throws SQLException {
-		modifyStatement(removeAFeedbackStatement, new DBObject[]{new DBStringObject(comm.getRecipient().getUsername()), new DBStringObject(comm.getRelatedSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(comm.getRelatedSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(comm.getRelatedSubmission().getRelatedAssignment().getNumber())});
+	public static void removeGrade(Grade aFeed) throws SQLException {
+		modifyStatement(removeAFeedbackStatement, new DBObject[]{new DBStringObject(aFeed.getComments().getRecipient().getUsername()), new DBStringObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getCourse().getCourseID()), new DBStringObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getCourse().getTerm()), new DBIntObject(aFeed.getAssignmentSubmission().getRelatedAssignment().getNumber())});
 	}
 
 	//Assignment solutions
@@ -514,7 +513,7 @@ public class DBController {
 			String t = rs.getString("term");
 			int num = rs.getInt("number");
 			String p = rs.getString("path");
-			return new AssignmentSolution(c, t, num, p);
+			return new AssignmentSolution(DBController.getAssignment(c, t, num), new UserFile(DBController.getInstructor(new Course(c, t, "")), "/courses/" + t + "/" + c + "/assignments/" + num + "/solutions"));
 		}
 		return null;
 	}
@@ -530,13 +529,13 @@ public class DBController {
 			String t = rs.getString("term");
 			int num = rs.getInt("number");
 			String p = rs.getString("path");
-    			map.put(String.format("%s|%s|%d|%s", c, t, num, p), new AssignmentSolution(c, t, num, p));
+    			map.put(String.format("%s|%s|%d", c, t, num), new AssignmentSolution(DBController.getAssignment(c, t, num), new UserFile(DBController.getInstructor(new Course(c, t, "")), "/courses/" + t + "/" + c + "/assignments/" + num + "/solutions")));
     		}
 		return map;
 	}
 
 	public static void addAssignmentSolution(AssignmentSolution aSol) throws SQLException {
-		modifyStatement(addASolutionStatement, new DBObject[]{new DBStringObject(aSol.getAssignment().getCourse().getCourseID()), new DBStringObject(aSol.getAssignment().getCourse().getTerm()), new DBIntObject(aSol.getAssignment().getNumber()), new DBStringObject(aSol.getPath())});
+		modifyStatement(addASolutionStatement, new DBObject[]{new DBStringObject(aSol.getAssignment().getCourse().getCourseID()), new DBStringObject(aSol.getAssignment().getCourse().getTerm()), new DBIntObject(aSol.getAssignment().getNumber()), new DBStringObject(aSol.getFiles().getPath())});
 	}
 
 	public static void removeAssignment(AssignmentSolution aSol) throws SQLException {

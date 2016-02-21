@@ -26,4 +26,8 @@ public class AssignmentSolution {
 	public Assignment getAssignment(){
 		return relatedAssignment;
 	}
+
+	public UserFile getFiles(){
+		return files;
+	}
 }

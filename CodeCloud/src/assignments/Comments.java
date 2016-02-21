@@ -23,7 +23,7 @@ import utility.HTMLDisplayable;
 public class Comments implements HTMLDisplayable {
 	
 	/** The collection of optional files. */
-	private Collection<UserFile> commentFiles;
+	private UserFile commentFiles;
 	
 	/** The written comments about the submission*/
 	private String feedback;
@@ -53,7 +53,7 @@ public class Comments implements HTMLDisplayable {
 	 * @param feedback the prose feedback for the assignment submission
 	 * @param commentFiles a collection of UserFiles to be included with these Comments
 	 */
-	public Comments(String feedback, Collection<UserFile> commentFiles, User recipient, AssignmentSubmission relatedSubmission)
+	public Comments(String feedback, UserFile commentFiles, User recipient, AssignmentSubmission relatedSubmission)
 	{
 		this.feedback = feedback;
 		this.commentFiles = commentFiles;
@@ -71,6 +71,10 @@ public class Comments implements HTMLDisplayable {
 
 	public AssignmentSubmission getRelatedSubmission(){
 		return relatedSubmission;
+	}
+
+	public UserFile getCommentFiles(){
+		return commentFiles;
 	}
 
     public String displayAsHTML(){

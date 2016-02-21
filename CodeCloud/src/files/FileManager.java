@@ -75,7 +75,7 @@ public class FileManager
 
 					if (Role.valueOf(enrollment[3]).equals(Role.Student)){
 						if (path.length >= 6){
-							if (path[5].equals(user.getUsername()) || path[3].equals("assignments")) return true;
+							if (path[5].equals(user.getUsername()) || (path[3].equals("assignments") && !(path[5].equals("solutions")))) return true;
 						}
 						else if (path.length >= 4){
 							if (path[3].equals("assignments")) return true;

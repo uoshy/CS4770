@@ -42,4 +42,16 @@ public class Grade {
     	this.grade=grade;
     	this.comments=comments;
     }
+
+    public AssignmentSubmission getAssignmentSubmission(){
+	return assign;
+    }
+
+    public float getGrade(){
+	return grade;
+    }
+
+    public Comments getComments(){
+	return comments;
+    }
 }
