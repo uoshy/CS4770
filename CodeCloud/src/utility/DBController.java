@@ -20,6 +20,8 @@ import assignments.AssignmentSolution;
 import assignments.AssignmentSubmission;
 import assignments.Comments;
 import assignments.Course;
+import files.UserFile;
+import testing.TestSuite;
 import users.Role;
 import users.User;
 
@@ -73,7 +75,11 @@ public class DBController {
     //enrollments
     //get an enrollment by username, courseID, and term
     private static String selectEnrollmentStatement =
-    	"SELECT * FROM Courses WHERE username=? AND courseID=? AND term=?";
+    	"SELECT * FROM Enrollments WHERE username=? AND courseID=? AND term=?";
+
+    //get a course's instructor
+    private static String getInstructorStatement =
+    	"SELECT * FROM Enrollments WHERE courseID=? AND term=?";
 
     //get all enrollments
     private static String selectAllEnrollmentsStatement =
@@ -295,6 +301,21 @@ public class DBController {
 		return null;
 	}
 
+	public static User getInstructor(Course course) throws SQLException {
+    		Connection conn = DriverManager.getConnection(DB_URL);
+    		PreparedStatement stmt = conn.prepareStatement(getInstructorStatement);
+    		stmt.setQueryTimeout(TIMEOUT);
+		stmt.setString(1, course.getCourseID());
+		stmt.setString(2, course.getTerm());
+		stmt.setString(3, "Instructor");
+    		ResultSet rs = stmt.executeQuery();
+		User instructor = null;
+    		if (rs.first()){
+			instructor = DBController.getUser(rs.getString("username"));
+    		}
+		return instructor;
+	}
+
 	public static Map<String, String[]> getAllEnrollments() throws SQLException {
     		Connection conn = DriverManager.getConnection(DB_URL);
     		PreparedStatement stmt = conn.prepareStatement(selectAllEnrollmentsStatement);
@@ -329,15 +350,16 @@ public class DBController {
 		stmt.setInt(3, number);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.first()) {
-			//Better to use instance variables?
-			String c = rs.getString("courseID");
-			String t = rs.getString("term");
+			Course c = DBController.getCourse(rs.getString("courseID"), rs.getString("term"));
 			int num = rs.getInt("number");
 			String name = rs.getString("name");
 			String p = rs.getString("path");
 			String tsp = rs.getString("testSuitePath");
 			int sl = rs.getInt("submissionLimit");
-			return new Assignment(c, t, num, name, p, tsp, sl);
+			User instructor = DBController.getInstructor(c);
+			UserFile suiteFile = new UserFile(instructor, "/courses/term/courseID/assignments/" + num + "/tests");
+			//Course course, UserFile assignmentDir, TestSuite tests, UserFile submissions, int number, int submissionLimit
+			return new Assignment(c, new UserFile(instructor, "/courses/term/courseID/assignments"), new TestSuite(suiteFile), new UserFile(instructor, "/courses/term/courseID/submissions/[number]/submissions"), num, sl);
 		}
 		return null;
 	}

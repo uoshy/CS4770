@@ -26,13 +26,16 @@ public class Assignment
 	private TestSuite tests;
 	
 	/** A collection of submission made towards this assignment */
-	private Collection<AssignmentSubmission> submissions;
+	private UserFile submissions;
 	
 	/** An optional solution set for this assignment */
 	private AssignmentSolution solution;
 
 	/** The assignment's number in its course */
 	private int number;
+
+	/**The number of submissions a student is allowed to make for this assignment */
+	private int submissionLimit;
 	
 	/**
 	 * Create a new Assignment for a particular course offering by supplying a 
@@ -40,11 +43,41 @@ public class Assignment
 	 * @param course the particular course offering for this Assignment
 	 * @param assignmentFiles a collection of files detailing this Assignment
 	 */
-    public Assignment(Course course, UserFile assignmentDir)
+	/**
+	 * Constructor requires AssignmentSolution as parameter but AssignmentSolution requires Assignment. This seems unlikely (but not impossible) to be useful in practice.
+	 * Ideally the database would use the fullest constructor but in this case that isn't possible since the database requires an AssignmentSolution to initialize this Assignment.
+	 * I've left this constructor up in case this isn't actually a problem for reasons I don't understand but have added other, less "full" constructors.
+	 * -Tim 21/2/16
+	 */
+    public Assignment(Course course, UserFile assignmentDir, TestSuite tests, UserFile submissions,  AssignmentSolution solution, int number, int submissionLimit)
     {
     	this.course = course;
     	this.assignmentDir = assignmentDir;
-    	submissions = new ArrayList<AssignmentSubmission>();
+	this.tests = tests;
+    	this.submissions = submissions;
+	this.solution = solution;
+	this.number = number;
+	this.submissionLimit = submissionLimit;
+    }
+
+    public Assignment(Course course, UserFile assignmentDir, TestSuite tests, UserFile submissions, int number, int submissionLimit)
+    {
+    	this.course = course;
+    	this.assignmentDir = assignmentDir;
+	this.tests = tests;
+    	this.submissions = submissions;
+	this.number = number;
+	this.submissionLimit = submissionLimit;
+    }
+
+
+    public Assignment(Course course, UserFile assignmentDir, UserFile submissions, int number, int submissionLimit)
+    {
+    	this.course = course;
+    	this.assignmentDir = assignmentDir;
+    	this.submissions = submissions;
+	this.number = number;
+	this.submissionLimit = submissionLimit;
     }
     
     /**
@@ -73,12 +106,12 @@ public class Assignment
      * @param submission the Assignment Submission to add.
      * @return a TestReport if a Test Suite exists to test the submission. 
      */
-    public TestReport addSubmission(AssignmentSubmission submission)
+//TODO: addSubmissionLogic and testing/TestReport creation
+/*    public TestReport addSubmission(AssignmentSubmission submission)
     {
     	submissions.add(submission);
-    	//TODO the testing?
     	return null;
-    }
+    }**/
 
 	public Course getCourse(){
 		return course;

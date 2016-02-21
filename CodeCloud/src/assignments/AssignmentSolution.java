@@ -12,12 +12,12 @@ import files.UserFile;
 public class AssignmentSolution {
 	
 	/** Collection of files containing the solutions */
-	private Collection<UserFile> files;
+	private UserFile files;
 	
 	/** The assignment for which these files are solutions */
 	private Assignment relatedAssignment;
 	
-    public AssignmentSolution(Assignment relatedAssignment, Collection<UserFile> files)
+    public AssignmentSolution(Assignment relatedAssignment, UserFile files)
     {
     	this.files = files;
     	this.relatedAssignment = relatedAssignment;
