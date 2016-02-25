@@ -1,6 +1,7 @@
 package cloudCoding;
 
 import files.UserFile;
+import json.ExecutionReturn;
 
 /**
  * An abstraction of a programming language for compiling and executing file 
@@ -24,9 +25,13 @@ public interface Language
 	
 	/**
 	 * Execute the file containing main method for the program. The main method should be contained
-	 * in file.
-	 * @param file the file containing the main method
-	 * @return the processID associated with the execution instance created
+	 * in the represented by mainFileName and should exist in the directory represented by 
+	 * workingDir. It is assumed that the file to be executed has already be compiled. 
+	 * 
+	 * @param workingDir the file representing the working directory.
+	 * @param mainFileName the name of the file to execute
+	 * @return an object encapsulating the encapsulated process's status
+	 * @see ExecutionReturn
 	 */
-	public long execute(UserFile file);
+	public ExecutionReturn execute(UserFile workingDir, String mainFileName);
 }

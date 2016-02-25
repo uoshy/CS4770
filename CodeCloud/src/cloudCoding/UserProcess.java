@@ -1,6 +1,7 @@
 package cloudCoding;
 
 import java.io.*;
+import java.util.concurrent.*;
 
 /**
  * An abstraction of a running process on the server. A UserProcess encapsulates the 
@@ -19,17 +20,27 @@ public class UserProcess extends Thread
 	/**
 	 * The underlying process of this UserProcess
 	 */
-	public Process process;
+	private Process process;
 	
 	/**
 	 * The input stream to the process, out of this java thread.
 	 */
-	public OutputStream input;
+	private OutputStream procInput;
+	
+	/**
+	 * The writer of the output stream.
+	 */
+	private BufferedWriter writer;
 	
 	/**
 	 * The output stream of the process, in to this java thread.
 	 */
-	public InputStream output;
+	private InputStream procOutput;
+	
+	/**
+	 * The reader of the input stream.
+	 */
+	private BufferedReader reader;
 	
 	/**
 	 * The ProcessBuidler used build up the process command and start the process.
@@ -37,13 +48,24 @@ public class UserProcess extends Thread
 	private ProcessBuilder processBuilder;
 	
 	/**
+	 * The UserProcess's unique process ID.
+	 */
+	private long processID;
+	
+	
+	private boolean processEnded;
+	
+	/**
 	 * Instantiate a new UserProcess (thread) with a ProcessBuilder so that the start 
 	 * of the thread starts the process built up by the ProcessBuilder.
+	 * @param p_lProcessID the unique process ID.
 	 * @param p_processBuilder the ProcessBuilder to start when the thread starts
 	 */
-	public UserProcess(ProcessBuilder p_processBuilder)
+	public UserProcess(long p_lProcessID, ProcessBuilder p_processBuilder)
 	{
+		this.processID = p_lProcessID;
 		processBuilder = p_processBuilder;
+		processEnded = false;
 	}
 	
 	/**
@@ -60,8 +82,142 @@ public class UserProcess extends Thread
 		} catch (IOException e) {
 			//TODO handle exception
 		}
-		input = process.getOutputStream();
-		output = process.getInputStream();
+		procInput = process.getOutputStream();
+		procOutput = process.getInputStream();
+		writer = new BufferedWriter(new OutputStreamWriter(procInput));
+		reader = new BufferedReader(new InputStreamReader(procOutput));
+		while(!processEnded)
+		{
+			try{
+			Thread.sleep(100);
+			}
+			catch(InterruptedException e)
+			{
+				continue;
+			}
+		}
 	}
+	
+	/**
+	 * Get this UserProcess's unique process ID.
+	 * @return the unique process ID.
+	 */
+	public long getProcessID()
+	{
+		return processID;
+	}
+	
+	public boolean isProcessEnded()
+	{
+		if(!process.isAlive())
+			setProcessEnded();
+		return processEnded;
+	}
+	
+	/**
+	 * Set the UserProcess as ended. Only successful if the underlying process has actually
+	 * ended. 
+	 * @return true iff successfully setting the process as ended.
+	 */
+	private boolean setProcessEnded()
+	{
+		if(!process.isAlive())
+		{
+			processEnded = true;
+			Console.getInstance().processEnded(processID);
+			return true;
+		}
+		else
+			return false;
+		
+	}
+	
+	/**
+	 * Get this process's exit status. If the process has not yet exited, -1 is returned.
+	 * @return the process's exit status or -1 if has not yet exited.
+	 */
+	public int getExitStatus()
+	{
+		if(isProcessEnded())
+			return process.exitValue();
+		else
+			return -1;
+	}
+	
+	/**
+	 * Write a string to the process's stdin. 
+	 * Only one write request should be issued per expectation of input for the program. 
+	 * After each invocation of this method the stream is flushed and thus the process may get
+	 * fragmented input if this method is called multiple times.
+	 * @param output the string to write
+	 */
+	public void writeToProcess(String output)
+	{
+		try{
+			writer.write(output);
+			writer.write("\n");
+			writer.flush();
+		} catch (IOException ioe) {
+			//error in writing to process. Probably because it's already closed.
+		}
+	}
+	
+	/**
+	 * Attempts to read from the proccess's stdout. Using threading and timeouts
+	 * this method will return if reading from the process blocks for too long. 
+	 * This likely signifies the process is waiting for input. Returns the empty
+	 * string if no output is available from the process.
+	 * 
+	 * @return the current available output from the process
+	 */
+	public String readFromProcess()
+	{
+		//Inspired by http://www.programering.com/q/MjN4MzNwATc.html
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		Callable<String> readTask = new Callable<String>() {
+			public String call() throws Exception {
+				return reader.readLine();
+			}
+		};
+		
+		StringBuilder builder = new StringBuilder();
+		while(true)
+		{
+			Future<String> future = executor.submit(readTask);
+			try {
+				String readLine = future.get(200, TimeUnit.MILLISECONDS);
+				if(readLine == null) //reader.readLine() found EOF (proc. terminated)
+				{
+					setProcessEnded();
+					break;
+				}
+				
+				builder.append(readLine);
+				builder.append("\n");
+			}
+			catch(CancellationException e) { //future was cancelled 
+				//should never really happen
+				continue;
+			} 
+			catch (InterruptedException e) { //current thread interrupted while waiting
+				continue; //try to read again
+			} 
+			catch (ExecutionException e) { //if the callable threw an exception
+				continue;
+			} 
+			catch (TimeoutException e) { //if the future timed out
+				//process's stdout is not currently printing anything
+				//so probably waiting for input. So let's return and do that.
+				future.cancel(true);
+				break;
+			}
+		}
+		executor.shutdown();
+		return builder.toString(); //if nothing was read, empty string returned
+	}
+	
+	
+	
+	
 
 }

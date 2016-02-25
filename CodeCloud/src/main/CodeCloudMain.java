@@ -11,23 +11,47 @@ import static spark.Spark.externalStaticFileLocation;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
+
+
+
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
+
+
+
 import cloudCoding.CompilerReturn;
+
+
+import cloudCoding.Console;
+import cloudCoding.JavaLanguage;
+
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+
+
+
+
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.sql.SQLException;
 
+
+
+
+
 import json.CompilerInput;
+import json.CompilerReturnJson;
+import json.ExecutionInput;
+import json.ExecutionReturn;
 import files.UserFile;
 
 /**
@@ -70,7 +94,7 @@ public class CodeCloudMain
         
         post("/editor/compile/java", (request, response) ->
         {   
-           response.type("text/html");
+           response.type("application/json");
            try
            {
         	   Gson gson = new Gson();
@@ -94,7 +118,10 @@ public class CodeCloudMain
         	   UserFile uDir = new UserFile(null, "static/temp");
         	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile});
         	   log("CompilerMessage " + compRet.compilerMessage);
-        	   return compRet.displayAsHTML();
+        	   CompilerReturnJson jsonObj = new CompilerReturnJson();
+        	   jsonObj.compilerExitStatus = compRet.compilerExitStatus;
+        	   jsonObj.compilerMessageToDisplay = compRet.displayAsHTML();
+        	   return jsonObj;
            }
            catch(JsonParseException ex)
            {
@@ -102,6 +129,29 @@ public class CodeCloudMain
                halt(400, "malformed values");
                return null;
            }
+        }, new JsonTransformer());
+        
+        post("/editor/execute/java", (request, response) ->
+        {
+        	response.type("application/json");
+        	try {
+        		Gson gson = new Gson();
+        		String body = request.body();
+        		ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
+        		log(input.fileName);
+        		
+        		UserFile uDir = new UserFile(null, "static/temp");
+        		ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
+        		
+        		
+        	}
+        	catch(JsonParseException ex)
+        	{
+        		log("Malformed Values in getting exection input");
+        		halt(400, "malformed values");
+        		return null;
+        	}
+        	return null;
         });
 
     }//main
