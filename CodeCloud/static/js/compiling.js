@@ -13,8 +13,8 @@ function compile(beforeExecution) {
     var status = document.getElementById("consoleStatus");
     status.innerHTML = "Compiling..."
     compilerStatus = -1;
-    var editor = document.getElementById("editor");
-    var editorText = editor.innerHTML;
+
+    var editorText = editor.getValue();
     var xhr = new XMLHttpRequest();
     xhr.open('POST', "editor/compile/java", true);
     xhr.setRequestHeader("Content-Type", "application/json");
