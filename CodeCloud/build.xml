@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant"
-    name="4770-TeamA" default="sequence" basedir=".">
+    name="4770-TeamA" default="CodeCloud" basedir=".">
 
     <target name="help">
         <echo message="ant help -- print this message"/>
@@ -24,6 +24,10 @@
         <copy todir="${dest.dir}/templates">
             <fileset dir="templates"/>
         </copy>
+
+        <exec executable="/bin/bash">
+            <arg line="service docker start" />
+        </exec>
     </target>
 
     <target

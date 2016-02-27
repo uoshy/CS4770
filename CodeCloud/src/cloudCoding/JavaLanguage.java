@@ -1,6 +1,7 @@
 package cloudCoding;
 
 import files.UserFile;
+import json.ExecutionReturn;
 
 /**
  * An implementation of the Lanuage interface for the Java language. 
@@ -74,8 +75,20 @@ public class JavaLanguage implements Language
 	}
 	
 	@Override
-	public long execute(UserFile file) {
-		// TODO Auto-generated method stub
-		return 0;
+	public ExecutionReturn execute(UserFile workingDir, String mainFileName) {
+		
+		Console console = Console.getInstance();
+		UserProcess uProc = console.execute(workingDir.getFile(), "java " + mainFileName);
+		System.out.println("got user process");
+		//TODO support package-declared class names
+		ExecutionReturn execRet = new ExecutionReturn();
+		
+		String processOutput = uProc.readFromProcess();
+		System.out.println("read from process!: " + processOutput);
+		execRet.outputText = processOutput;
+		execRet.exitStatus = uProc.getExitStatus();
+		execRet.processID = uProc.getProcessID();
+	
+		return execRet;
 	}
 }

@@ -1,0 +1,148 @@
+
+#home-img {
+    padding-right: 15px;
+	margin: 0px 20px;
+	max-width:100%;
+    max-height:100%;
+	float: left;
+}
+
+#home-features h2,
+#home-features p {
+    display: inline;
+}
+
+#home > h1, #about > h1 {
+    text-align: center;
+}
+
+#home-features {
+    clear: left;
+}
+
+#home-features img, #about-features img {
+    border: 1px solid;
+}
+
+#feature-desc {
+    display: block;
+}
+
+#feature-wrapper {
+    overflow-x: none; 
+	white-space: nowrap;
+}
+
+#feature1, #feature2, #feature3, #feature4 {
+    margin-top: 25px;
+    text-align: center;
+	clear: left;
+	display: inline-block;
+}
+
+#fixed-wrapper div {
+    /* padding: 0px 0px 35px 0px; */
+}
+
+#fixed-wrapper {
+	margin-left:auto;
+    margin-right:auto;
+	float: left;
+}
+
+#home, #about, 
+#courses, #course1, #course2,
+#files, #editor {
+	min-height: 640px;
+	min-width: 768px;
+}
+
+/*
+#feature-odd, #feature-even {
+}
+#feature-odd > #about-img {
+    float: left;
+}
+#feature-odd > #about-info {
+    float: right;
+}
+#feature-even > #about-img {
+    float: right;
+}
+#feature-even > #about-info {
+    float: left;
+}
+#about-img {
+    margin-top: 25px;
+    text-align: center;
+}*/
+
+#feature-odd, #feature-even {
+	clear: both;
+}
+
+#feature-odd #about-pic {
+	margin: 0px 20px;
+	max-width:100%;
+    max-height:100%;
+	float: left;
+}
+#feature-even #about-pic {
+	margin: 0px 20px;
+	max-width:100%;
+    max-height:100%;
+	float: right;
+}
+
+# hr {
+	color: #000;
+	background-color: #000;
+	height: 3px;
+}
+
+textarea {
+	min-height: 375px;
+	width: 100%;
+}
+
+#the-team, #contact-us {
+	clear:both;
+	vertical-align: bottom;
+}
+#team-title {
+	text-align: center;
+}
+
+#contact-us {
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#contact-info {
+	float: right;
+}
+#contact-title, #contact-info {
+	display: inline-block;
+}
+#contact-info > p {
+	text-align: left;
+}
+#semester {
+	margin: 15px 0px 15px 0px;
+}
+#courses-course {
+	font-size: 1.5em;
+	margin: 0 0 3px 0;
+}
+
+@media (min-width: 1100px) {
+    #fixed-wrapper #home-description,
+	#fixed-wrapper #home-features {
+        padding: 0px 0px 75px 0px;
+    }
+}
+@media (min-width 1000px) and (max-width 768px) {
+	.navbar-default {
+		width: 125%;
+	}
+}

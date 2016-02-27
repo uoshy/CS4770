@@ -93,6 +93,8 @@ public class Compiler
             else
             	toReturn.compilerMessage = "Compilation Successful!";
             
+            toReturn.compilerExitStatus = proc.exitValue();
+            
             UserFile[] classFiles = new UserFile[fileCount];
             String dir = file.getPath();
         	int index = dir.indexOf("static/");
