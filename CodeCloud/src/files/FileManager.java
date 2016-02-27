@@ -1,8 +1,18 @@
 package files;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.io.ImportStream;
+import java.io.IOException;
 import java.lang.String;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyAction;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 import files.UserFile;
 import users.Role;
@@ -12,16 +22,16 @@ import utility.DBController;
 public class FileManager
 {
 	/** Singleton reference */
-	private static FileManager _manager;	
-	
+	private static FileManager _manager;
+
 	/**
 	 * Private constructor for singleton.
 	 */
 	private FileManager()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Initialize the FileManager singleton.
 	 */
@@ -32,7 +42,7 @@ public class FileManager
 			_manager = new FileManager();
 		}
 	}
-	
+
 	/**
 	 * Get a reference to a FileManager object for managing UserFiles and Files.
 	 * @return a reference to a FileManager object
@@ -41,10 +51,10 @@ public class FileManager
 	{
 		if(_manager == null)
 			initialize();
-		
+
 		return _manager;
 	}
-	
+
 	/**
 	 * Determine whether a particular User is authorized to view the file
 	 * contained within the UserFile object.
@@ -89,36 +99,18 @@ public class FileManager
 			}
 		}
 
+		public void download(User user, UserFile uf, String urlString, String targetDir) throws IOException, MalformedURLException {
+			if (uf.getFile().exists()){
+				if (uf.getFile().isFile() && !(uf.getFile().isDirectory()) && this.authorize(user, uf)){
+					URL url = new URL(urlString);
+					Path path = Paths.get(targetDir);
+					try(InputStream input = url.openStream();){
+						Files.copy(input, path, StandardCopyAction.REPLACE_EXISTING);
+					}
+				}
+			}
+		}
+
 		return auth;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
