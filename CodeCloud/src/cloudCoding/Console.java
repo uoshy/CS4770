@@ -25,8 +25,8 @@ public class Console
 	 * Note the format specified in part1. One should insert a string here using String.format that
 	 * resembles the server directory to mount to the docker container. 
 	 */
-	private static final String dockerCommandPart1 = "docker run -it -v %s:/home/user -w /home/user --rm alexgbrant/codecloud";
-	private static final String dockerCommandPart2 = "&& exit > /dev/tty < /dev/tty 2>&1";
+	private static final String dockerCommandPart1 = "docker run -i -v %s:/home/user -w /home/user --rm alexgbrandt/sandbox";
+	private static final String dockerCommandPart2 = "; exit;";// ""  > /dev/tty < /dev/tty 2>&1; exit; ";
 
 	/**
 	 * Private constructor for singleton.
@@ -34,6 +34,7 @@ public class Console
 	private Console()
 	{
 		activeProcesses = new HashMap<Long, UserProcess>();
+		exitedProcesses = new HashMap<Long, UserProcess>();
 	}
 
 	/**
@@ -107,14 +108,18 @@ public class Console
 		String dockerCommand = String.format(dockerCommandPart1, file.getAbsolutePath());
 		dockerCommand += " " + command + " " + dockerCommandPart2;
 		
+		System.out.println("about to run user process");
 		UserProcess userProc = new UserProcess(processID++, builder);
 		try{
-			userProc.run();
+			userProc.start();
+			System.out.println("process started");
 			userProc.writeToProcess(dockerCommand);
+			System.out.println("wrote to process: " + dockerCommand);
 			activeProcesses.put(userProc.getProcessID(), userProc);
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			return null;
 		}
 

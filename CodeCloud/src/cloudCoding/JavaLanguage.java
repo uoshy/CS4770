@@ -79,11 +79,12 @@ public class JavaLanguage implements Language
 		
 		Console console = Console.getInstance();
 		UserProcess uProc = console.execute(workingDir.getFile(), "java " + mainFileName);
+		System.out.println("got user process");
 		//TODO support package-declared class names
 		ExecutionReturn execRet = new ExecutionReturn();
 		
 		String processOutput = uProc.readFromProcess();
-		
+		System.out.println("read from process!: " + processOutput);
 		execRet.outputText = processOutput;
 		execRet.exitStatus = uProc.getExitStatus();
 		execRet.processID = uProc.getProcessID();

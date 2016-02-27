@@ -52,7 +52,49 @@ public class UserProcess extends Thread
 	 */
 	private long processID;
 	
-	
+	public class StreamGobbler extends Thread {
+		InputStream is;
+		StringBuilder builder;
+		StreamGobbler(InputStream is)
+		{
+			this.is = is;
+			builder = new StringBuilder();
+		}
+
+		public void run()
+		{
+			try {
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				String line = null;
+				while( (line = br.readLine()) != null)
+				{	
+					System.out.println(line);
+					synchronized(this)
+					{
+						builder.append(line);
+						builder.append("\n");
+					}
+				}
+			} catch(IOException ioe)
+			{
+				ioe.printStackTrace();
+			}
+		}
+
+		public String getOutput()
+		{
+			synchronized(this)
+			{
+				String toRet = builder.toString();
+				builder.setLength(0);
+				return toRet;
+			}
+		}
+	}
+
+
+	public StreamGobbler gobbler;
+
 	private boolean processEnded;
 	
 	/**
@@ -80,14 +122,19 @@ public class UserProcess extends Thread
 		try {
 			process = processBuilder.start();
 		} catch (IOException e) {
+			System.out.println("Exception in UserProcess run start");
 			//TODO handle exception
 		}
 		procInput = process.getOutputStream();
 		procOutput = process.getInputStream();
+		gobbler = new StreamGobbler(procOutput);
+		gobbler.start();
 		writer = new BufferedWriter(new OutputStreamWriter(procInput));
-		reader = new BufferedReader(new InputStreamReader(procOutput));
-		while(!processEnded)
+		//reader = new BufferedReader(new InputStreamReader(procOutput));
+		/*
+		while(!isProcessEnded())
 		{
+			System.out.println("sleeping");
 			try{
 			Thread.sleep(100);
 			}
@@ -96,6 +143,8 @@ public class UserProcess extends Thread
 				continue;
 			}
 		}
+		System.out.println("Done sleeping.. ");
+		*/
 	}
 	
 	/**
@@ -154,6 +203,12 @@ public class UserProcess extends Thread
 	public void writeToProcess(String output)
 	{
 		try{
+			if(writer == null) //process has yet to be created
+			{
+				try{
+					Thread.sleep(100);
+				} catch(InterruptedException e) {}
+			}
 			writer.write(output);
 			writer.write("\n");
 			writer.flush();
@@ -170,8 +225,10 @@ public class UserProcess extends Thread
 	 * 
 	 * @return the current available output from the process
 	 */
-	public String readFromProcess()
+	public synchronized String readFromProcess()
 	{
+		return gobbler.getOutput();
+		/*
 		//Inspired by http://www.programering.com/q/MjN4MzNwATc.html
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 		Callable<String> readTask = new Callable<String>() {
@@ -185,11 +242,16 @@ public class UserProcess extends Thread
 		{
 			Future<String> future = executor.submit(readTask);
 			try {
-				String readLine = future.get(200, TimeUnit.MILLISECONDS);
+				String readLine = future.get(1000, TimeUnit.MILLISECONDS);
 				if(readLine == null) //reader.readLine() found EOF (proc. terminated)
 				{
+					System.out.println("Read null from process");
 					setProcessEnded();
 					break;
+				}
+				else
+				{
+					System.out.println("Read from process in read method: " + readLine);
 				}
 				
 				builder.append(readLine);
@@ -208,14 +270,35 @@ public class UserProcess extends Thread
 			catch (TimeoutException e) { //if the future timed out
 				//process's stdout is not currently printing anything
 				//so probably waiting for input. So let's return and do that.
-				future.cancel(true);
+				System.out.println("Read op timed out!");
+				if(!future.cancel(false)) //future could not be cancelled so it probably did something
+				{
+					try {
+						String readLine = future.get();
+						builder.append(readLine);
+						builder.append("\n");
+					}
+					catch(CancellationException | InterruptedException | ExecutionException ex) {
+
+					}
+				}
 				break;
 			}
 		}
 		executor.shutdown();
 		return builder.toString(); //if nothing was read, empty string returned
+		*/
 	}
 	
+	public void killProcess()
+	{
+		process.destroyForcibly();
+		try {
+			process.waitFor(1000, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) { 
+			System.out.println("Killing process took longer than 1 second..."); 
+		}	
+	}
 	
 	
 	
