@@ -1,3 +1,4 @@
+
 $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -7,7 +8,8 @@ $("#menu-toggle-2").click(function(e) {
         $("#wrapper").toggleClass("toggled-2");
         $('#menu ul').hide();
     });
-/** 
+
+/**
 function initMenu() {
       $('#menu ul').hide();
       $('#menu ul').children('.current').parent().show();
@@ -29,6 +31,7 @@ function initMenu() {
       $(document).ready(function() {initMenu();});
 **/
 
+/**
 //so: closing-open-submenu-jquery-accordion
  function initMenu() {
      $('#nav ul').hide();
@@ -77,14 +80,14 @@ function initMenu() {
              $(this).children('a').removeClass('active')
          }
      })
- })
+ })**/
 
 
+ /**
 //so: clicking-a-link-display-it-in-different-div-on-same-page
 $("#nav li a").click(function(e){ //show-hide page contents
     e.preventDefault();
     $(".toggle").hide();
     var toShow = $(this).attr('href');
     $(toShow).show();
-});
-
+});**/
