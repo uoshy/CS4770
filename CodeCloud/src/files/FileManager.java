@@ -65,7 +65,11 @@ public class FileManager
 	public boolean authorize(User user, UserFile file)
 	{
 		boolean auth = false;
-		String[] path = file.getPath().split("/");
+		String pathString = file.getPath();
+		if (pathString.charAt(0) == '/'){
+			pathString = pathString.substring(1);
+		}
+		String[] path = pathString.split("/");
 
 		if (path.length >= 2){
 			if (path[0].equals("users")){
