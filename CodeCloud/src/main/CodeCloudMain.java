@@ -27,7 +27,11 @@ import com.google.gson.JsonParseException;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 import json.CompilerInput;
@@ -35,6 +39,9 @@ import json.CompilerReturnJson;
 import json.ExecutionInput;
 import json.ExecutionReturn;
 import files.UserFile;
+
+import javax.servlet.http.Part;
+import javax.servlet.MultipartConfigElement;
 
 /**
  * The main class to run the java spark framework.
@@ -65,12 +72,12 @@ public class CodeCloudMain
         //redirect root to index.html
         get("/", (request, response) -> 
         {
-            response.redirect("/index.html");
+            response.redirect("/home.html");
             return null;   
         });
         
         get("/editor", (request, response) -> {
-        	response.redirect("/index.html");
+        	response.redirect("/home.html");
         	return null;
         });
         
@@ -157,6 +164,35 @@ public class CodeCloudMain
                 return null;
             }
         });
+//
+        post("/files/upload", (request, response) ->
+        {
+        	response.type("text/plain");
+		//TODO: Get user/path parameters.
+		if (request.raw().getAttribute("org.eclipse.jetty.multipartConfig") == null){
+			MultipartConfigElement mce = new MultipartConfigElement(System.getProperty("static/temp"));
+			request.raw().setAttribute("org.eclipse.jetty.multipartConfig", mce);
+		}
+		Part file = request.raw().getPart("file");
+		String filename = file.getSubmittedFileName();
+       		UserFile uDir = new UserFile(null, filename);
+		//if (name.getSize() > 0){
+			try (final InputStream in = file.getInputStream()) {
+				//TODO: Insert actual path to user's file directory
+			 	Files.copy(in, Paths.get("static/temp/" + filename), StandardCopyOption.REPLACE_EXISTING);
+			 	file.delete();
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				return "0";
+			}
+
+		//}
+                System.out.println("Saved file to " + uDir.getPath());
+        	return "/temp/" + filename;
+        });
+
+//
 
         get("/editor/execute/active/readOutput/:activeProcessID", (request, response) -> 
         {
@@ -189,15 +225,9 @@ public class CodeCloudMain
                 String activeProcessID = request.params("activeProcessID");
                 long procID = Long.parseLong(activeProcessID);
                 UserProcess uProc = Console.getInstance().getProcess(procID);
-                uProc.writeToProcess("\003");
-                Thread.sleep(1000);
+                uProc.killProcess();
                 ExecutionReturn execRet = new ExecutionReturn();
                 execRet.exitStatus = uProc.getExitStatus();
-                if(execRet.exitStatus == -1)
-                {
-                    uProc.killProcess();
-                    execRet.exitStatus = uProc.getExitStatus();
-                }
                 execRet.outputText = uProc.readFromProcess();
                 execRet.processID = uProc.getProcessID();
                 return execRet;

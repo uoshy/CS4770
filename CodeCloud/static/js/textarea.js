@@ -29,3 +29,4 @@ CodeMirror.on(window, "hashchange", function() {
 });
 selectTheme();
 editor.refresh();
+init();

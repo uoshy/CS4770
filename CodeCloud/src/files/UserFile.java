@@ -18,11 +18,16 @@ public class UserFile {
     
     /** The owner of the file */
     private User owner;
-    
+
+    //The path parameter should not start with "static/"
     public UserFile(User owner, String path)
     {
     	this.owner = owner;
     	this.path = path;
+    }
+
+    public UserFile(String path){
+	String[] pathParts = path.split("/");
     }
     
     /**

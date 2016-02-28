@@ -52,9 +52,10 @@ public class UserProcess extends Thread
 	 */
 	private long processID;
 	
-	public class StreamGobbler extends Thread {
+	private class StreamGobbler extends Thread {
 		InputStream is;
 		StringBuilder builder;
+		boolean streamClosed;
 		StreamGobbler(InputStream is)
 		{
 			this.is = is;
@@ -77,7 +78,8 @@ public class UserProcess extends Thread
 				}
 			} catch(IOException ioe)
 			{
-				ioe.printStackTrace();
+				if(!streamClosed) 
+				    ioe.printStackTrace();
 			}
 		}
 
@@ -93,7 +95,7 @@ public class UserProcess extends Thread
 	}
 
 
-	public StreamGobbler gobbler;
+	private StreamGobbler gobbler;
 
 	private boolean processEnded;
 	
@@ -292,12 +294,20 @@ public class UserProcess extends Thread
 	
 	public void killProcess()
 	{
-		process.destroyForcibly();
-		try {
-			process.waitFor(1000, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) { 
-			System.out.println("Killing process took longer than 1 second..."); 
-		}	
+		gobbler.streamClosed = true;
+		this.writeToProcess("\003");
+		try{
+        	Thread.sleep(1000);
+        } catch(InterruptedException e) {}
+        if(getExitStatus() == -1)
+        {
+			process.destroyForcibly();
+			try {
+				process.waitFor(1000, TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) { 
+				System.out.println("Killing process took longer than 1 second..."); 
+			}	
+		}
 	}
 	
 	
