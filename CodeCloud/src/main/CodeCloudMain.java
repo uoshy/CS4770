@@ -72,12 +72,12 @@ public class CodeCloudMain
         //redirect root to index.html
         get("/", (request, response) -> 
         {
-            response.redirect("/index.html");
+            response.redirect("/home.html");
             return null;   
         });
         
         get("/editor", (request, response) -> {
-        	response.redirect("/index.html");
+        	response.redirect("/home.html");
         	return null;
         });
         
@@ -225,15 +225,9 @@ public class CodeCloudMain
                 String activeProcessID = request.params("activeProcessID");
                 long procID = Long.parseLong(activeProcessID);
                 UserProcess uProc = Console.getInstance().getProcess(procID);
-                uProc.writeToProcess("\003");
-                Thread.sleep(1000);
+                uProc.killProcess();
                 ExecutionReturn execRet = new ExecutionReturn();
                 execRet.exitStatus = uProc.getExitStatus();
-                if(execRet.exitStatus == -1)
-                {
-                    uProc.killProcess();
-                    execRet.exitStatus = uProc.getExitStatus();
-                }
                 execRet.outputText = uProc.readFromProcess();
                 execRet.processID = uProc.getProcessID();
                 return execRet;

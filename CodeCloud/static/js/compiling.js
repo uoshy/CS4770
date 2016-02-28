@@ -102,7 +102,7 @@ function executionResponseHandler() {
         var outputText = jsonObj.outputText;
         var webConsole = document.getElementById("consoleOutput");
         if(outputText.length >= 1)
-            webConsole.innerHTML += outputText + "\n";
+            webConsole.innerHTML += outputText;
         webConsole.scrollTop = webConsole.scrollHeight; //scroll to the buttom
 
 

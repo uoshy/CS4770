@@ -208,7 +208,8 @@
                             </select>
                             </p>
                             <br>
-                            <form><textarea id="editorTextArea">public class Test
+                            <form><textarea id="editorTextArea">import java.util.Scanner;
+public class Test
 {
     public static void main(String[] args)
     {
@@ -226,11 +227,11 @@
                                 <div class="ConsoleHeader">
                                     <button type="button" onclick="compile()">Compile</button>
                                     <button type="button" onclick="compile(true)">Run</button>
-                                    <span id="consoleStatus"></span>
+                                    <span id="consoleStatus" class="consolePromptText"></span>
                                     <button type="button" id="consoleKillButton" onclick="kill()" style="display: none;">Kill Process</button>
                                 </div>
                                 <div class="ConsoleOutput" id="consoleOutput"></div>
-                                <div class="ConsoleInput"> <p>&gt;&gt; <input type="text" id="consoleInput" style="width:90%;"></p></div>
+                                <div class="ConsoleInput"> <span class="consolePromptText">&gt;&gt;</span> <input type="text" id="consoleInput" style="width:90%;"></p></div>
                             </div>
 					    </div>
 						
