@@ -2,7 +2,7 @@ package files;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.ImportStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.lang.String;
 import java.net.MalformedURLException;
@@ -10,7 +10,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyAction;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
@@ -108,7 +108,7 @@ public class FileManager
 					URL url = new URL(urlString);
 					Path path = Paths.get(targetDir);
 					try(InputStream input = url.openStream();){
-						Files.copy(input, path, StandardCopyAction.REPLACE_EXISTING);
+						Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
 					}
 				}
 			}
