@@ -99,6 +99,9 @@ public class FileManager
 			}
 		}
 
+		return auth;
+	}
+
 		public void download(User user, UserFile uf, String urlString, String targetDir) throws IOException, MalformedURLException {
 			if (uf.getFile().exists()){
 				if (uf.getFile().isFile() && !(uf.getFile().isDirectory()) && this.authorize(user, uf)){
@@ -110,7 +113,4 @@ public class FileManager
 				}
 			}
 		}
-
-		return auth;
-	}
 }
