@@ -102,8 +102,15 @@ function executionResponseHandler() {
         var outputText = jsonObj.outputText;
         var webConsole = document.getElementById("consoleOutput");
         if(outputText.length >= 1)
+        {
             webConsole.innerHTML += outputText;
-        webConsole.scrollTop = webConsole.scrollHeight; //scroll to the buttom
+            webConsole.scrollTop = webConsole.scrollHeight; //scroll to the buttom
+        }
+        if(exitStatus != -1)
+        {
+            webConsole.innerHTML += "\nExit Status: " + exitStatus + "\n";
+        }
+
 
 
     } else {
