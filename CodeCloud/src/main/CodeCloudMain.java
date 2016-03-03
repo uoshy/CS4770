@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Scanner;
 
 import cloudCoding.CompilerReturn;
 import cloudCoding.UserProcess;
@@ -38,7 +39,10 @@ import json.CompilerInput;
 import json.CompilerReturnJson;
 import json.ExecutionInput;
 import json.ExecutionReturn;
+
 import files.UserFile;
+import main.JSONFileList;
+import main.JSONFileList.JSONFileObject;
 
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
@@ -164,7 +168,7 @@ public class CodeCloudMain
                 return null;
             }
         });
-//
+
         post("/files/upload", (request, response) ->
         {
         	response.type("text/plain");
@@ -176,23 +180,38 @@ public class CodeCloudMain
 		Part file = request.raw().getPart("file");
 		String filename = file.getSubmittedFileName();
        		UserFile uDir = new UserFile(null, filename);
-		//if (name.getSize() > 0){
-			try (final InputStream in = file.getInputStream()) {
-				//TODO: Insert actual path to user's file directory
-			 	Files.copy(in, Paths.get("static/temp/" + filename), StandardCopyOption.REPLACE_EXISTING);
-			 	file.delete();
-			}
-			catch (Exception e){
-				e.printStackTrace();
-				return "0";
-			}
-
-		//}
+		try (final InputStream in = file.getInputStream()) {
+			//TODO: Insert actual path to user's file directory
+		 	Files.copy(in, Paths.get("static/temp/" + filename), StandardCopyOption.REPLACE_EXISTING);
+		 	file.delete();
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return "0";
+		}
                 System.out.println("Saved file to " + uDir.getPath());
         	return "/temp/" + filename;
         });
 
-//
+        post("/files/view", (request, response) ->
+        {
+		System.out.println("files/view call");
+        	response.type("application/json");
+		String path = request.body();
+		File file = new File(path);
+		if (file.exists()){
+			File[] files = file.listFiles();
+			JSONFileList fl = new JSONFileList();
+			fl.fileObjs = new JSONFileObject[files.length];
+			for (int i = 0; i < files.length; i++){
+				fl.fileObjs[i].fileName = files[i].getName();
+				fl.fileObjs[i].isDirectory = files[i].isDirectory();
+			}
+			return fl;
+		}
+		return "";
+	}, new JsonTransformer());
+
 
         get("/editor/execute/active/readOutput/:activeProcessID", (request, response) -> 
         {
