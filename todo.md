@@ -1,21 +1,19 @@
 TODO:
 
-Alex: 
-- Compiling/Execution
-- Generate javadoc (done)
+Alex:
+ - Javadoc
+ - Tests
+ - Dicussion on Spark, acccess to "all other classes", "concurrent requests", "security with directory ..",
+ - Discussion on security, docker, running apps, process/etc. 
 
-Tyson:
+ Tim:
+  - Displaying directory tree
+  - Javadoc 
+  - Tests 
 
-- Start main HTML pages (done)
-- Document necessary WebAPIs (HTTP requests the server should respond to)
+ Tyson:
+  - Login page
 
-Tim:
-- Database schema (done)
-- User cases from new user stories (done)
-- Verbage from usecases added to data dictionary. (Separate data dictioanry so sepearte file) (done)
-- Java database interface code?
-
-Xiuzhi:
-- Skeleton code (done)
-- Update pre and post conditions of old use cases. (done).
+ Xiuzhi
+  - Account creation
 
