@@ -5,8 +5,7 @@ CodeCloud Project files.
 Steps to run server
 -------------------
 
-
-1. Download and instal docker. 
+1. Download and install docker. 
 
 Docker has excellent documentation on how to install docker on various OS.
 See: https://docs.docker.com/engine/installation/ Once you have sucessfully
