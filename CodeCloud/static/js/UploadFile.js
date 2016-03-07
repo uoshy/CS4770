@@ -6,6 +6,7 @@ function upload() {
 	form.append("file", file.files[0], file.files[0].name);
 	var newPath = "";
 	var pathParts = document.getElementById('hTitle').innerHTML.split("/");
+	//Change '/'s to '|'s to avoid spark errors
 	for (var i = 0; i < pathParts.length - 1; i++){
 			newPath += pathParts[i] + "|";
 	}
@@ -21,7 +22,8 @@ function upload() {
 				link.href = xhr.responseText;
 				link.innerHTML = "Download here";
 				var path = document.getElementById('hTitle').innerHTML;
-				path = path.substring(0, path.length - 1) 
+				path = path.substring(0, path.length - 1)
+				//"Refresh" the page so the added file/directory is visible to the user
 				showFiles(path);
 			}
 			else {

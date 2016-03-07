@@ -1,4 +1,5 @@
 function showFiles(elementID){
+	//Does not expect a "/" on elementID input
 	if (elementID.charAt(elementID.length - 1) == '/'){
 		elementID = elementID.substring(0, elementID.length);
 	}
@@ -7,6 +8,7 @@ function showFiles(elementID){
 	xhr.setRequestHeader("Content-Type", "text/plain");
 	var pathParts = elementID.split('/');
 	if (pathParts[pathParts.length - 1].indexOf('.') == -1){
+		//Works only if no directories have '.'s in their names; should be made more robust
 		xhr.onreadystatechange = function(){
 			if (xhr.readyState != 4) return;
 			if (xhr.status == 200 || xhr.status == 400){
