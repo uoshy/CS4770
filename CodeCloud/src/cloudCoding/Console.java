@@ -6,6 +6,15 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * A singleton object used to execute arbitrary code as requested from the client.
+ * This class is responsible for creating and storing UserProcess objects for static access
+ * to them from anywhere in the system. 
+ * 
+ * The class is also responsible for setting up the sandbox in which client code is executed.
+ * @author Alex Brandt
+ *
+ */
 public class Console 
 {
 	/** Singleton reference */
@@ -25,8 +34,8 @@ public class Console
 	 * Note the format specified in part1. One should insert a string here using String.format that
 	 * resembles the server directory to mount to the docker container. 
 	 */
-	private static final String dockerCommandPart1 = "docker run -i -v %s:/home/user -w /home/user --rm alexgbrandt/sandbox";
-	private static final String dockerCommandPart2 = "; exit;";// ""  > /dev/tty < /dev/tty 2>&1; exit; ";
+	private static final String dockerCommandPart1 = "docker run -i -v %s:/home/user -w /home/user --rm alexgbrandt/sandbox su - user -c \'";
+	private static final String dockerCommandPart2 = "\'; exit;";
 
 	/**
 	 * Private constructor for singleton.
