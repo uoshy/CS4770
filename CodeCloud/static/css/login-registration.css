@@ -50,7 +50,7 @@
     font-weight: 400;
     display: block;
 }
-.new-account
+.new-account, .old-account
 {
     display: block;
     margin-top: 10px;
@@ -72,4 +72,21 @@ div.logo-brand {
     color: #fff;
     background-color: #202020;
     border-color: #777;
+}
+
+/** ------ register ------ **/
+
+.centered-form{
+	margin-top: 0px;
+}
+
+.centered-form .panel{
+	background-color: #f7f7f7;
+	width: 450px;
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+
+
+.text-center {
+    text-align: center;
 }
