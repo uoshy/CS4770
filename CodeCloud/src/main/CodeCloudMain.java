@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.io.IOException;
 
 import json.CompilerInput;
 import json.CompilerReturnJson;
@@ -41,8 +42,11 @@ import json.ExecutionInput;
 import json.ExecutionReturn;
 
 import files.UserFile;
-import main.JSONFileList;
-import main.JSONFileList.JSONFileObject;
+//import main.JSONFileList;
+//import main.JSONFileList.JSONFileObject;
+
+import users.User;
+import users.TempUsers; //temporary; for file access
 
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
@@ -52,9 +56,16 @@ import javax.servlet.MultipartConfigElement;
  */
 public class CodeCloudMain 
 {
+    private static Collection<User> users;
+
     private static void setup()
     {
         //TODO ensure docker daemon is running
+		
+		//Temporarily get users from file
+        TempUsers tmpUsrs = new TempUsers();
+        users = tmpUsrs.getCollection();
+		
     }
     
 ///////////// A set of static helper methods used by the server. /////////////////////////
@@ -72,7 +83,7 @@ public class CodeCloudMain
     {
         setup();
         externalStaticFileLocation("static"); 
-        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");
+        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");		
         //redirect root to index.html
         get("/", (request, response) -> 
         {
@@ -85,6 +96,87 @@ public class CodeCloudMain
         	return null;
         });
         
+			
+/**		
+        post("/login.html", (request, response) ->
+        {
+            response.type("plain/text");
+            String name;
+            String password;
+            try
+            {
+                Gson gson = new Gson();
+                String body = request.body();
+                LoginRequest lr = gson.fromJson(body, LoginRequest.class);
+                name = lr.username;
+                password = lr.password;
+            }
+            catch (JsonParseException ex)
+            {
+                log("Malformed values in login request");
+                return "Error logging in. Please try again.";
+            }
+            if(name == null || password == null)
+            {
+                return "Error logging in. Please try again.";
+            }
+            User u = new User(name, password);
+            for(User user : users)
+            {   
+                if(u.equals(user))
+                { // successful login
+                    Session session = request.session(true);
+                    session.attribute("user", user);
+                    response.redirect("/home.html");
+                    return null;
+                }
+            }
+            // user doesn't exist or passwords don't match 
+            log("Login failed");
+            return "Error logging in. Please try again.";
+        });
+**/
+		post("/login.html", (request, response) -> {
+            String usr = request.queryParams("user");
+            String pw = request.queryParams("password");
+			log("user: "+usr+" & pass: "+pw);
+			
+            if ( usr == null || pw == null ) {
+                response.redirect("error.html");
+            }
+			for(User user : users) {   
+                if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
+                    Session session = request.session(true);
+					if ( session == null ) {
+                        response.redirect("/register.html");
+                    }
+                    session.attribute("user", usr);
+					log("Login successful");
+                    response.redirect("/home.html");
+                    return null;
+                }
+            }
+			log("Login failed");
+            response.redirect("/register.html");
+            return null;
+        });
+
+        // allow user to log out
+        get("/logout", (request, response) -> {
+            Session sess = request.session(true);
+            if(sess.attribute("user") != null) {
+                sess.attribute("user", null);
+                response.redirect("/login.html");
+            } else {
+                // just redirect to the same page if user wasn't logged in -
+                // this needs to be changed so that the "Log out" link isn't
+                // even shown when the user is logged in
+                response.redirect(request.url());
+            }
+            return null;
+
+        });
+		
         post("/editor/compile/java", (request, response) ->
         {   
            response.type("application/json");
@@ -192,7 +284,7 @@ public class CodeCloudMain
                 System.out.println("Saved file to " + uDir.getPath());
         	return "/temp/" + filename;
         });
-
+/**
         post("/files/view", (request, response) ->
         {
 		System.out.println("files/view call");
@@ -211,7 +303,7 @@ public class CodeCloudMain
 		}
 		return "";
 	}, new JsonTransformer());
-
+**/
 
         get("/editor/execute/active/readOutput/:activeProcessID", (request, response) -> 
         {
