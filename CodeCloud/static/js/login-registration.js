@@ -68,3 +68,21 @@ function checkPassword(evt) {
     // change button status if needed
     buttonStatus();
 }
+
+// enable/disable button if input is valid/invalid. check when a new character
+// is entered into any of the text fields
+function buttonStatus() {
+    if(register) { // register
+        if(usernameOK && passwordOK) {
+            form.button.disabled = false;
+        } else {
+            form.button.disabled = true;
+        }
+    } else { // account settings
+        if(passwordOK && currentPasswordOK) {
+            form.button.disabled = false;
+        } else {
+            form.button.disabled = true;
+        }
+    }
+}

@@ -102,11 +102,12 @@
 					    <div id="register" class="toggle">
 							<h1>Register</h1><hr><br>
 							
-                                <form id="registerForm" method="post">
+                                <form id="registerForm">
                                     User name:<br>
                                     <input type="text" id="username" name="username">
                                     &nbsp &nbsp Create your user name to log in.<br>
                                     <br>
+                                    <p id="usernameMsg">Please create a user name never used before.</p><br>
                                     Password:<br>
                                     <input type="password" id="password" name="password1">
                                     &nbsp &nbsp Set your password.
@@ -115,7 +116,7 @@
                                     <input type="password" id="confirm" name="password2">
                                     &nbsp &nbsp Confirm your password.
                                     <br><br>
-                                    
+                                    <p id="passwordMsg">The passwords must match.</P><br>
                                     First name:<br>
                                     <input type="text" id="firstname">
                                     &nbsp &nbsp Please enter your authentic name.
