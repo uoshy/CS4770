@@ -6,6 +6,33 @@
 </head>
 <body style="width:80%">
 	<h3>Docker Discussion</h3>
+
+<p>
+	Docker is a containerization service. "Docker allows you to package an application with all of its dependencies into a standardized unit for software development. Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in." (https://www.docker.com/what-docker). Docker containers are build using LXC, linux containers. The containers are lightweight, developed open standards, and most importantly secure. Containers isolate themselves from other containers and from the host operating system unless explicitly allowed certain permissions. The security features, flexibility offered, and excellent documentation make Docker and excellent solution to our needs.
+</p>
+<p>
+	Docker has two important uses for our software. 
+	<ol>
+		<li>Sets up the execution environment for the software</li>
+		<li>Sandboxes arbitrary code supllied by the client.</li>
+	</ol>
+</p>
+
+<h4>Estabilishing Execution Environment</h4>
+
+<p>The software bundle that is CodeCloud requires several dependencies in order to run, namely: Java, G++, Ant, Ivy, Docker, bash, and many external Java libraries. While Ant and Ivy are used to help build the software and grab java dependencies, they cannot ensure that the host machine has access to a JDK, a C++ compiler, or Docker. For simplicity then a Docker container can be created with all of the necessary dependencies. To build the software simply run the Docker container (with certain privileges) and run the ant build file. For details check out <a href="../CodeCloud/README.md">Server Setup</a>. The main reasoning for containing the software and its dependencies inside of a docker container is that the sandboxing solution of using Docker, which is described nolater, required being launched from a shell and not directly forked from the JVM. So, instead of determining ther user's operating system and available shells, we assume bash is available and know this it will be available as the server is run from within an appropriate docker container. Since docker was already being used for sandboxing it made sense to use docker for its intended service, packaging a software package and all of its dependencies together. </p>
+
+<h4>Sandboxing Arbitrary Code</h4>
+
+<p>Docker is excellent for sandboxing and isolating programs from the rest of the host machine. Docker containers are based on LXC, linux containers. By default, docker containers are isolated from the rest of the host machine. Docker uses a combination of kernel namespaces and control groups to limit processes inside a container. The use of kernel namespaces means that processes running inside of a container do not know about processes outside of the container. The use of control groups limits the ability of a container exhaust host resources such as memory, CPU time, and disk I/O. When a container is started there an entire linux filesystem is created for the process which provides necessary tools and binaries. Any modifications to this filesystem are discarded when the container exits and do not affect the host machine. So, a user in a container could remove /bin and it have no effect on the host. Additionally, all programs are run from using an arbitrary non-root user account without sudo privileges. This gives a small extra deterrent to the client not to attempt malicious code.</p>
+
+<p>Docker also allows for easy mounting of directories from host to client. This allows programs to have access to necessary files during execution. For example, data files to parsed or a file to send output. Changes made in the container are accessible from the host in the mounted directory, meaning that changes are persisted after the container exits. This allows the client to then access the files created/used during a program execution. Only the directory specified to mount (and its subdirectories) are accessible in the container, meaning programs cannot access host machine files using ".." in path names.</p>
+
+<p>An excellent feature of Docker is its speed. It does not have all of the overhead of virtual machine but still provides comparable security. Creating and starting a container and interacting with it is very quick. Within a second a container can be created and intialized and start sending output. When a client reqeusts a program be executed a new container is created for every request. The required working directory is mounted to the docker countainer, and the program is run. Currently, the docker container is set up using a list of static options specified internally in the server. The only argument specified by the client is the language type and name of the file to execute. By limiting the container options available to the client there is less risk of the container gaining access or affecting the host system.</p>
+
+
+
+</p>
 </body>
 </html>
 

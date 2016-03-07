@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.io.IOException;
 
 import json.CompilerInput;
 import json.CompilerReturnJson;
@@ -44,6 +45,9 @@ import files.UserFile;
 import main.JSONFileList;
 import main.JSONFileList.JSONFileObject;
 
+import users.User;
+import users.TempUsers; //temporary; for file access
+
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
 
@@ -52,9 +56,16 @@ import javax.servlet.MultipartConfigElement;
  */
 public class CodeCloudMain 
 {
+    private static Collection<User> users;
+
     private static void setup()
     {
         //TODO ensure docker daemon is running
+		
+		//Temporarily get users from file
+        TempUsers tmpUsrs = new TempUsers();
+        users = tmpUsrs.getCollection();
+		
     }
     
 ///////////// A set of static helper methods used by the server. /////////////////////////
@@ -72,7 +83,7 @@ public class CodeCloudMain
     {
         setup();
         externalStaticFileLocation("static"); 
-        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");
+        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");		
         //redirect root to index.html
         get("/", (request, response) -> 
         {
@@ -85,6 +96,87 @@ public class CodeCloudMain
         	return null;
         });
         
+			
+/**		
+        post("/login.html", (request, response) ->
+        {
+            response.type("plain/text");
+            String name;
+            String password;
+            try
+            {
+                Gson gson = new Gson();
+                String body = request.body();
+                LoginRequest lr = gson.fromJson(body, LoginRequest.class);
+                name = lr.username;
+                password = lr.password;
+            }
+            catch (JsonParseException ex)
+            {
+                log("Malformed values in login request");
+                return "Error logging in. Please try again.";
+            }
+            if(name == null || password == null)
+            {
+                return "Error logging in. Please try again.";
+            }
+            User u = new User(name, password);
+            for(User user : users)
+            {   
+                if(u.equals(user))
+                { // successful login
+                    Session session = request.session(true);
+                    session.attribute("user", user);
+                    response.redirect("/home.html");
+                    return null;
+                }
+            }
+            // user doesn't exist or passwords don't match 
+            log("Login failed");
+            return "Error logging in. Please try again.";
+        });
+**/
+		post("/login.html", (request, response) -> {
+            String usr = request.queryParams("user");
+            String pw = request.queryParams("password");
+			log("user: "+usr+" & pass: "+pw);
+			
+            if ( usr == null || pw == null ) {
+                response.redirect("error.html");
+            }
+			for(User user : users) {   
+                if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
+                    Session session = request.session(true);
+					if ( session == null ) {
+                        response.redirect("/register.html");
+                    }
+                    session.attribute("user", usr);
+					log("Login successful");
+                    response.redirect("/home.html");
+                    return null;
+                }
+            }
+			log("Login failed");
+            response.redirect("/register.html");
+            return null;
+        });
+
+        // allow user to log out
+        get("/logout", (request, response) -> {
+            Session sess = request.session(true);
+            if(sess.attribute("user") != null) {
+                sess.attribute("user", null);
+                response.redirect("/login.html");
+            } else {
+                // just redirect to the same page if user wasn't logged in -
+                // this needs to be changed so that the "Log out" link isn't
+                // even shown when the user is logged in
+                response.redirect(request.url());
+            }
+            return null;
+
+        });
+		
         post("/editor/compile/java", (request, response) ->
         {   
            response.type("application/json");
@@ -169,9 +261,12 @@ public class CodeCloudMain
             }
         });
 
-        post("/files/upload", (request, response) ->
+        post("/files/upload/:dir", (request, response) ->
         {
         	response.type("text/plain");
+		String dirPath = request.params(":dir");
+		dirPath = dirPath.replaceAll("\\|", "/");
+		log("query params: " + dirPath);
 		//TODO: Get user/path parameters.
 		if (request.raw().getAttribute("org.eclipse.jetty.multipartConfig") == null){
 			MultipartConfigElement mce = new MultipartConfigElement(System.getProperty("static/temp"));
@@ -182,7 +277,7 @@ public class CodeCloudMain
        		UserFile uDir = new UserFile(null, filename);
 		try (final InputStream in = file.getInputStream()) {
 			//TODO: Insert actual path to user's file directory
-		 	Files.copy(in, Paths.get("static/temp/" + filename), StandardCopyOption.REPLACE_EXISTING);
+		 	Files.copy(in, Paths.get(dirPath + filename), StandardCopyOption.REPLACE_EXISTING);
 		 	file.delete();
 		}
 		catch (Exception e){
@@ -190,24 +285,63 @@ public class CodeCloudMain
 			return "0";
 		}
                 System.out.println("Saved file to " + uDir.getPath());
-        	return "/temp/" + filename;
+        	return dirPath + filename;
         });
 
         post("/files/view", (request, response) ->
         {
 		System.out.println("files/view call");
-        	response.type("application/json");
 		String path = request.body();
+       		response.type("application/json");
 		File file = new File(path);
 		if (file.exists()){
 			File[] files = file.listFiles();
-			JSONFileList fl = new JSONFileList();
-			fl.fileObjs = new JSONFileObject[files.length];
+			JSONFileList fl = new JSONFileList(files.length);
+			log("fl length: " + fl.fileObjs.length);
+			log("files length" + files.length);
+			for (File f : files){
+				log(f.getName());
+			}
 			for (int i = 0; i < files.length; i++){
 				fl.fileObjs[i].fileName = files[i].getName();
 				fl.fileObjs[i].isDirectory = files[i].isDirectory();
 			}
+			log("Returning...");
 			return fl;
+		}
+		return null;
+	}, new JsonTransformer());
+
+        post("/files/getcontents", (request, response) ->
+        {
+		System.out.println("files/view call");
+		response.type("application/json");
+		String path = "static/" + request.body();
+		File file = new File(path);
+		String[] pathParts = path.split("/");
+		String[] returnArray = new String[2];
+		if (file.exists() && ! file.isDirectory() && file.isFile()){
+			if (pathParts[pathParts.length - 1].endsWith(".txt")){
+				returnArray[0] = "false";
+				Scanner scanner = new Scanner(file);
+				String tempString = "";
+				try {
+					tempString = scanner.useDelimiter("//A").next();
+				}
+				finally {
+					scanner.close();
+				}
+				returnArray[1] = tempString;
+				return returnArray;
+			}
+			else {
+				returnArray[0] = "true";
+				if (!(path.charAt(0) ==('/'))){
+					path = "/" + path;
+				}
+				returnArray[1] = path;
+				return returnArray;
+			}
 		}
 		return "";
 	}, new JsonTransformer());
