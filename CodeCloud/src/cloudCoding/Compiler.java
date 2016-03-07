@@ -7,6 +7,13 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * A singleton class used to compile files. It executes the input commands needed to compile the
+ * files and returns the compiler output as well as references to the compiled files
+ * if the compilation was successful.
+ * @author Alex Brandt
+ *
+ */
 public class Compiler
 {
 	/** Singleton reference */
@@ -86,6 +93,7 @@ public class Compiler
             	System.out.println(proc.exitValue());
             }
             catch(InterruptedException ie){}
+            
             CompilerReturn toReturn = new CompilerReturn();
             String outStr = output.toString();
             if(outStr.length() > 0)

@@ -38,11 +38,6 @@ public class UserProcess extends Thread
 	private InputStream procOutput;
 	
 	/**
-	 * The reader of the input stream.
-	 */
-	private BufferedReader reader;
-	
-	/**
 	 * The ProcessBuidler used build up the process command and start the process.
 	 */
 	private ProcessBuilder processBuilder;
@@ -52,49 +47,6 @@ public class UserProcess extends Thread
 	 */
 	private long processID;
 	
-	private class StreamGobbler extends Thread {
-		InputStream is;
-		StringBuilder builder;
-		boolean streamClosed;
-		StreamGobbler(InputStream is)
-		{
-			this.is = is;
-			builder = new StringBuilder();
-		}
-
-		public void run()
-		{
-			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(is));
-				String line = null;
-				while( (line = br.readLine()) != null)
-				{	
-					System.out.println(line);
-					synchronized(this)
-					{
-						builder.append(line);
-						builder.append("\n");
-					}
-				}
-			} catch(IOException ioe)
-			{
-				if(!streamClosed) 
-				    ioe.printStackTrace();
-			}
-		}
-
-		public String getOutput()
-		{
-			synchronized(this)
-			{
-				String toRet = builder.toString();
-				builder.setLength(0);
-				return toRet;
-			}
-		}
-	}
-
-
 	private StreamGobbler gobbler;
 
 	private boolean processEnded;
@@ -132,21 +84,6 @@ public class UserProcess extends Thread
 		gobbler = new StreamGobbler(procOutput);
 		gobbler.start();
 		writer = new BufferedWriter(new OutputStreamWriter(procInput));
-		//reader = new BufferedReader(new InputStreamReader(procOutput));
-		/*
-		while(!isProcessEnded())
-		{
-			System.out.println("sleeping");
-			try{
-			Thread.sleep(100);
-			}
-			catch(InterruptedException e)
-			{
-				continue;
-			}
-		}
-		System.out.println("Done sleeping.. ");
-		*/
 	}
 	
 	/**
@@ -158,6 +95,10 @@ public class UserProcess extends Thread
 		return processID;
 	}
 	
+	/**
+	 * Check to see if the process has ended. 
+	 * @return true iff the process has ended
+	 */
 	public boolean isProcessEnded()
 	{
 		if(!process.isAlive())
@@ -220,86 +161,34 @@ public class UserProcess extends Thread
 	}
 	
 	/**
-	 * Attempts to read from the proccess's stdout. Using threading and timeouts
-	 * this method will return if reading from the process blocks for too long. 
-	 * This likely signifies the process is waiting for input. Returns the empty
-	 * string if no output is available from the process.
+	 * Attempts to read from the proccess's stdout. Through the use of a StreamGobbler,
+	 * returns all output from the process since the previous call to readFromProcess.
+	 * 
+	 * @see StreamGobbler
 	 * 
 	 * @return the current available output from the process
 	 */
-	public synchronized String readFromProcess()
+	public String readFromProcess()
 	{
 		return gobbler.getOutput();
-		/*
-		//Inspired by http://www.programering.com/q/MjN4MzNwATc.html
-		ExecutorService executor = Executors.newFixedThreadPool(2);
-		Callable<String> readTask = new Callable<String>() {
-			public String call() throws Exception {
-				return reader.readLine();
-			}
-		};
-		
-		StringBuilder builder = new StringBuilder();
-		while(true)
-		{
-			Future<String> future = executor.submit(readTask);
-			try {
-				String readLine = future.get(1000, TimeUnit.MILLISECONDS);
-				if(readLine == null) //reader.readLine() found EOF (proc. terminated)
-				{
-					System.out.println("Read null from process");
-					setProcessEnded();
-					break;
-				}
-				else
-				{
-					System.out.println("Read from process in read method: " + readLine);
-				}
-				
-				builder.append(readLine);
-				builder.append("\n");
-			}
-			catch(CancellationException e) { //future was cancelled 
-				//should never really happen
-				continue;
-			} 
-			catch (InterruptedException e) { //current thread interrupted while waiting
-				continue; //try to read again
-			} 
-			catch (ExecutionException e) { //if the callable threw an exception
-				continue;
-			} 
-			catch (TimeoutException e) { //if the future timed out
-				//process's stdout is not currently printing anything
-				//so probably waiting for input. So let's return and do that.
-				System.out.println("Read op timed out!");
-				if(!future.cancel(false)) //future could not be cancelled so it probably did something
-				{
-					try {
-						String readLine = future.get();
-						builder.append(readLine);
-						builder.append("\n");
-					}
-					catch(CancellationException | InterruptedException | ExecutionException ex) {
-
-					}
-				}
-				break;
-			}
-		}
-		executor.shutdown();
-		return builder.toString(); //if nothing was read, empty string returned
-		*/
 	}
 	
-	public void killProcess()
+	/**
+	 * Kill the process. Attempt to kill it first by writing SIGINT, the interrupt signal ctrl+C, 
+	 * to the program. If the process does not terminate after 1 second then the process is forcibly
+	 * destroyed. After the process is destroyed, return its exit status.
+	 * @return the program's exit status after termination.
+	 */
+	public int killProcess()
 	{
-		gobbler.streamClosed = true;
+		gobbler.setStreamClosed();
 		this.writeToProcess("\003");
 		try{
         	Thread.sleep(1000);
         } catch(InterruptedException e) {}
-        if(getExitStatus() == -1)
+		
+		int exitStatus = getExitStatus();
+        if(exitStatus == -1)
         {
 			process.destroyForcibly();
 			try {
@@ -308,6 +197,7 @@ public class UserProcess extends Thread
 				System.out.println("Killing process took longer than 1 second..."); 
 			}	
 		}
+        return getExitStatus();
 	}
 	
 	
