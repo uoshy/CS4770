@@ -42,8 +42,8 @@ import json.ExecutionInput;
 import json.ExecutionReturn;
 
 import files.UserFile;
-//import main.JSONFileList;
-//import main.JSONFileList.JSONFileObject;
+import main.JSONFileList;
+import main.JSONFileList.JSONFileObject;
 
 import users.User;
 import users.TempUsers; //temporary; for file access
@@ -261,9 +261,12 @@ public class CodeCloudMain
             }
         });
 
-        post("/files/upload", (request, response) ->
+        post("/files/upload/:dir", (request, response) ->
         {
         	response.type("text/plain");
+		String dirPath = request.params(":dir");
+		dirPath = dirPath.replaceAll("\\|", "/");
+		log("query params: " + dirPath);
 		//TODO: Get user/path parameters.
 		if (request.raw().getAttribute("org.eclipse.jetty.multipartConfig") == null){
 			MultipartConfigElement mce = new MultipartConfigElement(System.getProperty("static/temp"));
@@ -274,7 +277,7 @@ public class CodeCloudMain
        		UserFile uDir = new UserFile(null, filename);
 		try (final InputStream in = file.getInputStream()) {
 			//TODO: Insert actual path to user's file directory
-		 	Files.copy(in, Paths.get("static/temp/" + filename), StandardCopyOption.REPLACE_EXISTING);
+		 	Files.copy(in, Paths.get(dirPath + filename), StandardCopyOption.REPLACE_EXISTING);
 		 	file.delete();
 		}
 		catch (Exception e){
@@ -282,28 +285,67 @@ public class CodeCloudMain
 			return "0";
 		}
                 System.out.println("Saved file to " + uDir.getPath());
-        	return "/temp/" + filename;
+        	return dirPath + filename;
         });
-/**
+
         post("/files/view", (request, response) ->
         {
 		System.out.println("files/view call");
-        	response.type("application/json");
 		String path = request.body();
+       		response.type("application/json");
 		File file = new File(path);
 		if (file.exists()){
 			File[] files = file.listFiles();
-			JSONFileList fl = new JSONFileList();
-			fl.fileObjs = new JSONFileObject[files.length];
+			JSONFileList fl = new JSONFileList(files.length);
+			log("fl length: " + fl.fileObjs.length);
+			log("files length" + files.length);
+			for (File f : files){
+				log(f.getName());
+			}
 			for (int i = 0; i < files.length; i++){
 				fl.fileObjs[i].fileName = files[i].getName();
 				fl.fileObjs[i].isDirectory = files[i].isDirectory();
 			}
+			log("Returning...");
 			return fl;
+		}
+		return null;
+	}, new JsonTransformer());
+
+        post("/files/getcontents", (request, response) ->
+        {
+		System.out.println("files/view call");
+		response.type("application/json");
+		String path = "static/" + request.body();
+		File file = new File(path);
+		String[] pathParts = path.split("/");
+		String[] returnArray = new String[2];
+		if (file.exists() && ! file.isDirectory() && file.isFile()){
+			if (pathParts[pathParts.length - 1].endsWith(".txt")){
+				returnArray[0] = "false";
+				Scanner scanner = new Scanner(file);
+				String tempString = "";
+				try {
+					tempString = scanner.useDelimiter("//A").next();
+				}
+				finally {
+					scanner.close();
+				}
+				returnArray[1] = tempString;
+				return returnArray;
+			}
+			else {
+				returnArray[0] = "true";
+				if (!(path.charAt(0) ==('/'))){
+					path = "/" + path;
+				}
+				returnArray[1] = path;
+				return returnArray;
+			}
 		}
 		return "";
 	}, new JsonTransformer());
-**/
+
 
         get("/editor/execute/active/readOutput/:activeProcessID", (request, response) -> 
         {

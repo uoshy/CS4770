@@ -12,7 +12,63 @@
     <link href="font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
 	<link href="css/simple-page.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="codemirror-5.12/theme/3024-day.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/3024-night.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/abcdef.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/ambiance.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/base16-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/bespin.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/base16-light.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/blackboard.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/cobalt.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/colorforth.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/dracula.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/eclipse.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/elegant.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/erlang-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/hopscotch.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/icecoder.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/isotope.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/lesser-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/liquibyte.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/material.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/mbo.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/mdn-like.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/midnight.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/monokai.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/neat.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/neo.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/night.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/paraiso-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/paraiso-light.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/pastel-on-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/railscasts.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/rubyblue.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/seti.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/solarized.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/the-matrix.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/tomorrow-night-bright.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/tomorrow-night-eighties.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/ttcn.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/twilight.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/vibrant-ink.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/xq-dark.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/xq-light.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/yeti.css">
+    <link rel="stylesheet" href="codemirror-5.12/theme/zenburn.css">
+	
+    <script src="codemirror-5.12/lib/codemirror.js"></script>
+    <script src="codemirror-5.12/mode/javascript/javascript.js"></script>
+    <script src="codemirror-5.12/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror-5.12/addon/edit/closebrackets.js"></script>
+    <script src="codemirror-5.12/addon/edit/matchtags.js"></script>
+    <script src="codemirror-5.12/addon/scroll/simplescrollbars.js"></script>
+    <link rel="stylesheet" href="codemirror-5.12/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror-5.12/addon/scroll/simplescrollbars.css">
+
+    <script src="js/compiling.js"></script>
+	<script src="js/UploadFile.js"></script>
+    <link rel="stylesheet" href="css/console.css">
 </head>
 <body>
     <nav class="navbar navbar-default no-margin">
@@ -99,16 +155,98 @@
 
 						
 
-			
 						<div id="files" class="toggle">
-							<h1>Files</h1><hr><br>
-							<textarea readonly>
-								
-							</textarea>
+							<h1 id="hTitle" onload="init()">/users</h1><hr><br>
+							<form action="upload_file">
+							<input type="file" name="fileToUpload" enctype="multipart/form-type" id="filename"><br>
+							<input type="button" value="Upload" onclick="upload()">
+							</form>
+							<p><a href="" id="downloadLink"></a></p>
+							<input type="button" onclick="back()" value="Back"></input><br>
+							<ul id="filesList"><!--
+								<li><img src="./img/folderImage.png" alt="filename" width="75" height="75"><a onclick="showFiles()">A folder</a></li>
+								<li><img src="./img/fileImage.png" alt="filename" hspace="23" width="30" height="30"><a onclick="showFiles()">A file</a></li> -->
+							</ul>
 						</div>
 
+						<iframe id="frame" width="80%" height="80%"></iframe>
+
+						<div id="editor">
+
 						
-						
+
+
+				<div id="editor" class="toggle">
+							<h1>Editor</h1><hr><br>
+	
+                            <p>Select a theme: <select onchange="selectTheme()" id=select>
+                                <option selected>default</option>
+                                <option>3024-day</option>
+                                <option>3024-night</option>
+                                <option>abcdef</option>
+                                <option>ambiance</option>
+                                <option>base16-dark</option>
+                                <option>base16-light</option>
+                                <option>bespin</option>
+                                <option>blackboard</option>
+                                <option>cobalt</option>
+                                <option>colorforth</option>
+                                <option>dracula</option>
+                                <option>eclipse</option>
+                                <option>elegant</option>
+                                <option>erlang-dark</option>
+                                <option>hopscotch</option>
+                                <option>icecoder</option>
+                                <option>isotope</option>
+                                <option>lesser-dark</option>
+                                <option>liquibyte</option>
+                                <option>material</option>
+                                <option>mbo</option>
+                                <option>mdn-like</option>
+                                <option>midnight</option>
+                                <option>monokai</option>
+                                <option>neat</option>
+                                <option>neo</option>
+                                <option>night</option>
+                                <option>paraiso-dark</option>
+                                <option>paraiso-light</option>
+                                <option>pastel-on-dark</option>
+                                <option>railscasts</option>
+                                <option>rubyblue</option>
+                                <option>seti</option>
+                                <option>solarized dark</option>
+                                <option>solarized light</option>
+                                <option>the-matrix</option>
+                                <option>tomorrow-night-bright</option>
+                                <option>tomorrow-night-eighties</option>
+                                <option>ttcn</option>
+                                <option>twilight</option>
+                                <option>vibrant-ink</option>
+                                <option>xq-dark</option>
+                                <option>xq-light</option>
+                                <option>yeti</option>
+                                <option>zenburn</option>
+                            </select>
+                            </p>
+                            <br>
+                            <form><textarea id="editorTextArea"></textarea></form>
+
+                            <div class="Console">
+                                <div class="ConsoleHeader">
+                                    <button type="button" onclick="compile()">Compile</button>
+                                    <button type="button" onclick="compile(true)">Run</button>
+                                    <span id="consoleStatus" class="consolePromptText"></span>
+                                    <button type="button" id="consoleKillButton" onclick="kill()" style="display: none;">Kill Process</button>
+                                </div>
+                                <div class="ConsoleOutput" id="consoleOutput"></div>
+                                <div class="ConsoleInput"> <span class="consolePromptText">&gt;&gt;</span> <input type="text" id="consoleInput" style="width:90%;"></p></div>
+                            </div>
+		   </div>
+
+
+
+						</div>
+						<!-- Back button here -->
 						</div>
                     </div>
                 </div>
@@ -118,10 +256,14 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
+	<script src="js/login-registration.js"></script>
+	<script src="js/ShowFiles.js"></script>
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sidebar_menu.js"></script>
     <script src="js/textarea.js"></script>
     <script scr="js/login-registration.js"></script>
     </body>
+</html>
+</body>
 </html>
