@@ -7,9 +7,36 @@
 <body style="width:80%">
 	<h3>Iteration 2: Implementation Notes</h3>
 
-<p>
-	
-</p>
+<h4>Compiling, Execution, and Sandboxing</h4>
+<p>These aspects of the project were deemed to be the most difficult to implement and thus posed the most risk to the project. In order to minimize risk as early as possible in the development period these aspects were tackled first during implementation. As dicussed later, the current design is very flexible, allowing for easy addition of supported languages. All three of these aspects: compiling, executing, and sandboxing, are mostly impelmented currently with small adjustments needed as other features become implemented. Namely, once users can be created and log in, then we can associate files to users on the server. Doing this we will change from sending a compile request with the actual code to compile to sending only the name of the file to compile.</p>
+
+<h4>Compiling</h4>
+<p>Currently, in order to compile code the contents of the text editor are grabbed and sent to the server as a sting. The server than pushes the string into a file and then compiles that file. It returns any compiler warnings or errors. If the compilation was successful we return a message indicating so (as most compilers do not give output on successful completion). We also supply a download link to the client to download the compiled object/class file. The path which is sent the HTTP request determines who the file is to be compiled. For instance a request to "/editor/compile/java/" would interpret the code as java code and compile it with javac. In the future we will allow users to specify their language and have javascript make the requrest to a different path. To add another language is done simply by adding a request handler to the path "/editor/compile/newLanuage" and forking the necessary compiler. </p>
+
+<h4>Execution</h4>
+<p>Clients can request to execute a program as written in the text editor. A execution request is preceeded by a compilation request. The execution request only executes if compilation was successful. The current implementation support both program output and input. The example which the text editor loads with has a while(true) loop to receive input and then print a statement. This shows that the program accepted the input as the next statement is only printed if the input was successfully received. A process can also be killed using the 'Kill Process' button. This is useful as student code will likely behave erroneously. Future implementation will add support for more languages. Additionally, the ability to have multiple interacting classes will be supported; importing/including of user-defined classes is not supported. This will likely come with user files being implemented.</p>
+
+
+<h4>Sandboxing</h4>
+<p>All code requested by the client to execute is currently sandboxed using Docker containers. They are always run in a new container, independent from everything else on the host machine. Currently the container is mounted with the server's "/static/temp" directory (and all subdirectories). In the future we plan to change this to mount only the user's "home" directory on the server. For more details please check out the<a href="DockerDiscussion">Docker Discussion</a>.</p>
+
+<h4>Text Editor</h4>
+<p>A javscript-based text editor has been included on the client-side of the project. It was implmented using <a href="http://codemirror.net">CodeMirror</a>. This is an excellent resouce with support for many languages and add-ons. There is multiple color themese with syntax highlighting for various languages. Current add-ons include: bracket matching, automatically closing brackets, and over 40 color themes. More add-ons will be added as seen appropriate in the future.</p>
+
+<h4>User Files</h4>
+<p>Currently, files can be uploaded to the server as well as downloaded from the server. In progress is the ability to browse available files on the server using a file manager-type view in the client's web browser (like windows explorer or nautilus). The view will display all files in the user's home directory and allow exploration of sub-directories.<br><br>
+The idea for user files is that each user of the website will have a "home" directory which stores all the files they have working access to (read/write/execute). Within this directory users will be able to create files and directories at will. Users will be unable to access other user's home directories. During the file exploration of a user's home directory we wish to add support to view the file contents in the client without having to download the file and open it on the client's machine. This would include support for in-browser viewing of pdf, doc, powerpoint, and other standard files. Plain text files will be editable in the client's browser using the text editor as described earlier.</p>
+
+
+<h4><i>In Progress</i></h4>
+
+<h4>Account Creation</h4>
+<p>Users can create accounts on the server by specifying their username, password, first name, and last name. By default all accounts created are marked with student privileges until a system administrator changes their role to insturctor.</p>
+
+<h4>Account Login</h4>
+<p>Users can login to the sysem using their username and password specified during account creation. Currently the user login has no effect on the other website features, but will be integrated into file usage and program execution during the next iteration.</p>
+
+
 
 </body>
 </html>
