@@ -102,20 +102,21 @@
 					    <div id="register" class="toggle">
 							<h1>Register</h1><hr><br>
 							
-                                <form>
+                                <form id="registerForm">
                                     User name:<br>
-                                    <input type="text" id="username">
+                                    <input type="text" id="username" name="username">
                                     &nbsp &nbsp Create your user name to log in.<br>
                                     <br>
+                                    <p id="usernameMsg">Please create a user name never used before.</p><br>
                                     Password:<br>
-                                    <input type="password" id="password">
+                                    <input type="password" id="password" name="password1">
                                     &nbsp &nbsp Set your password.
                                     <br><br>
                                     Confirm password:<br>
-                                    <input type="password" id="confirm">
+                                    <input type="password" id="confirm" name="password2">
                                     &nbsp &nbsp Confirm your password.
                                     <br><br>
-                                    
+                                    <p id="passwordMsg">The passwords must match.</P><br>
                                     First name:<br>
                                     <input type="text" id="firstname">
                                     &nbsp &nbsp Please enter your authentic name.
@@ -124,7 +125,7 @@
                                     <input type="text" id="lastname">
                                     &nbsp &nbsp Please enter your authentic name.
                                     <br><br>
-                                    <button type="button"> Submit</button><br>
+                                    <button type="button" onclick="initRegisterForm()"> Submit</button><br>
                                 </form>
                            
 						</div>
@@ -144,5 +145,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sidebar_menu.js"></script>
     <script src="js/textarea.js"></script>
+    <script scr="js/login-registration.js"></script>
     </body>
 </html>
