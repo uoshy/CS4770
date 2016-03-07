@@ -77,4 +77,12 @@ public class User {
 	public String getLastname(){
 		return lastname;
 	}
+	
+	/**
+     * Temporary toString method which formats the User object for output
+     * to the text file which stores all users. 
+     */
+    public String toString() {
+        return username + "|" + password + "|" + firstname + "|" + lastname + "|" + studentNumber;
+    }
 }
