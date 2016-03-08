@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Software Architecture</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+    <h2>Software Architecture</h2>
+    <p>Notes about design:</p>
+    <ul>
+        <li>There are two main, mostly decoupled, features of this system. There is the assignment and grading system which encompasses intructors, students, courses, etc. There is also the cloud-based code compiling and execution system. On the server these systems are quite decoupled but the client-side user interface will create the impression of a unified system.</li>
+        <li>The Spark Java server framework uses a thread pool so every request is already handeled on separate threads. Therefore we do not have to worry overly about the amount of work done during each HTTP request.</li>
+        <li>The Spark Java server framework can also serve static files very nicely and so we will use that, along with a backing UNIX file system to store all the user's files.</li>
+        <li>To maintain an open connection between the client web browser and possible console applications running on the server we will launch all processes in new threads and store them in a singelton process manager called Console. These process threads will persist between HTTP requests and can be interacted with using polling AJAX requests.</li>
+    </ul>
+
+    <h3>Class Diagram for Client/Server</h3>
+    <img src="ClassDiagram_3.png" class="ClassDiagram" style="width:50%;">
+
+    <h3>Class Diagram for Assignment System</h3>
+    <img src="ClassDiagram_1.png" class="ClassDiagram">
+
+    <h3>Class Diagram for Cloud-based Coding System</h3>
+    <img src="ClassDiagram_2.png" class="ClassDiagram">
+
+    <h3>Package Structure</h3>
+    <img src="PackageDiagram.png" class="PackageDiagram">
+</body>
+</html>
