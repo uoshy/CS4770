@@ -58,22 +58,42 @@ public class User {
 		return activeRole;
 	}
 
+	/**
+	 * Get the User's username.
+	 * @return the User's username
+	 */
 	public String getUsername(){
 		return username;
 	}
 
+	/**
+	 * Get the User's password.
+	 * @return the User's password
+	 */
 	public String getPassword(){
 		return password;
 	}
 
+	/**
+	 * Get the User's student number.
+	 * @return the User's student number
+	 */
 	public long getStudentNumber(){
 		return studentNumber;
 	}
 
+	/**
+	 * Get the User's first name.
+	 * @return the User's first name
+	 */
 	public String getFirstname(){
 		return firstname;
 	}
 
+	/**
+	 * Get the User's last name.
+	 * @return the User's last name
+	 */
 	public String getLastname(){
 		return lastname;
 	}

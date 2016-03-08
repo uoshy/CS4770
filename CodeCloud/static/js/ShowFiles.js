@@ -50,6 +50,8 @@ function showFiles(elementID){
 		}
 	}
 	else {
+		//TODO fix this
+		/*
 		xhr.onreadystatechange = function(){
 			if (xhr.readyState != 4) return;
 			if (xhr.status == 200 || xhr.status == 400){
@@ -69,6 +71,7 @@ function showFiles(elementID){
 				}
 			}
 		}
+		*/
 	}
 	console.log("elementID to send: " + elementID);
 	xhr.send(elementID);

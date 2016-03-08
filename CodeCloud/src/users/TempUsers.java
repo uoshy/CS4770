@@ -60,10 +60,12 @@ public class TempUsers
             String toWrite = u.toString() + "\n";
             wt.write(toWrite, 0, toWrite.length());
             wt.close();
+            System.out.println("Wrote to file: " + toWrite);
             return true;
         }
         catch(IOException ioe)
         {
+            ioe.printStackTrace();
             return false;
         }
     }

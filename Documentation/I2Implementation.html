@@ -18,20 +18,16 @@
 
 
 <h4>Sandboxing</h4>
-<p>All code requested by the client to execute is currently sandboxed using Docker containers. They are always run in a new container, independent from everything else on the host machine. Currently the container is mounted with the server's "/static/temp" directory (and all subdirectories). In the future we plan to change this to mount only the user's "home" directory on the server. For more details please check out the<a href="DockerDiscussion">Docker Discussion</a>.</p>
+<p>All code requested by the client to execute is currently sandboxed using Docker containers. They are always run in a new container, independent from everything else on the host machine. Currently the container is mounted with the server's "/static/temp" directory (and all subdirectories). In the future we plan to change this to mount only the user's "home" directory on the server. For more details please check out the <a href="DockerDiscussion">Docker Discussion</a>.</p>
 
 <h4>Text Editor</h4>
 <p>A javscript-based text editor has been included on the client-side of the project. It was implmented using <a href="http://codemirror.net">CodeMirror</a>. This is an excellent resouce with support for many languages and add-ons. There is multiple color themese with syntax highlighting for various languages. Current add-ons include: bracket matching, automatically closing brackets, and over 40 color themes. More add-ons will be added as seen appropriate in the future.</p>
 
 <h4>User Files</h4>
-<p>Currently, files can be uploaded to the server as well as downloaded from the server. In progress is the ability to browse available files on the server using a file manager-type view in the client's web browser (like windows explorer or nautilus). The view will display all files in the user's home directory and allow exploration of sub-directories.<br><br>
-The idea for user files is that each user of the website will have a "home" directory which stores all the files they have working access to (read/write/execute). Within this directory users will be able to create files and directories at will. Users will be unable to access other user's home directories. During the file exploration of a user's home directory we wish to add support to view the file contents in the client without having to download the file and open it on the client's machine. This would include support for in-browser viewing of pdf, doc, powerpoint, and other standard files. Plain text files will be editable in the client's browser using the text editor as described earlier.</p>
-
-
-<h4><i>In Progress</i></h4>
+<p>Currently, files can be uploaded to the server. There exists the ability to browse available files on the server using a file manager-type view in the client's web browser (like windows explorer or nautilus) but can only interact with directories. Right now it simply displays all available files without regards to permissions. Eventually, the view will display all and only files in the user's home directory and allow exploration of sub-directories. The idea for user files is that each user of the website will have a "home" directory which stores all the files they have working access to (read/write/execute). Within this directory users will be able to create files and directories at will. Users will be unable to access other user's home directories. During the file exploration of a user's home directory we wish to add support to view the file contents in the client without having to download the file and open it on the client's machine. This would include support for in-browser viewing of pdf, doc, powerpoint, and other standard files. Plain text files will be editable in the client's browser using the text editor as described earlier.</p>
 
 <h4>Account Creation</h4>
-<p>Users can create accounts on the server by specifying their username, password, first name, and last name. By default all accounts created are marked with student privileges until a system administrator changes their role to insturctor.</p>
+<p>Users can create accounts on the server by specifying their username, password, first name, last name, and student number. Current implemenation is really a proof of concept. Integration with the database will be implemented in the next iteration.</p>
 
 <h4>Account Login</h4>
 <p>Users can login to the sysem using their username and password specified during account creation. Currently the user login has no effect on the other website features, but will be integrated into file usage and program execution during the next iteration.</p>

@@ -124,7 +124,7 @@ function kill() {
         if(processID != -1)
         {
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/editor/execute/active/kill/' + processID, true);
+            xhr.open('POST', 'editor/execute/active/kill/' + processID, true);
             xhr.onreadystatechange = executionResponseHandler;
             xhr.send();
         }
@@ -140,7 +140,7 @@ function readFromProgram() {
             return;
         }
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/editor/execute/active/readOutput/' + processID, true);
+        xhr.open('GET', 'editor/execute/active/readOutput/' + processID, true);
         xhr.onreadystatechange = executionResponseHandler;
         xhr.send();
     }

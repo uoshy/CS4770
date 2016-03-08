@@ -40,6 +40,7 @@ import json.CompilerInput;
 import json.CompilerReturnJson;
 import json.ExecutionInput;
 import json.ExecutionReturn;
+import json.RegisterInput;
 
 import files.UserFile;
 import main.JSONFileList;
@@ -56,15 +57,14 @@ import javax.servlet.MultipartConfigElement;
  */
 public class CodeCloudMain 
 {
-    private static Collection<User> users;
+    private static TempUsers users;
 
     private static void setup()
     {
         //TODO ensure docker daemon is running
 		
 		//Temporarily get users from file
-        TempUsers tmpUsrs = new TempUsers();
-        users = tmpUsrs.getCollection();
+        users = new TempUsers();
 		
     }
     
@@ -144,7 +144,7 @@ public class CodeCloudMain
             if ( usr == null || pw == null ) {
                 response.redirect("error.html");
             }
-			for(User user : users) {   
+			for(User user : users.getCollection()) {   
                 if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
                     Session session = request.session(true);
 					if ( session == null ) {
@@ -159,6 +159,42 @@ public class CodeCloudMain
 			log("Login failed");
             response.redirect("/register.html");
             return null;
+        });
+
+        post("/register", (request, response) -> {
+            log("Registration request!");
+            String body = request.body();
+            RegisterInput regInput;
+            try {
+                Gson gson = new Gson();
+                regInput = gson.fromJson(body, RegisterInput.class);
+
+                for(User u : users.getCollection()) {
+                    if(u.getUsername().equalsIgnoreCase(regInput.username)) {
+                        // username already exists, registering failed
+                        // (this should be prevented by javascript/AJAX on the
+                        // register page anyway, but just in case...)
+                        log("username exists, register failed");
+                        return "Username already exsists! Please choose another.";
+                    }
+                }
+
+                Session session = request.session(true);
+                if ( session == null ) {
+                    return "Error registering. Browser does not support cookies.";
+                }
+
+                long studentNumber = Long.parseLong(regInput.studentNum);
+                User user = new User(regInput.username, regInput.password, regInput.firstName, regInput.lastName, studentNumber);
+                users.addUser(user);
+                session.attribute("user", user);
+                return "";
+            }
+            catch (JsonParseException | NumberFormatException ex)
+            {
+                log("Malformed values in register request.");
+                return "Error in input values!";
+            }
         });
 
         // allow user to log out
@@ -284,7 +320,8 @@ public class CodeCloudMain
 			e.printStackTrace();
 			return "0";
 		}
-                System.out.println("Saved file to " + uDir.getPath());
+            System.out.println("Saved file to " + dirPath + filename);
+            dirPath = dirPath.substring(6);
         	return dirPath + filename;
         });
 

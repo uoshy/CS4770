@@ -75,7 +75,7 @@ on this image so we simply need to start it and download the image.
     i) From a terminal on the host machine (not in either docker container) 
        run the command "docker-machine ip default". This returns the ip address
        of the virtual machine to be used to access the server. 
-       e.g.: "192.168.1.184:4567//" if 192.168.1.184 was returned by 
+       e.g.: "192.168.1.184:4567/login.html" if 192.168.1.184 was returned by 
        "docker-machine ip default".
 
   Linux: 
