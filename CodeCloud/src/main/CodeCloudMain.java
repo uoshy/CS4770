@@ -136,7 +136,7 @@ public class CodeCloudMain
             return "Error logging in. Please try again.";
         });
 **/
-		post("/login.html", (request, response) -> {
+	post("/login.html", (request, response) -> {
             String usr = request.queryParams("user");
             String pw = request.queryParams("password");
 			log("user: "+usr+" & pass: "+pw);
@@ -148,7 +148,7 @@ public class CodeCloudMain
                 if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
                     Session session = request.session(true);
 					if ( session == null ) {
-                        response.redirect("/register.html");
+                        response.redirect("/registration.html");
                     }
                     session.attribute("user", usr);
 					log("Login successful");
@@ -157,7 +157,7 @@ public class CodeCloudMain
                 }
             }
 			log("Login failed");
-            response.redirect("/register.html");
+            response.redirect("/registration.html");
             return null;
         });
 

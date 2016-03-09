@@ -1,4 +1,3 @@
-//TODO: s# pk of asub?
 package utility;
 
 import java.io.File;
@@ -164,7 +163,7 @@ public class DBController {
     	"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
 
-    public static final String DB_FILENAME = "Database.db";
+    public static final String DB_FILENAME = "CodeCloud.db";
     public static String DB_URL;
     public static final int TIMEOUT = 20;
 
