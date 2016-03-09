@@ -1,23 +1,28 @@
-TODO:
+TODO: Iteration 3
 
 Alex:
- - Javadoc
- - Tests
- - Dicussion on Spark, acccess to "all other classes", "concurrent requests", "security with directory ..",
- - Discussion on security, docker, running apps, process/etc. 
-
- next iteration:
    - c++ language
    - timeout for running code
+   - compiling multiple files at once 
 
- Tim:
-  - Displaying directory tree
-  - Javadoc 
-  - Tests 
+Tim:
+  - viewing/editing files
+  - directories with dots
+  - Displaying directory tree for specific users ONLY
+  - Create directories
+  - Delete files
+  - Database? 
 
- Tyson:
-  - Login page
+Tyson:
+  - Link login to database
+  - Link account creation to database
 
- Xiuzhi
-  - Account creation
-
+Tyson/Xiuzhi
+- Assignment upload by instructor
+- Displaying course files to registered users
+    - Only instructor/marker can see submission directory
+- Download assignment files to home directory
+- Assignment submission by students 
+    - create submission html
+    - copy files to course submission directory
+- Marker accesses course/submissions/a#/... 
