@@ -164,7 +164,7 @@ public class DBController {
     	"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
 
-    public static final String DB_FILENAME = "Database.db";
+    public static final String DB_FILENAME = "CodeCloud.db";
     public static String DB_URL;
     public static final int TIMEOUT = 20;
 
@@ -185,7 +185,7 @@ public class DBController {
 				return name.equals(DB_FILENAME);
 			}
 		};
- 
+
  	   	//search for Database.db in the current directory and the two parent directories
 	   	File currentDir = new File(System.getProperty("user.dir"));
     		int i = 0;
