@@ -22,6 +22,7 @@ import cloudCoding.CompilerReturn;
 import cloudCoding.UserProcess;
 import cloudCoding.Console;
 import cloudCoding.JavaLanguage;
+import cloudCoding.CPPLanguage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -237,7 +238,7 @@ public class CodeCloudMain
         	   UserFile uFile = new UserFile(null, "static/temp/"+input.fileName + ".java");
 
         	   UserFile uDir = new UserFile(null, "static/temp");
-        	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile});
+        	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
         	   log("CompilerMessage " + compRet.compilerMessage);
         	   CompilerReturnJson jsonObj = new CompilerReturnJson();
         	   jsonObj.compilerExitStatus = compRet.compilerExitStatus;
@@ -276,6 +277,75 @@ public class CodeCloudMain
         	}
         }, new JsonTransformer());
 
+        post("/editor/compile/cpp", (request, response) ->
+        {
+           response.type("application/json");
+           try
+           {
+        	   Gson gson = new Gson();
+        	   String body = request.body();
+        	   CompilerInput input = gson.fromJson(body, CompilerInput.class);
+        	   log(request.body());
+        	   log(input.fileContent);
+        	   log(input.fileName);
+        	   File dir = new File("static/temp");
+        	   if(!dir.exists())
+        		   dir.mkdir();
+        	   
+        	   String fileName = input.fileName;
+        	   int dotIndex = input.fileName.indexOf(".");
+        	   if(dotIndex != -1)
+        		   fileName = fileName.substring(0, dotIndex);
+        	   
+        	   File file = new File("static/temp/" + fileName + ".cpp");
+        	   if(!file.exists())
+        		   file.createNewFile();
+        	   BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        	   out.write(input.fileContent, 0, input.fileContent.length());
+        	   out.flush();
+        	   out.close();
+        	   UserFile uFile = new UserFile(null, "static/temp/"+ fileName + ".cpp");
+
+        	   UserFile uDir = new UserFile(null, "static/temp");
+        	   CompilerReturn compRet = cloudCoding.CPPLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
+        	   log("CompilerMessage " + compRet.compilerMessage);
+        	   CompilerReturnJson jsonObj = new CompilerReturnJson();
+        	   jsonObj.compilerExitStatus = compRet.compilerExitStatus;
+        	   jsonObj.compilerMessageToDisplay = compRet.displayAsHTML();
+        	   return jsonObj;
+           }
+           catch(JsonParseException ex)
+           {
+        	   log("Malformed values in getting compiler input");
+               halt(400, "malformed values");
+               return null;
+           }
+        }, new JsonTransformer());
+
+        post("/editor/execute/cpp", (request, response) ->
+        {
+        	response.type("application/json");
+        	try {
+        		Gson gson = new Gson();
+        		String body = request.body();
+                log(body);
+        		ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
+        		log(input.fileName);
+
+        		UserFile uDir = new UserFile(null, "static/temp");
+        		ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
+
+                System.out.println("about to return execution return");
+        		return execRet;
+        	}
+        	catch(JsonParseException ex)
+        	{
+        		log("Malformed Values in getting exection input");
+        		halt(400, "malformed values");
+        		return null;
+        	}
+        }, new JsonTransformer());
+        
         post("/editor/execute/active/writeInput/:activeProcessID", (request, response) ->
         {
             response.type("text/plain");

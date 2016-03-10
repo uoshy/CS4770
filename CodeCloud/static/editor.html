@@ -60,6 +60,7 @@
 	
     <script src="codemirror-5.12/lib/codemirror.js"></script>
     <script src="codemirror-5.12/mode/javascript/javascript.js"></script>
+    <script src="codemirror-5.12/mode/clike/clike.js"></script>
     <script src="codemirror-5.12/addon/edit/matchbrackets.js"></script>
     <script src="codemirror-5.12/addon/edit/closebrackets.js"></script>
     <script src="codemirror-5.12/addon/edit/matchtags.js"></script>
@@ -158,7 +159,7 @@
 				<div id="editor" class="toggle">
 							<h1>Editor</h1><hr><br>
 	
-                            <p>Select a theme: <select onchange="selectTheme()" id=select>
+                            <p>Select a theme: <select onchange="selectTheme()" id="select">
                                 <option selected>default</option>
                                 <option>3024-day</option>
                                 <option>3024-night</option>
@@ -208,7 +209,10 @@
                             </select>
                             </p>
                             <br>
-                            <form><textarea id="editorTextArea">import java.util.Scanner;
+                            <form id="textEditorForm">
+                                <input type="radio" name="language" value="Java" onclick="switchLanguage(this)" checked>Java</input>
+                                <input type="radio" name="language" value="C++" onclick="switchLanguage(this)">C++</input><br>
+                                <textarea id="editorTextArea">import java.util.Scanner;
 public class Test
 {
     public static void main(String[] args)
@@ -222,6 +226,32 @@ public class Test
         }
     }
 }</textarea></form>
+
+<textarea style="whitespce: pre; display:none;" id="javaExample">
+import java.util.Scanner;
+public class Test
+{
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("Foo");
+            String bar = in.nextLine();
+            System.out.println("Bar");
+        }
+    }
+}</textarea>
+
+<textarea style="whitepace: pre; display:none;" id="cppExample">
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello World\n";
+    return 0;
+}
+</textarea>
 
                             <div class="Console">
                                 <div class="ConsoleHeader">

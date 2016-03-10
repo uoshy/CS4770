@@ -19,9 +19,10 @@ public interface Language
 	 * Compile the list of UserFiles for the specified language. The first file in the list should
 	 * represent the working directory from which to compile.
 	 * @param files the list of files to compile
+	 * @param outputFileName the name for the compiled object file
 	 * @return a CompilerReturn object encapsulating the compiler message
 	 */
-	public CompilerReturn compile(UserFile[] files);
+	public CompilerReturn compile(UserFile[] files, String outputFileName);
 	
 	/**
 	 * Execute the file containing main method for the program. The main method should be contained
