@@ -50,6 +50,11 @@
     font-weight: 400;
     display: block;
 }
+
+#regi-col .login-title, #regi-col .old-account {
+    padding-left: 50px;
+}
+
 .new-account, .old-account
 {
     display: block;

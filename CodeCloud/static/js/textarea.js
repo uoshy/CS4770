@@ -1,8 +1,10 @@
 
 var myTextarea = document.getElementById('editorTextArea');
 console.log(myTextarea);
+
+//create the codeMirror text editor from the text area
 var editor = CodeMirror.fromTextArea(myTextarea, {
-    mode: "text/javascript",
+    mode: "text/x-java" ,
     lineNumbers: true ,
     undoDepth: 200,
     matchBrackets: true,
@@ -28,5 +30,5 @@ CodeMirror.on(window, "hashchange", function() {
     if (theme) { input.value = theme; selectTheme(); }
 });
 selectTheme();
-editor.refresh();
+editor.refresh(); //setup the theme on page load
 init();

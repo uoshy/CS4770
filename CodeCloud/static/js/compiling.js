@@ -6,7 +6,31 @@ function init()
     var inputField = document.getElementById("consoleInput");
     inputField.addEventListener("keyup", consoleInputListener);
 
+    var form = document.getElementById("textEditorForm");
+    console.log(form.language.value);
+    currentLanguage = form.language.value;
+}
 
+
+var currentLanguage;
+function switchLanguage(radioBtn)
+{
+    if(radioBtn.vatlue != currentLanguage)
+    {
+        currentLanguage = radioBtn.value;
+        var text;
+        if(radioBtn.value === "Java")
+        {   
+            editor.setOption("mode", "text/x-java");
+            text = document.getElementById("javaExample").textContent;
+        }
+        else if(radioBtn.value === "C++")
+        {
+            editor.setOption("mode", "text/x-c++src");
+            text = document.getElementById("cppExample").textContent;
+        }
+        editor.setValue(text);
+    }
 }
 
 function compile(beforeExecution) {

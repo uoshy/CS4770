@@ -4,20 +4,20 @@ import files.UserFile;
 import json.ExecutionReturn;
 
 /**
- * An implementation of the Lanuage interface for the Java language. 
+ * An implementation of the Lanuage interface for the C++ language. 
  * @see Language
  * @author Alex Brandt
  *
  */
-public class JavaLanguage implements Language 
+public class CPPLanguage implements Language 
 {
-	/** Singleton reference to the JavaLanguage object */
-	private static JavaLanguage _java;
+	/** Singleton reference to the CPPLanguage object */
+	private static CPPLanguage _cpp;
 	
 	/**
 	 * Private constructor for singleton.
 	 */
-	private JavaLanguage()
+	private CPPLanguage()
 	{
 		
 	}
@@ -27,20 +27,20 @@ public class JavaLanguage implements Language
 	 */
 	private static void initialize()
 	{
-		if(_java == null)
-			_java = new JavaLanguage();
+		if( _cpp == null)
+			_cpp = new CPPLanguage();
 	}
 	
 	/**
-	 * Get a reference to a JavaLanguage object.
-	 * @return a JavaLanguage object
+	 * Get a reference to a CPPLanguage object.
+	 * @return a CPPLanguage object
 	 */
-	public static JavaLanguage getInstance()
+	public static CPPLanguage getInstance()
 	{
-		if(_java == null)
+		if(_cpp == null)
 			initialize();
 		
-		return _java;
+		return _cpp;
 	}
 	
 	@Override
@@ -51,10 +51,11 @@ public class JavaLanguage implements Language
             //Not enough files to compile. 
             return null;
         }
-        String[] commands = new String[files.length];
-        commands[0] = "javac";
+        String[] commands = new String[files.length + 3];
+        commands[0] = "g++";
+        commands[1] = "-Wall";
         String workingDir = files[0].getPath();
-        for(int i = 1; i < commands.length; i++)
+        for(int i = 2; i < commands.length-2 ; i++)
         {
         	String path = files[i].getPath();
         	int index = path.indexOf(workingDir);
@@ -63,6 +64,8 @@ public class JavaLanguage implements Language
         		path = path.substring(1);
             commands[i] = path;
         }
+        commands[commands.length-2] = "-o ";
+        commands[commands.length-1] = outputFileName;
         System.out.println(workingDir);
         for(int i = 0; i < commands.length; i++)
         	System.out.println(commands[i]);
@@ -73,7 +76,7 @@ public class JavaLanguage implements Language
 	public ExecutionReturn execute(UserFile workingDir, String mainFileName) {
 		
 		Console console = Console.getInstance();
-		UserProcess uProc = console.execute(workingDir.getFile(), "java " + mainFileName);
+		UserProcess uProc = console.execute(workingDir.getFile(), "./" + mainFileName);
 		System.out.println("got user process");
 		//TODO support package-declared class names
 		ExecutionReturn execRet = new ExecutionReturn();

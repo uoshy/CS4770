@@ -22,6 +22,7 @@ import cloudCoding.CompilerReturn;
 import cloudCoding.UserProcess;
 import cloudCoding.Console;
 import cloudCoding.JavaLanguage;
+import cloudCoding.CPPLanguage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -55,19 +56,19 @@ import javax.servlet.MultipartConfigElement;
 /**
  * The main class to run the java spark framework.
  */
-public class CodeCloudMain 
+public class CodeCloudMain
 {
     private static TempUsers users;
 
     private static void setup()
     {
         //TODO ensure docker daemon is running
-		
+
 		//Temporarily get users from file
         users = new TempUsers();
-		
+
     }
-    
+
 ///////////// A set of static helper methods used by the server. /////////////////////////
 
     /**
@@ -77,27 +78,27 @@ public class CodeCloudMain
     public static void log(String src) {
         System.out.println(src);
     }
-    
+
     //run the spark framework
-    public static void main(String[] args) throws SQLException 
+    public static void main(String[] args) throws SQLException
     {
         setup();
-        externalStaticFileLocation("static"); 
-        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");		
+        externalStaticFileLocation("static");
+        MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");
         //redirect root to index.html
-        get("/", (request, response) -> 
+        get("/", (request, response) ->
         {
             response.redirect("/home.html");
-            return null;   
+            return null;
         });
-        
+
         get("/editor", (request, response) -> {
         	response.redirect("/home.html");
         	return null;
         });
-        
-			
-/**		
+
+
+/**
         post("/login.html", (request, response) ->
         {
             response.type("plain/text");
@@ -122,7 +123,7 @@ public class CodeCloudMain
             }
             User u = new User(name, password);
             for(User user : users)
-            {   
+            {
                 if(u.equals(user))
                 { // successful login
                     Session session = request.session(true);
@@ -131,7 +132,7 @@ public class CodeCloudMain
                     return null;
                 }
             }
-            // user doesn't exist or passwords don't match 
+            // user doesn't exist or passwords don't match
             log("Login failed");
             return "Error logging in. Please try again.";
         });
@@ -140,11 +141,11 @@ public class CodeCloudMain
             String usr = request.queryParams("user");
             String pw = request.queryParams("password");
 			log("user: "+usr+" & pass: "+pw);
-			
+
             if ( usr == null || pw == null ) {
                 response.redirect("error.html");
             }
-			for(User user : users.getCollection()) {   
+			for(User user : users.getCollection()) {
                 if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
                     Session session = request.session(true);
 					if ( session == null ) {
@@ -212,9 +213,9 @@ public class CodeCloudMain
             return null;
 
         });
-		
+
         post("/editor/compile/java", (request, response) ->
-        {   
+        {
            response.type("application/json");
            try
            {
@@ -235,9 +236,9 @@ public class CodeCloudMain
         	   out.flush();
         	   out.close();
         	   UserFile uFile = new UserFile(null, "static/temp/"+input.fileName + ".java");
-        	   
+
         	   UserFile uDir = new UserFile(null, "static/temp");
-        	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile});
+        	   CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
         	   log("CompilerMessage " + compRet.compilerMessage);
         	   CompilerReturnJson jsonObj = new CompilerReturnJson();
         	   jsonObj.compilerExitStatus = compRet.compilerExitStatus;
@@ -251,7 +252,7 @@ public class CodeCloudMain
                return null;
            }
         }, new JsonTransformer());
-        
+
         post("/editor/execute/java", (request, response) ->
         {
         	response.type("application/json");
@@ -261,10 +262,10 @@ public class CodeCloudMain
                 log(body);
         		ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
         		log(input.fileName);
-        		
+
         		UserFile uDir = new UserFile(null, "static/temp");
         		ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
-        		
+
                 System.out.println("about to return execution return");
         		return execRet;
         	}
@@ -276,7 +277,76 @@ public class CodeCloudMain
         	}
         }, new JsonTransformer());
 
-        post("/editor/execute/active/writeInput/:activeProcessID", (request, response) -> 
+        post("/editor/compile/cpp", (request, response) ->
+        {
+           response.type("application/json");
+           try
+           {
+        	   Gson gson = new Gson();
+        	   String body = request.body();
+        	   CompilerInput input = gson.fromJson(body, CompilerInput.class);
+        	   log(request.body());
+        	   log(input.fileContent);
+        	   log(input.fileName);
+        	   File dir = new File("static/temp");
+        	   if(!dir.exists())
+        		   dir.mkdir();
+        	   
+        	   String fileName = input.fileName;
+        	   int dotIndex = input.fileName.indexOf(".");
+        	   if(dotIndex != -1)
+        		   fileName = fileName.substring(0, dotIndex);
+        	   
+        	   File file = new File("static/temp/" + fileName + ".cpp");
+        	   if(!file.exists())
+        		   file.createNewFile();
+        	   BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        	   out.write(input.fileContent, 0, input.fileContent.length());
+        	   out.flush();
+        	   out.close();
+        	   UserFile uFile = new UserFile(null, "static/temp/"+ fileName + ".cpp");
+
+        	   UserFile uDir = new UserFile(null, "static/temp");
+        	   CompilerReturn compRet = cloudCoding.CPPLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
+        	   log("CompilerMessage " + compRet.compilerMessage);
+        	   CompilerReturnJson jsonObj = new CompilerReturnJson();
+        	   jsonObj.compilerExitStatus = compRet.compilerExitStatus;
+        	   jsonObj.compilerMessageToDisplay = compRet.displayAsHTML();
+        	   return jsonObj;
+           }
+           catch(JsonParseException ex)
+           {
+        	   log("Malformed values in getting compiler input");
+               halt(400, "malformed values");
+               return null;
+           }
+        }, new JsonTransformer());
+
+        post("/editor/execute/cpp", (request, response) ->
+        {
+        	response.type("application/json");
+        	try {
+        		Gson gson = new Gson();
+        		String body = request.body();
+                log(body);
+        		ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
+        		log(input.fileName);
+
+        		UserFile uDir = new UserFile(null, "static/temp");
+        		ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
+
+                System.out.println("about to return execution return");
+        		return execRet;
+        	}
+        	catch(JsonParseException ex)
+        	{
+        		log("Malformed Values in getting exection input");
+        		halt(400, "malformed values");
+        		return null;
+        	}
+        }, new JsonTransformer());
+        
+        post("/editor/execute/active/writeInput/:activeProcessID", (request, response) ->
         {
             response.type("text/plain");
             try {
@@ -384,7 +454,7 @@ public class CodeCloudMain
 	}, new JsonTransformer());
 
 
-        get("/editor/execute/active/readOutput/:activeProcessID", (request, response) -> 
+        get("/editor/execute/active/readOutput/:activeProcessID", (request, response) ->
         {
             response.type("application/json");
             try {
@@ -429,7 +499,7 @@ public class CodeCloudMain
                 return null;
             }
         }, new JsonTransformer());
-        
+
 
     }//main
 
