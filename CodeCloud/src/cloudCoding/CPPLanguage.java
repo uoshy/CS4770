@@ -43,11 +43,6 @@ public class CPPLanguage implements Language
 		return _cpp;
 	}
 	
-	/**
-	 * Compile a list of UserFiles for this language. 
-	 * Note that files[0] should represent the directory from which to compile
-	 * @param files a list of files to compile given this language.
-	 */
 	@Override
 	public CompilerReturn compile(UserFile[] files, String outputFileName)
 	{
