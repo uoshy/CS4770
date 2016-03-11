@@ -7,7 +7,7 @@ function showFiles(elementID){
 	xhr.open('POST', "/files/view", true);
 	xhr.setRequestHeader("Content-Type", "text/plain");
 	var pathParts = elementID.split('/');
-	if (pathParts[pathParts.length - 1].indexOf('.') == -1){
+	if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
 		//Works only if no directories have '.'s in their names; should be made more robust
 		xhr.onreadystatechange = function(){
 			if (xhr.readyState != 4) return;
@@ -36,9 +36,10 @@ function showFiles(elementID){
 					else {
 						img.setAttribute('src', './img/fileImage.png');
 						img.setAttribute('class', 'file');
-						img.setAttribute('hspace', '23');
+						img.setAttribute('hspace', 23);
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
+						img.setAttribute('vSpace', 25);
 					}
 					var li = document.createElement('li');
 					var a = document.createElement('a');
@@ -75,8 +76,12 @@ function showFiles(elementID){
 		}
 		*/
 	}
-	console.log("elementID to send: " + elementID);
 	xhr.send(elementID);
+}
+
+function isRecognizedFileType(endingString){
+	if (endingString.indexOf('.html') != -1 || endingString.indexOf('.js') != -1|| endingString.indexOf('.txt') != -1|| endingString.indexOf('.doc') != -1|| endingString.indexOf('.docx') != -1|| endingString.indexOf('.pdf') != -1|| endingString.indexOf('.xml') != -1|| endingString.indexOf('.xlsx') != -1|| endingString.indexOf('.ppt') != -1) return true;
+	return false;
 }
 
 function back(){
@@ -87,7 +92,6 @@ function back(){
 		newPath += pathParts[i] + "/";
 	}
 	newPath = newPath.substring(0, newPath.length - 1);
-	console.log("back() showFiles() call: " + newPath);
 	showFiles(newPath);
 	newPath = "";
 	for (var i = 0; i < pathParts.length - 3; i++){
