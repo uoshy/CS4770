@@ -1,7 +1,11 @@
 function showFiles(elementID){
 	//Does not expect a "/" on elementID input
+	document.getElementById("newDirName").value = "";
 	if (elementID.charAt(elementID.length - 1) == '/'){
-		elementID = elementID.substring(0, elementID.length);
+		elementID = elementID.substring(0, elementID.length - 1);
+	}
+	if (elementID != "static"){
+		console.log("Not static");
 	}
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', "/files/view", true);
@@ -109,6 +113,7 @@ function init(){
 
 function addDir(){
 	var dName = document.getElementById("newDirName").value;
+	document.getElementById("newDirName").value = "";
 	var ul = document.getElementById("filesList").getElementsByTagName("li");
 	/*
 	if (dName === "" || dName.match(/^[0-9a-zA-Z]+$/)){
@@ -133,31 +138,75 @@ function addDir(){
 		if (xhr.readyState != 4) return;
 		if (xhr.status == 200 || xhr.status == 400){
 			var jsonObj = JSON.parse(xhr.responseText);
-			if (jsonObj == "" || typeof jsonObj == 'undefined'){
-				console.log("Null response");
-			}
-			else {
-				console.log(jsonObj);
-				var img = document.createElement("img");
-				img.setAttribute('alt', dName);
-				img.setAttribute('width', 75);
-				img.setAttribute('height', 75);
-				img.setAttribute('src', './img/folderImage.png');
-				img.setAttribute('class', 'folder');
-				img.setAttribute('width', 75);
-				img.setAttribute('height', 75);
-				var list = document.getElementById("filesList");
-				var li = document.createElement('li');
-				var a = document.createElement('a');
-				a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
-				a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
-				li.appendChild(img);
-				li.appendChild(a);
-				list.insertBefore(li, list.firstChild);
-			}
+			console.log(jsonObj);
+			var img = document.createElement("img");
+			img.setAttribute('alt', dName);
+			img.setAttribute('width', 75);
+			img.setAttribute('height', 75);
+			img.setAttribute('src', './img/folderImage.png');
+			img.setAttribute('class', 'folder');
+			img.setAttribute('width', 75);
+			img.setAttribute('height', 75);
+			var list = document.getElementById("filesList");
+			var li = document.createElement('li');
+			var a = document.createElement('a');
+			a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
+			a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
+			li.appendChild(img);
+			li.appendChild(a);
+			list.insertBefore(li, list.firstChild);
 		}
 	}
 	xhr.send(document.getElementById("hTitle").innerHTML + dName);
+}
+
+function deleteCurrentDir(){
+	deleteFile("");
+}
+
+function deleteFile(path){
+	var currentDir = false;
+	if (path === ""){
+		path = document.getElementById('hTitle').innerHTML;
+		currentDir = true;
+	}
+	if (shouldntBeDeleted(path)){
+		alert("Error: You can not delete this file");
+		return;
+	}
+	console.log("Got to xhr creation");
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', "/files/delete", true);
+	xhr.setRequestHeader("Content-Type", "text/plain");
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState != 4) return;
+		if (xhr.status == 200 || xhr.status == 400){
+			console.log("Success");
+			var jsonObj = JSON.parse(xhr.responseText);
+			console.log(jsonObj);
+			var parent;
+			var child;
+			if (!currentDir){
+				parent = document.getElementById("filesList");
+				for (var i = 0; i < parent.getElementsByTagName("li").length; i++){
+					if (parent.getElementsByTagName("li")[i].innerHTML.indexOf(path) != -1){
+						parent.removeChild(parent.getElementsByTagName("li")[i]);
+					}
+				}
+			}
+			if (currentDir) back();
+		}
+	}
+	xhr.send(path);
+}
+
+function shouldntBeDeleted(path){
+	if (path.charAt(path.length - 1) == '/') path = path.substring(0, path.length - 1);
+	console.log(path);
+	if (path === "static") return true;
+	var secondPart = path.split("/")[1];
+	if (secondPart === "codemirror-5.12" || secondPart === "courses" || secondPart === "css" || secondPart === "font-awesome-4.5.0" || secondPart === "fonts" || secondPart === "img" || secondPart === "js" || secondPart === "temp") return true;
+	return false;
 }
 
 

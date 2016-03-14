@@ -398,7 +398,6 @@ public class CodeCloudMain
 
         post("/files/view", (request, response) ->
         {
-		log("files/view call");
 		String path = request.body();
        		response.type("application/json");
 		File file = new File(path);
@@ -417,15 +416,12 @@ public class CodeCloudMain
 
         post("/files/add", (request, response) ->
         {
-		log("files/add call");
 		String path = request.body();
-		log("Path: " + path);
        		response.type("text/plain");
 		File file = new File(path);
 		if (file.exists()) return "0";
 		try {
 			file.mkdir();
-			log("Successfully created file");
 			return "1";
 		}
 		catch (SecurityException ex){
@@ -434,9 +430,27 @@ public class CodeCloudMain
 		}
 	}, new JsonTransformer());
 
+        post("/files/delete", (request, response) ->
+        {
+		log("/files/delete call");
+		String path = request.body();
+		log("path: " + path);
+       		response.type("text/plain");
+		File file = new File(path);
+		try {
+			delete(file);
+			log("Deleted");
+			return "1";
+		}
+		catch (Exception e){
+			log("Exception caught");
+			e.printStackTrace();
+			return "0";
+		}
+	}, new JsonTransformer());
+
         post("/files/getcontents", (request, response) ->
         {
-		log("files/view call");
 		response.type("application/json");
 		String path = "static/" + request.body();
 		File file = new File(path);
@@ -518,4 +532,21 @@ public class CodeCloudMain
 
     }//main
 
+	private static void delete(File file){
+		if (file.exists()){
+			log("Deleting " + file.getPath());
+			if (file.isDirectory()){
+				log("interior files: ");
+				for (File subFile : file.listFiles()){
+					log(file.getPath());
+					delete(subFile);
+				}
+			}
+			log("deleted a file called " + 	file.getPath());
+			file.delete();
+		}
+		else {
+			log("File DNE");
+		}
+	}
 }
