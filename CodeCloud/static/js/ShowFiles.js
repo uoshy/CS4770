@@ -157,7 +157,7 @@ function addDir(){
 			}
 		}
 	}
-	xhr.send(dName);
+	xhr.send(document.getElementById("hTitle").innerHTML + dName);
 }
 
 

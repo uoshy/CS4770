@@ -398,18 +398,13 @@ public class CodeCloudMain
 
         post("/files/view", (request, response) ->
         {
-		System.out.println("files/view call");
+		log("files/view call");
 		String path = request.body();
        		response.type("application/json");
 		File file = new File(path);
 		if (file.exists()){
 			File[] files = file.listFiles();
 			JSONFileList fl = new JSONFileList(files.length);
-			log("fl length: " + fl.fileObjs.length);
-			log("files length" + files.length);
-			for (File f : files){
-				log(f.getName());
-			}
 			for (int i = 0; i < files.length; i++){
 				fl.fileObjs[i].fileName = files[i].getName();
 				fl.fileObjs[i].isDirectory = files[i].isDirectory();
@@ -422,13 +417,15 @@ public class CodeCloudMain
 
         post("/files/add", (request, response) ->
         {
-		System.out.println("files/add call");
-		String path = "static/" + request.body();
+		log("files/add call");
+		String path = request.body();
+		log("Path: " + path);
        		response.type("text/plain");
 		File file = new File(path);
 		if (file.exists()) return "0";
 		try {
 			file.mkdir();
+			log("Successfully created file");
 			return "1";
 		}
 		catch (SecurityException ex){
@@ -439,7 +436,7 @@ public class CodeCloudMain
 
         post("/files/getcontents", (request, response) ->
         {
-		System.out.println("files/view call");
+		log("files/view call");
 		response.type("application/json");
 		String path = "static/" + request.body();
 		File file = new File(path);
