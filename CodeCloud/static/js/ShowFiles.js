@@ -45,10 +45,18 @@ function showFiles(elementID){
 					}
 					var li = document.createElement('li');
 					var a = document.createElement('a');
+					var button = document.createElement('input');
+
 					a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 					a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
+
+					button.setAttribute('type', 'button');
+					button.setAttribute('value', 'Delete');
+					button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
+
 					li.appendChild(img);
 					li.appendChild(a);
+					li.appendChild(button);
 					list.appendChild(li);
 				}
 			}
@@ -150,10 +158,15 @@ function addDir(){
 			var list = document.getElementById("filesList");
 			var li = document.createElement('li');
 			var a = document.createElement('a');
+			var button = document.createElement('input');
 			a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
 			a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
+			button.setAttribute('type', 'button');
+			button.setAttribute('value', 'Delete');
+			button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
 			li.appendChild(img);
 			li.appendChild(a);
+			li.appendChild(button);
 			list.insertBefore(li, list.firstChild);
 		}
 	}
@@ -174,7 +187,6 @@ function deleteFile(path){
 		alert("Error: You can not delete this file");
 		return;
 	}
-	console.log("Got to xhr creation");
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', "/files/delete", true);
 	xhr.setRequestHeader("Content-Type", "text/plain");
@@ -202,13 +214,16 @@ function deleteFile(path){
 
 function shouldntBeDeleted(path){
 	if (path.charAt(path.length - 1) == '/') path = path.substring(0, path.length - 1);
-	console.log(path);
 	if (path === "static") return true;
 	var secondPart = path.split("/")[1];
 	if (secondPart === "codemirror-5.12" || secondPart === "courses" || secondPart === "css" || secondPart === "font-awesome-4.5.0" || secondPart === "fonts" || secondPart === "img" || secondPart === "js" || secondPart === "temp") return true;
 	return false;
 }
 
+//Fix scoping for adding listeners dynamically
+function deleteFileDelegate(path){
+	return function(){deleteFile(path)};
+}
 
 
 

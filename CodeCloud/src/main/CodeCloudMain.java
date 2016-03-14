@@ -432,18 +432,14 @@ public class CodeCloudMain
 
         post("/files/delete", (request, response) ->
         {
-		log("/files/delete call");
 		String path = request.body();
-		log("path: " + path);
        		response.type("text/plain");
 		File file = new File(path);
 		try {
 			delete(file);
-			log("Deleted");
 			return "1";
 		}
 		catch (Exception e){
-			log("Exception caught");
 			e.printStackTrace();
 			return "0";
 		}
@@ -534,19 +530,13 @@ public class CodeCloudMain
 
 	private static void delete(File file){
 		if (file.exists()){
-			log("Deleting " + file.getPath());
 			if (file.isDirectory()){
-				log("interior files: ");
 				for (File subFile : file.listFiles()){
 					log(file.getPath());
 					delete(subFile);
 				}
 			}
-			log("deleted a file called " + 	file.getPath());
 			file.delete();
-		}
-		else {
-			log("File DNE");
 		}
 	}
 }
