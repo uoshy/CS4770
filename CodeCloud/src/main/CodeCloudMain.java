@@ -423,7 +423,7 @@ public class CodeCloudMain
         post("/files/add", (request, response) ->
         {
 		System.out.println("files/add call");
-		String path = request.body();
+		String path = "static/" + request.body();
        		response.type("text/plain");
 		File file = new File(path);
 		if (file.exists()) return "0";

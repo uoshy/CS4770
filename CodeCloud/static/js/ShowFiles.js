@@ -8,7 +8,6 @@ function showFiles(elementID){
 	xhr.setRequestHeader("Content-Type", "text/plain");
 	var pathParts = elementID.split('/');
 	if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
-		//Works only if no directories have '.'s in their names; should be made more robust
 		xhr.onreadystatechange = function(){
 			if (xhr.readyState != 4) return;
 			if (xhr.status == 200 || xhr.status == 400){
@@ -21,7 +20,6 @@ function showFiles(elementID){
 				}
 				var list = document.getElementById("filesList");
 				list.innerHTML = "";
-				var imgString;
 				for (var i = 0; i < jsonObj.fileObjs.length; i++){
 					var img = document.createElement("img");
 					img.setAttribute('alt', jsonObj.fileObjs[i].fileName);
@@ -86,6 +84,7 @@ function isRecognizedFileType(endingString){
 
 function back(){
 	var titleRef = document.getElementById('hTitle').innerHTML;
+	if (titleRef === "static/") return;
 	var pathParts = titleRef.split("/");
 	var newPath = "";
 	for (var i = 0; i < pathParts.length - 2; i++){
@@ -107,3 +106,74 @@ function init(){
 	document.getElementById('frame').style.display = 'none';
 	showFiles("static");
 }
+
+function addDir(){
+	var dName = document.getElementById("newDirName").value;
+	var ul = document.getElementById("filesList").getElementsByTagName("li");
+	/*
+	if (dName === "" || dName.match(/^[0-9a-zA-Z]+$/)){
+		alert("Error: Invalid name. You may only use alphanumeric characters.");
+		return;
+	}**/
+	for (var i = 0; i < ul.length; i++){
+		if (ul[i].getElementsByTagName("img")[0].getAttribute("class") === "folder" && ul[i].getElementsByTagName("a")[0].innerHTML.indexOf(document.getElementById("hTitle").innerHTML + dName) != -1){
+			console.log(ul[i].innerHTML);
+			alert("Error: Directory already exists.");
+			return;
+		}
+	}
+	if (isRecognizedFileType(dName)){
+		alert("Error: Invalid directory name");
+		return;
+	}
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', "/files/add", true);
+	xhr.setRequestHeader("Content-Type", "text/plain");
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState != 4) return;
+		if (xhr.status == 200 || xhr.status == 400){
+			var jsonObj = JSON.parse(xhr.responseText);
+			if (jsonObj == "" || typeof jsonObj == 'undefined'){
+				console.log("Null response");
+			}
+			else {
+				console.log(jsonObj);
+				var img = document.createElement("img");
+				img.setAttribute('alt', dName);
+				img.setAttribute('width', 75);
+				img.setAttribute('height', 75);
+				img.setAttribute('src', './img/folderImage.png');
+				img.setAttribute('class', 'folder');
+				img.setAttribute('width', 75);
+				img.setAttribute('height', 75);
+				var list = document.getElementById("filesList");
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
+				a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
+				li.appendChild(img);
+				li.appendChild(a);
+				list.insertBefore(li, list.firstChild);
+			}
+		}
+	}
+	xhr.send(dName);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
