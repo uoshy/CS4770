@@ -36,6 +36,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.io.IOException;
+import java.lang.SecurityException;
 
 import json.CompilerInput;
 import json.CompilerReturnJson;
@@ -417,6 +418,23 @@ public class CodeCloudMain
 			return fl;
 		}
 		return null;
+	}, new JsonTransformer());
+
+        post("/files/add", (request, response) ->
+        {
+		System.out.println("files/add call");
+		String path = request.body();
+       		response.type("text/plain");
+		File file = new File(path);
+		if (file.exists()) return "0";
+		try {
+			file.mkdir();
+			return "1";
+		}
+		catch (SecurityException ex){
+			ex.printStackTrace();
+			return "0";
+		}
 	}, new JsonTransformer());
 
         post("/files/getcontents", (request, response) ->
