@@ -157,12 +157,12 @@
 
 						<div id="files" class="toggle">
 							<h1 id="hTitle" onload="init()">/users</h1><hr><br>
-							<form>
+							<form id="addDelete">
 							<input type="text" placeholder="New directory name" id="newDirName">
 							<input type="button" value="Add directory" onclick="addDir()">
 							<input type="button" value="Delete current directory" onclick="deleteCurrentDir()" id="delButton">
 							</form><br>
-							<form action="upload_file">
+							<form id="uploadFile">
 							<input type="file" name="fileToUpload" enctype="multipart/form-type" id="filename"><br>
 							<input type="button" value="Upload" onclick="upload()">
 							</form>

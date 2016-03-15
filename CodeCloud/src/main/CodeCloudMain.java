@@ -13,6 +13,7 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -403,6 +404,7 @@ public class CodeCloudMain
 		File file = new File(path);
 		if (file.exists()){
 			File[] files = file.listFiles();
+			Arrays.sort(files);
 			JSONFileList fl = new JSONFileList(files.length);
 			for (int i = 0; i < files.length; i++){
 				fl.fileObjs[i].fileName = files[i].getName();
@@ -448,7 +450,8 @@ public class CodeCloudMain
         post("/files/getcontents", (request, response) ->
         {
 		response.type("application/json");
-		String path = "static/" + request.body();
+		String path = request.body();
+		log("Received request for " + path);
 		File file = new File(path);
 		String[] pathParts = path.split("/");
 		String[] returnArray = new String[2];

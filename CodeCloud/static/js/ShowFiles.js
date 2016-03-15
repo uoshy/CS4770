@@ -8,10 +8,10 @@ function showFiles(elementID){
 		console.log("Not static");
 	}
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', "/files/view", true);
-	xhr.setRequestHeader("Content-Type", "text/plain");
 	var pathParts = elementID.split('/');
 	if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
+		xhr.open('POST', "/files/view", true);
+		xhr.setRequestHeader("Content-Type", "text/plain");
 		xhr.onreadystatechange = function(){
 			if (xhr.readyState != 4) return;
 			if (xhr.status == 200 || xhr.status == 400){
@@ -61,6 +61,30 @@ function showFiles(elementID){
 				}
 			}
 		}
+		xhr.send(elementID);
+	}
+	else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt"){
+		console.log("Opening text file...");
+		document.getElementById("addDelete").style.display = 'none';
+		document.getElementById("uploadFile").style.display = 'none';
+		document.getElementById("downloadLink").style.display = 'none';
+		document.getElementById("filesList").style.display = 'none';
+		document.getElementById("editor").style.display = 'inline';
+
+		xhr.open('POST', "/files/getcontents", true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState != 4) return;
+			if (xhr.status == 200 || xhr.status == 400){
+				console.log("Success");
+				var jsonObj = JSON.parse(xhr.responseText);
+				console.log(jsonObj);
+				console.log(jsonObj[0]);
+				console.log(jsonObj[1]);
+				editor.setValue(jsonObj[1]);
+			}
+		}
+		xhr.send(elementID);
 	}
 	else {
 		//TODO fix this
@@ -86,7 +110,6 @@ function showFiles(elementID){
 		}
 		*/
 	}
-	xhr.send(elementID);
 }
 
 function isRecognizedFileType(endingString){
@@ -95,6 +118,13 @@ function isRecognizedFileType(endingString){
 }
 
 function back(){
+
+	document.getElementById("addDelete").style.display = 'inline';
+	document.getElementById("uploadFile").style.display = 'inline';
+	document.getElementById("downloadLink").style.display = 'inline';
+	document.getElementById("filesList").style.display = 'inline';
+	document.getElementById("editor").style.display = 'none';
+
 	var titleRef = document.getElementById('hTitle').innerHTML;
 	if (titleRef === "static/") return;
 	var pathParts = titleRef.split("/");
