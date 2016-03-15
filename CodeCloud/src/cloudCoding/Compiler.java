@@ -62,6 +62,9 @@ public class Compiler
 	 * of command strings should always finish with the files names to compile and
 	 * therefore begin with the command and all arguments.
 	 * 
+	 * Note: The CompilerReturn does have its value of classFiles set when this method returns.
+	 * It is the job of the Language implementation to fill in the class files as appropriate.
+	 * 
 	 * @param file a file representing the working directory
 	 * @param fileCount the number of files to compile
 	 * @param commands a variable list of command arguments for execution
@@ -72,23 +75,20 @@ public class Compiler
         ProcessBuilder builder = new ProcessBuilder();
         builder.redirectErrorStream(true);
 		builder.command(commands);
-        
+        System.out.println("Compile Command: " + String.join(" ", builder.command()));
         builder.directory(file.getFile());
         try{
             Process proc = builder.start();
-            System.out.println("Started");
             StringBuilder output = new StringBuilder();
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(proc.getInputStream()));
             String line = null;
             while ((line = reader.readLine()) != null) {
-            	System.out.println("Read: " + line);
                 output.append(line);
                 output.append("\n");
             }
             reader.close();
             try{
-            	System.out.println("Waiting");
             	proc.waitFor();
             	System.out.println(proc.exitValue());
             }
@@ -102,40 +102,29 @@ public class Compiler
             	toReturn.compilerMessage = "Compilation Successful!";
             
             toReturn.compilerExitStatus = proc.exitValue();
-            
-            UserFile[] classFiles = new UserFile[fileCount];
-            String dir = file.getPath();
-        	int index = dir.indexOf("static/");
-        	if(index >= 0) 
-        		dir = dir.substring(index + 7);
-            for(int i = 0; i < fileCount; i++)
-            {
-            	String fileName = commands[commands.length - fileCount + i];
-            	int dotIndex = fileName.indexOf(".");
-            	if(dotIndex > 0)
-            		fileName = fileName.substring(0, dotIndex) + ".class";
-            	classFiles[i] = new UserFile(null, dir+"/"+fileName);
-            }
-            toReturn.returnedFiles = Arrays.asList(classFiles);
             return toReturn;
         }
 		catch(NullPointerException npe)
         {
+			System.out.println("Null Pointer");
             //one of the strings in commands where null
             return null;
         }
         catch(IndexOutOfBoundsException iobe)
         {
+        	System.out.println("Out of bounds");
             //commands had no elements in it
             return null;
         }
         catch(SecurityException se)
 		{
+        	System.out.println("Security!");
             //Security does not allow subprocesses or read/write access
 			return null;
 		}
 		catch(IOException ioe)
         {
+			System.out.println("IOException");
             //error in process I/O
             return null;
         }

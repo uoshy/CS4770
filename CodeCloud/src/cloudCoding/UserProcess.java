@@ -17,6 +17,12 @@ import java.util.concurrent.*;
  */
 public class UserProcess extends Thread
 {
+	/** 
+	 * The execution timeout of a running program. Programs which run longer than this amount
+	 * will be terminated by the server. Measured in seconds.
+	 */
+	public static final int EXECUTION_TIMEOUT = 10;
+	
 	/**
 	 * The underlying process of this UserProcess
 	 */
@@ -84,6 +90,15 @@ public class UserProcess extends Thread
 		gobbler = new StreamGobbler(procOutput);
 		gobbler.start();
 		writer = new BufferedWriter(new OutputStreamWriter(procInput));
+		
+		try {
+			process.waitFor(EXECUTION_TIMEOUT, TimeUnit.SECONDS);
+		} catch(InterruptedException ie) {}
+		
+		if(!isProcessEnded())
+		{
+			timeoutProcess();
+		}
 	}
 	
 	/**
@@ -101,7 +116,7 @@ public class UserProcess extends Thread
 	 */
 	public boolean isProcessEnded()
 	{
-		if(!process.isAlive())
+		if(!process.isAlive() && !gobbler.isAlive())
 			setProcessEnded();
 		return processEnded;
 	}
@@ -113,7 +128,7 @@ public class UserProcess extends Thread
 	 */
 	private boolean setProcessEnded()
 	{
-		if(!process.isAlive())
+		if(!process.isAlive() && !gobbler.isAlive())
 		{
 			processEnded = true;
 			Console.getInstance().processEnded(processID);
@@ -200,6 +215,11 @@ public class UserProcess extends Thread
         return getExitStatus();
 	}
 	
+	public int timeoutProcess()
+	{
+		gobbler.setTimedOut();
+		return killProcess();
+	}
 	
 	
 

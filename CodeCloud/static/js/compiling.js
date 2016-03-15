@@ -31,16 +31,33 @@ function switchLanguage(radioBtn)
         }
         editor.setValue(text);
     }
+    console.log(currentLanguage);
 }
 
 function compile(beforeExecution) {
-    var status = document.getElementById("consoleStatus");
-    status.innerHTML = "Compiling..."
     compilerStatus = -1;
 
+    var form = document.getElementById("textEditorForm");
+    var fileName = form.fileName.value
+    console.log(fileName);
+    if(fileName.length < 1)
+    {
+        window.alert("File name cannot be empty!");
+        return;
+    }
+
+    var status = document.getElementById("consoleStatus");
+    status.innerHTML = "Compiling..."
+    
     var editorText = editor.getValue();
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', "editor/compile/java", true);
+    var compilePath = "";
+    if(currentLanguage === "Java")
+        compilePath = "editor/compile/java";
+    else if(currentLanguage === "C++")
+        compilePath = "editor/compile/cpp";
+
+    xhr.open('POST', compilePath, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {
         if(xhr.readyState != 4) return;
@@ -54,25 +71,28 @@ function compile(beforeExecution) {
             webConsole.innerHTML = messageToDisplay;
             var compilerStatus = compilerExitStatus;
             if(beforeExecution && compilerStatus == 0)
-                execute(className, "blah");
+                execute(fileName, "blah");
         } else {
             console.log("ERROR in compile!");
         }
     }
 
-    var lowerText = editorText.toLowerCase();
-    var startIndex = lowerText.indexOf("public class");
-    var firstSpaceIndex = lowerText.indexOf(" ", startIndex+12);
-    var secondSpaceIndex = lowerText.substr(firstSpaceIndex+1).search(/\s/) + firstSpaceIndex+1;
-    console.log(lowerText.substr(firstSpaceIndex+1));
-    console.log(firstSpaceIndex);
-    console.log(secondSpaceIndex);
-    var className = editorText.substring(firstSpaceIndex+1, secondSpaceIndex).trim();
-    var lastChar = className.charAt(className.length-1);
-    if(lastChar == "{")
-        className = className.substring(0,className.length-1);
-    console.log(className);
-    var objToSend = { fileContent : editorText, fileName : className};
+//previously used to parse test and get class name
+    // var lowerText = editorText.toLowerCase();
+    // var startIndex = lowerText.indexOf("public class");
+    // var firstSpaceIndex = lowerText.indexOf(" ", startIndex+12);
+    // var secondSpaceIndex = lowerText.substr(firstSpaceIndex+1).search(/\s/) + firstSpaceIndex+1;
+    // console.log(lowerText.substr(firstSpaceIndex+1));
+    // console.log(firstSpaceIndex);
+    // console.log(secondSpaceIndex);
+    // var className = editorText.substring(firstSpaceIndex+1, secondSpaceIndex).trim();
+    // var lastChar = className.charAt(className.length-1);
+    // if(lastChar == "{")
+    //     className = className.substring(0,className.length-1);
+    // console.log(className);
+
+  
+    var objToSend = { fileContent : editorText, fileName : fileName};
     var jsonToSend = JSON.stringify(objToSend);
     xhr.send(jsonToSend);
 }
@@ -93,7 +113,14 @@ function execute(fileName, directory)
     console.log(killButton);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', "editor/execute/java", true);
+
+    if(currentLanguage === "Java")
+        executePath = "editor/execute/java";
+    else if(currentLanguage === "C++")
+        executePath = "editor/execute/cpp";
+
+    console.log("execute path: " + executePath);
+    xhr.open('POST', executePath , true);
     xhr.setRequestHeader("Conent-Type", "application/json");
     xhr.onreadystatechange = executionResponseHandler;
 

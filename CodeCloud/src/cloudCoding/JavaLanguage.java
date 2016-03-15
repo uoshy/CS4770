@@ -1,5 +1,7 @@
 package cloudCoding;
 
+import java.util.Arrays;
+
 import files.UserFile;
 import json.ExecutionReturn;
 
@@ -66,7 +68,23 @@ public class JavaLanguage implements Language
         System.out.println(workingDir);
         for(int i = 0; i < commands.length; i++)
         	System.out.println(commands[i]);
-        return Compiler.getInstance().compile(files[0], files.length-1, commands);
+        CompilerReturn compileRet = Compiler.getInstance().compile(files[0], files.length-1, commands);
+        
+        UserFile[] classFiles = new UserFile[files.length-1];
+        String dir = files[0].getPath();
+    	int index = dir.indexOf("static/");
+    	if(index >= 0) 
+    		dir = dir.substring(index + 7);
+        for(int i = 0; i < files.length-1; i++)
+        {
+        	String fileName = commands[commands.length - files.length + i];
+        	int dotIndex = fileName.indexOf(".");
+        	if(dotIndex > 0)
+        		fileName = fileName.substring(0, dotIndex) + ".class";
+        	classFiles[i] = new UserFile(null, dir+"/"+fileName);
+        }
+        compileRet.returnedFiles = Arrays.asList(classFiles);
+        return compileRet;
 	}
 	
 	@Override

@@ -17,7 +17,10 @@ public interface Language
 {
 	/**
 	 * Compile the list of UserFiles for the specified language. The first file in the list should
-	 * represent the working directory from which to compile.
+	 * represent the working directory from which to compile. Note that the outputFileName
+	 * should have no extension specified. The implementation of this interface will specify the
+	 * correct file name.
+	 * 
 	 * @param files the list of files to compile
 	 * @param outputFileName the name for the compiled object file
 	 * @return a CompilerReturn object encapsulating the compiler message

@@ -17,6 +17,12 @@ import java.util.HashMap;
  */
 public class Console 
 {
+	/** 
+	 * The execution timeout of a running program. Programs which run longer than this amount
+	 * will be terminated by the server. Measured in seconds.
+	 */
+	public static final int EXECUTION_TIMEOUT = 20;
+	
 	/** Singleton reference */
 	private static Console _console;
 
@@ -37,6 +43,30 @@ public class Console
 	private static final String dockerCommandPart1 = "docker run -i -v %s:/home/user -w /home/user --rm alexgbrandt/sandbox su - user -c \'";
 	private static final String dockerCommandPart2 = "\'; exit;";
 
+//	private static class ProcessSupervisor extends Thread
+//	{
+//		private UserProcess userProc;
+//		
+//		public ProcessSupervisor(UserProcess uProc)
+//		{
+//			this.userProc = uProc;
+//		}
+//		
+//		public void run()
+//		{
+//			try {
+//				System.out.println("Attempting join");
+//				userProc.join(EXECUTION_TIMEOUT * 1000l);
+//			} catch (InterruptedException e) {}
+//			System.out.println("Join ended");
+//			if(userProc.isProcessEnded())
+//			{
+//				System.out.println("Process is alive!");
+//				userProc.timeoutProcess();
+//			}
+//		}
+//	}
+	
 	/**
 	 * Private constructor for singleton.
 	 */
@@ -125,6 +155,9 @@ public class Console
 			userProc.writeToProcess(dockerCommand);
 			System.out.println("wrote to process: " + dockerCommand);
 			activeProcesses.put(userProc.getProcessID(), userProc);
+			
+//			ProcessSupervisor supervisor = new ProcessSupervisor(userProc);
+//			supervisor.start();
 		}
 		catch(Exception e)
 		{

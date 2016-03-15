@@ -27,6 +27,9 @@ public class StreamGobbler extends Thread {
 	/** A flag to determine if the stream was closed externally. */
 	private boolean streamClosed;
 	
+	/** A flag to determine if the stream source timed out and has ended. */
+	private boolean timedOut;
+	
 	/**
 	 * Construct a new StreamGobbler by supplying the input stream it should read data from.
 	 * @param is The input stream to read data from 
@@ -63,6 +66,10 @@ public class StreamGobbler extends Thread {
 			if(!streamClosed) //will throw an exception if the stream was externally closed
 				ioe.printStackTrace();
 		}
+		if(timedOut)
+		{
+			builder.append("\nProcess Timed Out!");
+		}
 	}
 
 	/**
@@ -77,6 +84,7 @@ public class StreamGobbler extends Thread {
 		{
 			String toRet = builder.toString();
 			builder.setLength(0);
+			
 			return toRet;
 		}
 	}
@@ -87,6 +95,11 @@ public class StreamGobbler extends Thread {
 	public void setStreamClosed()
 	{
 		streamClosed = true;
+	}
+	
+	public void setTimedOut()
+	{
+		timedOut = true;
 	}
 	
 }
