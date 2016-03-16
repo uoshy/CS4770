@@ -114,46 +114,8 @@ public class CodeCloudMain
 			return null;
 		});
 
-
-		/**
-        post("/login.html", (request, response) ->
-        {
-            response.type("plain/text");
-            String name;
-            String password;
-            try
-            {
-                Gson gson = new Gson();
-                String body = request.body();
-                LoginRequest lr = gson.fromJson(body, LoginRequest.class);
-                name = lr.username;
-                password = lr.password;
-            }
-            catch (JsonParseException ex)
-            {
-                log("Malformed values in login request");
-                return "Error logging in. Please try again.";
-            }
-            if(name == null || password == null)
-            {
-                return "Error logging in. Please try again.";
-            }
-            User u = new User(name, password);
-            for(User user : users)
-            {
-                if(u.equals(user))
-                { // successful login
-                    Session session = request.session(true);
-                    session.attribute("user", user);
-                    response.redirect("/home.html");
-                    return null;
-                }
-            }
-            // user doesn't exist or passwords don't match
-            log("Login failed");
-            return "Error logging in. Please try again.";
-        });
-		 **/
+        
+        
 		post("/login", (request, response) -> {
 			//String usr = request.queryParams("user");
 			//String pw = request.queryParams("password");

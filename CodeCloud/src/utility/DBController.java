@@ -42,7 +42,7 @@ public class DBController {
     //users
     //get a user by username
     private static String selectUserStatement =
-    	"SELECT * FROM User WHERE username=?";
+    	"SELECT * FROM Users WHERE username=?";
 
     //get all users
     private static String selectAllUsersStatement =
@@ -59,7 +59,7 @@ public class DBController {
     //courses
     //get a course by courseID and term
     private static String selectCourseStatement =
-    	"SELECT * FROM User WHERE username=? AND term=?";
+    	"SELECT * FROM Users WHERE username=? AND term=?";
 
     //get all courses
     private static String selectAllCoursesStatement =
@@ -114,7 +114,7 @@ public class DBController {
     //assignment solutions
     //get an assignment solution by courseID, term, and number
     private static String selectASolutionStatement =
-    	"SELECT * FROM User WHERE courseID=? AND term=? AND number=?";
+    	"SELECT * FROM Users WHERE courseID=? AND term=? AND number=?";
 
     //get all assignment solutions
     private static String selectAllASolutionsStatement =
@@ -202,11 +202,11 @@ public class DBController {
 	//Users
 	public static User getUser(String userName) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
-                PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
+        PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
 		stmt.setQueryTimeout(TIMEOUT);
 		stmt.setString(1, userName);
 		ResultSet rs = stmt.executeQuery();
-		if (rs.first()) {
+		if (rs.next()) {
 			String username = rs.getString("username");
 			String password = rs.getString("password");
 			String firstname = rs.getString("firstname");
@@ -214,6 +214,10 @@ public class DBController {
 			long studentNumber = rs.getLong("studentNumber");
 			return new User(username, password, firstname, lastname, studentNumber);
 		}
+        if (rs != null) rs.close();
+        if (stmt != null) stmt.close();
+        if (conn != null) conn.close();
+        
 		return null;
 	}
 
@@ -543,11 +547,14 @@ public class DBController {
 
 	//For statements that change the state of a table (add/remove data)
 	public static void modifyStatement(String statementType, DBObject[] dbArray) throws SQLException {
-		Connection connection = DriverManager.getConnection(DB_URL);
-  		PreparedStatement stmt = connection.prepareStatement(statementType);
+        Connection connection = DriverManager.getConnection(DB_URL);
+        PreparedStatement stmt = connection.prepareStatement(statementType);
 		for (int i = 0; i < dbArray.length; i++){
-  			dbArray[i].addToStatement(stmt, i+1);
-		}
+  		    dbArray[i].addToStatement(stmt, i+1);
+	    }
 		stmt.execute();
+        
+        if (stmt != null) stmt.close();
+        if (connection != null) connection.close();
   	}
 }
