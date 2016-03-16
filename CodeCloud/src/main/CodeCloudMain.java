@@ -405,7 +405,12 @@ public class CodeCloudMain
 
 		post("/files/view", (request, response) ->
 		{
-			String path = request.body();
+			log(user);
+			String path = request.body();/** For when DBController behaves predictably
+			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))){
+				log("Authorization failure");
+				return "authFail";
+			}*/
 			response.type("application/json");
 			File file = new File(path);
 			if (file.exists()){
@@ -531,6 +536,7 @@ public class CodeCloudMain
 				log("Error with activeProcessID in readOutput");
 				halt(400, "malformed values");
 				return null;
+
 
 			}
 		}, new JsonTransformer());

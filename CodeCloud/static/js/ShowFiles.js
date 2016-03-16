@@ -15,8 +15,8 @@ function showFiles(elementID){
 				console.log("Header on XML response: " + document.getElementById("hTitle").innerHTML);
 				document.getElementById("hTitle").innerHTML = elementID + "/";
 				var jsonObj = JSON.parse(xhr.responseText);
-				if (jsonObj == "" || typeof jsonObj == 'undefined'){
-					console.log("Null response");
+				if (jsonObj == "authFail" || jsonObj[0] == "authFail" || typeof jsonObj == 'undefined'){
+					console.log("Authorization failure");
 					return;
 				}
 				var list = document.getElementById("filesList");
@@ -92,6 +92,7 @@ function showFiles(elementID){
 	}
 
 	else {
+		alert("Unknown file type");
 		//TODO fix this
 		/*
 		xhr.onreadystatechange = function(){
