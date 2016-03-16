@@ -255,6 +255,35 @@ public class CodeCloudMain
 
 		});
 
+		/**
+		 * Save the editor contents to a file on the server. Returns 0 iff successful.
+		 */
+		post("/editor/saveFile", (request, response) -> 
+		{
+			response.type("text/plain");
+			try 
+			{
+				Gson gson = new Gson();
+				String body = request.body();
+				CompilerInput input = gson.fromJson(body, CompilerInput.class);
+				File file = new File(input.fileName);
+				if(!file.exists())
+					return 1;
+				
+				BufferedWriter out = new BufferedWriter(new FileWriter(file));
+				out.write(input.fileContent, 0, input.fileContent.length());
+				out.flush();
+				out.close();
+				return 0;
+			}
+			catch(JsonParseException jpe)
+			{
+				log("Malformed values in saving file content");
+				halt(400, "malformed values");
+				return 1;
+			}
+		});
+		
 		post("/editor/compile/java", (request, response) ->
 		{
 			response.type("application/json");

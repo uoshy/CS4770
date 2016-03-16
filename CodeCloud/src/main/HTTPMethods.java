@@ -57,6 +57,16 @@ public class HTTPMethods {
             }
         });
         
+        before("/courses.html", (request, response) ->
+        {
+            User user = request.session().attribute("user");
+            if(user == null)
+            {
+                response.redirect("/login.html");
+                return;
+            }
+        });
+
         get("/users/activeUser", (request, response) -> 
         {
             User user = request.session().attribute("user");
