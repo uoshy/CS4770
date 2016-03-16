@@ -70,7 +70,7 @@ public class CodeCloudMain
 		//TODO ensure docker daemon is running
 
 		//Temporarily get users from file
-		users = new TempUsers();
+		//users = new TempUsers();
         
         //create DB controller
         dbCon = new DBController();
