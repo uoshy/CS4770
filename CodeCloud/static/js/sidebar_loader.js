@@ -68,6 +68,7 @@ function changeUserRole(evt) {
         if(xhr.readyState != 4) return;
         if(xhr.status == 200 || xhr.status == 400)
         {
+            console.log('response: ' + xhr.responseText);
             if(xhr.responseText == 0) //it worked
             {
                 var select = document.getElementById('sidebarRoleSelect');
@@ -82,7 +83,7 @@ function changeUserRole(evt) {
         toSend = INSTRUCTOR;
     else if(select.value === "Marker")
         toSend = MARKER;
-    else if(select.value === "Student");
+    else if(select.value === "Student")
         toSend = STUDENT;
     
     console.log("Sending user role: " + toSend);

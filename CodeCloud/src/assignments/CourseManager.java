@@ -1,5 +1,6 @@
 package assignments;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Map;
@@ -97,8 +98,14 @@ public class CourseManager
 	
 	public static EnrollmentListReturn getCoursesForUser(User user)
 	{
-		Map<String, Course> map = DBController.getAllEnrollmentsForUser(user);
-
+		Map<String, Course> map;
+		try{
+			map = DBController.getAllEnrollmentsForUser(user);
+		} catch(SQLException e)
+		{
+			return null;
+		}
+		
 		Collection<Course> courses = map.values();
 		ArrayList<Course> listCourses = new ArrayList<>(courses);
 		Collections.sort(listCourses, (Course c1, Course c2) -> //sort chronologically
@@ -106,8 +113,8 @@ public class CourseManager
 			String term1 = c1.getTerm();
 			String term2 = c2.getTerm();
 			
-			int sem1, sem2 = -1; //0 Winter, 1 Spring, 2 Fall
-			int year1, year2;
+			int sem1 = -1 , sem2 = -1; //0 Winter, 1 Spring, 2 Fall
+			int year1 = -1, year2 = -1;
 			if(term1.indexOf("FALL") != -1)
 			{
 				sem1 = 2;
