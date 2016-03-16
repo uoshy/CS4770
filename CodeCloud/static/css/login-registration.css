@@ -51,7 +51,7 @@
     display: block;
 }
 
-#regi-col .login-title, #regi-col .old-account {
+#regi-col.login-title, #regi-col.old-account {
     padding-left: 50px;
 }
 
@@ -77,6 +77,14 @@ div.logo-brand {
     color: #fff;
     background-color: #202020;
     border-color: #777;
+}
+
+a.aboutus-no-sidebar {
+    position: fixed; 
+    bottom: 15%; 
+    right: 47%; 
+    font-size: 150%; 
+    text-decoration: none !important;
 }
 
 /** ------ register ------ **/
