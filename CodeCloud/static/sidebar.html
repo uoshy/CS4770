@@ -1,33 +1,18 @@
 
+            <link rel="stylesheet" href="css/sidebar_users.css">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 				
     		<div class="login-wrapper">
-    			<form class="form-horizontal" role="form">
-    				<div class="form-group">
-    					<label class="control-label col-sm-2" for="user" id="usr"></label>
-    					<div class="col-sm-9">
-    						<input type="user" class="form-control" id="user" placeholder="Username">
-    					</div>
-    				</div>
-    				<div class="form-group">
-    					<label class="control-label col-sm-2" for="pwd"></label>
-    					<div class="col-sm-9"> 
-    						<input type="password" class="form-control" id="pwd" placeholder="Password">
-    					</div>
-    				</div>
-    				<div class="form-group"> 
-    					<div class="col-sm-offset-2 col-sm-9">
-    						<div class="checkbox">
-    							<label><input type="checkbox"> Remember me</label>
-    						</div>
-    					</div>
-    				</div>
-    				<div class="form-group"> 
-    					<div class="col-sm-offset-2 col-sm-10">
-    						<button type="submit" class="btn btn-default">Submit</button>
-    					</div>
-    				</div>
-    			</form>
+                <div class="usernameDiv">
+                Welcome, <span id="sidebarUser"></span>!<br>
+
+                <span>Active Role: </span><span id="sidebarActiveRole"></span><br>
+
+                <p><select id ="sidebarRoleSelect">
+
+                </select>
+                <input type="button" value="Change Role"></input>
+    			</div>
     		</div>  
 				
 			<hr>

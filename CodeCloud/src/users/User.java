@@ -17,6 +17,7 @@ public class User {
 	/** The user's password */
 	private String password;
 
+	/** The user's student number */
 	private long studentNumber;
 	
 	/** The user's active role on the system */
@@ -35,6 +36,8 @@ public class User {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.studentNumber = studentNumber;
+
+		activeRole = Role.Student;
 	}
 
 	/**
