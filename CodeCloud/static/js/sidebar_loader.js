@@ -17,6 +17,10 @@
 	xhr.send();
 })();
 
+var INSTRUCTOR = 0;
+var MARKER = 1;
+var STUDENT = 2;
+
 function getUserDetails() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "users/activeUser", true);
@@ -29,25 +33,55 @@ function getUserDetails() {
             {
                 document.getElementById('sidebarUser').innerHTML = jsonObj.username;
                 var activeRoleSpan = document.getElementById('sidebarActiveRole');
-                if(jsonObj.activeRole === 0)
+                if(jsonObj.activeRole === INSTRUCTOR)
                     activeRoleSpan.innerHTML = "Instructor";
-                else if(jsonObj.activeRole === 1)       
+                else if(jsonObj.activeRole === MARKER)       
                     activeRoleSpan.innerHTML = "Marker";
-                else if(jsonObj.activeRole === 2)
+                else if(jsonObj.activeRole === STUDENT)
                     activeRoleSpan.innerHTML = "Student";
-
                 var options = document.getElementById('sidebarRoleSelect');
-                for(int i = 0; i < jsonObj.possibleRoles.length; i++)
+                for(var i = 0; i < jsonObj.possibleRoles.length; i++)
                 {
-                    if(jsonObj.possibleRoles[i] === 0)
-
-                    else if(jsonObj.possibleRoles[i] === 1)
-
-                    else if(jsonObj.possibleRoles[i] === 2)
+                    if(jsonObj.possibleRoles[i] === INSTRUCTOR)
+                        options.innerHTML += "<option>Instructor</option>";
+                    else if(jsonObj.possibleRoles[i] === MARKER)
+                        options.innerHTML += "<option>Marker</option>";
+                    else if(jsonObj.possibleRoles[i] === STUDENT)
+                        options.innerHTML += "<option>Student</option>";
 
                 }
+
+                document.getElementById('sidebarChangeRoleButton').addEventListener("click", changeUserRole);
             }
         }
     }
     xhr.send();
+}
+
+function changeUserRole(evt) {
+    evt.preventDefault();
+    console.log("change user role!");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "users/changeRole", true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400)
+        {
+
+        }
+    }
+
+    var select = document.getElementById('sidebarRoleSelect');
+    var toSend;
+    if(select.value === "Instructor")
+        toSend = INSTRUCTOR;
+    else if(select.value === "Marker")
+        toSend = MARKER;
+    else if(select.value === "Student");
+        toSend = STUDENT;
+    
+    console.log("Sending user role: " + toSend);
+    xhr.send(toSend);
+
 }

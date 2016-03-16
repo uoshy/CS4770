@@ -33,61 +33,10 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-				
-		<div class="login-wrapper">
-			<form class="form-horizontal" role="form">
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="user" id="usr"></label>
-					<div class="col-sm-9">
-						<input type="user" class="form-control" id="user" placeholder="Username">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="pwd"></label>
-					<div class="col-sm-9"> 
-						<input type="password" class="form-control" id="pwd" placeholder="Password">
-					</div>
-				</div>
-				<div class="form-group"> 
-					<div class="col-sm-offset-2 col-sm-9">
-						<div class="checkbox">
-							<label><input type="checkbox"> Remember me</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group"> 
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-default">Submit</button>
-					</div>
-				</div>
-			</form>
-		</div>  
-				
-			<hr>
-			<div id ="nav">
-                <li>
-                    <a href="home.html"><span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x"></i></span> Home</a>
-                </li>
-                <li>
-                    <a href="about.html"><span class="fa-stack fa-lg pull-left"><i class="fa fa-info-circle fa-stack-1x "></i></span> About</a>
-                </li>
-                <li>
-                    <a href="courses.html"><span class="fa-stack fa-lg pull-left"><i class="fa fa-book fa-stack-1x "></i></span>Courses</a>
-					<ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="courses/course1.html">course1</a></li>
-                        <li><a href="courses/course2.html">course2</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="files.html"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-folder-open fa-stack-1x "></i></span>Files</a>
-                </li>
-                <li>
-                    <a href="editor.html"><span class="fa-stack fa-lg pull-left"><i class="fa fa-pencil-square fa-stack-1x "></i></span>Text Editor</a>
-                </li>
-				 <ul class="nav nav-pills nav-stacked" id="stacked-menu">
-			</div>
-		
+            <div id="sidebarHolderDiv">
+
+            </div>
+		    <script src="js/sidebar_loader.js"></script>  
         </div><!-- /#sidebar-wrapper -->
         <!-- ------------------Page Content--------------------- -->
         <div id="page-content-wrapper">
@@ -95,11 +44,7 @@
                 <div class="row">
                     <div class="col-lg-12">
 						<div id="fixed-wrapper">
-
-
-
-
-						<div id="courses" class="toggle">
+						<div id="courses">
 							<h1>Courses</h1><hr><br>
 							<div id="courses-list">
 								<ul id="courses-course" style="list-style-type:none">
