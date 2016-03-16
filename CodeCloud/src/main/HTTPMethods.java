@@ -10,8 +10,12 @@ import static spark.Spark.before;
 import static spark.Spark.halt;
 
 import main.JsonTransformer;
+import main.CodeCloudMain;
 
 import users.User;
+import users.Role;
+import users.UserManager;
+
 import json.UserReturn;
 
 public class HTTPMethods {
@@ -69,13 +73,51 @@ public class HTTPMethods {
                 userRet.firstname = user.getFirstname();
                 userRet.lastname = user.getLastname();
                 userRet.activeRole = user.getActiveRole().ordinal();
-                userRet.possibleRoles = {0,1,2};
+                userRet.possibleRoles = new int[]{0,1,2};
                 //TODO get possible roles
 
             }
             return userRet;
         }, new JsonTransformer());
 
+        post("/users/changeRole", (request, response) -> 
+        {
+            User user = request.session().attribute("user");
+            UserReturn userRet = new UserReturn();
+            if(user == null)
+            {
+                userRet.username = userRet.firstname = userRet.lastname = "N/A";
+                userRet.activeRole = -1;
+                userRet.possibleRoles = null;
+            }
+            else
+            {
+                String body = request.body();
+                try{ 
+                    int roleInt = Integer.parseInt(body);
+                    if(roleInt >= 0 && roleInt < Role.values().length)
+                    {
+                        Role newRole = Role.values()[roleInt];
+                        if(!UserManager.changeRole(user, newRole))
+                        {
+                            CodeCloudMain.log("Changing role of " + user.getUsername() + " failed!");
+                            return userRet;
+                        }
+                        userRet.username = user.getUsername();
+                        userRet.firstname = user.getFirstname();
+                        userRet.lastname = user.getLastname();
+                        userRet.activeRole = user.getActiveRole().ordinal();
+                        userRet.possibleRoles = new int[]{0,1,2};
+                        CodeCloudMain.log("Changed user " + user.getUsername() + " to role: " + newRole);
+                        //TODO get possible roles
+                    }
+                } catch(NumberFormatException nfe)
+                {
+
+                }
+            }
+            return userRet;
+        }, new JsonTransformer());
 
 	}
 }
