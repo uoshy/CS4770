@@ -40,7 +40,7 @@ function buttonStatus() {
 }
 
 //submit the registration form using AJAX to receive back a string/json object 
-//for determining success of regisration
+//for determining success of registration
 function submitRegisterForm() {
     console.log("Submit form!");
     
@@ -57,7 +57,7 @@ function submitRegisterForm() {
                 errorP.innerHTML = errorMessage;
             }
             else {
-                window.location = window.location.origin + "/home.html";
+                window.location = window.location.origin + "/login.html";
             }
         }
     }
@@ -68,6 +68,44 @@ function submitRegisterForm() {
     var lastName = form.last_name.value;
     var studentNum = form.student_num.value;
     var objToSend = { username : username, password : password, firstName : firstName, lastName : lastName, studentNum : studentNum};
+    var jsonToSend = JSON.stringify(objToSend);
+    xhr.send(jsonToSend);
+    return false;
+}
+
+
+
+var loginForm;
+// initialize form - login page
+function initLoginForm() {
+    console.log("init form");
+    loginForm = document.querySelector("form");
+}
+
+//submit the login form using AJAX to receive back a string/json object 
+function submitLoginForm() {
+    console.log("Submit form!");
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'login', true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400) {
+            var errorMessage = xhr.responseText;
+            if(errorMessage.length > 0)
+            {
+                var errorP = document.getElementById("errorMsg");
+                errorP.innerHTML = errorMessage;
+            }
+            else {
+                window.location = window.location.origin + "/home.html";
+            }
+        }
+    }
+
+    var username = loginForm.username.value;
+    var password = loginForm.password.value;
+    var objToSend = { username : username, password : password};
     var jsonToSend = JSON.stringify(objToSend);
     xhr.send(jsonToSend);
     return false;
