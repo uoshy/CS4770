@@ -42,6 +42,7 @@ function showFiles(elementID){
 					}
 					var li = document.createElement('li');
 					var a = document.createElement('a');
+					var space = document.createTextNode('\u00A0\u00A0\u00A0');
 					var button = document.createElement('input');
 
 					a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
@@ -53,6 +54,7 @@ function showFiles(elementID){
 
 					li.appendChild(img);
 					li.appendChild(a);
+					li.appendChild(space);
 					li.appendChild(button);
 					list.appendChild(li);
 				}
