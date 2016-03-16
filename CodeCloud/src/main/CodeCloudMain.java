@@ -87,6 +87,9 @@ public class CodeCloudMain
 		setup();
 		externalStaticFileLocation("static");
 		MustacheTemplateEngine mte = new MustacheTemplateEngine("templates");
+		
+		HTTPMethods.setupPaths();
+		
 		//redirect root to index.html
 		get("/", (request, response) ->
 		{
@@ -153,7 +156,7 @@ public class CodeCloudMain
 					if ( session == null ) {
 						response.redirect("/registration.html");
 					}
-					session.attribute("user", usr);
+					session.attribute("user", user);
 					log("Login successful");
 					response.redirect("/home.html");
 					return null;
