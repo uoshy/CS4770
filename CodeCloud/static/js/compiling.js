@@ -34,6 +34,39 @@ function switchLanguage(radioBtn)
     console.log(currentLanguage);
 }
 
+function saveEditorFile(beforeExecution) {
+
+    var form = document.getElementById("textEditorForm");
+    var fileName = form.fileName.value
+    console.log(fileName);
+    if(fileName.length < 1)
+    {
+        window.alert("File name cannot be empty!");
+        return;
+    }
+    
+    var editorText = editor.getValue();
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('POST', "editor/saveFile", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400) {
+            var saveResponse = document.getElementById("saveFileMessage");
+            if(xhr.responseText != '0')
+                saveResponse.innerHTML = "Error saving file!";
+            else
+                saveResponse.innerHTML = "File Saved!";
+        }
+    }
+  
+    var objToSend = { fileContent : editorText, fileName : fileName};
+    var jsonToSend = JSON.stringify(objToSend);
+    xhr.send(jsonToSend);
+}
+
+
 function compile(beforeExecution) {
     compilerStatus = -1;
 
