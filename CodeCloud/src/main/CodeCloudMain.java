@@ -389,6 +389,9 @@ public class CodeCloudMain
 			Part file = request.raw().getPart("file");
 			String filename = file.getSubmittedFileName();
 			UserFile uDir = new UserFile(null, filename);
+			//UserFile uDir = new UserFile(DBController.getUser(request.session.attribute("user")), filename);
+			//if (! FileManager.authorize(DBController.getUser(request.session.attribute("user"), uDir)) return "0";
+			//Overkill? Boolean should always evaluate to false.
 			try (final InputStream in = file.getInputStream()) {
 				//TODO: Insert actual path to user's file directory
 				Files.copy(in, Paths.get(dirPath + filename), StandardCopyOption.REPLACE_EXISTING);
@@ -406,11 +409,9 @@ public class CodeCloudMain
 		post("/files/view", (request, response) ->
 		{
 			log(((User) request.session().attribute("user")).getUsername());
-			String path = request.body();/** For when DBController behaves predictably
-			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))){
-				log("Authorization failure");
-				return "authFail";
-			}*/
+			String path = request.body();
+			// For when DBController behaves predictably
+//			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))) return "authFail";
 			response.type("application/json");
 			File file = new File(path);
 			if (file.exists()){
@@ -431,6 +432,7 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
+//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
 			File file = new File(path);
 			if (file.exists()) return "0";
 			try {
@@ -447,6 +449,7 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
+//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
 			File file = new File(path);
 			try {
 				delete(file);
@@ -462,6 +465,7 @@ public class CodeCloudMain
 		{
 			response.type("application/json");
 			String path = request.body();
+//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "";
 			log("Received request for " + path);
 			File file = new File(path);
 			String[] pathParts = path.split("/");

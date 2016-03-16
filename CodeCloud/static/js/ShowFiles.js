@@ -94,29 +94,7 @@ function showFiles(elementID){
 	}
 
 	else {
-		alert("Unknown file type");
-		//TODO fix this
-		/*
-		xhr.onreadystatechange = function(){
-			if (xhr.readyState != 4) return;
-			if (xhr.status == 200 || xhr.status == 400){
-				document.getElementById("hTitle").innerHTML += elementID;
-				document.getElementById("filesList").style.display = 'none';
-				var jsonObj = JSON.parse(xhr.responseText);
-				if (jsonObj != ""){
-					if (jsonObj.fileObjs.isDirectory){
-						//TODO: Handle files not displayable in iframe
-						document.getElementById('frame').style.display = 'block';
-						document.getElementById('frame').setAttribute('src', jsonObj[1]);
-					}
-					else {
-						document.getElementById('editor').style.display = 'block';
-						editor.setValue(jsonObj[1]);
-					}
-				}
-			}
-		}
-		*/
+		alert("Error: Unknown file type");
 	}
 }
 
@@ -131,6 +109,7 @@ function back(){
 	document.getElementById("downloadLink").style.display = 'inline';
 	document.getElementById("filesList").style.display = 'inline';
 	document.getElementById("editor").style.display = 'none';
+	document.getElementById("frame").style.display = 'none';
 
 	var titleRef = document.getElementById('hTitle').innerHTML;
 	if (titleRef === "static/") return;
