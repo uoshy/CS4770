@@ -16,6 +16,8 @@ import users.User;
 import users.Role;
 import users.UserManager;
 
+import assignments.CourseManager;
+
 import json.UserReturn;
 
 public class HTTPMethods {
@@ -128,6 +130,18 @@ public class HTTPMethods {
             }
             return userRet;
         }, new JsonTransformer());
+
+
+        get("/courses/listCourses", (request, response) -> 
+        {
+            User user = request.session().attribute("user");
+            if(user == null)
+            {
+                return null;
+            }
+
+            return CourseManager.getCoursesForUser(user);
+        });
 
 	}
 }

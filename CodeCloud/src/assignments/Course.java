@@ -11,6 +11,9 @@ import java.util.Collection;
  * A semester-specific offering of a course. There is a list of students, instructors, 
  * markers, and assignments associated with this course.
  * 
+ * Note that the term of a course shall have the format "FALLXX", "WINTERXX", "SPRINGXX", where XX
+ * is the year. (Obviously this can be improved...)
+ * 
  * @author Alex
  *
  */

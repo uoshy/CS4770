@@ -68,7 +68,11 @@ function changeUserRole(evt) {
         if(xhr.readyState != 4) return;
         if(xhr.status == 200 || xhr.status == 400)
         {
-
+            if(xhr.responseText == 0) //it worked
+            {
+                var select = document.getElementById('sidebarRoleSelect');
+                document.getElementById("sidebarActiveRole").innerHTML = select.value;
+            }
         }
     }
 
