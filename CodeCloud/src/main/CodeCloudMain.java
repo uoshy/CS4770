@@ -44,6 +44,7 @@ import json.CompilerReturnJson;
 import json.ExecutionInput;
 import json.ExecutionReturn;
 import json.RegisterInput;
+import json.LoginInput;
 
 import files.UserFile;
 import main.JSONFileList;
@@ -51,6 +52,7 @@ import main.JSONFileList.JSONFileObject;
 
 import users.User;
 import users.TempUsers; //temporary; for file access
+import utility.DBController;
 
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
@@ -61,6 +63,7 @@ import javax.servlet.MultipartConfigElement;
 public class CodeCloudMain
 {
 	private static TempUsers users;
+    private static DBController dbCon;
 
 	private static void setup()
 	{
@@ -68,7 +71,16 @@ public class CodeCloudMain
 
 		//Temporarily get users from file
 		users = new TempUsers();
-
+        
+        //create DB controller
+        dbCon = new DBController();
+        try {
+            dbCon.initialize(); //connect
+        }
+        catch (SQLException e) {
+            log("SQLite error: Initialize.");
+            e.printStackTrace();
+        }
 	}
 
 	///////////// A set of static helper methods used by the server. /////////////////////////
@@ -142,29 +154,51 @@ public class CodeCloudMain
             return "Error logging in. Please try again.";
         });
 		 **/
-		post("/login.html", (request, response) -> {
-			String usr = request.queryParams("user");
-			String pw = request.queryParams("password");
-			log("user: "+usr+" & pass: "+pw);
+		post("/login", (request, response) -> {
+			//String usr = request.queryParams("user");
+			//String pw = request.queryParams("password");
+			//log("user: "+usr+" & pass: "+pw);
+            
+            log("Login request!");
+			String body = request.body();
+            log(body);
+			LoginInput loginInput;
+			try {
+				Gson gson = new Gson();
+				loginInput = gson.fromJson(body, LoginInput.class);
+                User user = dbCon.getUser(loginInput.username);             
 
-			if ( usr == null || pw == null ) {
-				response.redirect("error.html");
-			}
-			for(User user : users.getCollection()) {
-				if(usr.equals(user.getUsername()) && pw.equals(user.getPassword())) { // successful login
-					Session session = request.session(true);
-					if ( session == null ) {
-						response.redirect("/registration.html");
-					}
-					session.attribute("user", user);
-					log("Login successful");
-					response.redirect("/home.html");
-					return null;
-				}
-			}
-			log("Login failed");
-			response.redirect("/registration.html");
-			return null;
+                //user with specified username not found
+                if(user == null) {
+                    log("User doesn't exist! Login failed");
+                    //response.redirect("/login.html");
+                    return "Username doesn't exist! Please register, or try again.";
+                }
+                if(user.getPassword().equals(loginInput.password)) {
+                    Session session = request.session(true);
+                    if ( session == null ) {
+                        return "Error logging in. Browser does not support cookies.";
+                    }
+                    session.attribute("user", user);
+                    log("Login successful. Username: " + user.getUsername());
+                    //response.redirect("/home.html");
+                    return "";
+                } else {
+                    log("Password doesn't match! Login failed");
+                    return "Incorrect login info! Please register, or try again.";
+                }
+            }
+			catch (JsonParseException | NumberFormatException ex)
+			{
+				log("Malformed values in login request.");
+				return "Error in input values!";
+			} catch (SQLException e) {
+                log("SQLite error: Login.  " + e.getMessage());
+                return "SQLite error: Login.";
+            }
+			//log("Login failed");
+			//response.redirect("/registration.html");
+			//return "";
 		});
 
 		post("/register", (request, response) -> {
@@ -174,33 +208,35 @@ public class CodeCloudMain
 			try {
 				Gson gson = new Gson();
 				regInput = gson.fromJson(body, RegisterInput.class);
+                
+                // username already exists, registering failed
+                if(dbCon.getUser(regInput.username) != null) {
+                    // (this should be prevented by javascript/AJAX on the
+                    // register page anyway, but just in case...)
+                    log("username exists, register failed");
+                    return "Username already exsists! Please choose another.";
+                }
 
-				for(User u : users.getCollection()) {
-					if(u.getUsername().equalsIgnoreCase(regInput.username)) {
-						// username already exists, registering failed
-						// (this should be prevented by javascript/AJAX on the
-						// register page anyway, but just in case...)
-						log("username exists, register failed");
-						return "Username already exsists! Please choose another.";
-					}
-				}
-
-				Session session = request.session(true);
+				/*Session session = request.session(true);
 				if ( session == null ) {
 					return "Error registering. Browser does not support cookies.";
-				}
+				}*/
 
 				long studentNumber = Long.parseLong(regInput.studentNum);
 				User user = new User(regInput.username, regInput.password, regInput.firstName, regInput.lastName, studentNumber);
-				users.addUser(user);
-				session.attribute("user", user);
+                dbCon.addUser(user);
+				//session.attribute("user", user);
+                log("User Registered! Username: "+user.getUsername());
 				return "";
 			}
 			catch (JsonParseException | NumberFormatException ex)
 			{
 				log("Malformed values in register request.");
 				return "Error in input values!";
-			}
+			} catch (SQLException e) {
+                log("SQLite error: Registration.  "  + e.getMessage());
+                return "SQLite error: Registration.";
+            }
 		});
 
 		// allow user to log out
