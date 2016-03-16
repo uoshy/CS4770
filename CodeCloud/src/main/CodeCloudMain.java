@@ -405,7 +405,7 @@ public class CodeCloudMain
 
 		post("/files/view", (request, response) ->
 		{
-			log(user);
+			log(user.getUsername());
 			String path = request.body();/** For when DBController behaves predictably
 			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))){
 				log("Authorization failure");
