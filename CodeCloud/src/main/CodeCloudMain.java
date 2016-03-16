@@ -531,6 +531,7 @@ public class CodeCloudMain
 				log("Error with activeProcessID in readOutput");
 				halt(400, "malformed values");
 				return null;
+
 			}
 		}, new JsonTransformer());
 

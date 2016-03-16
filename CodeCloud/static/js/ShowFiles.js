@@ -4,12 +4,9 @@ function showFiles(elementID){
 	if (elementID.charAt(elementID.length - 1) == '/'){
 		elementID = elementID.substring(0, elementID.length - 1);
 	}
-	if (elementID != "static"){
-		console.log("Not static");
-	}
-	var xhr = new XMLHttpRequest();
 	var pathParts = elementID.split('/');
 	if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
+		var xhr = new XMLHttpRequest();
 		xhr.open('POST', "/files/view", true);
 		xhr.setRequestHeader("Content-Type", "text/plain");
 		xhr.onreadystatechange = function(){
@@ -63,14 +60,20 @@ function showFiles(elementID){
 		}
 		xhr.send(elementID);
 	}
+	else if (isIframeCompatible(pathParts[pathParts.length - 1])){
+		console.log("Opening a document in iframe...");
+		var temp = elementID.substring(7);
+		console.log(elementID);
+		document.getElementById("hTitle").innerHTML = elementID + "/";
+		hideFiles();
+		document.getElementById("frame").setAttribute('src', temp);
+		document.getElementById("frame").style.display = 'inline';
+	}
 	else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt"){
 		console.log("Opening text file...");
-		document.getElementById("addDelete").style.display = 'none';
-		document.getElementById("uploadFile").style.display = 'none';
-		document.getElementById("downloadLink").style.display = 'none';
-		document.getElementById("filesList").style.display = 'none';
-		document.getElementById("editor").style.display = 'inline';
-
+		document.getElementById("hTitle").innerHTML = elementID + "/";
+		hideFiles();
+		var xhr = new XMLHttpRequest();
 		xhr.open('POST', "/files/getcontents", true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function(){
@@ -81,11 +84,13 @@ function showFiles(elementID){
 				console.log(jsonObj);
 				console.log(jsonObj[0]);
 				console.log(jsonObj[1]);
+				document.getElementById("editor").style.display = 'inline';
 				editor.setValue(jsonObj[1]);
 			}
 		}
 		xhr.send(elementID);
 	}
+
 	else {
 		//TODO fix this
 		/*
@@ -118,7 +123,6 @@ function isRecognizedFileType(endingString){
 }
 
 function back(){
-
 	document.getElementById("addDelete").style.display = 'inline';
 	document.getElementById("uploadFile").style.display = 'inline';
 	document.getElementById("downloadLink").style.display = 'inline';
@@ -253,6 +257,20 @@ function shouldntBeDeleted(path){
 //Fix scoping for adding listeners dynamically
 function deleteFileDelegate(path){
 	return function(){deleteFile(path)};
+}
+
+function isIframeCompatible(extension){
+	if (extension.length >= 4){
+		if (extension.substring(extension.length - 4) === ".pdf" || extension.substring(extension.length - 4) === ".ppt" || extension.substring(extension.length - 5) === ".docx" || extension.substring(extension.length - 5) === ".xlsx" || extension.substring(extension.length - 4) === ".doc") return true;
+	}
+	return false;
+}
+
+function hideFiles(){
+	document.getElementById("addDelete").style.display = 'none';
+	document.getElementById("uploadFile").style.display = 'none';
+	document.getElementById("downloadLink").style.display = 'none';
+	document.getElementById("filesList").style.display = 'none';
 }
 
 
