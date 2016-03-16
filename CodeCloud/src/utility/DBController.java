@@ -27,160 +27,156 @@ import users.Role;
 import users.User;
 
 public class DBController {
-	//try loading sqlite
-	static {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		}
-		catch(Exception e) {
-			System.out.println("Error: Unable to load SQLite.");
-			e.printStackTrace();
-			System.exit(0);
-		}
-	}
 
-	//users
-	//get a user by username
-	private static String selectUserStatement =
-			"SELECT * FROM User WHERE username=?";
+    //try loading sqlite
+    static {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        }
+        catch(Exception e) {
+        	System.out.println("Error: Unable to load SQLite.");
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
 
-	//get all users
-	private static String selectAllUsersStatement =
-			"SELECT * FROM Users";
+    //users
+    //get a user by username
+    private static String selectUserStatement =
+    	"SELECT * FROM Users WHERE username=?";
 
-	//add a user
-	private static String addUserStatement =
-			"INSERT INTO Users (username, password, firstname, lastname, studentNumber) VALUES(?, ?, ?, ?, ?)";
+    //get all users
+    private static String selectAllUsersStatement =
+    	"SELECT * FROM Users";
 
-	//remove user
-	private static String removeUserStatement =
-			"DELETE FROM Users WHERE username=?";
+    //add a user
+    private static String addUserStatement =
+	"INSERT INTO Users (username, password, firstname, lastname, studentNumber) VALUES(?, ?, ?, ?, ?)";
 
-	//courses
-	//get a course by courseID and term
-	private static String selectCourseStatement =
-			"SELECT * FROM User WHERE username=? AND term=?";
+    //remove user
+    private static String removeUserStatement =
+    	"DELETE FROM Users WHERE username=?";
 
-	//get all courses
-	private static String selectAllCoursesStatement =
-			"SELECT * FROM Courses";
+    //courses
+    //get a course by courseID and term
+    private static String selectCourseStatement =
+    	"SELECT * FROM Users WHERE username=? AND term=?";
 
-	//add a course
-	private static String addCourseStatement =
-			"INSERT INTO Courses (courseID, term, name) VALUES(?, ?, ?)";
+    //get all courses
+    private static String selectAllCoursesStatement =
+    	"SELECT * FROM Courses";
 
-	//remove course
-	private static String removeCourseStatement =
-			"DELETE FROM Courses WHERE courseID=? AND term=?";
+    //add a course
+    private static String addCourseStatement =
+	"INSERT INTO Courses (courseID, term, name) VALUES(?, ?, ?)";
 
-	//enrollments
-	
-	//get all enrollments for a username
-	private static String selectEnrollmentsForUserStatement = 
-			"SELECT * FROM Enrollments WHERE username=?";
-	
-	//get an enrollment by username, courseID, and term
-	private static String selectEnrollmentStatement =
-			"SELECT * FROM Enrollments WHERE username=? AND courseID=? AND term=?";
+    //remove course
+    private static String removeCourseStatement =
+    	"DELETE FROM Courses WHERE courseID=? AND term=?";
 
-	//get a course's instructor
-	private static String getInstructorStatement =
-			"SELECT * FROM Enrollments WHERE courseID=? AND term=?";
+    //enrollments
+    //get an enrollment by username, courseID, and term
+    private static String selectEnrollmentStatement =
+    	"SELECT * FROM Enrollments WHERE username=? AND courseID=? AND term=?";
 
-	//get all enrollments
-	private static String selectAllEnrollmentsStatement =
-			"SELECT * FROM Enrollments";
+    //get a course's instructor
+    private static String getInstructorStatement =
+    	"SELECT * FROM Enrollments WHERE courseID=? AND term=?";
 
-	//add an enrollment
-	private static String addEnrollmentStatement =
-			"INSERT INTO Enrollments (username, courseID, term, role) VALUES(?, ?, ?, ?)";
+    //get all enrollments
+    private static String selectAllEnrollmentsStatement =
+    	"SELECT * FROM Enrollments";
 
-	//remove enrollment
-	private static String removeEnrollmentStatement =
-			"DELETE FROM Enrollments WHERE username=? AND courseID=? AND term=?";
+    //add an enrollment
+    private static String addEnrollmentStatement =
+	"INSERT INTO Enrollments (username, courseID, term, role) VALUES(?, ?, ?, ?)";
 
-	//assignments
-	//get an assignment by courseID, term, and number
-	private static String selectAssignmentStatement =
-			"SELECT * FROM Assignments WHERE courseID=? AND term=? AND number=?";
+    //remove enrollment
+    private static String removeEnrollmentStatement =
+    	"DELETE FROM Enrollments WHERE username=? AND courseID=? AND term=?";
 
-	//get all assignments
-	private static String selectAllAssignmentsStatement =
-			"SELECT * FROM Assignments";
+    //assignments
+    //get an assignment by courseID, term, and number
+    private static String selectAssignmentStatement =
+    	"SELECT * FROM Assignments WHERE courseID=? AND term=? AND number=?";
 
-	//add an assignment
-	private static String addAssignmentStatement =
-			"INSERT INTO Assignments (courseID, term, number, path, testSuitePath, submissionLimit) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    //get all assignments
+    private static String selectAllAssignmentsStatement =
+    	"SELECT * FROM Assignments";
 
-	//remove assignment
-	private static String removeAssignmentStatement =
-			"DELETE FROM Assignments WHERE courseID=? AND term=? AND number=?";
+    //add an assignment
+    private static String addAssignmentStatement =
+	"INSERT INTO Assignments (courseID, term, number, path, testSuitePath, submissionLimit) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-	//assignment solutions
-	//get an assignment solution by courseID, term, and number
-	private static String selectASolutionStatement =
-			"SELECT * FROM User WHERE courseID=? AND term=? AND number=?";
+    //remove assignment
+    private static String removeAssignmentStatement =
+    	"DELETE FROM Assignments WHERE courseID=? AND term=? AND number=?";
 
-	//get all assignment solutions
-	private static String selectAllASolutionsStatement =
-			"SELECT * FROM AssignmentSolutions";
+    //assignment solutions
+    //get an assignment solution by courseID, term, and number
+    private static String selectASolutionStatement =
+    	"SELECT * FROM Users WHERE courseID=? AND term=? AND number=?";
 
-	//add an assignment solution
-	private static String addASolutionStatement =
-			"INSERT INTO Users (courseID, term, number, path) VALUES(?, ?, ?, ?)";
+    //get all assignment solutions
+    private static String selectAllASolutionsStatement =
+    	"SELECT * FROM AssignmentSolutions";
 
-	//remove assignment solution
-	private static String removeASolutionStatement =
-			"DELETE FROM AssignmentSolutions WHERE courseID=? AND term=? AND number=?";
+    //add an assignment solution
+    private static String addASolutionStatement =
+	"INSERT INTO Users (courseID, term, number, path) VALUES(?, ?, ?, ?)";
 
-	//assignment feedback
-	//get an assignment's feedback
-	private static String selectAFeedbackStatement =
-			"SELECT * FROM Grade WHERE username=? AND courseID=? AND term=? AND number=?";
+    //remove assignment solution
+    private static String removeASolutionStatement =
+    	"DELETE FROM AssignmentSolutions WHERE courseID=? AND term=? AND number=?";
 
-	//get all feedback
-	private static String selectAllAFeedbackStatement =
-			"SELECT * FROM Grade";
+    //assignment feedback
+    //get an assignment's feedback
+    private static String selectAFeedbackStatement =
+    	"SELECT * FROM Grade WHERE username=? AND courseID=? AND term=? AND number=?";
 
-	//add feedback
-	private static String addAFeedbackStatement =
-			"INSERT INTO Grade (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    //get all feedback
+    private static String selectAllAFeedbackStatement =
+    	"SELECT * FROM Grade";
 
-	//remove feedback
-	private static String removeAFeedbackStatement =
-			"DELETE FROM Grade WHERE username=? AND courseID=? AND term=? and number=?";
+    //add feedback
+    private static String addAFeedbackStatement =
+	"INSERT INTO Grade (username, courseID, term, number, grade, feedbackText, feedbackPath) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-	//assignment submissions
-	//get an assignment ubmission by courseID, term, number, and username
-	private static String selectASubmissionStatement =
-			"SELECT * FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
+    //remove feedback
+    private static String removeAFeedbackStatement =
+    	"DELETE FROM Grade WHERE username=? AND courseID=? AND term=? and number=?";
 
-	//get all submissions
-	private static String selectAllASubmissionStatement =
-			"SELECT * FROM AssignmentSubmissions";
+    //assignment submissions
+    //get an assignment ubmission by courseID, term, number, and username
+    private static String selectASubmissionStatement =
+    	"SELECT * FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
-	//add a submission
-	private static String addASubmissionStatement =
-			"INSERT INTO AssignmentSubmissions (username, courseID, term, number, path, submissionNumber, grade) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    //get all submissions
+    private static String selectAllASubmissionStatement =
+    	"SELECT * FROM AssignmentSubmissions";
 
-	//remove submission
-	private static String removeASubmissionStatement =
-			"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
+    //add a submission
+    private static String addASubmissionStatement =
+	"INSERT INTO AssignmentSubmissions (username, courseID, term, number, path, submissionNumber, grade) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+    //remove submission
+    private static String removeASubmissionStatement =
+    	"DELETE FROM AssignmentSubmissions WHERE username=? AND courseID=? AND term=? AND number=?";
 
 
-	public static final String DB_FILENAME = "CodeCloud.db";
-	public static String DB_URL;
-	public static final int TIMEOUT = 20;
+    public static final String DB_FILENAME = "CodeCloud.db";
+    public static String DB_URL;
+    public static final int TIMEOUT = 20;
 
-	public static void initialize() throws SQLException {
-		//find path to database file
-		try {
-			DB_URL = DBController.searchForDatabaseFile();
-		} catch (FileNotFoundException ex) {
-			System.err.println(ex.getMessage());
-			ex.printStackTrace();
-		}
-	}
+    public static void initialize() throws SQLException {
+        //find path to database file
+    	try {
+    		DB_URL = DBController.searchForDatabaseFile();
+    	} catch (FileNotFoundException ex) {
+    		System.err.println(ex.getMessage());
+    		ex.printStackTrace();
+    	}
+    }
 
 	private static String searchForDatabaseFile() throws FileNotFoundException {
 		FilenameFilter dbFilter = new FilenameFilter() {
@@ -207,11 +203,11 @@ public class DBController {
 	//Users
 	public static User getUser(String userName) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL);
-		PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
+        PreparedStatement stmt = conn.prepareStatement(selectUserStatement);
 		stmt.setQueryTimeout(TIMEOUT);
 		stmt.setString(1, userName);
 		ResultSet rs = stmt.executeQuery();
-		if (rs.first()) {
+		if (rs.next()) {
 			String username = rs.getString("username");
 			String password = rs.getString("password");
 			String firstname = rs.getString("firstname");
@@ -219,6 +215,10 @@ public class DBController {
 			long studentNumber = rs.getLong("studentNumber");
 			return new User(username, password, firstname, lastname, studentNumber);
 		}
+        if (rs != null) rs.close();
+        if (stmt != null) stmt.close();
+        if (conn != null) conn.close();
+        
 		return null;
 	}
 
@@ -565,11 +565,14 @@ public class DBController {
 
 	//For statements that change the state of a table (add/remove data)
 	public static void modifyStatement(String statementType, DBObject[] dbArray) throws SQLException {
-		Connection connection = DriverManager.getConnection(DB_URL);
-		PreparedStatement stmt = connection.prepareStatement(statementType);
+        Connection connection = DriverManager.getConnection(DB_URL);
+        PreparedStatement stmt = connection.prepareStatement(statementType);
 		for (int i = 0; i < dbArray.length; i++){
-			dbArray[i].addToStatement(stmt, i+1);
-		}
+  		    dbArray[i].addToStatement(stmt, i+1);
+	    }
 		stmt.execute();
-	}
+        
+        if (stmt != null) stmt.close();
+        if (connection != null) connection.close();
+  	}
 }
