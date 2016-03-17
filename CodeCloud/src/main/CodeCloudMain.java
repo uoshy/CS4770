@@ -443,6 +443,37 @@ public class CodeCloudMain
 			}
 		}, new JsonTransformer());
 
+		post("/files/savetxt", (request, response) ->
+		{
+			log("so far...");
+			boolean worked = false;
+			String txt = request.body();
+			log("Txt: " + txt);
+			String path = txt.split("\\|")[0];
+			log("Path: " + path);
+			txt = txt.substring(path.length() + 1);
+			response.type("text/plain");
+			File file = new File(path);
+			FileWriter fw = null;
+			try {
+				fw = new FileWriter(file);
+				fw.write(txt);
+				worked = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				worked = false;
+			}
+			finally {
+				if (fw != null){
+					fw.flush();
+					fw.close();
+				}
+			}
+			return ((worked) ? "1" : "0");
+		}, new JsonTransformer());
+
+
 		post("/files/delete", (request, response) ->
 		{
 			String path = request.body();

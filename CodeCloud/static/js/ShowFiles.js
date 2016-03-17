@@ -97,10 +97,6 @@ function showFiles(elementID){
 		}
 		xhr.send(elementID);
 	}
-
-	else {
-		alert("Error: Unknown file type");
-	}
 }
 
 function isRecognizedFileType(endingString){
@@ -112,6 +108,9 @@ function back(){
 	document.getElementById("filesList").style.display = 'inline';
 	document.getElementById("editor").style.display = 'none';
 	document.getElementById("frame").style.display = 'none';
+	document.getElementById("fileChooser").style.display = 'none';
+	document.getElementById("newDirName").style.display = 'none';
+	document.getElementById("menuButton").style.display = 'none';
 
 	var titleRef = document.getElementById('hTitle').innerHTML;
 	if (titleRef === "static/") return;
@@ -259,6 +258,7 @@ function hideFiles(){
 }
 
 function changeMenu(){
+	document.getElementById('editor').style.display = 'none';
 	var menu = document.getElementById("mainMenu");
 	var button_temp = document.getElementById("menuButton");
 	var button = button_temp.cloneNode(true);
@@ -273,6 +273,7 @@ function changeMenu(){
 		case "add":
 			document.getElementById("fileChooser").style.display = 'none';
 			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("newDirName").setAttribute('placeholder', 'New directory name');
 			document.getElementById("menuButton").style.display = 'inline';
 			document.getElementById("menuButton").value = 'Add';
 			document.getElementById("menuButton").addEventListener('click', addDir, false);
@@ -293,9 +294,43 @@ function changeMenu(){
 			document.getElementById("menuButton").value = 'Delete';
 			document.getElementById("menuButton").addEventListener('click', deleteCurrentDir, false);
 			break;
+
+		case "txt":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("filesList").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("newDirName").setAttribute('placeholder', 'File name');
+			document.getElementById('editor').style.display = 'inline';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Save';
+			document.getElementById("menuButton").addEventListener('click', saveTxt, false);
+			break;
 	}
 }
 
+function saveTxt(){
+	var txt = editor.getValue();
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', "/files/savetxt", true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState != 4) return;
+		if (xhr.status == 200 || xhr.status == 400){
+			console.log("Success");
+			var jsonObj = JSON.parse(xhr.responseText);
+			console.log(jsonObj);
+			if (jsonObj === "1"){
+				alert("File saved.");
+			}
+			else{
+				alert("Save failed.");
+			}
+		}
+	}
+	console.log(document.getElementById('hTitle').innerHTML + document.getElementById('newDirName').value + '.txt|' + txt);
+	xhr.send(document.getElementById('hTitle').innerHTML + document.getElementById('newDirName').value + '.txt|' + txt);
+}
 
 
 
