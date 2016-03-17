@@ -253,8 +253,6 @@ function isIframeCompatible(extension){
 }
 
 function hideFiles(){
-	document.getElementById("addDelete").style.display = 'none';
-	document.getElementById("uploadFile").style.display = 'none';
 	document.getElementById("downloadLink").style.display = 'none';
 	document.getElementById("filesList").style.display = 'none';
 }
