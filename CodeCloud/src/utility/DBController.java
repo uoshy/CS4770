@@ -79,6 +79,9 @@ public class DBController {
     private static String selectEnrollmentStatement =
     	"SELECT * FROM Enrollments WHERE username=? AND courseID=? AND term=?";
 
+    private static String selectEnrollmentsForUserStatement = 
+    	"SELECT * FROM Courses C, Enrollments E WHERE E.username=? AND E.courseID = C.courseID AND E.term = C.term AND E.role = ?";
+
     //get a course's instructor
     private static String getInstructorStatement =
     	"SELECT * FROM Enrollments WHERE courseID=? AND term=?";
@@ -297,7 +300,7 @@ public class DBController {
 		stmt.setString(2, courseID);
 		stmt.setString(3, term);
 		ResultSet rs = stmt.executeQuery();
-		if (rs.first()) {
+		if (rs.next()) {
 			String u = rs.getString("username");
 			String c = rs.getString("courseID");
 			String t = rs.getString("term");
@@ -327,13 +330,14 @@ public class DBController {
 		PreparedStatement stmt = conn.prepareStatement(selectEnrollmentsForUserStatement);
 		stmt.setQueryTimeout(TIMEOUT);
 		stmt.setString(1, user.getUsername());
+		stmt.setString(2, user.getActiveRole().toString());
 		ResultSet rs = stmt.executeQuery();
-		
+		System.out.println("REsult set sucessful");
 		Map<String, Course> map = new HashMap<>();
 		while (rs.next()){
-			String cID = rs.getString("courseID");
-			String term = rs.getString("term");
-			String name = rs.getString("name");
+			String cID = rs.getString(1);
+			String term = rs.getString(2);
+			String name = rs.getString(3);
 			map.put(cID + "|" + term, new Course(cID, term, name));
 		}
 		return map;

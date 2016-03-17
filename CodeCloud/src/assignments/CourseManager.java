@@ -1,6 +1,7 @@
 package assignments;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Map;
@@ -103,9 +104,11 @@ public class CourseManager
 			map = DBController.getAllEnrollmentsForUser(user);
 		} catch(SQLException e)
 		{
+			e.printStackTrace();
 			return null;
 		}
 		
+		System.out.println("Total enrollments: " + map.size());
 		Collection<Course> courses = map.values();
 		ArrayList<Course> listCourses = new ArrayList<>(courses);
 		Collections.sort(listCourses, (Course c1, Course c2) -> //sort chronologically
@@ -136,12 +139,12 @@ public class CourseManager
 				sem2 = 2;
 				year2 = Integer.parseInt(term2.substring(4));
 			}
-			else if(term1.indexOf("SPRING") != -1)
+			else if(term2.indexOf("SPRING") != -1)
 			{
 				sem2 = 1;
 				year2 = Integer.parseInt(term2.substring(6));
 			}
-			else if(term1.indexOf("WINTER") != -1)
+			else if(term2.indexOf("WINTER") != -1)
 			{
 				sem2 = 0;
 				year2 = Integer.parseInt(term2.substring(6));
@@ -179,4 +182,22 @@ public class CourseManager
 		
 	}
 	
+	public static boolean isUserAuthorizedWithRole(User user, String courseID, String courseTerm, String role)
+	{
+		try {
+			String[] enroll = DBController.getEnrollment(user.getUsername(), courseID, courseTerm);
+			if(enroll == null)
+				return false;
+			
+			System.out.println(Arrays.toString(enroll));
+			if(enroll[3].equalsIgnoreCase(role))
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 }

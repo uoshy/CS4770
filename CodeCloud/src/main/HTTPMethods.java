@@ -131,17 +131,30 @@ public class HTTPMethods {
             return userRet;
         }, new JsonTransformer());
 
-
         get("/courses/listCourses", (request, response) -> 
         {
+            CodeCloudMain.log("getting courses");
             User user = request.session().attribute("user");
             if(user == null)
             {
                 return null;
             }
-
             return CourseManager.getCoursesForUser(user);
-        });
+        }, new JsonTransformer());
 
-	}
+        before("/courses/course.html", (request, response) -> 
+        {
+            User user = request.session().attribute("user");
+            if(user == null)
+                response.redirect("/login.html");
+            else
+            {
+                String courseID = request.queryParams("courseID");
+                String courseTerm = request.queryParams("courseTerm");
+                String role = request.queryParams("role");
+                if(!CourseManager.isUserAuthorizedWithRole(user, courseID, courseTerm, role))
+                    response.redirect("/login.html");
+            }
+        });
+    }
 }

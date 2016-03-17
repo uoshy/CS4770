@@ -1,7 +1,7 @@
 
 (function fillSidebar() {	
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', 'sidebar.html');
+	xhr.open('GET', '/sidebar.html');
 	xhr.onreadystatechange = function() {
 		console.log(xhr.readyState);
         if(xhr.readyState != 4) return;
@@ -23,7 +23,7 @@ var STUDENT = 2;
 
 function getUserDetails() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', "users/activeUser", true);
+    xhr.open('GET', "/users/activeUser", true);
     xhr.onreadystatechange = function() {
         if(xhr.readyState != 4) return;
         if(xhr.status == 200 || xhr.status == 400)
@@ -63,17 +63,20 @@ function changeUserRole(evt) {
     console.log("change user role!");
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', "users/changeRole", true);
+    xhr.open('POST', "/users/changeRole", true);
     xhr.onreadystatechange = function() {
         if(xhr.readyState != 4) return;
         if(xhr.status == 200 || xhr.status == 400)
         {
+            var jsonObj = JSON.parse(xhr.responseText);
             console.log('response: ' + xhr.responseText);
-            if(xhr.responseText == 0) //it worked
-            {
-                var select = document.getElementById('sidebarRoleSelect');
-                document.getElementById("sidebarActiveRole").innerHTML = select.value;
-            }
+            var activeRoleSpan = document.getElementById('sidebarActiveRole');
+            if(jsonObj.activeRole === INSTRUCTOR)
+                activeRoleSpan.innerHTML = "Instructor";
+            else if(jsonObj.activeRole === MARKER)       
+                activeRoleSpan.innerHTML = "Marker";
+            else if(jsonObj.activeRole === STUDENT)
+                activeRoleSpan.innerHTML = "Student";
         }
     }
 
