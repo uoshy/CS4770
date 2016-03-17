@@ -1,5 +1,9 @@
 function showFiles(elementID){
 	//Does not expect a "/" on elementID input
+	document.getElementById("mainMenu").value = "";
+	document.getElementById("fileChooser").style.display = 'none';
+	document.getElementById("newDirName").style.display = 'none';
+	document.getElementById("menuButton").style.display = 'none';
 	document.getElementById("newDirName").value = "";
 	if (elementID.charAt(elementID.length - 1) == '/'){
 		elementID = elementID.substring(0, elementID.length - 1);
@@ -104,9 +108,6 @@ function isRecognizedFileType(endingString){
 }
 
 function back(){
-	document.getElementById("addDelete").style.display = 'inline';
-	document.getElementById("uploadFile").style.display = 'inline';
-	document.getElementById("downloadLink").style.display = 'inline';
 	document.getElementById("filesList").style.display = 'inline';
 	document.getElementById("editor").style.display = 'none';
 	document.getElementById("frame").style.display = 'none';
@@ -132,6 +133,7 @@ function init(){
 	document.getElementById('hTitle').innerHTML = username;
 	document.getElementById('editor').style.display = 'none';
 	document.getElementById('frame').style.display = 'none';
+	changeMenu();
 	showFiles("static");
 }
 
@@ -174,6 +176,7 @@ function addDir(){
 			var list = document.getElementById("filesList");
 			var li = document.createElement('li');
 			var a = document.createElement('a');
+			var space = document.createTextNode('\u00A0\u00A0\u00A0');
 			var button = document.createElement('input');
 			a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
 			a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
@@ -182,6 +185,7 @@ function addDir(){
 			button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
 			li.appendChild(img);
 			li.appendChild(a);
+			li.appendChild(space);
 			li.appendChild(button);
 			list.insertBefore(li, list.firstChild);
 		}
@@ -253,6 +257,44 @@ function hideFiles(){
 	document.getElementById("uploadFile").style.display = 'none';
 	document.getElementById("downloadLink").style.display = 'none';
 	document.getElementById("filesList").style.display = 'none';
+}
+
+function changeMenu(){
+	var menu = document.getElementById("mainMenu");
+	var button_temp = document.getElementById("menuButton");
+	var button = button_temp.cloneNode(true);
+	button_temp.parentNode.replaceChild(button, button_temp);
+	switch (menu.options[menu.selectedIndex].value){
+		case "":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'none';
+			break;
+
+		case "add":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Add';
+			document.getElementById("menuButton").addEventListener('click', addDir, false);
+			break;
+
+		case "upload":
+			document.getElementById("fileChooser").style.display = 'inline';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Upload';
+			document.getElementById("menuButton").addEventListener('click', upload, false);
+			break;
+
+		case "delete":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Delete';
+			document.getElementById("menuButton").addEventListener('click', deleteCurrentDir, false);
+			break;
+	}
 }
 
 

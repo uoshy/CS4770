@@ -432,14 +432,14 @@ public class CodeCloudMain
 			response.type("text/plain");
 //			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
 			File file = new File(path);
-			if (file.exists()) return "0";
+			//if (file.exists()) return "0";
 			try {
 				file.mkdir();
 				return "1";
 			}
 			catch (SecurityException ex){
 				ex.printStackTrace();
-				return "0";
+				return "2";
 			}
 		}, new JsonTransformer());
 

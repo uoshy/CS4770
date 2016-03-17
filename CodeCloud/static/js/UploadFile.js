@@ -1,5 +1,6 @@
 function upload() {
-	var file = document.getElementById('filename');
+	var file = document.getElementById('fileChooser');
+	if (typeof file.files[0] === 'undefined') return;
 	var form = new FormData();
 	console.log(file.files[0]);
 	console.log(document.getElementById('hTitle').innerHTML + file.files[0].name);
@@ -25,6 +26,12 @@ function upload() {
 				path = path.substring(0, path.length - 1)
 				//"Refresh" the page so the added file/directory is visible to the user
 				showFiles(path);
+			}
+			else if (xhr.responseText === "0"){
+				//alert("File aready exists");
+			}
+			else if (xhr.responseText === "2"){
+				alert("Authorization failure");
 			}
 			else {
 				alert("Upload failed");
