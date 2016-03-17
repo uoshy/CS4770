@@ -17,6 +17,7 @@ import users.Role;
 import users.UserManager;
 
 import assignments.CourseManager;
+import assignments.Course;
 
 import json.UserReturn;
 
@@ -146,15 +147,31 @@ public class HTTPMethods {
         {
             User user = request.session().attribute("user");
             if(user == null)
+            {    CodeCloudMain.log("User was null!");
                 response.redirect("/login.html");
+            }
             else
             {
                 String courseID = request.queryParams("courseID");
                 String courseTerm = request.queryParams("courseTerm");
                 String role = request.queryParams("role");
+                System.out.println("CourseID: " + courseID + " courseTerm: " + courseTerm + "Role: " + role);
+                CodeCloudMain.log("Authorizing...");
                 if(!CourseManager.isUserAuthorizedWithRole(user, courseID, courseTerm, role))
                     response.redirect("/login.html");
             }
+        });
+
+        get("/courses/courseName/:courseID/:courseTerm", (request, response) ->
+        {
+            CodeCloudMain.log("Getting course name!");
+            String courseID = request.params(":courseID");
+            String courseTerm = request.params(":courseTerm");
+            Course course = CourseManager.getCourse(courseID, courseTerm);
+            if(course != null)
+                return course.getName();
+            else
+                return null;
         });
     }
 }

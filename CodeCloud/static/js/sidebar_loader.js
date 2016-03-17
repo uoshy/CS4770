@@ -23,7 +23,7 @@ var STUDENT = 2;
 
 function getUserDetails() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', "/users/activeUser", true);
+    xhr.open('GET', "/users/activeUser", false);
     xhr.onreadystatechange = function() {
         if(xhr.readyState != 4) return;
         if(xhr.status == 200 || xhr.status == 400)

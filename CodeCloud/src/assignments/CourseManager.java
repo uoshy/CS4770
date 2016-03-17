@@ -200,4 +200,17 @@ public class CourseManager
 		}
 		
 	}
+	
+	public static Course getCourse(String courseID, String term)
+	{
+		try
+		{
+			return DBController.getCourse(courseID, term);
+		} 
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -12,9 +12,7 @@ function getAllCourses() {
     		var response = JSON.parse(xhr.responseText);
 
             var activeRoleSpan = document.getElementById('sidebarActiveRole');
-
     		var coursesList = document.getElementById("courses-list");
-    		console.log(response);
     		var prevTerm = "FOOBAR06";
     		var currentTermUL;
     		for(var i = response.courseNames.length-1; i >= 0; i--) //reverse chronological
@@ -27,11 +25,12 @@ function getAllCourses() {
     				var currentTermUL = document.createElement("UL");
     				currentTermLI.appendChild(currentTermUL);
     			}
-
     			var courseLI = document.createElement("li");
     			if(response.courseIsActive[i])
-	    			courseLI.innerHTML = "<a href=/courses/course.html?courseTerm=" + response.courseTerms[i] + "&courseID=" + response.courseIDs[i] + "&role=" + activeRoleSpan.innerHTML + ">"
-	    									+ response.courseIDs[i] + ": " + response.courseNames[i]+"</a>";
+	    			courseLI.innerHTML = "<a href=/courses/course.html?courseTerm=" + response.courseTerms[i] + 
+                                                    "&courseID=" + response.courseIDs[i] + 
+                                                    "&role=" + activeRoleSpan.innerHTML + ">"
+	    									        + response.courseIDs[i] + ": " + response.courseNames[i]+"</a>";
 	    		else
     				courseLI.innerHTML = response.courseIDs[i] + ": " + response.courseNames[i];
     			currentTermUL.appendChild(courseLI);
@@ -44,6 +43,15 @@ function getAllCourses() {
 
 }
 
+function initCoursePage()
+{
+    var courseID = getQueryVariable("courseID");
+    var courseTerm = getQueryVariable("courseTerm");
+    var courseName = getQueryVariable("courseName");
+    document.getElementById("courseHeader").innerHTML = courseID + " " + courseName;
+    getCourseTitle(courseID, courseTerm);
+}
+
 function getQueryVariable(variable)
 {
    var query = window.location.search.substring(1);
@@ -53,4 +61,19 @@ function getQueryVariable(variable)
            if(pair[0] == variable){return pair[1];}
    }
    return(false);
+}
+
+function getCourseTitle(courseID, courseTerm)
+{
+    var xhr = new XMLHttpRequest();
+                    // /courses/courseName/:courseID/:courseTerm
+    xhr.open('GET', '/courses/courseName/'+courseID +'/' + courseTerm, 'true');
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400)
+        {
+            document.getElementById("courseHeader").innerHTML = courseID + ": " + xhr.responseText;
+        }
+    }
+    xhr.send();
 }

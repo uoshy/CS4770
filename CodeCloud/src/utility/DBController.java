@@ -60,7 +60,7 @@ public class DBController {
     //courses
     //get a course by courseID and term
     private static String selectCourseStatement =
-    	"SELECT * FROM Users WHERE username=? AND term=?";
+    	"SELECT * FROM Courses WHERE courseID=? AND term=?";
 
     //get all courses
     private static String selectAllCoursesStatement =
@@ -258,12 +258,17 @@ public class DBController {
 		stmt.setString(1, courseID);
 		stmt.setString(2, term);
 		ResultSet rs = stmt.executeQuery();
-		if (rs.first()) {
+		
+		System.out.println("courseID: " + courseID);
+		System.out.println("term: " + term);
+		//COMP4770-001|WINTER16|
+		if (rs.next()) {
 			String cID = rs.getString("courseID");
 			String t = rs.getString("term");
 			String n = rs.getString("name");
 			return new Course(cID, t, n);
 		}
+		System.out.println("Returning null...");
 		return null;
 	}
 
