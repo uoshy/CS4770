@@ -27,6 +27,7 @@ function showFiles(elementID){
 				list.innerHTML = "";
 				for (var i = 0; i < jsonObj.fileObjs.length; i++){
 					var img = document.createElement("img");
+					var a = document.createElement('a');
 					img.setAttribute('alt', jsonObj.fileObjs[i].fileName);
 					img.setAttribute('width', 75);
 					img.setAttribute('height', 75);
@@ -35,6 +36,7 @@ function showFiles(elementID){
 						img.setAttribute('class', 'folder');
 						img.setAttribute('width', 75);
 						img.setAttribute('height', 75);
+						a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 					}
 					else {
 						img.setAttribute('src', './img/fileImage.png');
@@ -43,13 +45,12 @@ function showFiles(elementID){
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
 						img.setAttribute('vSpace', 25);
+						a.setAttribute('href', jsonObj.fileObjs[i].fileName);
 					}
 					var li = document.createElement('li');
-					var a = document.createElement('a');
 					var space = document.createTextNode('\u00A0\u00A0\u00A0');
 					var button = document.createElement('input');
 
-					a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 					a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
 
 					button.setAttribute('type', 'button');
