@@ -463,16 +463,47 @@ public class CodeCloudMain
 			response.type("text/plain");
 //			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
 			File file = new File(path);
-			if (file.exists()) return "0";
+			//if (file.exists()) return "0";
 			try {
 				file.mkdir();
 				return "1";
 			}
 			catch (SecurityException ex){
 				ex.printStackTrace();
-				return "0";
+				return "2";
 			}
 		}, new JsonTransformer());
+
+		post("/files/savetxt", (request, response) ->
+		{
+			log("so far...");
+			boolean worked = false;
+			String txt = request.body();
+			log("Txt: " + txt);
+			String path = txt.split("\\|")[0];
+			log("Path: " + path);
+			txt = txt.substring(path.length() + 1);
+			response.type("text/plain");
+			File file = new File(path);
+			FileWriter fw = null;
+			try {
+				fw = new FileWriter(file);
+				fw.write(txt);
+				worked = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				worked = false;
+			}
+			finally {
+				if (fw != null){
+					fw.flush();
+					fw.close();
+				}
+			}
+			return ((worked) ? "1" : "0");
+		}, new JsonTransformer());
+
 
 		post("/files/delete", (request, response) ->
 		{

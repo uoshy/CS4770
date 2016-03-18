@@ -1,5 +1,9 @@
 function showFiles(elementID){
 	//Does not expect a "/" on elementID input
+	document.getElementById("mainMenu").value = "";
+	document.getElementById("fileChooser").style.display = 'none';
+	document.getElementById("newDirName").style.display = 'none';
+	document.getElementById("menuButton").style.display = 'none';
 	document.getElementById("newDirName").value = "";
 	if (elementID.charAt(elementID.length - 1) == '/'){
 		elementID = elementID.substring(0, elementID.length - 1);
@@ -23,6 +27,7 @@ function showFiles(elementID){
 				list.innerHTML = "";
 				for (var i = 0; i < jsonObj.fileObjs.length; i++){
 					var img = document.createElement("img");
+					var a = document.createElement('a');
 					img.setAttribute('alt', jsonObj.fileObjs[i].fileName);
 					img.setAttribute('width', 75);
 					img.setAttribute('height', 75);
@@ -31,6 +36,7 @@ function showFiles(elementID){
 						img.setAttribute('class', 'folder');
 						img.setAttribute('width', 75);
 						img.setAttribute('height', 75);
+						a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 					}
 					else {
 						img.setAttribute('src', './img/fileImage.png');
@@ -39,13 +45,12 @@ function showFiles(elementID){
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
 						img.setAttribute('vSpace', 25);
+						a.setAttribute('href', jsonObj.fileObjs[i].fileName);
 					}
 					var li = document.createElement('li');
-					var a = document.createElement('a');
 					var space = document.createTextNode('\u00A0\u00A0\u00A0');
 					var button = document.createElement('input');
 
-					a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 					a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
 
 					button.setAttribute('type', 'button');
@@ -92,10 +97,6 @@ function showFiles(elementID){
 		}
 		xhr.send(elementID);
 	}
-
-	else {
-		alert("Error: Unknown file type");
-	}
 }
 
 function isRecognizedFileType(endingString){
@@ -104,12 +105,12 @@ function isRecognizedFileType(endingString){
 }
 
 function back(){
-	document.getElementById("addDelete").style.display = 'inline';
-	document.getElementById("uploadFile").style.display = 'inline';
-	document.getElementById("downloadLink").style.display = 'inline';
 	document.getElementById("filesList").style.display = 'inline';
 	document.getElementById("editor").style.display = 'none';
 	document.getElementById("frame").style.display = 'none';
+	document.getElementById("fileChooser").style.display = 'none';
+	document.getElementById("newDirName").style.display = 'none';
+	document.getElementById("menuButton").style.display = 'none';
 
 	var titleRef = document.getElementById('hTitle').innerHTML;
 	if (titleRef === "static/") return;
@@ -132,6 +133,7 @@ function init(){
 	document.getElementById('hTitle').innerHTML = username;
 	document.getElementById('editor').style.display = 'none';
 	document.getElementById('frame').style.display = 'none';
+	changeMenu();
 	showFiles("static");
 }
 
@@ -174,6 +176,7 @@ function addDir(){
 			var list = document.getElementById("filesList");
 			var li = document.createElement('li');
 			var a = document.createElement('a');
+			var space = document.createTextNode('\u00A0\u00A0\u00A0');
 			var button = document.createElement('input');
 			a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
 			a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
@@ -182,6 +185,7 @@ function addDir(){
 			button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
 			li.appendChild(img);
 			li.appendChild(a);
+			li.appendChild(space);
 			li.appendChild(button);
 			list.insertBefore(li, list.firstChild);
 		}
@@ -249,12 +253,84 @@ function isIframeCompatible(extension){
 }
 
 function hideFiles(){
-	document.getElementById("addDelete").style.display = 'none';
-	document.getElementById("uploadFile").style.display = 'none';
 	document.getElementById("downloadLink").style.display = 'none';
 	document.getElementById("filesList").style.display = 'none';
 }
 
+function changeMenu(){
+	document.getElementById('editor').style.display = 'none';
+	var menu = document.getElementById("mainMenu");
+	var button_temp = document.getElementById("menuButton");
+	var button = button_temp.cloneNode(true);
+	button_temp.parentNode.replaceChild(button, button_temp);
+	switch (menu.options[menu.selectedIndex].value){
+		case "":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'none';
+			break;
+
+		case "add":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("newDirName").setAttribute('placeholder', 'New directory name');
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Add';
+			document.getElementById("menuButton").addEventListener('click', addDir, false);
+			break;
+
+		case "upload":
+			document.getElementById("fileChooser").style.display = 'inline';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Upload';
+			document.getElementById("menuButton").addEventListener('click', upload, false);
+			break;
+
+		case "delete":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Delete';
+			document.getElementById("menuButton").addEventListener('click', deleteCurrentDir, false);
+			break;
+
+		case "txt":
+			document.getElementById("fileChooser").style.display = 'none';
+			document.getElementById("filesList").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("newDirName").setAttribute('placeholder', 'File name');
+			document.getElementById('editor').style.display = 'inline';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = 'Save';
+			document.getElementById("menuButton").addEventListener('click', saveTxt, false);
+			break;
+	}
+}
+
+function saveTxt(){
+	var txt = editor.getValue();
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', "/files/savetxt", true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState != 4) return;
+		if (xhr.status == 200 || xhr.status == 400){
+			console.log("Success");
+			var jsonObj = JSON.parse(xhr.responseText);
+			console.log(jsonObj);
+			if (jsonObj === "1"){
+				alert("File saved.");
+			}
+			else{
+				alert("Save failed.");
+			}
+		}
+	}
+	console.log(document.getElementById('hTitle').innerHTML + document.getElementById('newDirName').value + '.txt|' + txt);
+	xhr.send(document.getElementById('hTitle').innerHTML + document.getElementById('newDirName').value + '.txt|' + txt);
+}
 
 
 
