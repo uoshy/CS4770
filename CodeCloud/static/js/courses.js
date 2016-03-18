@@ -152,6 +152,7 @@ function showFiles(elementID){
         elementID = elementID.substring(0, elementID.length - 1);
     }
     var pathParts = elementID.split('/');
+    
     if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
         var xhr = new XMLHttpRequest();
         xhr.open('POST', "/files/view", true);
@@ -162,6 +163,7 @@ function showFiles(elementID){
                 console.log("Header on XML response: " + document.getElementById("hTitle").innerHTML);
                 document.getElementById("hTitle").innerHTML = elementID + "/";
                 var jsonObj = JSON.parse(xhr.responseText);
+                console.log(jsonObj);
                 if (jsonObj == "authFail" || jsonObj[0] == "authFail" || typeof jsonObj == 'undefined'){
                     console.log("Authorization failure");
                     return;
@@ -173,11 +175,16 @@ function showFiles(elementID){
                     img.setAttribute('alt', jsonObj.fileObjs[i].fileName);
                     img.setAttribute('width', 75);
                     img.setAttribute('height', 75);
+
+                    var a = document.createElement('a');
+
                     if (jsonObj.fileObjs[i].isDirectory){
                         img.setAttribute('src', '/img/folderImage.png');
                         img.setAttribute('class', 'folder');
                         img.setAttribute('width', 75);
                         img.setAttribute('height', 75);
+                        a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
+
                     }
                     else {
                         img.setAttribute('src', '/img/fileImage.png');
@@ -186,12 +193,17 @@ function showFiles(elementID){
                         img.setAttribute('width', 25);
                         img.setAttribute('height', 25);
                         img.setAttribute('vSpace', 25);
+                        var filePath = document.getElementById("hTitle").innerHTML;
+                        var index = filePath.indexOf("static");
+                        filePath = filePath.substring(index + 6);
+                        filePath = filePath + jsonObj.fileObjs[i].fileName;
+
+                        a.setAttribute('href', filePath);
+
                     }
                     var li = document.createElement('li');
-                    var a = document.createElement('a');
                     var space = document.createTextNode('\u00A0\u00A0\u00A0');
 
-                    a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
                     a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
 
                     li.appendChild(img);
