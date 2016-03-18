@@ -62,7 +62,7 @@ public class FileManager
 	 * @param file the UserFile being accessed
 	 * @return true iff the User is authorized to view the UserFile
 	 */
-	public boolean authorize(User user, UserFile file)
+	public static boolean authorize(User user, UserFile file)
 	{
 		boolean auth = false;
 		String pathString = file.getPath();
@@ -70,9 +70,17 @@ public class FileManager
 			pathString = pathString.substring(1);
 		}
 		String[] path = pathString.split("/");
-
+		if (path[0].equals("static")){
+			pathString = "";
+			for (int i = 1; i < path.length; i++){
+				pathString += path[i] + "/";
+			}
+			path = pathString.split("/");
+		}
+		System.out.println("PathString: " + pathString);
 		if (path.length >= 2){
 			if (path[0].equals("users")){
+				System.out.println("Users");
 				if (path[1].equals(user.getUsername())) auth = true;
 			}
 

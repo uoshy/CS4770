@@ -30,7 +30,8 @@ public class UserFile {
     }
 
     public UserFile(String path){
-	String[] pathParts = path.split("/");
+	//String[] pathParts = path.split("/");
+	this.path = path;
     }
     
     /**
