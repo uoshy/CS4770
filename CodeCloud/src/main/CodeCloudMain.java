@@ -437,13 +437,15 @@ public class CodeCloudMain
 		{
 			log(((User) request.session().attribute("user")).getUsername());
 			String path = request.body();
+			log(path);
 			// For when DBController behaves predictably
 //			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))) return "authFail";
 			response.type("application/json");
 			File file = new File(path);
 			if (file.exists()){
 				File[] files = file.listFiles();
-				Arrays.sort(files);
+				if(files.length > 1) 
+					Arrays.sort(files);
 				JSONFileList fl = new JSONFileList(files.length);
 				for (int i = 0; i < files.length; i++){
 					fl.fileObjs[i].fileName = files[i].getName();

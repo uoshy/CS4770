@@ -77,6 +77,8 @@ function changeUserRole(evt) {
                 activeRoleSpan.innerHTML = "Marker";
             else if(jsonObj.activeRole === STUDENT)
                 activeRoleSpan.innerHTML = "Student";
+
+            location.reload();
         }
     }
 

@@ -1,5 +1,6 @@
 package assignments;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import users.User;
 import json.EnrollmentListReturn;
 import utility.DBController;
+import assignments.Assignment;
 
 /**
  * A set of utility functions to help deal with Courses.
@@ -212,5 +214,36 @@ public class CourseManager
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static final String coursesPath = "static/courses/";
+	
+	public static void addAssignmentToCourse(String courseID, String term, int submissionLimit)
+	{
+		try {
+			int maxAssignNumber = DBController.getMaxAssignmentNumberNumber(courseID, term);
+			System.out.println("max assign number: " + maxAssignNumber);
+			String path = coursesPath + term +  "/" + courseID;
+			path += "/assignments/Assignment" + (maxAssignNumber+1);
+			File file = new File(path);
+			if (file.exists()) 
+				return;
+			try {
+				file.mkdir();
+				File tests = new File(path + "/tests");
+				tests.mkdir();
+				String assignName = "Assignment " + (maxAssignNumber + 1);
+				System.out.println(path);
+				DBController.addAssignment(courseID, term, maxAssignNumber+1, assignName, path, path + "/tests", submissionLimit);
+			}
+			catch (SecurityException ex){
+				System.out.println("\n\nSecurity Exception!\n\n");
+				ex.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

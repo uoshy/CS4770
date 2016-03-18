@@ -14,6 +14,10 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
 
 var input = document.getElementById("select");
 function selectTheme() {
+    if(input == null)
+        return;
+    if(input.selectedIndex == -1)
+        input.selectedIndex = 12;
     var theme = input.options[input.selectedIndex].textContent;
     editor.setOption("theme", theme);
     location.hash = "#" + theme;

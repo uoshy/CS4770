@@ -132,6 +132,16 @@ public class HTTPMethods {
             return userRet;
         }, new JsonTransformer());
 
+        before("/courses/*", (request, response) -> 
+        {
+            User user = request.session().attribute("user");
+            if(user == null)
+            {
+                response.redirect("/login.html");
+                return;
+            }
+        });
+
         get("/courses/listCourses", (request, response) -> 
         {
             CodeCloudMain.log("getting courses");
@@ -172,6 +182,23 @@ public class HTTPMethods {
                 return course.getName();
             else
                 return null;
+        });
+
+        post("/courses/addAssignment/:courseID/:courseTerm", (request, response) ->
+        {
+            String body = request.body();
+            CodeCloudMain.log("body: " + body);
+            try{
+                int submissionNumber = Integer.parseInt(body);
+                String courseID = request.params(":courseID");
+                String courseTerm = request.params(":courseTerm");
+                CourseManager.addAssignmentToCourse(courseID, courseTerm, submissionNumber);
+                return 0;
+            } catch(NumberFormatException nfe)
+            {
+                CodeCloudMain.log("Error parsing submission limit");
+                return null;
+            }
         });
     }
 }

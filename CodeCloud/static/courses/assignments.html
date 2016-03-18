@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Course View</title>
+    <title>Course | Assignments</title>
     <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
-	<link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-sidebar.css" rel="stylesheet">
-	<link href="../css/simple-page.css" rel="stylesheet">
+    <link href="../css/simple-page.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../codemirror-5.12/theme/3024-day.css">
     <link rel="stylesheet" href="../codemirror-5.12/theme/3024-night.css">
@@ -70,11 +70,11 @@
 
 
     <link href="../css/course.css" rel="stylesheet">
-	<script src="../js/courses.js"></script>
+    <script src="../js/courses.js"></script>
     <script src="../js/UploadFile.js"></script>
     <link rel="stylesheet" href="../css/console.css">
 </head>  
-<body  onload="initCoursePage();">
+<body  onload="initAssignmentsPage();">
     <nav class="navbar navbar-default no-margin">
     <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header fixed-brand">
@@ -96,26 +96,28 @@
             <div id="sidebarHolderDiv">
 
             </div>
-		    <script src="../js/sidebar_loader.js"></script>  
+            <script src="../js/sidebar_loader.js"></script>  
         </div><!-- /#sidebar-wrapper -->
         <!-- ------------------Page Content--------------------- -->
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-						<div id="fixed-wrapper">
-						<div id="courses">
-							<h1 id="courseHeader"></h1><hr>
-                            <a href="/courses/assignments.html" id="assignmentsLink"><h3>Assignments</h3></a>
+                        <div id="fixed-wrapper">
+                        <div id="courses">
+                            <h1 id="courseHeader"></h1><hr>
+                            <a href="/courses/course.html" id="courseContentLink"><h3>Course Content</h3></a>
                             <hr>
                             <div id="files" class="toggle">
-                            <h3>Course Content</h3><br>
+                            <h3>Assignments</h3><br>
                             <h4 id="hTitle">/users</h1><br>
                             <div id="uploadControls" style="display: none;">
                                 <form id="addDelete">
-                                <input type="text" placeholder="New directory name" id="newDirName">
-                                <input type="button" value="Add directory" onclick="addDir()">
-                                <input type="button" value="Delete current directory" onclick="deleteCurrentDir()" id="delButton">
+                                <input type="hidden" placeholder="New directory name" id="newDirName">
+
+                                <input type="text" placeholder="Submission Limit" id="submissionLimitInput">
+                                <input type="button" value="Add New Assignment" onclick="addAssignment()">
+                                <!-- <input type="button" value="Delete current directory" onclick="deleteCurrentDir()" id="delButton"> -->
                                 </form><br>
                                 <form id="uploadFile">
                                 <input type="file" name="fileToUpload" enctype="multipart/form-type" id="filename"><br>
@@ -193,7 +195,7 @@
 
                         </div> <!-- files div -->
 
-						</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ function upload() {
 	}
 
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', "files/upload/" + newPath, true);
+	xhr.open('POST', "/files/upload/" + newPath, true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState != 4) return;
 		if (xhr.status == 200 || xhr.status == 400){
