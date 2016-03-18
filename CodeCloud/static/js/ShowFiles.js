@@ -65,7 +65,9 @@ function showFiles(elementID){
 				}
 			}
 		}
+		console.log(elementID);
 		xhr.send(elementID);
+		getUsername();
 	}
 	else if (isIframeCompatible(pathParts[pathParts.length - 1])){
 		console.log("Opening a document in iframe...");
@@ -129,12 +131,13 @@ function back(){
 }
 
 function init(){
-	var username = "";//TODO: Get username
+	var username = getUsername();
+	console.log("Init username: " + username);
 	document.getElementById('hTitle').innerHTML = username;
 	document.getElementById('editor').style.display = 'none';
 	document.getElementById('frame').style.display = 'none';
 	changeMenu();
-	showFiles("static");
+	showFiles("static/users/" + username);
 }
 
 function addDir(){
@@ -331,18 +334,19 @@ function saveTxt(){
 	xhr.send(document.getElementById('hTitle').innerHTML + document.getElementById('newDirName').value + '.txt|' + txt);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function getUsername(){
+    var xhr = new XMLHttpRequest();
+	var username;
+    xhr.open('GET', "/users/activeUser", false);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400)
+        {
+		var jsonObj = JSON.parse(xhr.responseText);
+		console.log(jsonObj["username"]);
+		username = jsonObj["username"];
+	}
+    }
+    xhr.send();
+	return username;
+}

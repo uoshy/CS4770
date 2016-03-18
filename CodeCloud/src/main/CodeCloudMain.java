@@ -46,6 +46,7 @@ import json.ExecutionReturn;
 import json.RegisterInput;
 import json.LoginInput;
 
+import files.FileManager;
 import files.UserFile;
 import main.JSONFileList;
 import main.JSONFileList.JSONFileObject;
@@ -171,13 +172,13 @@ public class CodeCloudMain
 				Gson gson = new Gson();
 				regInput = gson.fromJson(body, RegisterInput.class);
                 
-                // username already exists, registering failed
-                if(dbCon.getUser(regInput.username) != null) {
-                    // (this should be prevented by javascript/AJAX on the
-                    // register page anyway, but just in case...)
-                    log("username exists, register failed");
-                    return "Username already exsists! Please choose another.";
-                }
+            		    // username already exists, registering failed
+            		    if(dbCon.getUser(regInput.username) != null) {
+            		        // (this should be prevented by javascript/AJAX on the
+            		        // register page anyway, but just in case...)
+            		        log("username exists, register failed");
+            		        return "Username already exsists! Please choose another.";
+            		    }
 
 				/*Session session = request.session(true);
 				if ( session == null ) {
@@ -186,9 +187,11 @@ public class CodeCloudMain
 
 				long studentNumber = Long.parseLong(regInput.studentNum);
 				User user = new User(regInput.username, regInput.password, regInput.firstName, regInput.lastName, studentNumber);
-                dbCon.addUser(user);
+             			dbCon.addUser(user);
+				File file = new File("static/users/" + regInput.username);
+				file.mkdir();
 				//session.attribute("user", user);
-                log("User Registered! Username: "+user.getUsername());
+        		        log("User Registered! Username: "+user.getUsername());
 				return "";
 			}
 			catch (JsonParseException | NumberFormatException ex)
@@ -261,6 +264,7 @@ public class CodeCloudMain
 				if(!dir.exists())
 					dir.mkdir();
 				File file = new File("static/temp/" + input.fileName + ".java");
+
 				if(!file.exists())
 					file.createNewFile();
 				BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -415,10 +419,7 @@ public class CodeCloudMain
 			}
 			Part file = request.raw().getPart("file");
 			String filename = file.getSubmittedFileName();
-			UserFile uDir = new UserFile(null, filename);
-			//UserFile uDir = new UserFile(DBController.getUser(request.session.attribute("user")), filename);
-			//if (! FileManager.authorize(DBController.getUser(request.session.attribute("user"), uDir)) return "0";
-			//Overkill? Boolean should always evaluate to false.
+			UserFile uDir = new UserFile(DBController.getUser(request.session().attribute("user")), filename);
 			try (final InputStream in = file.getInputStream()) {
 				//TODO: Insert actual path to user's file directory
 				Files.copy(in, Paths.get(dirPath + filename), StandardCopyOption.REPLACE_EXISTING);
@@ -437,9 +438,8 @@ public class CodeCloudMain
 		{
 			log(((User) request.session().attribute("user")).getUsername());
 			String path = request.body();
-			log(path);
-			// For when DBController behaves predictably
-//			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))) return "authFail";
+			log("Path: " + path);
+			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))) return "authFail";
 			response.type("application/json");
 			File file = new File(path);
 			if (file.exists()){
@@ -461,9 +461,9 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
-//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
+			if (!FileManager.authorize(request.session().attribute("user"), new UserFile(request.session().attribute("user"), path))) return "0";
 			File file = new File(path);
-			//if (file.exists()) return "0";
+			if (file.exists()) return "0";
 			try {
 				file.mkdir();
 				return "1";
@@ -509,7 +509,7 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
-//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "0";
+			if (!FileManager.authorize(request.session().attribute("user"), new UserFile(request.session().attribute("user"), path))) return "0";
 			File file = new File(path);
 			try {
 				delete(file);
