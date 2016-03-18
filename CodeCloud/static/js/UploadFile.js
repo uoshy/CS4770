@@ -19,11 +19,8 @@ function upload() {
 		if (xhr.status == 200 || xhr.status == 400){
 			console.log(xhr.responseText);
 			if (xhr.responseText.length > 1){
-				var link = document.getElementById("downloadLink");
-				link.href = xhr.responseText;
-				link.innerHTML = "Download here";
 				var path = document.getElementById('hTitle').innerHTML;
-				path = path.substring(0, path.length - 1)
+				path = path.substring(0, path.length - 1);
 				//"Refresh" the page so the added file/directory is visible to the user
 				showFiles(path);
 			}

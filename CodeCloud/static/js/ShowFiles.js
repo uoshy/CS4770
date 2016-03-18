@@ -253,7 +253,6 @@ function isIframeCompatible(extension){
 }
 
 function hideFiles(){
-	document.getElementById("downloadLink").style.display = 'none';
 	document.getElementById("filesList").style.display = 'none';
 }
 
