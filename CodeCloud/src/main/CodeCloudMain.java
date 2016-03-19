@@ -30,6 +30,7 @@ import com.google.gson.JsonParseException;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
@@ -419,11 +420,15 @@ public class CodeCloudMain
 			}
 			Part file = request.raw().getPart("file");
 			String filename = file.getSubmittedFileName();
-			UserFile uDir = new UserFile(DBController.getUser(request.session().attribute("user")), filename);
+			User tempUser = request.session().attribute("user");
+			UserFile uDir = new UserFile(tempUser, filename);
 			try (final InputStream in = file.getInputStream()) {
 				//TODO: Insert actual path to user's file directory
 				Files.copy(in, Paths.get(dirPath + filename), StandardCopyOption.REPLACE_EXISTING);
 				file.delete();
+			}
+			catch (FileAlreadyExistsException faes){
+				return "0";
 			}
 			catch (Exception e){
 				e.printStackTrace();
@@ -436,14 +441,15 @@ public class CodeCloudMain
 
 		post("/files/view", (request, response) ->
 		{
-			log(((User) request.session().attribute("user")).getUsername());
+			log(((User) request.session().attribute("user")).getUsername());;
 			String path = request.body();
 			log("Path: " + path);
 			if (!FileManager.authorize(((User) request.session().attribute("user")), new UserFile(path))) return "authFail";
 			response.type("application/json");
 			File file = new File(path);
 			if (file.exists()){
-				File[] files = file.listFiles();
+				File[] files;
+				files = file.listFiles();
 				if(files.length > 1) 
 					Arrays.sort(files);
 				JSONFileList fl = new JSONFileList(files.length);
@@ -481,14 +487,22 @@ public class CodeCloudMain
 			String txt = request.body();
 			log("Txt: " + txt);
 			String path = txt.split("\\|")[0];
+			String fileType = path.substring(0,1);
 			log("Path: " + path);
 			txt = txt.substring(path.length() + 1);
+			log("Text: " + txt);
+			log("Final path: " + path);
 			response.type("text/plain");
 			File file = new File(path);
+			if (!file.exists()){
+				log("File doesn't exist. Creating file.");
+				file.createNewFile();
+			}
 			FileWriter fw = null;
 			try {
 				fw = new FileWriter(file);
 				fw.write(txt);
+				log("Wrote file, no problems.");
 				worked = true;
 			}
 			catch (Exception e){
@@ -497,6 +511,7 @@ public class CodeCloudMain
 			}
 			finally {
 				if (fw != null){
+					log("Closing filewriter...");
 					fw.flush();
 					fw.close();
 				}
@@ -525,26 +540,33 @@ public class CodeCloudMain
 		{
 			response.type("application/json");
 			String path = request.body();
-//			if (!FileManager.authorize(request.session.attribute("user"), new UserFile(request.session.attribute("user"), path)) return "";
+			if (!FileManager.authorize(request.session().attribute("user"), new UserFile(request.session().attribute("user"), path))) return "";
 			log("Received request for " + path);
 			File file = new File(path);
 			String[] pathParts = path.split("/");
 			String[] returnArray = new String[2];
 			if (file.exists() && ! file.isDirectory() && file.isFile()){
-				if (pathParts[pathParts.length - 1].endsWith(".txt")){
+				log("Exists, not a dir, is a file.");
+				if (pathParts[pathParts.length - 1].endsWith(".txt") || pathParts[pathParts.length - 1].endsWith(".java") || pathParts[pathParts.length - 1].endsWith(".cpp")){
+					log("Text/Java/C++ file");
 					returnArray[0] = "false";
 					Scanner scanner = new Scanner(file);
+					log("Scanner established.");
 					String tempString = "";
 					try {
 						tempString = scanner.useDelimiter("//A").next();
+						log("Read file into string");
 					}
 					finally {
 						scanner.close();
+						log("Close scanner");
 					}
 					returnArray[1] = tempString;
+					log("Assign string to array");
 					return returnArray;
 				}
 				else {
+					log("Some other kind of file");
 					returnArray[0] = "true";
 					if (!(path.charAt(0) ==('/'))){
 						path = "/" + path;

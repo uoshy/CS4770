@@ -191,7 +191,7 @@
 				<div id="editor" class="toggle">
 							<h1>Editor</h1><hr><br>
 	
-                            <p>Select a theme: <select onchange="selectTheme()" id=select>
+                            <p>Select a theme: <select onchange="selectTheme()" id="select">
                                 <option selected>default</option>
                                 <option>3024-day</option>
                                 <option>3024-night</option>
@@ -241,20 +241,55 @@
                             </select>
                             </p>
                             <br>
-                            <form><textarea id="editorTextArea"></textarea></form>
+                            <form id="textEditorForm">
+                                <input id="jRadio" type="radio" name="language" value="Java" onclick="switchLanguage(this)" checked>Java</input>
+                                <input id="cRadio" type="radio" name="language" value="C++" onclick="switchLanguage(this)">C++</input>
+                                <input id="tRadio" type="radio" name="language" value="Txt">Txt</input><br>
+                                <textarea id="editorTextArea">import java.util.Scanner;
+public class Test
+{
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("Foo");
+            String bar = in.nextLine();
+            System.out.println("Bar");
+        }
+    }
+}</textarea><br>
+<label for="fileName">File name</label>
+<input id="edFileName" type="text" name="fileName" placeholder="Test"></input>
+<input type="button" name="Save" value="Save File" style="margin-left:1em;" onclick="saveTxt()"></input> <span id="saveFileMessage"></span>
+</form>
 
-                            <div class="Console">
-                                <div class="ConsoleHeader">
-                                    <button type="button" onclick="compile()">Compile</button>
-                                    <button type="button" onclick="compile(true)">Run</button>
-                                    <span id="consoleStatus" class="consolePromptText"></span>
-                                    <button type="button" id="consoleKillButton" onclick="kill()" style="display: none;">Kill Process</button>
-                                </div>
-                                <div class="ConsoleOutput" id="consoleOutput"></div>
-                                <div class="ConsoleInput"> <span class="consolePromptText">&gt;&gt;</span> <input type="text" id="consoleInput" style="width:90%;"></p></div>
-                            </div>
-		   </div>
-						</div>
+<textarea style="whitespce: pre; display:none;" id="javaExample">
+import java.util.Scanner;
+public class Test
+{
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("Foo");
+            String bar = in.nextLine();
+            System.out.println("Bar");
+        }
+    }
+}</textarea>
+
+<textarea style="whitepace: pre; display:none;" id="cppExample">
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello World\n";
+    return 0;
+}
+</textarea>
+		    </div>
 
 
 
