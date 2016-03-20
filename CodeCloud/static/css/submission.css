@@ -1,0 +1,36 @@
+#theme{
+   	      	width:100%;
+   	      	height:100px;
+   	        background-color: black;
+   	        padding-top:10px;
+   	        margin-bottom:1px;
+   	      }
+   	      #bar{
+   	      	width:250px;
+   	      	height:1000px;
+   	      	background-color:black;
+   	      }
+          #submit{
+          	width:400px;
+          	height:400px;
+          	background-color:GAINSBORO ;
+          	position:absolute;
+          	top:150px;
+          	left:300px;
+          }
+          #instruct{
+          	width:400px;
+          	height:400px;
+          	background-color:white;
+          	position:absolute;
+          	left:750px;
+          	top:150px;
+          }
+          #choose{
+          	width:400px;
+          	height:400px;
+          	background-color:GAINSBORO;
+          	position:absolute;
+          	left:300px;
+          	top:600px;
+          }
