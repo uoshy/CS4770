@@ -53,8 +53,13 @@ import main.JSONFileList;
 import main.JSONFileList.JSONFileObject;
 
 import users.User;
-import users.TempUsers; //temporary; for file access
+import users.UserManager;
+import users.Role;
 import utility.DBController;
+//import users.TempUsers;
+
+import assignments.CourseManager;
+import assignments.Course;
 
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
@@ -64,7 +69,7 @@ import javax.servlet.MultipartConfigElement;
  */
 public class CodeCloudMain
 {
-	private static TempUsers users;
+	//private static TempUsers users;
     private static DBController dbCon;
 
 	private static void setup()
@@ -220,6 +225,70 @@ public class CodeCloudMain
 			return null;
 
 		});
+        
+        post("/admin/register", (request, response) -> {
+			log("Admin: Registration request!");
+			String body = request.body();
+			RegisterInput regInput;
+			try {
+				Gson gson = new Gson();
+				regInput = gson.fromJson(body, RegisterInput.class);
+                
+            		    // username already exists, registering failed
+            		    if(dbCon.getUser(regInput.username) != null) {
+            		        // (this should be prevented by javascript/AJAX on the
+            		        // register page anyway, but just in case...)
+            		        log("Admin: username exists, register failed");
+            		        return "Username already exsists! Please choose another.";
+            		    }
+
+				long studentNumber = Long.parseLong(regInput.studentNum);
+				User user = new User(regInput.username, regInput.password, regInput.firstName, regInput.lastName, studentNumber);
+             			dbCon.addUser(user);
+                        
+                //Role not working currently
+                //user.setActiveRole(regInput.userRole);
+                //log("Admin: User Role Set! MainRole: "+user.getActiveRole());
+                
+				File file = new File("static/users/" + regInput.username);
+				file.mkdir();
+        		log("Admin: User Registered! Username: "+user.getUsername());
+				return "";
+			}
+			catch (JsonParseException | NumberFormatException ex)
+			{
+				log("Malformed values in register request.");
+				return "Error in input values!";
+			} catch (SQLException e) {
+                log("SQLite error: Registration.  "  + e.getMessage());
+                return "SQLite error: Registration.";
+            }
+		});
+        
+        get("/admin/listUsers", (request, response) -> 
+        {
+            log("Admin: getting users");
+            return UserManager.getUserList();
+            
+        }, new JsonTransformer());
+        
+        /*
+        //TODO: get working
+        delete("/admin/listUsers", (request, response) -> 
+        {
+            log("Admin: deleting users");
+            return UserManager.getUserList();
+            
+        });*/
+        
+        //TODO: was trying to /admin/listUsers & /admin/listCourses on same page
+        // need to implement way to view both lists at same time
+        get("/admin/listCoursesAndUsers", (request, response) -> 
+        {
+            log("Admin: getting courses");
+            return CourseManager.getCourseList();
+            
+        }, new JsonTransformer());
 
 		/**
 		 * Save the editor contents to a file on the server. Returns 0 iff successful.
