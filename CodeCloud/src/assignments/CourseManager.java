@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import users.User;
 import json.EnrollmentListReturn;
+import json.CourseListReturn;
 import utility.DBController;
 import assignments.Assignment;
 
@@ -246,4 +247,90 @@ public class CourseManager
 		}
 		
 	}
+    
+    //For admin-page: COPIED in case of changes
+    public static CourseListReturn getCourseList() 
+    {
+		Map<String, Course> map;
+		try{
+			map = DBController.getAllCourses();
+		} catch(SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		
+		System.out.println("Total courses: " + map.size());
+		Collection<Course> courses = map.values();
+		ArrayList<Course> listCourses = new ArrayList<>(courses);
+		Collections.sort(listCourses, (Course c1, Course c2) -> //sort chronologically
+		{	
+			String term1 = c1.getTerm();
+			String term2 = c2.getTerm();
+			
+			int sem1 = -1 , sem2 = -1; //0 Winter, 1 Spring, 2 Fall
+			int year1 = -1, year2 = -1;
+			if(term1.indexOf("FALL") != -1)
+			{
+				sem1 = 2;
+				year1 = Integer.parseInt(term1.substring(4));
+			}
+			else if(term1.indexOf("SPRING") != -1)
+			{
+				sem1 = 1;
+				year1 = Integer.parseInt(term1.substring(6));
+			}
+			else if(term1.indexOf("WINTER") != -1)
+			{
+				sem1 = 0;
+				year1 = Integer.parseInt(term1.substring(6));
+			}
+				
+			if(term2.indexOf("FALL") != -1)
+			{
+				sem2 = 2;
+				year2 = Integer.parseInt(term2.substring(4));
+			}
+			else if(term2.indexOf("SPRING") != -1)
+			{
+				sem2 = 1;
+				year2 = Integer.parseInt(term2.substring(6));
+			}
+			else if(term2.indexOf("WINTER") != -1)
+			{
+				sem2 = 0;
+				year2 = Integer.parseInt(term2.substring(6));
+			}
+			
+			if(year1 < year2)
+				return -1;
+			else if(year2 < year1)
+				return 1;
+			else
+			{
+				return sem1 - sem2;
+			}
+			
+		});
+		
+        String[] names = new String[listCourses.size()];
+		String[] terms = new String[listCourses.size()];
+		String[] IDs = new String[listCourses.size()];
+		boolean[] active = new boolean[listCourses.size()];
+		for(int i = 0; i < listCourses.size(); i++){
+			Course c = listCourses.get(i);
+			names[i] = c.getName();
+			terms[i] = c.getTerm();
+			IDs[i] = c.getCourseID();
+			active[i] = courseIsActive(c);
+		}
+		
+		CourseListReturn listing = new CourseListReturn();
+		listing.courseNames = names;
+		listing.courseIDs = IDs;
+		listing.courseTerms = terms;
+		listing.courseIsActive = active;
+		return listing;
+	}
+    
 }
