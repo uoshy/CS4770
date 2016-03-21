@@ -8,6 +8,13 @@ package json;
  */
 public class CompilerReturnJson 
 {
+	/**
+	 * The message of the compiler to display.
+	 */
 	public String compilerMessageToDisplay;
+	
+	/**
+	 * The process exit status of the compiler.
+	 */
 	public int compilerExitStatus;
 }

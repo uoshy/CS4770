@@ -65,7 +65,10 @@ function showFiles(elementID){
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
 						img.setAttribute('vSpace', 25);
-						a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
+						if(isIframeCompatible(jsonObj.fileObjs[i].fileName))
+							a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
+						else
+							a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
 					}
 					var li = document.createElement('li');
 					var space = document.createTextNode('\u00A0\u00A0\u00A0');
@@ -139,7 +142,8 @@ function back(){
 	document.getElementById("menuButton").style.display = 'none';
 
 	var titleRef = document.getElementById('hTitle').innerHTML;
-	if (titleRef === "static/") return;
+	var userSpan = document.getElementById('sidebarUser');
+	if (titleRef === "static/users/" + userSpan.innerHTML + "/") return;
 	var pathParts = titleRef.split("/");
 	var newPath = "";
 	for (var i = 0; i < pathParts.length - 2; i++){
@@ -274,6 +278,7 @@ function deleteFileDelegate(path){
 
 function isIframeCompatible(extension){
 	if (extension.length >= 4){
+		console.log("Iframe extension: " + extension.substring(extension.length-4));
 		if (extension.substring(extension.length - 4) === ".pdf" || extension.substring(extension.length - 4) === ".ppt" || extension.substring(extension.length - 5) === ".docx" || extension.substring(extension.length - 5) === ".xlsx" || extension.substring(extension.length - 4) === ".doc") return true;
 	}
 	return false;
@@ -385,11 +390,12 @@ function saveTxt(){
 		}
 	}
 	else {
-		dir = document.getElementById('hTitle').innerHTML;
+		Window.alert("File name does not match the file you are editing.");
+		//dir = document.getElementById('hTitle').innerHTML;
 	}
 	console.log("Sending: " + dir + fileName + format + '|' + "[txt component]");
 	xhr.send(dir + fileName + format + '|' + txt);
-	back();
+	//back();
 }
 
 function getUsername(){

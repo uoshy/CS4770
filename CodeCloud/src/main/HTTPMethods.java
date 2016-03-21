@@ -23,6 +23,9 @@ import json.UserReturn;
 
 public class HTTPMethods {
 
+	/**
+	 * Specify URLs with which the Spark Java server sould respond to.
+	 */
 	public static void setupPaths()
 	{
         before("/home.html", (request, response) ->

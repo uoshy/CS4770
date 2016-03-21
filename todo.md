@@ -27,3 +27,14 @@ Xiuzhi
 Tyson/Xiuzhi
 
 - Marker accesses course/submissions/a#/... 
+
+
+- ensure user is authorized to view course with role
+- ensure user is authorized to change role
+- fix file paths to exclude /static/... 
+- compile/execute from files page
+- copy files from assignment to home dir
+- assignment submission
+- assignment marking
+- get marks
+- user administration

@@ -95,14 +95,26 @@ public class Course {
 		assignments.add(assignment);
 	}
 
+	/**
+	 * Get the course ID. Course ID has the format [SUBJ][NUMBER]-[SECTION]. Eg: COMP4770-001.
+	 * @return the course's ID
+	 */
 	public String getCourseID(){
 		return courseID;
 	}
 
+	/**
+	 * Get the term of this course. The String's format is [semester][year]. Eg: WINTER16.
+	 * @return the Cours's term.
+	 */
 	public String getTerm(){
 		return term;
 	}
 
+	/**
+	 * Get the descriptive name of this course.
+	 * @return the name of the course.
+	 */
 	public String getName(){
 		return name;
 	}

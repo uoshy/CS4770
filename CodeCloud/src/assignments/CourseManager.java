@@ -22,8 +22,19 @@ import assignments.Assignment;
  */
 public class CourseManager 
 {
+	/**
+	 * The end date of the fall semester. December 31.
+	 */
 	public static final Calendar FALL_END_DATE = getFallEndDate();
+	
+	/**
+	 * The end date of the winter semester. April 31.
+	 */
 	public static final Calendar WINTER_END_DATE = getWinterEndDate();
+	
+	/**
+	 * The end date of the spring semester. August 31.
+	 */
 	public static final Calendar SPRING_END_DATE = getSpringEndDate();
 
 	private static Calendar getFallEndDate()
@@ -47,6 +58,11 @@ public class CourseManager
 		return cal;
 	}
 
+	/**
+	 * Determine if a course is active based on the course's semester and the current date.
+	 * @param course the Course to determine if it is active
+	 * @return true iff the course is offered in the current semester.
+	 */
 	public static boolean courseIsActive(Course course)
 	{
 		String term = course.getTerm();
@@ -99,6 +115,12 @@ public class CourseManager
 		}
 	}
 	
+	/**
+	 * Get the enrollments for a given User and that User's active role. This includes student, marker, instructor.
+	 * @param user the User to get enrollments for. 
+	 * @return an EnrollmentListReturn encapsulating all necessary data
+	 * @see json.EnrollmentListReturn
+	 */
 	public static EnrollmentListReturn getCoursesForUser(User user)
 	{
 		Map<String, Course> map;
@@ -184,6 +206,14 @@ public class CourseManager
 		
 	}
 	
+	/**
+	 * Determine if a User is authorized to view a course with the given role.
+	 * @param user the User to authorize
+	 * @param courseID the course ID of the Course instance to compare
+	 * @param courseTerm the term of the Course instance to compare
+	 * @param role the attempted role the User wishes to be authorized as
+	 * @return true iff the user is authorized.
+	 */
 	public static boolean isUserAuthorizedWithRole(User user, String courseID, String courseTerm, String role)
 	{
 		try {
@@ -203,6 +233,12 @@ public class CourseManager
 		
 	}
 	
+	/**
+	 * Get a course given the courseID and term
+	 * @param courseID the courseID of the course
+	 * @param term the term of the course offering
+	 * @return the Course object described by courseID and term, or null if not found.
+	 */
 	public static Course getCourse(String courseID, String term)
 	{
 		try
@@ -216,8 +252,17 @@ public class CourseManager
 		}
 	}
 	
+	/**
+	 * The path on the file system to the root directory contianing all course files.
+	 */
 	public static final String coursesPath = "static/courses/";
 	
+	/**
+	 * Add an assignment to a Course specified by courseID, term. The new assignment should have a submisison limit as specified.
+	 * @param courseID the courseID of the course 
+	 * @param term the term of the course offeirng
+	 * @param submissionLimit the limit on submission attemps to towards this assignment.
+	 */
 	public static void addAssignmentToCourse(String courseID, String term, int submissionLimit)
 	{
 		try {

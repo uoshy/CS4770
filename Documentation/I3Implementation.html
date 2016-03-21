@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Iteration 3 Implementation Notes</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body style="width:80%">
+	<h3>Iteration 3: Implementation Notes</h3>
+
+<h4>Compiling, Execution</h4>
+<p>From last iteration this feature has been improved slightly. There is now support for C/C++ through GNU's g++. The user is also able to specify the name of the file which the wish to save on the server. The "editor" page will now become deprecated and its functionality moved to "files" page where one can create files and edit them all within a single page. This includes compiling/executing of code within the files page.</p>
+
+<h4>Docker</h4>
+<p>Docker was intended to be used to bundle the server dependencies inside a single image for ease of deplyoment. Problems arose using mounted volumes from host to the docker container and the resulting file permissions. Basically, files created inside the container and inside the mounted volume were not readable from inside the container but were readable from the host. To remedy this we simply run the server not inside of an intial docker container. Thus the dependencies for this server become: 
+	<ul>
+		<li>Linux or OSX (/bin/bash)</li>
+		<li>Docker</li>
+		<li>Java 8</li>
+		<li>GNU g++</li>
+		<li>Ant/Ivy</li>
+	</ul>
+	Steps for running the server can be found <a href="../CodeCloud/RunTheServer.html">here</a>.
+</p>
+
+<h4>User Files</h4>
+<p>Each user has their own "home" directory on the server. This directory serves as their hub to upload/download/edit files. Users may create plain text files, upload any sort of file, and view a variety of files. Users may view plain text files using the provided text editor. Users may view certain binary files using HTML's iframe. This includes files such as pdf, ppt, doc. The fact that the user's "home" directory is backed by a file system is made quite transparent. Users are able to create directories and files and traverse their directory tree with their "home" directory being the root.</p>
+
+<h4>Account Creation and Login</h4>
+<p>The database is now used to back account creation and is checked during login to authenticate.</p>
+
+<h4>Account Roles</h4>
+<p>When a user logs into the website there is now a display of the user's active role on the system. An drop-down box displays the possible roles a user may take on the system. The role and user are stored using an HTTP session and are used continuously to determine a user's permissions on the site. The roles are primarily used for navigation within the "Courses" feature of the website. </p>
+
+<h4>Courses and Assignments</h4>
+<p>Navigating to the "Courses" section of the website will display courses which a user is associted with. Only courses which the user is associated with for the given active role will be displayed. Courses which are currently active can be navigated to. Within these active courses a collection of files will be displayed and are separated into two secions. The first is generic "course content" which may includes lecture notes, slide shows, etc. The next is assignment specific and will display assignments for the course. Instructors are able to upload files to course content as well as create assignments and then upload files to the created assignment directory.<br><br>
+Currently in progress of implementation includes retreiving assignments and assignment submission. Users who are enrolled in a course are able to view course content as well as assignents. However, they currently cannot edit these files as the files are contained in the courses page. Next iteration will include options to copy files from the course folder to the user's "home" directory. This will allow instructors to include code bases in their assignments to be used by students. Also in progress is assignment submission. Users will be displayed their "home" directories and instructed to select files to submit. File selection will likely be done using check boxes and files will be "staged" for submission and then finally submitted. This is very similar to git's workflow of adding files and then committing them.</p>
+
+<h4>User administration</h4>
+<p>Currently in progress is the administration functionality of the website. This includes adding courses, enrolling users to courses, adding roles to users, restting user passwords, etc. Stay tuned for this in the next iteration.</p>
+
+<h4>Expectation for Iteration 4</h4>
+<ul>
+	<li>Copying of files from courses to user's home directory.</li>
+	<li>Assignment submission by students</li>
+	<li>Assignment submission retrieval by markers/instructor.</li>
+	<li>Assignment marking by markers/instructor.</li>
+	<li>Retrieval of student grades by instructor.</li>
+	<li>Retrieval of assignment feedback by a student.</li>
+	<li>User administration (as described above).</li>
+</ul>
+
+</body>
+</html>
+
+
+
+

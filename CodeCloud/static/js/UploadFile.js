@@ -1,4 +1,5 @@
 function upload() {
+	console.log("uploading");
 	var file = document.getElementById('fileChooser');
 	if (typeof file.files[0] === 'undefined') return;
 	var form = new FormData();

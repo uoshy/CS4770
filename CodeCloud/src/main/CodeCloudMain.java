@@ -587,8 +587,6 @@ public class CodeCloudMain
 				long procID = Long.parseLong(activeProcessID);
 				UserProcess uProc = Console.getInstance().getProcess(procID);
 				String processOutput = uProc.readFromProcess();
-				System.out.println("read from process!: " + processOutput);
-
 				ExecutionReturn execRet = new ExecutionReturn();
 				execRet.outputText = processOutput;
 				execRet.exitStatus = uProc.getExitStatus();
