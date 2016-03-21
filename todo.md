@@ -1,4 +1,4 @@
-TODO: Iteration 3
+TODO: Iteration 4
 
 Alex:
 - Save button on editor.
@@ -29,6 +29,7 @@ Tyson/Xiuzhi
 - Marker accesses course/submissions/a#/... 
 
 
+- delete dir in assignments removes assignmetn from DB
 - ensure user is authorized to view course with role
 - ensure user is authorized to change role
 - fix file paths to exclude /static/... 
