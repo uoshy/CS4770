@@ -111,21 +111,19 @@
                             <div id="files" class="toggle">
                             <h3>Assignments</h3><br>
                             <h4 id="hTitle">/users</h1><br>
-                            <div id="uploadControls" style="display: none;">
-                                <form id="addDelete">
-                                <input type="hidden" placeholder="New directory name" id="newDirName">
-
-                                <input type="text" placeholder="Submission Limit" id="submissionLimitInput">
-                                <input type="button" value="Add New Assignment" onclick="addAssignment()">
-                                <!-- <input type="button" value="Delete current directory" onclick="deleteCurrentDir()" id="delButton"> -->
-                                </form><br>
-                                <form id="uploadFile">
-                                <input type="file" name="fileToUpload" enctype="multipart/form-type" id="filename"><br>
-                                <input type="button" value="Upload" onclick="upload()">
-                                </form>
-                                <p><a href="" id="downloadLink"></a></p>
-                            </div> 
-                            <input type="button" onclick="back()" value="Back"></input><br>
+                            <input type="button" onclick="back()" value="Back"></input><br><br>
+                            <form id="manageFiles">
+                                <select id="mainMenu" onchange="changeMenu()">
+                                    <option value="">File Options</option>
+                                    <option value="add">Add a directory</option>
+                                    <option value="upload">Upload a file</option>
+                                    <option value="delete">Delete current directory</option>
+                                    <option value="txt">Create new .txt file</option>
+                                </select><br><br>
+                                <input id="fileChooser" type="file" name="fileToUpload" enctype="multipart/form-type"><br>
+                                <input type="text" placeholder="New directory name" id="newDirName">
+                                <input id="menuButton" type="button" value="Upload" onclick="upload()">
+                            </form>
                             <ul id="filesList"></ul><br>
                             <iframe id="frame" width="1000" height="1000"></iframe>
 

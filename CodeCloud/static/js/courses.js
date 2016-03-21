@@ -147,12 +147,15 @@ function setupForRole()
 
 function showFiles(elementID){
     //Does not expect a "/" on elementID input
+    document.getElementById("mainMenu").value = "";
+    document.getElementById("fileChooser").style.display = 'none';
+    document.getElementById("newDirName").style.display = 'none';
+    document.getElementById("menuButton").style.display = 'none';
     document.getElementById("newDirName").value = "";
     if (elementID.charAt(elementID.length - 1) == '/'){
         elementID = elementID.substring(0, elementID.length - 1);
     }
     var pathParts = elementID.split('/');
-    
     if (!isRecognizedFileType(pathParts[pathParts.length - 1])){
         var xhr = new XMLHttpRequest();
         xhr.open('POST', "/files/view", true);
@@ -160,10 +163,8 @@ function showFiles(elementID){
         xhr.onreadystatechange = function(){
             if (xhr.readyState != 4) return;
             if (xhr.status == 200 || xhr.status == 400){
-                console.log("Header on XML response: " + document.getElementById("hTitle").innerHTML);
                 document.getElementById("hTitle").innerHTML = elementID + "/";
                 var jsonObj = JSON.parse(xhr.responseText);
-                console.log(jsonObj);
                 if (jsonObj == "authFail" || jsonObj[0] == "authFail" || typeof jsonObj == 'undefined'){
                     console.log("Authorization failure");
                     return;
@@ -172,57 +173,71 @@ function showFiles(elementID){
                 list.innerHTML = "";
                 for (var i = 0; i < jsonObj.fileObjs.length; i++){
                     var img = document.createElement("img");
+                    var a = document.createElement('a');
                     img.setAttribute('alt', jsonObj.fileObjs[i].fileName);
                     img.setAttribute('width', 75);
                     img.setAttribute('height', 75);
-
-                    var a = document.createElement('a');
-
                     if (jsonObj.fileObjs[i].isDirectory){
-                        img.setAttribute('src', '/img/folderImage.png');
+                        img.setAttribute('src', './img/folderImage.png');
                         img.setAttribute('class', 'folder');
                         img.setAttribute('width', 75);
                         img.setAttribute('height', 75);
                         a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
+                    }
+                    else if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".txt" || jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 5) === ".java" || jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".cpp"){
+                        if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 5) === ".java"){
+                            img.setAttribute('src', './img/javaImage.png');
+                            img.setAttribute('height', 50);
+                            img.setAttribute('width', 48);
 
+                        }
+                        else if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".cpp"){
+                            img.setAttribute('src', './img/cppImage.png');
+                            img.setAttribute('height', 48);
+                            img.setAttribute('width', 50);
+                        }
+                        else {
+                            img.setAttribute('src', './img/txtImage.png');
+                            img.setAttribute('width', 50);
+                            img.setAttribute('height', 45);
+                            img.setAttribute('vSpace', 0);
+                        }
+                        img.setAttribute('class', 'file');
+                        a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
                     }
                     else {
-                        img.setAttribute('src', '/img/fileImage.png');
+                        img.setAttribute('src', './img/fileImage.png');
                         img.setAttribute('class', 'file');
                         img.setAttribute('hspace', 23);
                         img.setAttribute('width', 25);
                         img.setAttribute('height', 25);
                         img.setAttribute('vSpace', 25);
-                        var filePath = document.getElementById("hTitle").innerHTML;
-                        var index = filePath.indexOf("static");
-                        filePath = filePath.substring(index + 6);
-                        filePath = filePath + jsonObj.fileObjs[i].fileName;
-
-                        a.setAttribute('href', filePath);
-
+                        if(isIframeCompatible(jsonObj.fileObjs[i].fileName))
+                            a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
+                        else
+                            a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
                     }
                     var li = document.createElement('li');
                     var space = document.createTextNode('\u00A0\u00A0\u00A0');
+                    var button = document.createElement('input');
 
                     a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
+
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('value', 'Delete');
+                    button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
 
                     li.appendChild(img);
                     li.appendChild(a);
                     li.appendChild(space);
-
-                    if(activeRole === INSTRUCTOR)
-                    {
-                        var button = document.createElement('input');
-                        button.setAttribute('type', 'button');
-                        button.setAttribute('value', 'Delete');
-                        button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
-                        li.appendChild(button);
-                    }
+                    li.appendChild(button);
                     list.appendChild(li);
                 }
             }
         }
+        console.log(elementID);
         xhr.send(elementID);
+        getUsername();
     }
     else if (isIframeCompatible(pathParts[pathParts.length - 1])){
         console.log("Opening a document in iframe...");
@@ -233,7 +248,7 @@ function showFiles(elementID){
         document.getElementById("frame").setAttribute('src', temp);
         document.getElementById("frame").style.display = 'inline';
     }
-    else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt"){
+    else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 5) === ".java" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".cpp"){
         console.log("Opening text file...");
         document.getElementById("hTitle").innerHTML = elementID + "/";
         hideFiles();
@@ -254,29 +269,31 @@ function showFiles(elementID){
         }
         xhr.send(elementID);
     }
-
-    else {
-        alert("Error: Unknown file type");
-    }
 }
 
+
 function isRecognizedFileType(endingString){
-    if (endingString.indexOf('.html') != -1 || endingString.indexOf('.js') != -1|| endingString.indexOf('.txt') != -1|| endingString.indexOf('.doc') != -1|| endingString.indexOf('.docx') != -1|| endingString.indexOf('.pdf') != -1|| endingString.indexOf('.xml') != -1|| endingString.indexOf('.xlsx') != -1|| endingString.indexOf('.ppt') != -1) return true;
+    if (endingString.indexOf('.html') != -1 || endingString.indexOf('.js') != -1|| endingString.indexOf('.txt') != -1|| endingString.indexOf('.doc') != -1|| endingString.indexOf('.docx') != -1|| endingString.indexOf('.pdf') != -1|| endingString.indexOf('.xml') != -1|| endingString.indexOf('.xlsx') != -1 || endingString.indexOf('.ppt') != -1 || endingString.indexOf('.cpp') != -1 || endingString.indexOf('.java') != -1) return true;
     return false;
 }
 
+
+
 function back(){
-    document.getElementById("addDelete").style.display = 'inline';
-    document.getElementById("uploadFile").style.display = 'inline';
-    document.getElementById("downloadLink").style.display = 'inline';
+    if (document.getElementById("editor").style.display === 'inline' && document.getElementById("filesList").style.display === 'none'){
+        document.getElementById("editor").style.display = 'none';
+        document.getElementById("filesList").style.display = 'inline';
+    }
     document.getElementById("filesList").style.display = 'inline';
     document.getElementById("editor").style.display = 'none';
     document.getElementById("frame").style.display = 'none';
+    document.getElementById("fileChooser").style.display = 'none';
+    document.getElementById("newDirName").style.display = 'none';
+    document.getElementById("menuButton").style.display = 'none';
 
     var titleRef = document.getElementById('hTitle').innerHTML;
-    console.log(titleRef);
-    console.log(courseRootDir);
-    if (titleRef === courseRootDir) return;
+    var userSpan = document.getElementById('sidebarUser');
+    if (titleRef === "static/users/" + userSpan.innerHTML + "/") return;
     var pathParts = titleRef.split("/");
     var newPath = "";
     for (var i = 0; i < pathParts.length - 2; i++){
@@ -323,13 +340,14 @@ function addDir(){
             img.setAttribute('alt', dName);
             img.setAttribute('width', 75);
             img.setAttribute('height', 75);
-            img.setAttribute('src', '/img/folderImage.png');
+            img.setAttribute('src', './img/folderImage.png');
             img.setAttribute('class', 'folder');
             img.setAttribute('width', 75);
             img.setAttribute('height', 75);
             var list = document.getElementById("filesList");
             var li = document.createElement('li');
             var a = document.createElement('a');
+            var space = document.createTextNode('\u00A0\u00A0\u00A0');
             var button = document.createElement('input');
             a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + dName + '\")');
             a.innerHTML = document.getElementById('hTitle').innerHTML + dName;
@@ -338,6 +356,7 @@ function addDir(){
             button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
             li.appendChild(img);
             li.appendChild(a);
+            li.appendChild(space);
             li.appendChild(button);
             list.insertBefore(li, list.firstChild);
         }
@@ -424,19 +443,143 @@ function deleteFileDelegate(path){
 
 function isIframeCompatible(extension){
     if (extension.length >= 4){
+        console.log("Iframe extension: " + extension.substring(extension.length-4));
         if (extension.substring(extension.length - 4) === ".pdf" || extension.substring(extension.length - 4) === ".ppt" || extension.substring(extension.length - 5) === ".docx" || extension.substring(extension.length - 5) === ".xlsx" || extension.substring(extension.length - 4) === ".doc") return true;
     }
     return false;
 }
 
 function hideFiles(){
-    document.getElementById("addDelete").style.display = 'none';
-    document.getElementById("uploadFile").style.display = 'none';
-    document.getElementById("downloadLink").style.display = 'none';
     document.getElementById("filesList").style.display = 'none';
 }
 
 
+function changeMenu(){
+    document.getElementById('editor').style.display = 'none';
+    var menu = document.getElementById("mainMenu");
+    var button_temp = document.getElementById("menuButton");
+    var button = button_temp.cloneNode(true);
+    button_temp.parentNode.replaceChild(button, button_temp);
+    switch (menu.options[menu.selectedIndex].value){
+        case "":
+            document.getElementById("fileChooser").style.display = 'none';
+            document.getElementById("newDirName").style.display = 'none';
+            document.getElementById("menuButton").style.display = 'none';
+            break;
+
+        case "add":
+            document.getElementById("fileChooser").style.display = 'none';
+            document.getElementById("newDirName").style.display = 'inline';
+            document.getElementById("newDirName").setAttribute('placeholder', 'New directory name');
+            document.getElementById("menuButton").style.display = 'inline';
+            document.getElementById("menuButton").value = 'Add';
+            document.getElementById("menuButton").addEventListener('click', addDir, false);
+            break;
+
+        case "upload":
+            document.getElementById("fileChooser").style.display = 'inline';
+            document.getElementById("newDirName").style.display = 'none';
+            document.getElementById("menuButton").style.display = 'inline';
+            document.getElementById("menuButton").value = 'Upload';
+            document.getElementById("menuButton").addEventListener('click', upload, false);
+            break;
+
+        case "delete":
+            document.getElementById("fileChooser").style.display = 'none';
+            document.getElementById("newDirName").style.display = 'none';
+            document.getElementById("menuButton").style.display = 'inline';
+            document.getElementById("menuButton").value = 'Delete';
+            document.getElementById("menuButton").addEventListener('click', deleteCurrentDir, false);
+            break;
+
+        case "txt":
+            document.getElementById("fileChooser").style.display = 'none';
+            document.getElementById("filesList").style.display = 'none';
+            document.getElementById("newDirName").style.display = 'none';
+//          document.getElementById("newDirName").style.display = 'inline';
+//          document.getElementById("newDirName").setAttribute('placeholder', 'File name');
+            document.getElementById('editor').style.display = 'inline';
+            document.getElementById("menuButton").style.display = 'none';
+//          document.getElementById("menuButton").style.display = 'inline';
+//          document.getElementById("menuButton").value = 'Save';
+//          document.getElementById("menuButton").addEventListener('click', saveTxt, false);
+            break;
+    }
+}
+
+function saveTxt(){
+    var txt = editor.getValue();
+    var xhr = new XMLHttpRequest();
+    var allInputGroup = document.getElementById("textEditorForm").getElementsByTagName("input");
+    var inputArray = [].slice.call(allInputGroup, 0);
+    var inputGroup = inputArray.splice(0,3);
+    var format = "";
+    if (document.getElementById("jRadio").checked){
+        format = ".java";
+        console.log("Java file");
+    }
+    else if (document.getElementById("cRadio").checked){
+        format = ".cpp";
+        console.log("C++ file");
+        }
+    else {
+        format = ".txt";
+        console.log("Plaintext file");
+    }
+    console.log(document.getElementById("jRadio").checked);
+    console.log(document.getElementById("cRadio").checked);
+    console.log(document.getElementById("tRadio").checked);
+    xhr.open('POST', "/files/savetxt", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState != 4) return;
+        if (xhr.status == 200 || xhr.status == 400){
+            console.log("Success");
+            var jsonObj = JSON.parse(xhr.responseText);
+            console.log(jsonObj);
+            if (jsonObj === "1"){
+                alert("File saved.");
+            }
+            else{
+                alert("Save failed.");
+            }
+        }
+    }
+    var nameArray = document.getElementById('hTitle').innerHTML.split("/");
+    var fileName = document.getElementById('edFileName').value;
+    var dir;
+    if (nameArray[nameArray.length - 2] === (fileName + ".java") || nameArray[nameArray.length - 2] === (fileName + ".cpp") || nameArray[nameArray.length - 2] === (fileName + ".txt")){
+        console.log("Edited file");
+        dir = document.getElementById('hTitle').innerHTML.split("/")[0] + "/";
+        for (var i = 1; i < document.getElementById('hTitle').innerHTML.split("/").length - 2; i++){
+            dir += document.getElementById('hTitle').innerHTML.split("/")[i] + "/";
+        }
+    }
+    else {
+        Window.alert("File name does not match the file you are editing.");
+        //dir = document.getElementById('hTitle').innerHTML;
+    }
+    console.log("Sending: " + dir + fileName + format + '|' + "[txt component]");
+    xhr.send(dir + fileName + format + '|' + txt);
+    //back();
+}
+
+function getUsername(){
+    var xhr = new XMLHttpRequest();
+    var username;
+    xhr.open('GET', "/users/activeUser", false);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState != 4) return;
+        if(xhr.status == 200 || xhr.status == 400)
+        {
+        var jsonObj = JSON.parse(xhr.responseText);
+        console.log(jsonObj["username"]);
+        username = jsonObj["username"];
+    }
+    }
+    xhr.send();
+    return username;
+}
 
 
 
