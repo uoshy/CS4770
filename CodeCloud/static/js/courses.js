@@ -226,18 +226,22 @@ function showFiles(elementID){
                     }
                     var li = document.createElement('li');
                     var space = document.createTextNode('\u00A0\u00A0\u00A0');
-                    var button = document.createElement('input');
 
                     a.innerHTML = document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName;
-
-                    button.setAttribute('type', 'button');
-                    button.setAttribute('value', 'Delete');
-                    button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
-
                     li.appendChild(img);
                     li.appendChild(a);
                     li.appendChild(space);
+
+                if(jsonObj.activeRole === INSTRUCTOR)
+                {
+                    var button = document.createElement('input');
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('value', 'Delete');
+                    button.addEventListener('click', deleteFileDelegate(a.innerHTML), false);
                     li.appendChild(button);
+                }
+                    
+
                     list.appendChild(li);
                 }
             }
