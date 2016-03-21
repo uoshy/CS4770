@@ -1,5 +1,8 @@
 package json;
 
+import users.Role;
+
+
 /**
  * A JSON object describing data for a User to be registered.
  * @author Alex
@@ -31,4 +34,5 @@ public class RegisterInput
 	 * The user's student/faculty number.
 	 */
 	public String studentNum;
+    public Role userRole;
 }

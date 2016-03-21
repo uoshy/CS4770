@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin | Coding Cloud</title>
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+	<link href="css/bootstrap.css" rel="stylesheet">
+    <link href="font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="css/simple-page.css" rel="stylesheet">
+    <link href="css/admin-page.css" rel="stylesheet">
+</head>
+<body  onload="initRegisterForm()">
+    <nav class="navbar navbar-default no-margin">
+	  <a href="home.html" style="text-decoration: none !important;">
+        <center class="navbar-brand" style="float: none; font-size: 200%; margin-right: 100px;"><i class="fa fa-cloud fa-4"></i> Coding Cloud</center>
+	  </a>
+    </nav>
+        <!-- ------------------Page Content--------------------- -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <h1>Admin Page</h1><hr><br>
+                    
+        <!-- -------------Button menu-------------- -->     
+                        <div class="row" id="admin-menu">
+                            <span id="span-create-u"><a href="#create-user">Create Users</a></span> |
+                            <span id="span-delete-u"><a href="#delete-user" onclick="getAllUsers(this); return false;">Delete Users</a></span>  ||
+                            <span id="span-enrol-u"><a href="#enrol-user" onclick="getInfo_enrol(this); return false;">Enrol Users</a></span> |
+                            <span id="span-remove-u"><a href="#remove-user" onclick="getCoursesAndUsers(this); return false;">Remove Users</a></span>
+                        </div><br><br>
+                    
+                    
+                    
+                    
+        <!-- -------------Adding users to database-------------- -->            
+                      <div id="create-user" class="toggle" style="display:none">
+                        <div class="container">
+                        <div class="row centered-form">
+                        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4" id="regi-col">
+
+                          <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-register" onsubmit="return submitRegisterForm()">
+			    			
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+                                    </div>
+                                
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm Password" onkeyup="checkPassword" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p style="color: rgb(250,50,50); text-align: center;" id="passwordMsg"></p>
+                                    </div>
+                                
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="student_num" id="student_num" class="form-control" placeholder="Student Number" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <select class="form-control" name="main_role" id="main_role">
+                                                <option value="1">Student</option>
+                                                <option value="2">Marker</option>
+                                                <option value="3">Instructor</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                            
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit" value="Register" name="button">Register</button>
+                            
+                                    <div class="form-group">
+                                        <p style="color: rgb(250,50,50); text-align: center;" id="errorMsg"></p>
+                                    </div>
+
+                                </form>
+                            </div>
+                          </div>
+						</div>
+                        </div>
+                        </div>
+                      </div> <!-- /#create-user -->
+                        
+        <!-- -------------Deleting users from database-------------- -->     
+                      <div id="delete-user" class="toggle" style="display:none">
+                        <div id="delete-user-list">
+                        <h3 style="margin-top: 0;">Users</h3>
+                        <div class="panel panel-primary" id="user-list-box">          
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="pane" id="users-list"> 
+                                        <!-- User-list populate here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" id="delete-button" type="submit" value="delete" name="button">Delete User</button>
+                        </div>
+                      </div> <!-- /#delete-user -->
+                      
+        <!-- -------------Enrolling users in courses-------------- -->     
+                      <div id="enrol-user" class="toggle" style="display:none">
+                        <div id="enrol-course-list">
+                        <h3 style="margin-top: 0;">Courses</h3>
+                        <div class="panel panel-primary" id="enrol-course-box">
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="pane" id="courses-list"> 
+                                        <!-- Course-list populate here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" id="course-button" type="submit" value="select-course" name="button">Select Course</button>
+                        </div>
+                        <div id="enrol-user-list">
+                        <h3 style="margin-top: 0;">Users</h3>
+                        <div class="panel panel-primary" id="enrol-user-box">
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="pane" id="users-list"> 
+                                        <!-- User-list populate here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" id="enrol-button" type="submit" value="enrol-user" name="button">Enrol Users</button>
+                        </div>
+                      </div> <!-- /#enrol-user -->
+                      
+        <!-- -------------Removing users from courses-------------- -->     
+                      <div id="remove-user" class="toggle" style="display:none">
+                        <div id="remove-course-list">
+                        <h3 style="margin-top: 0;">Courses</h3>
+                        <div class="panel panel-primary" id="remove-course-box">
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="pane" id="courses-list"> 
+                                        <!-- Course-list populate here -->
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" id="course-button" type="submit" value="select-course" name="button">Select Course</button>
+                        </div>
+                        <div id="remove-user-list">
+                        <h3 style="margin-top: 0;">Users</h3>
+                        <div class="panel panel-primary" id="remove-user-box">
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="pane" id="users-list"> 
+                                        <!-- User-list populate here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" id="remove-button" type="submit" value="remove-user" name="button">Remove User</button>
+                        </div>
+                      </div> <!-- /#remove-user -->
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/admin-page.js"></script>
+</body>
+</html>
