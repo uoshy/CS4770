@@ -127,7 +127,7 @@ function setupForRole()
             activeRole = jsonObj.activeRole;
             if(jsonObj.activeRole != -1)
             {
-                var uploadControls = document.getElementById("uploadControls");
+                var uploadControls = document.getElementById("manageFiles");
                 if(jsonObj.activeRole === INSTRUCTOR)
                 {
                     uploadControls.style.display = "block";
@@ -152,6 +152,13 @@ function showFiles(elementID){
     document.getElementById("newDirName").style.display = 'none';
     document.getElementById("menuButton").style.display = 'none';
     document.getElementById("newDirName").value = "";
+
+    if(window.location.pathname.indexOf("assignments.html") >= 0)
+    {
+       document.getElementById("submissionLimitInput").style.display = 'none'
+       document.getElementById("addAssignmentButton").style.display = 'none';
+    }
+
     if (elementID.charAt(elementID.length - 1) == '/'){
         elementID = elementID.substring(0, elementID.length - 1);
     }
@@ -178,7 +185,7 @@ function showFiles(elementID){
                     img.setAttribute('width', 75);
                     img.setAttribute('height', 75);
                     if (jsonObj.fileObjs[i].isDirectory){
-                        img.setAttribute('src', './img/folderImage.png');
+                        img.setAttribute('src', '/img/folderImage.png');
                         img.setAttribute('class', 'folder');
                         img.setAttribute('width', 75);
                         img.setAttribute('height', 75);
@@ -186,18 +193,18 @@ function showFiles(elementID){
                     }
                     else if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".txt" || jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 5) === ".java" || jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".cpp"){
                         if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 5) === ".java"){
-                            img.setAttribute('src', './img/javaImage.png');
+                            img.setAttribute('src', '/img/javaImage.png');
                             img.setAttribute('height', 50);
                             img.setAttribute('width', 48);
 
                         }
                         else if (jsonObj.fileObjs[i].fileName.substring(jsonObj.fileObjs[i].fileName.length - 4) === ".cpp"){
-                            img.setAttribute('src', './img/cppImage.png');
+                            img.setAttribute('src', '/img/cppImage.png');
                             img.setAttribute('height', 48);
                             img.setAttribute('width', 50);
                         }
                         else {
-                            img.setAttribute('src', './img/txtImage.png');
+                            img.setAttribute('src', '/img/txtImage.png');
                             img.setAttribute('width', 50);
                             img.setAttribute('height', 45);
                             img.setAttribute('vSpace', 0);
@@ -206,7 +213,7 @@ function showFiles(elementID){
                         a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
                     }
                     else {
-                        img.setAttribute('src', './img/fileImage.png');
+                        img.setAttribute('src', '/img/fileImage.png');
                         img.setAttribute('class', 'file');
                         img.setAttribute('hspace', 23);
                         img.setAttribute('width', 25);
@@ -215,7 +222,7 @@ function showFiles(elementID){
                         if(isIframeCompatible(jsonObj.fileObjs[i].fileName))
                             a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
                         else
-                            a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
+                            a.setAttribute('href', "/"+document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
                     }
                     var li = document.createElement('li');
                     var space = document.createTextNode('\u00A0\u00A0\u00A0');
@@ -340,7 +347,7 @@ function addDir(){
             img.setAttribute('alt', dName);
             img.setAttribute('width', 75);
             img.setAttribute('height', 75);
-            img.setAttribute('src', './img/folderImage.png');
+            img.setAttribute('src', '/img/folderImage.png');
             img.setAttribute('class', 'folder');
             img.setAttribute('width', 75);
             img.setAttribute('height', 75);
@@ -460,12 +467,6 @@ function changeMenu(){
     var button_temp = document.getElementById("menuButton");
     var button = button_temp.cloneNode(true);
     button_temp.parentNode.replaceChild(button, button_temp);
-
-    if(window.location.pathname.indexOf("assignments.html") >= 0)
-    {
-       document.getElementById("submissionLimitInput").style.display = 'none'
-       document.getElementById("addAssignmentButton").style.display = 'none';
-    }
 
     switch (menu.options[menu.selectedIndex].value){
         case "":

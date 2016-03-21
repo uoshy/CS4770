@@ -118,13 +118,12 @@
                                     <option value="add">Add a directory</option>
                                     <option value="upload">Upload a file</option>
                                     <option value="delete">Delete current directory</option>
-                                    <option value="txt">Create new .txt file</option>
+                                    <!-- <option value="txt">Create new .txt file</option> -->
                                 </select><br><br>
                                 <input id="fileChooser" type="file" name="fileToUpload" enctype="multipart/form-type"><br>
                                 <input type="text" placeholder="New directory name" id="newDirName">
                                 <input id="menuButton" type="button" value="Upload" onclick="upload()">
                             </form>
-                            <input type="button" onclick="back()" value="Back"></input><br>
                             <ul id="filesList"></ul><br>
                             <iframe id="frame" width="8000" height="8000"></iframe>
 

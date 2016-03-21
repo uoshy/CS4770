@@ -14,6 +14,8 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import java.util.Arrays;
+
 import files.UserFile;
 import users.Role;
 import users.User;
@@ -92,15 +94,14 @@ public class FileManager
 					} catch (SQLException sqle){
 						return false;
 					}
-
 					if (enrollment == null) return false;
 
 					if (Role.valueOf(enrollment[3]).equals(Role.Student)){
 						if (path.length >= 6){
-							if (path[5].equals(user.getUsername()) || (path[3].equals("assignments") && !(path[5].equals("solutions")))) return true;
+							if (path[5].equals(user.getUsername()) || path[3].equals("content") || (path[3].equals("assignments") && !(path[5].equals("solutions")))) return true;
 						}
 						else if (path.length >= 4){
-							if (path[3].equals("assignments")) return true;
+							if (path[3].equals("assignments") ||  path[3].equals("content") ) return true;
 						}
 					}
 
