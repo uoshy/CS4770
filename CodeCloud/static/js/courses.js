@@ -460,6 +460,13 @@ function changeMenu(){
     var button_temp = document.getElementById("menuButton");
     var button = button_temp.cloneNode(true);
     button_temp.parentNode.replaceChild(button, button_temp);
+
+    if(window.location.pathname.indexOf("assignments.html") >= 0)
+    {
+       document.getElementById("submissionLimitInput").style.display = 'none'
+       document.getElementById("addAssignmentButton").style.display = 'none';
+    }
+
     switch (menu.options[menu.selectedIndex].value){
         case "":
             document.getElementById("fileChooser").style.display = 'none';
@@ -469,11 +476,18 @@ function changeMenu(){
 
         case "add":
             document.getElementById("fileChooser").style.display = 'none';
-            document.getElementById("newDirName").style.display = 'inline';
-            document.getElementById("newDirName").setAttribute('placeholder', 'New directory name');
-            document.getElementById("menuButton").style.display = 'inline';
-            document.getElementById("menuButton").value = 'Add';
-            document.getElementById("menuButton").addEventListener('click', addDir, false);
+            if(window.location.pathname.indexOf("assignments.html") >= 0)
+            {
+                document.getElementById("submissionLimitInput").style.display = 'inline';
+                document.getElementById("addAssignmentButton").style.display = 'inline';
+            }
+            else {
+                document.getElementById("newDirName").style.display = 'inline';
+                document.getElementById("newDirName").setAttribute('placeholder', 'New directory name');
+                document.getElementById("menuButton").style.display = 'inline';
+                document.getElementById("menuButton").value = 'Add';
+                document.getElementById("menuButton").addEventListener('click', addDir, false);
+            }
             break;
 
         case "upload":
