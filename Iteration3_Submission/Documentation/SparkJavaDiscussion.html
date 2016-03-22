@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Spark Java Discussion</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body style="width:80%">
+	<h3>Spark Java Discussion</h3>
+
+<h4>Coupling and Dependency</h4>
+<p>
+
+Spark Java is a very lightweight and basic web framework built using jetty. 
+
+Spark is very simple in that all that is needed is to specify the routes available on the server and the code block to execute in response to a request to that path. 
+
+Example:
+<pre>
+get("/home", (request, response) -> 
+{
+    response.redirect("/home.html");
+    return null;   
+});
+</pre>
+</p>
+<p>
+In this method, a request to the path "/home" will redirect to the static html page, "home.html" and the body of the HTTP response will be empty by returning null.
+The Spark framework is designed so that the user simply specifies as many or as little such paths and blocks of code (using lambda expressions) to respond to those requests. 
+This is all done in the main method of CodeCloudMain.java. The main method then exits after setting all of these paths. The Spark framework then takes care of setting up the server. 
+These methods written in CodeCloudMain are static methods which are delegated to a singleton instance of SparkInstance. By calling at least one such static method, the instance is
+created and the server is initialized to run. 
+</p>
+<p>
+Using this setup, it can be seen that CodeCloudMain needs access to most other classes as it must contain code blocks to handle all possible requests to the server. Certainly, 
+there is some package-specific classes which it does not operate with but still it is highly coupled to all of the other packages. However, it is worth noting that the dependency between 
+the server (CodeCloudMain/Spark) and all the other packages and classes is exlusively in one direction, from the server to the rest of the system.
+</p>
+
+<h4>Concurrent requests</h4>
+<p>
+The Spark Java framework handles all requests using a thread pool. Spark abstracts away the fact that requests are handled by threads and so not much effort has to be put into handling requests. For crtiical portions of code java synchronization will be used to ensure the requests do not cause race conditions. Most such example will be reading and writing to file. For requests requiring a long execution time, a new thread will be spawned to offload the work from the thread pool and onto the new thread. Doing this will allow the thread pool thread to handle another request. An example of such would be executing a program as requested from the client.</p>
+
+<h4>Serving static files</h4>
+<p>The Spark Java framework allows easy serving of static files to the client. Before the server is initialized, one must simply specify the root directory for static files and then any file inside of directory can be server to the client by simple specifying the url to the file. For example: "externalStaticFileLocation("static");" causes all files under /static to be served easily to the client. So a file under /static/temp/test.html would be served to the client with teh url /temp/test.html.</p>
+
+<p>It is worth noting that the server does not allow acces to files above the specified extern root directory. So paths containing ".." will automatically be stopped at the specified root directory when serving static files. Additionally, Spark has nice built-in security which allows for "before" methods to be called before serving a particular file, directory, path, request, etc. The use of before methods allows for verification of a user's ability to access the file. As for executing code which may attempt to access using ".." will be sad to find out that they are stuck inside of a sandbox using a docker container. For information on sandboxing, check out the <a href="DockerDiscussion.html">docker dicussion</a>.</p>
+</body>
+</html>
+
+
+
+

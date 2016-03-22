@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CodeCloud Test</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="/compilerTest.js"></script>
+    <script>window.addEventListener('load', init);</script>
+</head>
+<body>
+    <div class="NavBar">
+        <ul class="NavBar">
+            <li><a class="active" href="javascript:void(0)">Home</a></li>
+            <li><a href="javascript:void(0)">About</a></li>
+            <li><a href="javascript:void(0)" class="Current">Text Editor</a><li>
+        </ul>
+    </div>
+
+    <div class="Main">
+        <h2>CodeCloud Test</h2>
+        
+        <p>Enter code into the following text area:</p>
+        <pre class="TextEditor" contenteditable="true" id="editor">import java.util.Scanner;
+            public class Test
+{
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("Foo");
+            String bar = in.nextLine();
+            System.out.println("Bar");
+        }
+    }
+}
+</pre>
+
+        <div class="Console">
+            <div class="ConsoleHeader">
+                <button type="button" onclick="compile()">Compile</button>
+                <button type="button" onclick="compile(true)">Run</button>
+                <span id="consoleStatus"></span>
+                <button type="button" id="consoleKillButton" onclick="kill()" style="display: none;">Kill Process</button>
+            </div>
+            <div class="ConsoleIO" id="consoleOutput"></div>
+            <div class="ConsoleInput"> <p>&gt;&gt; <input type="text" id="consoleInput" style="width:90%;"></p></div>
+
+        </div>
+    </div>
+</body>
+</html>

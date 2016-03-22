@@ -1,0 +1,10 @@
+
+table.courseContent {
+	width: 100%;
+}
+
+table.courseContent td {
+	width: 50%;
+	margin-right: 1em;
+	border: 1px solid black;
+}
