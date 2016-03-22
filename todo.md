@@ -28,7 +28,7 @@ Tyson/Xiuzhi
 
 - Marker accesses course/submissions/a#/... 
 
-
+- pressing back on assignments page keeps on going
 - delete dir in assignments removes assignmetn from DB
 - ensure user is authorized to view course with role
 - ensure user is authorized to change role
