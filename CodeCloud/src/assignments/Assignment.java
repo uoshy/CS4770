@@ -43,12 +43,6 @@ public class Assignment
 	 * @param course the particular course offering for this Assignment
 	 * @param assignmentFiles a collection of files detailing this Assignment
 	 */
-	/**
-	 * Constructor requires AssignmentSolution as parameter but AssignmentSolution requires Assignment. This seems unlikely (but not impossible) to be useful in practice.
-	 * Ideally the database would use the fullest constructor but in this case that isn't possible since the database requires an AssignmentSolution to initialize this Assignment.
-	 * I've left this constructor up in case this isn't actually a problem for reasons I don't understand but have added other, less "full" constructors.
-	 * -Tim 21/2/16
-	 */
     public Assignment(Course course, UserFile assignmentDir, TestSuite tests, UserFile submissions,  AssignmentSolution solution, int number, int submissionLimit)
     {
     	this.course = course;
@@ -78,6 +72,12 @@ public class Assignment
     	this.submissions = submissions;
 	this.number = number;
 	this.submissionLimit = submissionLimit;
+    }
+
+    public Assignment(Course course, int number)
+    {
+    	this.course = course;
+	this.number = number;
     }
     
     /**

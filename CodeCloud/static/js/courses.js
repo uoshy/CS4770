@@ -232,7 +232,7 @@ function showFiles(elementID){
                     li.appendChild(a);
                     li.appendChild(space);
 
-                if(jsonObj.activeRole === INSTRUCTOR)
+                if(activeRole === INSTRUCTOR)
                 {
                     var button = document.createElement('input');
                     button.setAttribute('type', 'button');
@@ -304,8 +304,8 @@ function back(){
 
     var titleRef = document.getElementById('hTitle').innerHTML;
     var userSpan = document.getElementById('sidebarUser');
-    if (titleRef === "static/users/" + userSpan.innerHTML + "/") return;
     var pathParts = titleRef.split("/");
+    if (titleRef === "static/users/" + userSpan.innerHTML + "/" || pathParts.length <= 6) return;
     var newPath = "";
     for (var i = 0; i < pathParts.length - 2; i++){
         newPath += pathParts[i] + "/";
@@ -420,9 +420,31 @@ function deleteFile(path){
     xhr.onreadystatechange = function(){
         if (xhr.readyState != 4) return;
         if (xhr.status == 200 || xhr.status == 400){
-            console.log("Success");
+            console.log("Success (Deletion from filesystem)");
             var jsonObj = JSON.parse(xhr.responseText);
             console.log(jsonObj);
+		//Delete assignment from db
+		if (document.getElementById('hTitle').innerHTML.split("/").length === 6){
+			var xhrDB = new XMLHttpRequest();
+			xhrDB.open("POST", "/files/deleteassignment");
+			xhrDB.setRequestHeader("Content-Type", "text/plain");
+			xhrDB.onreadystatechange = function(){
+				if (xhrDB.readyState != 4) return;
+				if (xhrDB.status == 200 || xhrDB.status == 400){
+					var jsonObjDB = JSON.parse(xhrDB.responseText);
+					if (jsonObjDB === "1") console.log("Success (Deletion from DB)");
+				}
+			}
+			var pathParts = path.split("/");
+			var courseID = pathParts[3];
+			var term = pathParts[2];
+			var num = pathParts[pathParts.length - 1].charAt(pathParts[pathParts.length - 1].length - 1);
+			console.log("Num: " + pathParts[pathParts.length - 2]);
+			console.log(courseID + "|" + term + "|" + num);
+			//CourseID, term, number
+			xhrDB.send(courseID + "|" + term + "|" + num);
+		}
+		//
             var parent;
             var child;
             if (!currentDir){
@@ -443,7 +465,7 @@ function shouldntBeDeleted(path){
     if (path.charAt(path.length - 1) == '/') path = path.substring(0, path.length - 1);
     if (path === "static") return true;
     var secondPart = path.split("/")[1];
-    if (secondPart === "codemirror-5.12" || secondPart === "courses" || secondPart === "css" || secondPart === "font-awesome-4.5.0" || secondPart === "fonts" || secondPart === "img" || secondPart === "js" || secondPart === "temp") return true;
+    if (secondPart === "codemirror-5.12" ||secondPart === "css" || secondPart === "font-awesome-4.5.0" || secondPart === "fonts" || secondPart === "img" || secondPart === "js" || secondPart === "temp") return true;
     return false;
 }
 

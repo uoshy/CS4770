@@ -58,6 +58,7 @@ import users.Role;
 import utility.DBController;
 //import users.TempUsers;
 
+import assignments.Assignment;
 import assignments.CourseManager;
 import assignments.Course;
 
@@ -593,6 +594,7 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
+			return "1";
 			if (!FileManager.authorize(request.session().attribute("user"), new UserFile(request.session().attribute("user"), path))) return "0";
 			File file = new File(path);
 			try {
@@ -601,6 +603,21 @@ public class CodeCloudMain
 			}
 			catch (Exception e){
 				e.printStackTrace();
+				return "0";
+			}
+		}, new JsonTransformer());
+
+		post("/files/deleteassignment", (request, response) ->
+		{
+			String[] aParams = request.body().split("\\|");
+			response.type("text/plain");
+			Course course = new Course(aParams[0], aParams[1], "");
+			Assignment assignment = new Assignment(course, Integer.parseInt(aParams[2]));
+			try {
+				DBController.removeAssignment(assignment);
+				return "1";
+			}
+			catch (SQLException sqle){
 				return "0";
 			}
 		}, new JsonTransformer());
