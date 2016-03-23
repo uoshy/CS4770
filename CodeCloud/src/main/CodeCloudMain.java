@@ -594,7 +594,6 @@ public class CodeCloudMain
 		{
 			String path = request.body();
 			response.type("text/plain");
-			return "1";
 			if (!FileManager.authorize(request.session().attribute("user"), new UserFile(request.session().attribute("user"), path))) return "0";
 			File file = new File(path);
 			try {
