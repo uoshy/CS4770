@@ -57,8 +57,7 @@ public class Compiler
 	 * executes the specified commands and returns the a CompilerReturn object
 	 * which encapsulates the compiler messages and output files.
 	 * 
-	 * The UserFile represents the working directory from which to compile.
-	 * The fileCount is the number of files to compile. The variable list
+	 * The UserFile represents the working directory from which to compile. The variable list
 	 * of command strings should always finish with the files names to compile and
 	 * therefore begin with the command and all arguments.
 	 * 
@@ -66,11 +65,10 @@ public class Compiler
 	 * It is the job of the Language implementation to fill in the class files as appropriate.
 	 * 
 	 * @param file a file representing the working directory
-	 * @param fileCount the number of files to compile
 	 * @param commands a variable list of command arguments for execution
 	 * @return a CompilerReturn object encapsulating compiler output
 	 */
-	public CompilerReturn compile(UserFile file, int fileCount, String... commands)
+	public CompilerReturn compile(UserFile file, String... commands)
 	{
         ProcessBuilder builder = new ProcessBuilder();
         builder.redirectErrorStream(true);

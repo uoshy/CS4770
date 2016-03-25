@@ -53,25 +53,8 @@ public class CPPLanguage implements Language
             //Not enough files to compile. 
             return null;
         }
-        String[] commands = new String[files.length + 3];
-        commands[0] = "g++";
-        commands[1] = "-Wall";
-        String workingDir = files[0].getPath();
-        for(int i = 1; i < files.length; i++)
-        {
-        	String path = files[i].getPath();
-        	int index = path.indexOf(workingDir);
-        	path = path.substring(index+workingDir.length());
-        	if(path.indexOf("/") == 0)
-        		path = path.substring(1);
-            commands[i+1] = path;
-        }
-        commands[commands.length-2] = "-o";
-        commands[commands.length-1] = outputFileName;
-        System.out.println(workingDir);
-        for(int i = 0; i < commands.length; i++)
-        	System.out.println(commands[i]);
-        CompilerReturn compileRet = Compiler.getInstance().compile(files[0], files.length-1, commands);
+        String[] commands = new String[]{"g++", "-Wall", "*.cpp"};
+        CompilerReturn compileRet = Compiler.getInstance().compile(files[0], commands);
         
         UserFile[] classFiles = new UserFile[1];
         String dir = files[0].getPath();

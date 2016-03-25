@@ -68,7 +68,7 @@ public class JavaLanguage implements Language
         System.out.println(workingDir);
         for(int i = 0; i < commands.length; i++)
         	System.out.println(commands[i]);
-        CompilerReturn compileRet = Compiler.getInstance().compile(files[0], files.length-1, commands);
+        CompilerReturn compileRet = Compiler.getInstance().compile(files[0], commands);
         
         UserFile[] classFiles = new UserFile[files.length-1];
         String dir = files[0].getPath();
