@@ -113,7 +113,7 @@
 									<option value="add">Add a directory</option>
 									<option value="upload">Upload a file</option>
 									<option value="delete">Delete current directory</option>
-									<option value="txt">Create new .txt file</option>
+									<option value="txt">Create new plain-text file</option>
 								</select><br><br>
 								<input id="fileChooser" type="file" name="fileToUpload" enctype="multipart/form-type"><br>
 								<input type="text" placeholder="New directory name" id="newDirName">
@@ -132,7 +132,9 @@
 							<iframe id="frame" width="1000" height="1000"></iframe>
 
 
-						<div id="editor">
+
+
+			<div id="editor">
 
 						
 
@@ -209,7 +211,8 @@ public class Test
     }
 }</textarea><br>
 <label for="fileName">File name</label>
-<input id="edFileName" type="text" name="fileName" placeholder="Test"></input>
+<!--<input id="edFileName" type="text" name="fileName" placeholder="Test"></input>
+-->
 <input type="button" name="Save" value="Save File" style="margin-left:1em;" onclick="saveTxt()"></input> <span id="saveFileMessage"></span>
 </form>
 

@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.lang.SecurityException;
 
 import json.CompilerInput;
+import json.SaveFileInput;
 import json.CompilerReturnJson;
 import json.ExecutionInput;
 import json.ExecutionReturn;
@@ -99,6 +100,23 @@ public class CodeCloudMain
 	 */
 	public static void log(String src) {
 		System.out.println(src);
+	}
+
+
+	public static boolean isPlainTextFileType(String endingString){
+		if (endingString.indexOf(".html") != -1 
+			|| endingString.indexOf(".js") != -1
+			|| endingString.indexOf(".txt") != -1
+			|| endingString.indexOf(".xml") != -1
+			|| endingString.indexOf(".cpp") != -1 
+			|| endingString.indexOf(".java") != -1
+			|| endingString.indexOf(".h") != -1
+			|| endingString.indexOf(".md") != -1
+			|| endingString.indexOf(".c") != -1
+			|| endingString.indexOf(".css") != -1
+			|| endingString.indexOf(".log") != -1
+			) return true;
+		return false;
 	}
 
 	//run the spark framework
@@ -301,7 +319,7 @@ public class CodeCloudMain
 			{
 				Gson gson = new Gson();
 				String body = request.body();
-				CompilerInput input = gson.fromJson(body, CompilerInput.class);
+				SaveFileInput input = gson.fromJson(body, SaveFileInput.class);
 				File file = new File(input.fileName);
 				if(!file.exists())
 					return 1;
@@ -329,22 +347,22 @@ public class CodeCloudMain
 				String body = request.body();
 				CompilerInput input = gson.fromJson(body, CompilerInput.class);
 				log(request.body());
-				log(input.fileContent);
+				log(input.workingDir);
 				log(input.fileName);
-				File dir = new File("static/temp");
-				if(!dir.exists())
-					dir.mkdir();
-				File file = new File("static/temp/" + input.fileName + ".java");
+				// File dir = new File("static/temp");
+				// if(!dir.exists())
+				// 	dir.mkdir();
+				// File file = new File("static/temp/" + input.fileName + ".java");
 
-				if(!file.exists())
-					file.createNewFile();
-				BufferedWriter out = new BufferedWriter(new FileWriter(file));
-				out.write(input.fileContent, 0, input.fileContent.length());
-				out.flush();
-				out.close();
-				UserFile uFile = new UserFile(null, "static/temp/"+input.fileName + ".java");
+				// if(!file.exists())
+				// 	file.createNewFile();
+				// BufferedWriter out = new BufferedWriter(new FileWriter(file));
+				// out.write(input.fileContent, 0, input.fileContent.length());
+				// out.flush();
+				// out.close();
+				UserFile uFile = new UserFile(null, input.workingDir + "/" + input.fileName);
 
-				UserFile uDir = new UserFile(null, "static/temp");
+				UserFile uDir = new UserFile(null, input.workingDir);
 				CompilerReturn compRet = cloudCoding.JavaLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
 				log("CompilerMessage " + compRet.compilerMessage);
 				CompilerReturnJson jsonObj = new CompilerReturnJson();
@@ -370,7 +388,7 @@ public class CodeCloudMain
 				ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
 				log(input.fileName);
 
-				UserFile uDir = new UserFile(null, "static/temp");
+				UserFile uDir = new UserFile(null, input.workingDirPath);
 				ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
 
 				System.out.println("about to return execution return");
@@ -393,27 +411,27 @@ public class CodeCloudMain
 				String body = request.body();
 				CompilerInput input = gson.fromJson(body, CompilerInput.class);
 				log(request.body());
-				log(input.fileContent);
+				log(input.workingDir);
 				log(input.fileName);
-				File dir = new File("static/temp");
-				if(!dir.exists())
-					dir.mkdir();
+				// File dir = new File("static/temp");
+				// if(!dir.exists())
+				// 	dir.mkdir();
 
-				String fileName = input.fileName;
-				int dotIndex = input.fileName.indexOf(".");
-				if(dotIndex != -1)
-					fileName = fileName.substring(0, dotIndex);
+				// String fileName = input.fileName;
+				// int dotIndex = input.fileName.indexOf(".");
+				// if(dotIndex != -1)
+				// 	fileName = fileName.substring(0, dotIndex);
 
-				File file = new File("static/temp/" + fileName + ".cpp");
-				if(!file.exists())
-					file.createNewFile();
-				BufferedWriter out = new BufferedWriter(new FileWriter(file));
-				out.write(input.fileContent, 0, input.fileContent.length());
-				out.flush();
-				out.close();
-				UserFile uFile = new UserFile(null, "static/temp/"+ fileName + ".cpp");
+				// File file = new File("static/temp/" + fileName + ".cpp");
+				// if(!file.exists())
+				// 	file.createNewFile();
+				// BufferedWriter out = new BufferedWriter(new FileWriter(file));
+				// out.write(input.fileContent, 0, input.fileContent.length());
+				// out.flush();
+				// out.close();
+				UserFile uFile = new UserFile(null, input.workingDir + "/" + input.fileName);
 
-				UserFile uDir = new UserFile(null, "static/temp");
+				UserFile uDir = new UserFile(null, input.workingDir);
 				CompilerReturn compRet = cloudCoding.CPPLanguage.getInstance().compile(new UserFile[]{uDir, uFile}, input.fileName);
 				if(compRet == null)
 					return null;
@@ -550,6 +568,26 @@ public class CodeCloudMain
 			}
 		}, new JsonTransformer());
 
+		post("files/createFile", (request, response) -> 
+		{
+			try {
+				String body = request.body();
+				File file = new File(body);
+				if(file.exists())
+					return 1;
+				else
+					file.createNewFile();
+				return 0;
+			}
+			catch (IOException ioe)
+			{
+				ioe.printStackTrace();
+				return 2;
+			}
+
+
+		});
+
 		post("/files/savetxt", (request, response) ->
 		{
 			log("so far...");
@@ -632,14 +670,18 @@ public class CodeCloudMain
 			String[] returnArray = new String[2];
 			if (file.exists() && ! file.isDirectory() && file.isFile()){
 				log("Exists, not a dir, is a file.");
-				if (pathParts[pathParts.length - 1].endsWith(".txt") || pathParts[pathParts.length - 1].endsWith(".java") || pathParts[pathParts.length - 1].endsWith(".cpp")){
+				if(isPlainTextFileType(pathParts[pathParts.length -1])) {
+				//if (pathParts[pathParts.length - 1].endsWith(".txt") || pathParts[pathParts.length - 1].endsWith(".java") || pathParts[pathParts.length - 1].endsWith(".cpp")){
 					log("Text/Java/C++ file");
 					returnArray[0] = "false";
 					Scanner scanner = new Scanner(file);
 					log("Scanner established.");
 					String tempString = "";
 					try {
-						tempString = scanner.useDelimiter("//A").next();
+						if(scanner.hasNext())
+							tempString = scanner.useDelimiter("//A").next();
+						else 
+							tempString = "";
 						log("Read file into string");
 					}
 					finally {

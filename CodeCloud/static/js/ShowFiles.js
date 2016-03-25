@@ -65,7 +65,7 @@ function showFiles(elementID){
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
 						img.setAttribute('vSpace', 25);
-						if(isIframeCompatible(jsonObj.fileObjs[i].fileName))
+						if(isIframeCompatible(jsonObj.fileObjs[i].fileName) || isRecognizedFileType(jsonObj	.fileObjs[i].fileName))
 							a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 						else
 							a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
@@ -101,7 +101,8 @@ function showFiles(elementID){
 		document.getElementById("frame").setAttribute('src', temp);
 		document.getElementById("frame").style.display = 'inline';
 	}
-	else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 5) === ".java" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".cpp"){
+	else if(isRecognizedFileType(pathParts[pathParts.length - 1])){
+	//else if (pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".txt" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 5) === ".java" || pathParts[pathParts.length - 1].substring(pathParts[pathParts.length - 1].length - 4) === ".cpp"){
 		console.log("Opening text file...");
 		document.getElementById("hTitle").innerHTML = elementID + "/";
 		hideFiles();
@@ -125,7 +126,23 @@ function showFiles(elementID){
 }
 
 function isRecognizedFileType(endingString){
-	if (endingString.indexOf('.html') != -1 || endingString.indexOf('.js') != -1|| endingString.indexOf('.txt') != -1|| endingString.indexOf('.doc') != -1|| endingString.indexOf('.docx') != -1|| endingString.indexOf('.pdf') != -1|| endingString.indexOf('.xml') != -1|| endingString.indexOf('.xlsx') != -1 || endingString.indexOf('.ppt') != -1 || endingString.indexOf('.cpp') != -1 || endingString.indexOf('.java') != -1) return true;
+	if (endingString.indexOf('.html') != -1 
+		|| endingString.indexOf('.js') != -1
+		|| endingString.indexOf('.txt') != -1
+		|| endingString.indexOf('.doc') != -1
+		|| endingString.indexOf('.docx') != -1
+		|| endingString.indexOf('.pdf') != -1
+		|| endingString.indexOf('.xml') != -1
+		|| endingString.indexOf('.xlsx') != -1 
+		|| endingString.indexOf('.ppt') != -1
+		|| endingString.indexOf('.cpp') != -1 
+		|| endingString.indexOf('.java') != -1
+		|| endingString.indexOf('.h') != -1
+		|| endingString.indexOf('.md') != -1
+		|| endingString.indexOf('.c') != -1
+		|| endingString.indexOf('.css') != -1
+		|| endingString.indexOf('.log') != -1
+		) return true;
 	return false;
 }
 
@@ -289,6 +306,14 @@ function hideFiles(){
 }
 
 function changeMenu(){
+	if(document.getElementById('editor').style.display != 'none')
+	{
+		var menu = document.getElementById('mainMenu');
+		var menuValue = menu.value;
+		back();
+		menu.value = menuValue;
+	}
+
 	document.getElementById('editor').style.display = 'none';
 	var menu = document.getElementById("mainMenu");
 	var button_temp = document.getElementById("menuButton");
@@ -328,20 +353,23 @@ function changeMenu(){
 
 		case "txt":
 			document.getElementById("fileChooser").style.display = 'none';
-			document.getElementById("filesList").style.display = 'none';
-			document.getElementById("newDirName").style.display = 'none';
-//			document.getElementById("newDirName").style.display = 'inline';
-//			document.getElementById("newDirName").setAttribute('placeholder', 'File name');
-			document.getElementById('editor').style.display = 'inline';
-			document.getElementById("menuButton").style.display = 'none';
-//			document.getElementById("menuButton").style.display = 'inline';
-//			document.getElementById("menuButton").value = 'Save';
+//			document.getElementById("filesList").style.display = 'none';
+			document.getElementById("newDirName").style.display = 'inline';
+			document.getElementById("newDirName").setAttribute('placeholder', 'File name');
+			document.getElementById('editor').style.display = 'none';
+//			document.getElementById("menuButton").style.display = 'none';
+			document.getElementById("menuButton").style.display = 'inline';
+			document.getElementById("menuButton").value = "Create";
+			document.getElementById("menuButton").addEventListener('click', createFile, false);
 //			document.getElementById("menuButton").addEventListener('click', saveTxt, false);
 			break;
 	}
 }
 
-function saveTxt(){
+
+function saveTxt(asynchronous){
+	if(asynchronous === undefined)
+		asynchronous = true;
 	var txt = editor.getValue();
 	var xhr = new XMLHttpRequest();
 	var allInputGroup = document.getElementById("textEditorForm").getElementsByTagName("input");
@@ -363,7 +391,7 @@ function saveTxt(){
 	console.log(document.getElementById("jRadio").checked);
 	console.log(document.getElementById("cRadio").checked);
 	console.log(document.getElementById("tRadio").checked);
-	xhr.open('POST', "/files/savetxt", true);
+	xhr.open('POST', "/files/savetxt", asynchronous);
 	xhr.setRequestHeader("Content-Type", "application/json");
 	xhr.onreadystatechange = function(){
 		if (xhr.readyState != 4) return;
@@ -373,28 +401,36 @@ function saveTxt(){
 			console.log(jsonObj);
 			if (jsonObj === "1"){
 				alert("File saved.");
+				return 0;
 			}
 			else{
 				alert("Save failed.");
+				return 1;
 			}
 		}
 	}
 	var nameArray = document.getElementById('hTitle').innerHTML.split("/");
-	var fileName = document.getElementById('edFileName').value;
-	var dir;
-	if (nameArray[nameArray.length - 2] === (fileName + ".java") || nameArray[nameArray.length - 2] === (fileName + ".cpp") || nameArray[nameArray.length - 2] === (fileName + ".txt")){
-		console.log("Edited file");
-		dir = document.getElementById('hTitle').innerHTML.split("/")[0] + "/";
-		for (var i = 1; i < document.getElementById('hTitle').innerHTML.split("/").length - 2; i++){
-			dir += document.getElementById('hTitle').innerHTML.split("/")[i] + "/";
-		}
-	}
-	else {
-		Window.alert("File name does not match the file you are editing.");
-		//dir = document.getElementById('hTitle').innerHTML;
-	}
-	console.log("Sending: " + dir + fileName + format + '|' + "[txt component]");
-	xhr.send(dir + fileName + format + '|' + txt);
+	//var fileName = document.getElementById('edFileName').value;
+	var dir = "";
+	for(var i = 0; i < nameArray.length-2; i++)
+		dir += nameArray[i] + "/";
+	var fileName = nameArray[nameArray.length-2];
+	console.log('fileName: ' + fileName);
+
+	// if (nameArray[nameArray.length - 2] === (fileName + ".java") || nameArray[nameArray.length - 2] === (fileName + ".cpp") || nameArray[nameArray.length - 2] === (fileName + ".txt")){
+	// 	console.log("Edited file");
+	// 	dir = document.getElementById('hTitle').innerHTML.split("/")[0] + "/";
+	// 	for (var i = 1; i < document.getElementById('hTitle').innerHTML.split("/").length - 2; i++){
+	// 		dir += document.getElementById('hTitle').innerHTML.split("/")[i] + "/";
+	// 	}
+	// }
+	// else {
+	// 	window.alert("File name does not match the file you are editing.");
+	// 	return 1;
+	// 	//dir = document.getElementById('hTitle').innerHTML;
+	// }
+	//console.log("Sending: " + dir + fileName + format + '|' + "[txt component]");
+	xhr.send(dir + fileName + '|' + txt);
 	//back();
 }
 
@@ -413,4 +449,35 @@ function getUsername(){
     }
     xhr.send();
 	return username;
+}
+
+function createFile() {
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', "/files/createFile", true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState != 4) return;
+		if(xhr.status == 200 || xhr.status == 400)
+		{
+			var status = xhr.responseText;
+			if(status == 0)
+			{
+				var path = document.getElementById('hTitle').innerHTML;
+				path = path.substring(0, path.length - 1);
+				//"Refresh" the page so the added file/directory is visible to the user
+				showFiles(path);
+			}
+			else if(status == 1)
+			{
+				window.alert("A file already exists with that name!");
+			}
+			else
+			{
+				window.alert("Error saving file!");
+			}
+
+		}
+	}
+	var dir = document.getElementById('hTitle').innerHTML;
+	var file = document.getElementById('newDirName').value;
+	xhr.send(dir + "/" + file);
 }

@@ -10,9 +10,9 @@ package json;
 public class CompilerInput {
 	
 	/**
-	 * The String containing the content of the file
+	 * The String containing the working directory.
 	 */
-	public String fileContent;
+	public String workingDir;
 	
 	/**
 	 * The String containing the file name.

@@ -15,7 +15,7 @@ function init()
 var currentLanguage;
 function switchLanguage(radioBtn)
 {
-    if(radioBtn.vatlue != currentLanguage)
+    if(radioBtn.value != currentLanguage)
     {
         currentLanguage = radioBtn.value;
         var text;
@@ -69,6 +69,12 @@ function saveEditorFile(beforeExecution) {
 
 function compile(beforeExecution) {
     compilerStatus = -1;
+
+    var success = saveTxt(true);
+    if(success != 0)
+        return;
+
+    console.log("file saved");
 
     var form = document.getElementById("textEditorForm");
     var fileName = form.fileName.value
@@ -125,7 +131,8 @@ function compile(beforeExecution) {
     // console.log(className);
 
   
-    var objToSend = { fileContent : editorText, fileName : fileName};
+    //var objToSend = { fileContent : editorText, fileName : fileName};
+    var objToSend = {workingDir: workingDir, fileName : fileName};
     var jsonToSend = JSON.stringify(objToSend);
     xhr.send(jsonToSend);
 }
