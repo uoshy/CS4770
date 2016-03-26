@@ -72,7 +72,8 @@ public class Compiler
 	{
         ProcessBuilder builder = new ProcessBuilder();
         builder.redirectErrorStream(true);
-		builder.command(commands);
+        String[] actualCommands = new String[]{"/bin/bash", "-c", String.join(" ", commands)};
+		builder.command(actualCommands);
         System.out.println("Compile Command: " + String.join(" ", builder.command()));
         builder.directory(file.getFile());
         try{

@@ -106,8 +106,9 @@
 
 						<div id="files" class="toggle">
 							<h1 id="hTitle" onload="init()">/users</h1><hr><br>
-							<input type="button" onclick="back()" value="Back"></input><br><br>
-							<form id="manageFiles">
+                            <form id="manageFiles">     
+						      	<input type="button" onclick="back()" value="Back" style="margin-right:1em;"></input>
+
 								<select id="mainMenu" onchange="changeMenu()">
 									<option value="">File Options</option>
 									<option value="add">Add a directory</option>
@@ -140,7 +141,7 @@
 
 
 				<div id="editor" class="toggle">
-							<h1>Editor</h1><hr><br>
+							<!-- <h1>Editor</h1><hr><br> -->
 	
                             <p>Select a theme: <select onchange="selectTheme()" id="select">
                                 <option selected>default</option>
@@ -191,11 +192,11 @@
                                 <option>zenburn</option>
                             </select>
                             </p>
-                            <br>
                             <form id="textEditorForm">
-                                <input id="jRadio" type="radio" name="language" value="Java" onclick="switchLanguage(this)" checked>Java</input>
-                                <input id="cRadio" type="radio" name="language" value="C++" onclick="switchLanguage(this)">C++</input>
-                                <input id="tRadio" type="radio" name="language" value="Txt">Txt</input><br>
+
+                                <input type="button" name="Save" value="Save File" style="margin-left:1em;" onclick="saveTxt()"></input> <span id="saveFileMessage"></span>
+                                <br><br>
+
                                 <textarea id="editorTextArea">import java.util.Scanner;
 public class Test
 {
@@ -210,10 +211,10 @@ public class Test
         }
     }
 }</textarea><br>
+<!--
 <label for="fileName">File name</label>
-<!--<input id="edFileName" type="text" name="fileName" placeholder="Test"></input>
+<input id="edFileName" type="text" name="fileName" placeholder="Test"></input>
 -->
-<input type="button" name="Save" value="Save File" style="margin-left:1em;" onclick="saveTxt()"></input> <span id="saveFileMessage"></span>
 </form>
 
 <textarea style="whitespce: pre; display:none;" id="javaExample">
@@ -241,8 +242,12 @@ int main()
     return 0;
 }
 </textarea>
-
+                            <!--<input id="tRadio" type="radio" name="language" value="Txt">Txt</input><br>-->
                              <div class="Console">
+                                <input id="jRadio" type="radio" name="language" value="Java" form="textEditorForm" onclick="switchLanguage(this)" checked>
+                                <label for="jRadio">Java</label>
+                                <input id="cRadio" type="radio" name="language" value="C++" form="textEditorForm" onclick="switchLanguage(this)">
+                                <label for="cRadio">C++</label>
                                 <div class="ConsoleHeader">
                                     <button type="button" onclick="compile()">Compile</button>
                                     <button type="button" onclick="compile(true)">Run</button>

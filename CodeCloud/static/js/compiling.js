@@ -1,6 +1,6 @@
 
 
-function init()
+function initCompiling()
 {
     console.log("init");
     var inputField = document.getElementById("consoleInput");
@@ -9,8 +9,9 @@ function init()
     var form = document.getElementById("textEditorForm");
     console.log(form.language.value);
     currentLanguage = form.language.value;
-}
+    editor.setOption("mode", "text/x-java");
 
+}
 
 var currentLanguage;
 function switchLanguage(radioBtn)
@@ -29,7 +30,7 @@ function switchLanguage(radioBtn)
             editor.setOption("mode", "text/x-c++src");
             text = document.getElementById("cppExample").textContent;
         }
-        editor.setValue(text);
+        //editor.setValue(text);
     }
     console.log(currentLanguage);
 }
@@ -70,20 +71,21 @@ function saveEditorFile(beforeExecution) {
 function compile(beforeExecution) {
     compilerStatus = -1;
 
-    var success = saveTxt(true);
+    var success = saveTxt(false);
+    console.log("compile save success:" + success);
     if(success != 0)
         return;
 
     console.log("file saved");
 
-    var form = document.getElementById("textEditorForm");
-    var fileName = form.fileName.value
-    console.log(fileName);
-    if(fileName.length < 1)
-    {
-        window.alert("File name cannot be empty!");
-        return;
-    }
+    // var form = document.getElementById("textEditorForm");
+    // var fileName = form.fileName.value
+    // console.log(fileName);
+    // if(fileName.length < 1)
+    // {
+    //     window.alert("File name cannot be empty!");
+    //     return;
+    // }
 
     var status = document.getElementById("consoleStatus");
     status.innerHTML = "Compiling..."
@@ -110,7 +112,14 @@ function compile(beforeExecution) {
             webConsole.innerHTML = messageToDisplay;
             var compilerStatus = compilerExitStatus;
             if(beforeExecution && compilerStatus == 0)
-                execute(fileName, "blah");
+            {
+                var path = document.getElementById("hTitle").innerHTML;
+                console.log("caputed workingDir: " + workingDir);
+                if(currentLanguage == "Java")
+                    execute(fileName, workingDir);
+                else
+                    execute("a.out", workingDir);
+            }
         } else {
             console.log("ERROR in compile!");
         }
@@ -132,6 +141,13 @@ function compile(beforeExecution) {
 
   
     //var objToSend = { fileContent : editorText, fileName : fileName};
+    var path = document.getElementById("hTitle").innerHTML;
+    var workingDir = "";
+    var fileName = "";
+    var pathParts = path.split("/");
+    for(var i = 0; i < pathParts.length - 2; i++)
+        workingDir += pathParts[i] + "/";
+    fileName = pathParts[pathParts.length - 2];
     var objToSend = {workingDir: workingDir, fileName : fileName};
     var jsonToSend = JSON.stringify(objToSend);
     xhr.send(jsonToSend);

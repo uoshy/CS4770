@@ -65,7 +65,10 @@ function showFiles(elementID){
 						img.setAttribute('width', 25);
 						img.setAttribute('height', 25);
 						img.setAttribute('vSpace', 25);
-						if(isIframeCompatible(jsonObj.fileObjs[i].fileName) || isRecognizedFileType(jsonObj	.fileObjs[i].fileName))
+						//console.log(jsonObj.fileObjs[i].fileName);
+						//console.log('iframe recognized: ' +isIframeCompatible(jsonObj.fileObjs[i].fileName));
+						//console.log('recognized file type:' + isRecognizedFileType(jsonObj.fileObjs[i].fileName));
+						if(isIframeCompatible(jsonObj.fileObjs[i].fileName) || isRecognizedFileType(jsonObj.fileObjs[i].fileName))
 							a.setAttribute('onclick', 'showFiles(\"' + document.getElementById('hTitle').innerHTML + jsonObj.fileObjs[i].fileName + '\")');
 						else
 							a.setAttribute('href', document.getElementById('hTitle').innerHTML.substring(7) + jsonObj.fileObjs[i].fileName);
@@ -118,6 +121,7 @@ function showFiles(elementID){
 				console.log(jsonObj[0]);
 				console.log(jsonObj[1]);
 				document.getElementById("editor").style.display = 'inline';
+				initCompiling();
 				editor.setValue(jsonObj[1]);
 			}
 		}
@@ -126,24 +130,33 @@ function showFiles(elementID){
 }
 
 function isRecognizedFileType(endingString){
-	if (endingString.indexOf('.html') != -1 
-		|| endingString.indexOf('.js') != -1
-		|| endingString.indexOf('.txt') != -1
-		|| endingString.indexOf('.doc') != -1
-		|| endingString.indexOf('.docx') != -1
-		|| endingString.indexOf('.pdf') != -1
-		|| endingString.indexOf('.xml') != -1
-		|| endingString.indexOf('.xlsx') != -1 
-		|| endingString.indexOf('.ppt') != -1
-		|| endingString.indexOf('.cpp') != -1 
-		|| endingString.indexOf('.java') != -1
-		|| endingString.indexOf('.h') != -1
-		|| endingString.indexOf('.md') != -1
-		|| endingString.indexOf('.c') != -1
-		|| endingString.indexOf('.css') != -1
-		|| endingString.indexOf('.log') != -1
-		) return true;
-	return false;
+	if (endsWith(endingString, '.html') 
+		|| endsWith(endingString, '.js') 
+		|| endsWith(endingString, '.txt') 
+//		|| endsWith(endingString, '.doc') 
+//		|| endsWith(endingString, '.docx') 
+		|| endsWith(endingString, '.pdf') 
+		|| endsWith(endingString, '.xml') 
+//		|| endsWith(endingString, '.xlsx') 
+//		|| endsWith(endingString, '.ppt') 
+		|| endsWith(endingString, '.cpp') 
+		|| endsWith(endingString, '.java') 
+		|| endsWith(endingString, '.h') 
+		|| endsWith(endingString, '.md') 
+		|| endsWith(endingString, '.c') 
+		|| endsWith(endingString, '.css') 
+		|| endsWith(endingString, '.log') 
+		) 
+	{ 
+		return true;
+	}
+	else
+		return false;
+}
+
+function endsWith(theString, theSuffix)
+{
+	return theString.indexOf(theSuffix, theString.length - theSuffix.length) != -1;
 }
 
 function back(){
@@ -296,7 +309,13 @@ function deleteFileDelegate(path){
 function isIframeCompatible(extension){
 	if (extension.length >= 4){
 		console.log("Iframe extension: " + extension.substring(extension.length-4));
-		if (extension.substring(extension.length - 4) === ".pdf" || extension.substring(extension.length - 4) === ".ppt" || extension.substring(extension.length - 5) === ".docx" || extension.substring(extension.length - 5) === ".xlsx" || extension.substring(extension.length - 4) === ".doc") return true;
+		if (extension.substring(extension.length - 4) === ".pdf" 
+		//	|| extension.substring(extension.length - 4) === ".ppt"
+		//	 || extension.substring(extension.length - 5) === ".docx"
+		//	  || extension.substring(extension.length - 5) === ".xlsx" 
+		//	  || extension.substring(extension.length - 4) === ".doc"
+		) 
+			return true;
 	}
 	return false;
 }
@@ -390,7 +409,6 @@ function saveTxt(asynchronous){
 	}
 	console.log(document.getElementById("jRadio").checked);
 	console.log(document.getElementById("cRadio").checked);
-	console.log(document.getElementById("tRadio").checked);
 	xhr.open('POST', "/files/savetxt", asynchronous);
 	xhr.setRequestHeader("Content-Type", "application/json");
 	xhr.onreadystatechange = function(){
@@ -401,11 +419,11 @@ function saveTxt(asynchronous){
 			console.log(jsonObj);
 			if (jsonObj === "1"){
 				alert("File saved.");
-				return 0;
+				toReturn = 0;
 			}
 			else{
 				alert("Save failed.");
-				return 1;
+				toReturn = 1;
 			}
 		}
 	}
@@ -430,7 +448,10 @@ function saveTxt(asynchronous){
 	// 	//dir = document.getElementById('hTitle').innerHTML;
 	// }
 	//console.log("Sending: " + dir + fileName + format + '|' + "[txt component]");
+	var toReturn;
 	xhr.send(dir + fileName + '|' + txt);
+
+	return toReturn;
 	//back();
 }
 

@@ -75,14 +75,18 @@ public class JavaLanguage implements Language
     	int index = dir.indexOf("static/");
     	if(index >= 0) 
     		dir = dir.substring(index + 7);
-        for(int i = 0; i < files.length-1; i++)
+        for(int i = 1; i <  commands.length; i++)
         {
-        	String fileName = commands[commands.length - files.length + i];
+        	String fileName = commands[i];
         	int dotIndex = fileName.indexOf(".");
         	if(dotIndex > 0)
         		fileName = fileName.substring(0, dotIndex) + ".class";
-        	classFiles[i] = new UserFile(null, dir+"/"+fileName);
+        	classFiles[i-1] = new UserFile(null, dir +fileName);
         }
+        System.out.println("Java Commands: ");
+        System.out.println(Arrays.toString(commands));
+        System.out.println("Java files:");
+        System.out.println(Arrays.toString(files));
         compileRet.returnedFiles = Arrays.asList(classFiles);
         return compileRet;
 	}

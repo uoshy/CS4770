@@ -62,7 +62,7 @@ public class CPPLanguage implements Language
     	if(index >= 0) 
     		dir = dir.substring(index + 7);
     	String fileName = outputFileName;
-    	classFiles[0] = new UserFile(null, dir+"/"+fileName);
+    	classFiles[0] = new UserFile(null, dir+"a.out");
         compileRet.returnedFiles = Arrays.asList(classFiles);
         return compileRet;
 	}

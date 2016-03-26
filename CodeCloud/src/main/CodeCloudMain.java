@@ -389,7 +389,11 @@ public class CodeCloudMain
 				log(input.fileName);
 
 				UserFile uDir = new UserFile(null, input.workingDirPath);
-				ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, input.fileName);
+				String fileName = input.fileName;
+				int index = fileName.indexOf(".java");
+				if(index != -1)
+					fileName = fileName.substring(0,index);
+				ExecutionReturn execRet = JavaLanguage.getInstance().execute(uDir, fileName);
 
 				System.out.println("about to return execution return");
 				return execRet;
@@ -460,7 +464,7 @@ public class CodeCloudMain
 				ExecutionInput input = gson.fromJson(body, ExecutionInput.class);
 				log(input.fileName);
 
-				UserFile uDir = new UserFile(null, "static/temp");
+				UserFile uDir = new UserFile(null, input.workingDirPath);
 				ExecutionReturn execRet = CPPLanguage.getInstance().execute(uDir, input.fileName);
 
 				System.out.println("about to return execution return");
