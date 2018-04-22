@@ -5,6 +5,6 @@ Alex Brandt - [studentNo] - [email]
 
 Tim Mathews - [studentNo] - [email]
 
-Tyson Duffenais - 201021102 - tgd187@mun.ca
+Tyson Duffenais - [studentNo] - tgd187
 
 Xiuzhi Liu - [studentNo] - [email]
